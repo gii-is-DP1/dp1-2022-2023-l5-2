@@ -32,6 +32,14 @@
 
     </properties>
 
+    <developers>
+        <developer>
+            <id>ElenaTomasVela</id>
+            <name>Elena Tomas Vela</name>
+            <email>eletomvel@alum.us.es</email>
+        </developer>
+    </developers>
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
@@ -50,16 +58,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <dependency>  
-            <groupId>org.springframework.security</groupId>  
-            <artifactId>spring-security-taglibs</artifactId>  
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
         </dependency>
         <!-- Databases - Uses H2 by default -->
         <!-- dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <scope>runtime</scope>
-        </dependency-->        
+        </dependency-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -69,7 +77,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- validation 
+        <!-- validation
         <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
@@ -139,7 +147,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>    
+            <version>1.18.20</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -155,7 +163,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <!-- Spring Boot Actuator displays build-related information if a META-INF/build-info.properties 
+                        <!-- Spring Boot Actuator displays build-related information if a META-INF/build-info.properties
                         file is present -->
                         <goals>
                             <goal>build-info</goal>
@@ -191,7 +199,7 @@
                 </executions>
             </plugin>
 
-            <!-- Spring Boot Actuator displays build-related information if a git.properties 
+            <!-- Spring Boot Actuator displays build-related information if a git.properties
             file is present at the classpath -->
             <plugin>
                 <groupId>pl.project13.maven</groupId>
