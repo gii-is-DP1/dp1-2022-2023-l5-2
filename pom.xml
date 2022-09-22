@@ -33,11 +33,19 @@
     </properties>
 
     <developers>
+
+        <developer>
+            <id>tadcabgom</id>
+            <name>Tadeo Cabrera Gómez</name>
+            <email>tcabgom222@gmail.com</email>
+        </developer>
+
         <developer>
             <id>ElenaTomasVela</id>
             <name>Elena Tomas Vela</name>
             <email>eletomvel@alum.us.es</email>
         </developer>
+        
     </developers>
 
     <dependencies>
@@ -227,6 +235,7 @@
                 <version>${wro4j.version}</version>
                 <executions>
                     <execution>
+                        <?m2e execute onConfiguration,onIncremental?>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>run</goal>
