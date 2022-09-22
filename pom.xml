@@ -31,7 +31,17 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
+    <developers>
+        <developer>
+            <id>Ignarrman</id>
+            <name>Ignacio Arroyo Mantero</name>
+            <email>nacho.arromant@gmail.com</email>
+            <roles>For now i'm sadly roless</roles>
+            <properties>
+                <picUrl>https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpLyjxli2IdL1gmrsSv5DIYbIecOAf590toQ&usqp=CAU</picUrl>
+            </properties>
+        </developer>
+    </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
