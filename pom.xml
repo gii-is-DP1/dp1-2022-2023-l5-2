@@ -45,6 +45,12 @@
             <name>Elena Tomas Vela</name>
             <email>eletomvel@alum.us.es</email>
         </developer>
+
+        <developer>
+            <id>IgnacioGonzalezGonzalez</id>
+            <name>Ignacio Gonzalez Gonzalez</name>
+            <email>igngongon2@alum.us.es</email>
+        </developer>
         
     </developers>
 
