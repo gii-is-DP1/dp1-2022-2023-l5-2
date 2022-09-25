@@ -31,7 +31,7 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
+    
     <developers>
 
         <developer>
@@ -52,6 +52,11 @@
             <email>igngongon2@alum.us.es</email>
         </developer>
         
+        <developer>
+            <id>Ignarrman</id>
+            <name>Ignacio Arroyo Mantero</name>
+            <email>nacho.arromant@gmail.com</email>
+        </developer>
     </developers>
 
     <dependencies>
