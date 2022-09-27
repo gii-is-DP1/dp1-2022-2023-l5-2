@@ -20,6 +20,9 @@ INSERT INTO authorities(id,username,authority) VALUES (6,'igngongon2','owner');
 INSERT INTO users(username,password,enabled) VALUES ('Ignacio', 'password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES(7 ,'Ignacio','owner');
 
+INSERT INTO users(username,password,enabled) VALUES ('jessolort', 'jessolort',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES(8,'jessolort','owner');
+
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');
 INSERT INTO vets(id, first_name,last_name) VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets(id, first_name,last_name) VALUES (3, 'Linda', 'Douglas');
@@ -56,10 +59,11 @@ INSERT INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085
 INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683', 'owner1');
 INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner1');
 INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
-INSERT INTO owners VALUES (11, 'Elena', 'Tomas Vela', 'C. Virgen del Mayor Dolor 14B', 'Paterna del Campo', '646838482', 'eletomvel');
-INSERT INTO owners VALUES (12, 'Tadeo', 'Cabrera', 'C. Sierra de Cazorla 14', 'Utrera', '634818653', 'tadcabgom');
-INSERT INTO owners VALUES (13, 'Ignacio', 'González', 'C. Peña Alta 7', 'Las Cefiñas', '644129129', 'igngongon2');
-INSERT INTO owners VALUES (14, 'Ignacio', 'Arroyo', 'Avenida Reina Mercedes', 'Bikini Bottom', '112', 'Ignacio');
+INSERT INTO owners VALUES (11, 'Elena', 'Tomas Vela', 'C. Virgen Santisima', 'Enorme sorpresa', '646987746', 'eletomvel');
+INSERT INTO owners VALUES (12, 'Tadeo', 'Cabrera', 'C. Sierra Games', 'Ortera', '634865763', 'tadcabgom');
+INSERT INTO owners VALUES (13, 'Ignacio', 'González', 'C. Peña Wena', 'Cefirot', '646578964', 'igngongon2');
+INSERT INTO owners VALUES (14, 'Ignacio', 'Arroyo', 'Mercedes Benz', 'Bikini Bottom', '112', 'Ignacio');
+INSERT INTO owners VALUES (15, 'Jesus', 'Solis Ortega', 'C. de la piruleta 28C', 'Pueblo Paleta', '666777888', 'jessolort');
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
