@@ -23,6 +23,9 @@ INSERT INTO authorities(id,username,authority) VALUES(7 ,'Ignacio','owner');
 INSERT INTO users(username,password,enabled) VALUES ('jessolort', 'jessolort',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES(8,'jessolort','owner');
 
+INSERT INTO users(username,password,enabled) VALUES ('frarosram', 'contra5ena',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES(9,'frarosram','owner');
+
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');
 INSERT INTO vets(id, first_name,last_name) VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets(id, first_name,last_name) VALUES (3, 'Linda', 'Douglas');
@@ -64,6 +67,7 @@ INSERT INTO owners VALUES (12, 'Tadeo', 'Cabrera', 'C. Sierra Games', 'Ortera', 
 INSERT INTO owners VALUES (13, 'Ignacio', 'González', 'C. Peña Wena', 'Cefirot', '646578964', 'igngongon2');
 INSERT INTO owners VALUES (14, 'Ignacio', 'Arroyo', 'Mercedes Benz', 'Bikini Bottom', '112', 'Ignacio');
 INSERT INTO owners VALUES (15, 'Jesus', 'Solis Ortega', 'C. de la piruleta 28C', 'Pueblo Paleta', '666777888', 'jessolort');
+INSERT INTO owners VALUES (16, 'Francisco', 'Rosso Ramírez', '888 Avenue St.', 'Tarkir', '123456789', 'frarosram');
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
@@ -85,6 +89,8 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (17, 'Scruffy', '20
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (18, 'Haku', '2021-01-10', 2, 12);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (19, 'Enamorado', '2010-05-12', 2, 13);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (20, 'Rocinante','1605-08-12',5, 14);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (21, 'Ambrosio','2020-11-01',3, 16);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (22, 'Splinter','2000-06-15',7, 16);
 
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
