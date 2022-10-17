@@ -20,10 +20,6 @@ public class Card extends NamedEntity {
     @NotEmpty
     private String cardImage;
 
-    @Column(name = "names")
-    @NotEmpty
-    private String name;
-
     public Card() {
     }
 
@@ -35,4 +31,5 @@ public class Card extends NamedEntity {
 
 
     
+
 }
