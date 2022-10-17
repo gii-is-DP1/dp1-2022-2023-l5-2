@@ -30,4 +30,5 @@ public class Card extends NamedEntity {
 
 
     
+
 }
