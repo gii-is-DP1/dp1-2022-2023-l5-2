@@ -12,5 +12,4 @@ import lombok.Setter;
 @Setter
 public class Card extends NamedEntity {
     private String cardImage;
-    private String name;
 }
