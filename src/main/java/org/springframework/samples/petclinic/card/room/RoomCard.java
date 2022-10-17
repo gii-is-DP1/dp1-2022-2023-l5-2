@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.card.room;
 
 import javax.persistence.Entity;
-
+import javax.smartcardio.Card;
 import lombok.Getter;
 import lombok.Setter;
 
