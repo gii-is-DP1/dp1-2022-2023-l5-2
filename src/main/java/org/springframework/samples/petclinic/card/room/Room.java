@@ -15,11 +15,11 @@ import lombok.Setter;
 @Table(name = "rooms")
 public class Room extends Card {
 
-    @Column(name = "roomType")
+    @Column(name = "roomTypes")
     @NotEmpty
     private RoomType roomType;
 
-    @Column(name = "treasure")
+    @Column(name = "treasures")
     @NotEmpty
     private String treasure;
 
@@ -28,22 +28,19 @@ public class Room extends Card {
     private Integer damage;
 
 
-    @Column(name = "roomPassiveTrigger")
+    @Column(name = "passiveTriggers")
     @NotEmpty
     private RoomPassiveTrigger passiveTrigger;
 
     // private Integer roomPassiveActionId;     CAMBIAR A ENUM???
 
-    public RoomCard() {
-    }
+    public Room() {}
 
-    public RoomCard(@NotEmpty RoomType roomType, @NotEmpty String treasure, @NotEmpty Integer damage,
-            @NotEmpty RoomPassiveTrigger roomPassiveTrigger) {
+    public Room(@NotEmpty RoomType roomType, @NotEmpty String treasure, @NotEmpty Integer damage,
+            @NotEmpty RoomPassiveTrigger passiveTrigger) {
         this.roomType = roomType;
         this.treasure = treasure;
         this.damage = damage;
-        this.roomPassiveTrigger = roomPassiveTrigger;
-    }
-
-    
+        this.passiveTrigger = passiveTrigger;
+    }  
 }

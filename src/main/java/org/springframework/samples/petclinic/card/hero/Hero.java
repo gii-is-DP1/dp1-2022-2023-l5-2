@@ -14,9 +14,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-
-@Table(name = "herocards")
-public class HeroCard extends Card{
+@Table(name = "heroes")
+public class Hero extends Card{
 
     @Column(name = "health")
     @NotEmpty
@@ -30,10 +29,10 @@ public class HeroCard extends Card{
     @NotEmpty
     private Integer necessaryPlayers;
 
-    public HeroCard() {
+    public Hero() {
     }
 
-    public HeroCard(@NotEmpty Integer health, @NotEmpty Boolean isFinal, @NotEmpty Integer necessaryPlayers) {
+    public Hero(@NotEmpty Integer health, @NotEmpty Boolean isFinal, @NotEmpty Integer necessaryPlayers) {
         this.health = health;
         this.isFinal = isFinal;
         this.necessaryPlayers = necessaryPlayers;
