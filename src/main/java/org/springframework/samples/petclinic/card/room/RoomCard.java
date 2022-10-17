@@ -31,4 +31,17 @@ public class RoomCard extends Card {
     @NotEmpty
     private RoomPassiveTrigger roomPassiveTrigger;
     // private Integer roomPassiveActionId;     CAMBIAR A ENUM???
+
+    public RoomCard() {
+    }
+
+    public RoomCard(@NotEmpty RoomType roomType, @NotEmpty String treasure, @NotEmpty Integer damage,
+            @NotEmpty RoomPassiveTrigger roomPassiveTrigger) {
+        this.roomType = roomType;
+        this.treasure = treasure;
+        this.damage = damage;
+        this.roomPassiveTrigger = roomPassiveTrigger;
+    }
+
+    
 }

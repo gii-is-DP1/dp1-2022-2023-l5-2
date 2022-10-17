@@ -23,4 +23,16 @@ public class Card extends NamedEntity {
     @Column(name = "names")
     @NotEmpty
     private String name;
+
+    public Card() {
+    }
+
+    public Card(@NotEmpty String cardImage, @NotEmpty String name) {
+        this.cardImage = cardImage;
+        this.name = name;
+    }
+
+
+
+    
 }

@@ -25,7 +25,18 @@ public class HeroCard extends Card{
     @NotEmpty
     private Boolean isFinal;
 
-    @Column(name = "playersNecessary")
+    @Column(name = "necessaryPlayers")
     @NotEmpty
-    private Integer playersNecessary;
+    private Integer necessaryPlayers;
+
+    public HeroCard() {
+    }
+
+    public HeroCard(@NotEmpty Integer health, @NotEmpty Boolean isFinal, @NotEmpty Integer necessaryPlayers) {
+        this.health = health;
+        this.isFinal = isFinal;
+        this.necessaryPlayers = necessaryPlayers;
+    }
+
+    
 }
