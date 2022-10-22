@@ -98,3 +98,25 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO room_type(id, name) VALUES
+    (1,'TRAP'), (2,'MONSTER'), (3,'ADVANCED_TRAP'), (4,'ADVANCED_MONSTER');
+
+INSERT INTO room_passive_trigger(id, name) VALUES
+    (1,'DESTROY_THIS_ROOM'),
+    (2,'DESTROY_ANOTHER_ROOM'),
+    (3,'HERO_DIES_IN_THIS_ROOM'),
+    (4,'DAMAGE_HERO'),
+    (5,'BUILD_THIS_ROOM'),
+    (6,'NONE'),
+    (7,'USE_SPELL_CARD'),
+    (8,'BUILD_MONSTER_ROOM');
+
+
+INSERT INTO rooms(id,name,card_image,room_type_id,treasure,damage,passive_trigger_id) VALUES
+    (1, 'Bottomless Pit', 'd', 1, '0001', 1, 1),
+    (2, 'The Crushinator', 'd', 2, '0001', 2, 2),
+    (3, 'Vampire Bordello', 'd', 2, '0010', 3, 3),
+    (4, 'Monster Ballroom', 'd', 4, '0100', 0, 2),
+    (5, 'Boulder Ramp', 'd', 4, '0001', 1, 2),
+    (6, 'Construction Zone', 'd', 3, '0101', 1, 2),
+    (7, 'Dark Altar', 'd', 1, '0020', 1, 2);
