@@ -1,21 +1,29 @@
 package org.springframework.samples.petclinic.card.room;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import org.springframework.samples.petclinic.card.Card;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.samples.petclinic.card.Card;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "rooms")
 public class RoomCard extends Card {
+
+    @ManyToOne
+    @JoinColumn(name = "room_type_id")
     private RoomType roomType;
+
     private String treasure;
     private Integer damage;
+
+    @ManyToOne
+    @JoinColumn(name = "passive_trigger_id")
     private RoomPassiveTrigger passiveTrigger;
     // private Integer roomPassiveActionId;     CAMBIAR A ENUM???
 }

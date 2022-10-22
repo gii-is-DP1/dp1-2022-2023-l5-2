@@ -1,3 +1,11 @@
 package org.springframework.samples.petclinic.card.room;
 
-public enum RoomType {MONSTER, ADVANCED_MONSTER, TRAP, ADVANCED_TRAP};
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import org.springframework.samples.petclinic.model.NamedEntity;
+
+@Entity
+public class RoomType extends NamedEntity {
+
+}
