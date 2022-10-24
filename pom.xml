@@ -57,6 +57,18 @@
             <name>Ignacio Arroyo Mantero</name>
             <email>nacho.arromant@gmail.com</email>
         </developer>
+
+        <developer>
+            <id>jessolort</id>
+            <name>Jesús Solís Ortega</name>
+            <email>jesussolisortega@gmail.com</email>
+        </developer>
+
+        <developer>
+            <id>frarosram</id>
+            <name>Francisco de Asís Rosso Ramírez</name>
+            <email>franrosora@gmail.com</email>
+        </developer>
     </developers>
 
     <dependencies>
