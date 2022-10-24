@@ -113,14 +113,29 @@ INSERT INTO room_passive_trigger(id, name) VALUES
 
 
 INSERT INTO rooms(id,name,card_image,room_type_id,treasure,damage,passive_trigger_id) VALUES
-    (1, 'Bottomless Pit', 'd', 1, '0001', 1, 1),
-    (2, 'The Crushinator', 'd', 2, '0001', 2, 2),
-    (3, 'Vampire Bordello', 'd', 2, '0010', 3, 3),
-    (4, 'Monster Ballroom', 'd', 4, '0100', 0, 2),
-    (5, 'Boulder Ramp', 'd', 4, '0001', 1, 2),
-    (6, 'Construction Zone', 'd', 3, '0101', 1, 2),
-    (7, 'Dark Altar', 'd', 1, '0020', 1, 2);
 
+    (1, 'Bottomless Pit',      'd', 1, '0001', 1, 1),
+    (2, 'The Crushinator',     'd', 3, '0001', 2, 2),
+    (3, 'Vampire Bordello',    'd', 4, '0010', 3, 3),
+    (4, 'Monster Ballroom',    'd', 4, '0100', 0, 4),
+    (5, 'Boulder Ramp',        'd', 1, '0001', 1, 2),
+    (6, 'Construction Zone',   'd', 1, '0101', 1, 5),
+    (7, 'Dark Altar',          'd', 1, '0020', 1, 1),
+    (8, 'Dragon Hatchery',     'd', 2, '1111', 0, 6),
+    (9, 'Neanderthal Cave',    'd', 2, '0100', 3, 6),
+    (10, 'Open Grave',         'd', 1, '0010', 2, 3),
+    (11, 'Recycling Center',   'd', 3, '0001', 3, 2),
+    (12, 'Ligers Den',         'd', 4, '1000', 2, 7),
+    (13, 'Goblin Armory',      'd', 2, '0200', 1, 6),
+    (14, 'Golem Factory',      'd', 2, '0100', 2, 3),
+    (15, 'Jackpot Stash',      'd', 1, '0002', 1, 1),
+    (16, 'Dark Laboratory',    'd', 1, '2000', 1, 5),
+    (17, 'Monstrous Monument', 'd', 1, '0110', 1, 5),
+    (18, 'Beast Menagerie',    'd', 4, '0100', 4, 8),
+    (19, 'Brainsucker Hive',   'd', 2, '1000', 2, 3),
+    (20, 'Dizzygas Hallway',   'd', 1, '0001', 1, 6),
+    (21, 'Minotaurs Maze',     'd', 2, '0100', 0, 4);
+    
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
     (1,     'Acacia,_Warrior_of_Light',             'resources\static\resources\images\Acacia,_Warrior_of_Light.jpg',           'cleric', 6 , false, 2),
     (2,     'Antonius,_the_Rune_Knight',            'resources\static\resources\images\Antonius,_the_Rune_Knight.jpg',          'fighter', 13 , true, 2),
