@@ -121,7 +121,7 @@ INSERT INTO rooms(id,name,card_image,room_type_id,treasure,damage,passive_trigge
     (6, 'Construction Zone', 'd', 3, '0101', 1, 2),
     (7, 'Dark Altar', 'd', 1, '0020', 1, 2);
 
-INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES 
+INSERT INTO heroes(id, name, card_image, treassure, health, is_epic, necessary_players) VALUES 
     (1, 'Acacia,_Warrior_of_Light' , 'resources\static\resources\images\Acacia,_Warrior_of_Light.jpg', 'cleric', 6 , false, 2),
     (2, 'Antonius,_the_Rune_Knight' , 'resources\static\resources\images\Antonius,_the_Rune_Knight.jpg', 'fighter', 13 , true, 2),
     (3, 'Asmor_the_Aweless' , 'resources\static\resources\images\Asmor_the_Aweless.jpg', 'fighter', 13 , true, 4),

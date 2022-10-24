@@ -19,18 +19,18 @@ public class HeroCard extends Card{
 
     @Column(name = "treassure")
     @NotEmpty
-    private Integer treassure;
+    private String treassure;
 
 
     @Column(name = "health")
     @NotEmpty
     private Integer health;
 
-    @Column(name = "isEpic")
+    @Column(name = "is_epic")
     @NotEmpty
     private Boolean isEpic;
 
-    @Column(name = "necessaryPlayers")
+    @Column(name = "necessary_players")
     @NotEmpty
     private Integer necessaryPlayers;
   
