@@ -112,7 +112,7 @@ INSERT INTO room_passive_trigger(id, name) VALUES
     (8,'BUILD_MONSTER_ROOM');
 
 
-INSERT INTO rooms(id,name,card_image,room_type_id,treasure,damage,passive_trigger_id) VALUES
+INSERT INTO rooms(id, name, card_image, room_type_id, treasure, damage, passive_trigger_id) VALUES
 
     (1, 'Bottomless Pit',      'd', 1, '0001', 1, 1),
     (2, 'The Crushinator',     'd', 3, '0001', 2, 2),
@@ -179,7 +179,14 @@ INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_pl
     (40,    'Wallbanger_Basketweaver',              'resources\static\resources\images\Wallbanger_Basketweaver.jpg',            'thief', 13, true, 4),
     (41,    'Wayward,_the_Drifter',                 'resources\static\resources\images\Wayward,_the_Drifter.jpg',               'mage', 13, true, 4);
 
-
+INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
+    (1, 'Belladona',         'nope', 350, '0010'),
+    (2, 'The Brothers Wise', 'nope', 775, '1000'),
+    (3, 'Xyzax',             'nope', 750, '0010'),
+    (4, 'Cerebellus',        'nope', 650, '1000'),
+    (5, 'King Croak',        'nope', 800, '0100'),
+    (6, 'Seducia',           'nope', 600, '1000'),
+    (7, 'Cleopatra',         'nope', 850, '0001');
 
 
 
