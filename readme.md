@@ -1,3 +1,7 @@
+URL al video de explicación del juego: https://youtu.be/c3Xa6o98hKk
+Link a el informe de las horas de trabajo de cada alumno en el Sprint 1: 
+https://uses0-my.sharepoint.com/:w:/g/personal/ignarrman_alum_us_es/EZ8eyKLXqZ5CtjhVFQBg0MUBSakloz3gvZRHE4L_vSj24g?e=hRxZqH
+
 # Spring PetClinic Sample Application 
 
 This is a fork of https://github.com/spring-projects/spring-petclinic to be used for the DP1 course. The main changes that have been performed were:
