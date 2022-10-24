@@ -120,3 +120,14 @@ INSERT INTO rooms(id,name,card_image,room_type_id,treasure,damage,passive_trigge
     (5, 'Boulder Ramp', 'd', 4, '0001', 1, 2),
     (6, 'Construction Zone', 'd', 3, '0101', 1, 2),
     (7, 'Dark Altar', 'd', 1, '0020', 1, 2);
+
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES 
+    (1, 'Acacia,_Warrior_of_Light' , 'resources\static\resources\images\Acacia,_Warrior_of_Light.jpg', 'cleric', 6 , false, 2),
+    (2, 'Antonius,_the_Rune_Knight' , 'resources\static\resources\images\Antonius,_the_Rune_Knight.jpg', 'fighter', 13 , true, 2),
+    (3, 'Asmor_the_Aweless' , 'resources\static\resources\images\Asmor_the_Aweless.jpg', 'fighter', 13 , true, 4),
+    (4, 'Blackbeard_Jake' , 'resources\static\resources\images\Blackbeard_Jake.jpg', 'thief', 11 , true, 3),
+    (5, 'Boden_the_Pantless' , 'resources\static\resources\images\Boden_the_Pantless.jpg', 'fighter', 4 , false, 2),
+    (6, 'Brandork_the_Neverwrong' , 'resources\static\resources\images\Brandork_the_Neverwrong.jpg', 'mage', 4 , false, 4),
+    (7, 'Cecil_Leoran,_Master_Factotum' , 'resources\static\resources\images\Cecil_Leoran,_Master_Factotum.jpg', 'thief', 13 , true, 2),
+    (8, 'Charles_the_Young' , 'resources\static\resources\images\Charles_the_Young.jpg', 'cleric', 6 , false, 3),
+    (9, 'Chia_Kang,_Mystical_Warlock_of_Yu' , 'resources\static\resources\images\Chia_Kang,_Mystical_Warlock_of_Yu.jpg', 'mage', 11 , true, 3);
