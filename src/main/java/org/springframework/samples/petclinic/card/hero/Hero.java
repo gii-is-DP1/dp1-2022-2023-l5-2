@@ -34,14 +34,5 @@ public class Hero extends Card{
     @NotEmpty
     private Integer necessaryPlayers;
 
-    public Hero() {
-    }
-
-    public Hero(@NotEmpty Integer health, @NotEmpty Boolean isEpic, @NotEmpty Integer necessaryPlayers) {
-        this.health = health;
-        this.isEpic = isEpic;
-        this.necessaryPlayers = necessaryPlayers;
-    }
-
     
 }
