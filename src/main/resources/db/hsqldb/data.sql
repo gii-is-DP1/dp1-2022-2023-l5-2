@@ -124,7 +124,7 @@ INSERT INTO rooms(id,name,card_image,room_type_id,treasure,damage,passive_trigge
     (9, 'Neanderthal Cave',    'd', 2, '0100', 3, 6),
     (10, 'Open Grave',         'd', 1, '0010', 2, 3),
     (11, 'Recycling Center',   'd', 3, '0001', 3, 2),
-    (12, 'Ligers Den',        'd', 4, '1000', 2, 7),
+    (12, 'Ligers Den',         'd', 4, '1000', 2, 7),
     (13, 'Goblin Armory',      'd', 2, '0200', 1, 6),
     (14, 'Golem Factory',      'd', 2, '0100', 2, 3),
     (15, 'Jackpot Stash',      'd', 1, '0002', 1, 1),
@@ -133,4 +133,4 @@ INSERT INTO rooms(id,name,card_image,room_type_id,treasure,damage,passive_trigge
     (18, 'Beast Menagerie',    'd', 4, '0100', 4, 8),
     (19, 'Brainsucker Hive',   'd', 2, '1000', 2, 3),
     (20, 'Dizzygas Hallway',   'd', 1, '0001', 1, 6),
-    (21, 'Minotaurs Maze',    'd', 2, '0100', 0, 4);
+    (21, 'Minotaurs Maze',     'd', 2, '0100', 0, 4);
