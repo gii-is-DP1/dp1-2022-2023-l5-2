@@ -15,11 +15,11 @@ import lombok.Setter;
 @Table(name = "rooms")
 public class Room extends Card {
 
-    @Column(name = "roomTypes")
+    @Column(name = "roomType")
     @NotEmpty
     private RoomType roomType;
 
-    @Column(name = "treasures")
+    @Column(name = "treasure")
     @NotEmpty
     private String treasure;
 
@@ -28,7 +28,7 @@ public class Room extends Card {
     private Integer damage;
 
 
-    @Column(name = "passiveTriggers")
+    @Column(name = "passiveTrigger")
     @NotEmpty
     private RoomPassiveTrigger passiveTrigger;
 

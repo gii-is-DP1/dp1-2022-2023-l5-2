@@ -98,3 +98,12 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (1, 'Acacia,_Warrior_of_Light' , 'resources\static\resources\images\Acacia,_Warrior_of_Light.jpg', 'cleric', 6 , false, 2);
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (2, 'Antonius,_the_Rune_Knight' , 'resources\static\resources\images\Antonius,_the_Rune_Knight.jpg', 'fighter', 13 , true, 2);
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (3, 'Asmor_the_Aweless' , 'resources\static\resources\images\Asmor_the_Aweless.jpg', 'fighter', 13 , true, 4);
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (4, 'Blackbeard_Jake' , 'resources\static\resources\images\Blackbeard_Jake.jpg', 'thief', 11 , true, 3);
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (5, 'Boden_the_Pantless' , 'resources\static\resources\images\Boden_the_Pantless.jpg', 'fighter', 4 , false, 2);
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (6, 'Brandork_the_Neverwrong' , 'resources\static\resources\images\Brandork_the_Neverwrong.jpg', 'mage', 4 , false, 4);
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (7, 'Cecil_Leoran,_Master_Factotum' , 'resources\static\resources\images\Cecil_Leoran,_Master_Factotum.jpg', 'thief', 13 , true, 2);
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (8, 'Charles_the_Young' , 'resources\static\resources\images\Charles_the_Young.jpg', 'cleric', 6 , false, 3);
+INSERT INTO heroes(id, name, cardImage, treassure, health, isEpic, necessaryPlayers) VALUES (9, 'Chia_Kang,_Mystical_Warlock_of_Yu' , 'resources\static\resources\images\Chia_Kang,_Mystical_Warlock_of_Yu.jpg', 'mage', 11 , true, 3);

@@ -16,7 +16,7 @@ import lombok.Setter;
 @Table(name = "cards")
 public class Card extends NamedEntity {
 
-    @Column(name = "cardImages")
+    @Column(name = "cardImage")
     @NotEmpty
     private String cardImage;
 
@@ -25,10 +25,6 @@ public class Card extends NamedEntity {
 
     public Card(@NotEmpty String cardImage, @NotEmpty String name) {
         this.cardImage = cardImage;
-    }
-
-
-
-    
+    }  
 
 }

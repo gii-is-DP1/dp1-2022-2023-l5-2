@@ -17,13 +17,18 @@ import lombok.Setter;
 @Table(name = "heroes")
 public class Hero extends Card{
 
+    @Column(name = "treassure")
+    @NotEmpty
+    private Integer treassure;
+
+
     @Column(name = "health")
     @NotEmpty
     private Integer health;
 
-    @Column(name = "isFinal")
+    @Column(name = "isEpic")
     @NotEmpty
-    private Boolean isFinal;
+    private Boolean isEpic;
 
     @Column(name = "necessaryPlayers")
     @NotEmpty
@@ -32,9 +37,9 @@ public class Hero extends Card{
     public Hero() {
     }
 
-    public Hero(@NotEmpty Integer health, @NotEmpty Boolean isFinal, @NotEmpty Integer necessaryPlayers) {
+    public Hero(@NotEmpty Integer health, @NotEmpty Boolean isEpic, @NotEmpty Integer necessaryPlayers) {
         this.health = health;
-        this.isFinal = isFinal;
+        this.isEpic = isEpic;
         this.necessaryPlayers = necessaryPlayers;
     }
 
