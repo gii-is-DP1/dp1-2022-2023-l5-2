@@ -11,5 +11,7 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 public class Card extends NamedEntity {
+
     private String cardImage;
+    
 }
