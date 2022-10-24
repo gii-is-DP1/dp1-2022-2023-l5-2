@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "rooms")
-public class Room extends Card {
+public class RoomCard extends Card {
 
     @ManyToOne
     @JoinColumn(name = "room_type_id")
