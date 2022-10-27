@@ -3,6 +3,7 @@ package org.springframework.samples.game;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -26,7 +27,7 @@ public class Game extends BaseEntity{
     private Date date;
     private Duration duration;
     private String winnerName; 
-    private String finalSouls; //formato 5/6/8/10
-    private String finalHealth; //formato 0/0/0/2
+    private List<Integer> Souls; 
+    private List<Integer> Health; 
     
 }
