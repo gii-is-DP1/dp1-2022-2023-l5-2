@@ -188,6 +188,10 @@ INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
     (6, 'Seducia',           'nope', 600, '1000'),
     (7, 'Cleopatra',         'nope', 850, '0001');
 
+INSERT INTO lobbies(id, max_players) VALUES
+    (1, 2),
+    (2, 3);
+
 
 
     
