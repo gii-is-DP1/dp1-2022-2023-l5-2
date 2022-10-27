@@ -2,22 +2,22 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
-<bossmonster:layout pageName="createGameRoom">
+<bossmonster:layout pageName="createGameLobby">
 
 <c:out value="${message}"/>
 
 <h1>Create Game</h1>
 
-<form:form modelAttribute="gameRoom" class="form-horizontal">
+<form:form modelAttribute="gameLobby" class="form-horizontal">
 
 
 <div class="form-group has-feedback">
-        <input type="hidden" name="id" value="${gameRoom.id}"/>
+        <input type="hidden" name="id" value="${gameLobby.id}"/>
         <label>Number of players: </label>
             2 <form:radiobutton path="playerNumber" value="2"/>
             3 <form:radiobutton path="playerNumber" value="3"/>
             4 <form:radiobutton path="playerNumber" value="4"/>
-        <bossmonster:inputField name="code" label="Room code" />
+        <bossmonster:inputField name="joinCode" label="Room code" />
 
 </div>
 
