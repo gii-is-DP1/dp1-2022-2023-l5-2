@@ -42,10 +42,10 @@
             <button class="botonimagen" type="submit"></button>
         </div>
         <div class="prueba">
-            <a class="btn btn-default" href="/lobby/">Create Game</a>
+            <a class="btn btn-default" href="/lobby/new">Create Game</a>
         </div>
         <div>
-            <a class="btn btn-default" href="/">Join Game</a>  
+            <a class="btn btn-default" href="/lobby/">Join Game</a>
         </div>
         <div>
             <a class="btn btn-default" href="/">Exit</a>  

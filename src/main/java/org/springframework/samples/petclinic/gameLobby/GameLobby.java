@@ -1,26 +1,26 @@
 package org.springframework.samples.petclinic.gameLobby;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-import org.springframework.samples.petclinic.model.BaseEntity;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.user.User;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "lobbies")
 public class GameLobby extends BaseEntity { // Que extiende?
-    
-    // Id?
-    private String leaderUser;         // CAMBIAR TIPO A USER
-    private String joinCode;
+
+    @ManyToOne
+    @JoinColumn(name = "leader_user_username")
+    private User leaderUser;
+    @NotNull
     private Integer maxPlayers;
-    //private List<String> joinedUsers;  // CAMBIAR TIPO A LIST<USER>
+    @ManyToMany
+    private List<User> joinedUsers;
 
 }

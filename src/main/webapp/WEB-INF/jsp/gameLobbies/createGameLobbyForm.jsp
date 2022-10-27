@@ -12,12 +12,12 @@
 
 
 <div class="form-group has-feedback">
-        <input type="hidden" name="id" value="${gameLobby.id}"/>
-        <label>Number of players: </label>
-            2 <form:radiobutton path="playerNumber" value="2"/>
-            3 <form:radiobutton path="playerNumber" value="3"/>
-            4 <form:radiobutton path="playerNumber" value="4"/>
-        <bossmonster:inputField name="joinCode" label="Room code" />
+
+        <form:label path="maxPlayers">Number of players: </form:label>
+            2 <form:radiobutton path="maxPlayers" value="2"/>
+            3 <form:radiobutton path="maxPlayers" value="3"/>
+            4 <form:radiobutton path="maxPlayers" value="4"/>
+            <form:errors path="maxPlayers"></form:errors>
 
 </div>
 
