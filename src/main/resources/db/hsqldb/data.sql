@@ -1,29 +1,26 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
+INSERT INTO users(username,password, nickname, email, description, avatar) VALUES ('admin1','4dm1n', 'Sr. Admin', 'pwalburn0@tinypic.com', 'Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'http://dummyimage.com/176x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
+INSERT INTO users(username,password, nickname, email, description, avatar) VALUES ('owner1','0wn3r','Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
--- One vet user, named vet1 with passwor v3t
-INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 
-INSERT INTO users(username, password, enabled) VALUES ('eletomvel','EleTomas2002', TRUE);
+INSERT INTO users(username, password, nickname, email, description, avatar) VALUES ('eletomvel','EleTomas2002','Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES (4,'eletomvel','owner');
 
-INSERT INTO users(username, password, enabled) VALUES ('tadcabgom','helloimapassword', TRUE);
+INSERT INTO users(username, password, nickname, email, description, avatar) VALUES ('tadcabgom','helloimapassword','Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES (5,'tadcabgom','owner');
 
-INSERT INTO users(username, password, enabled) VALUES ('igngongon2','owner', TRUE);
+INSERT INTO users(username, password, nickname, email, description, avatar) VALUES ('igngongon2','owner','Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES (6,'igngongon2','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('Ignacio', 'password',TRUE);
+INSERT INTO users(username,password, nickname, email, description, avatar) VALUES ('Ignacio', 'password','Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES(7 ,'Ignacio','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('jessolort', 'jessolort',TRUE);
+INSERT INTO users(username,password, nickname, email, description, avatar) VALUES ('jessolort', 'jessolort','Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES(8,'jessolort','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('frarosram', 'contra5ena',TRUE);
+INSERT INTO users(username,password, nickname, email, description, avatar) VALUES ('frarosram', 'contra5ena','Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES(9,'frarosram','owner');
 
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');
@@ -190,4 +187,3 @@ INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
 
 
 
-    
