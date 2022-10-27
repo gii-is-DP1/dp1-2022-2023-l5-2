@@ -17,9 +17,9 @@ import lombok.Setter;
 @Table(name = "heroes")
 public class HeroCard extends Card{
 
-    @Column(name = "treassure")
+    @Column(name = "treasure")
     @NotEmpty
-    private String treassure;
+    private String treasure;
 
 
     @Column(name = "health")
