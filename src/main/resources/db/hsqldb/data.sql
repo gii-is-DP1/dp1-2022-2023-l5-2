@@ -111,27 +111,27 @@ INSERT INTO room_passive_trigger(id, name) VALUES
 
 INSERT INTO rooms(id, name, card_image, room_type_id, treasure, damage, passive_trigger_id) VALUES
 
-    (1, 'Bottomless Pit',      'd', 1, '0001', 1, 1),
-    (2, 'The Crushinator',     'd', 3, '0001', 2, 2),
-    (3, 'Vampire Bordello',    'd', 4, '0010', 3, 3),
-    (4, 'Monster Ballroom',    'd', 4, '0100', 0, 4),
-    (5, 'Boulder Ramp',        'd', 1, '0001', 1, 2),
-    (6, 'Construction Zone',   'd', 1, '0101', 1, 5),
-    (7, 'Dark Altar',          'd', 1, '0020', 1, 1),
-    (8, 'Dragon Hatchery',     'd', 2, '1111', 0, 6),
-    (9, 'Neanderthal Cave',    'd', 2, '0100', 3, 6),
-    (10, 'Open Grave',         'd', 1, '0010', 2, 3),
-    (11, 'Recycling Center',   'd', 3, '0001', 3, 2),
-    (12, 'Ligers Den',         'd', 4, '1000', 2, 7),
-    (13, 'Goblin Armory',      'd', 2, '0200', 1, 6),
-    (14, 'Golem Factory',      'd', 2, '0100', 2, 3),
-    (15, 'Jackpot Stash',      'd', 1, '0002', 1, 1),
-    (16, 'Dark Laboratory',    'd', 1, '2000', 1, 5),
-    (17, 'Monstrous Monument', 'd', 1, '0110', 1, 5),
-    (18, 'Beast Menagerie',    'd', 4, '0100', 4, 8),
-    (19, 'Brainsucker Hive',   'd', 2, '1000', 2, 3),
-    (20, 'Dizzygas Hallway',   'd', 1, '0001', 1, 6),
-    (21, 'Minotaurs Maze',     'd', 2, '0100', 0, 4);
+    (1, 'Bottomless Pit',      'resources\static\resources\images\rooms\room_00.jpg', 1, '0001', 1, 1),
+    (2, 'The Crushinator',     'resources\static\resources\images\rooms\room_01.jpg', 3, '0001', 2, 2),
+    (3, 'Vampire Bordello',    'resources\static\resources\images\rooms\room_02.jpg', 4, '0010', 3, 3),
+    (4, 'Monster Ballroom',    'resources\static\resources\images\rooms\room_03.jpg', 4, '0100', 0, 4),
+    (5, 'Boulder Ramp',        'resources\static\resources\images\rooms\room_04.jpg', 1, '0001', 1, 2),
+    (6, 'Construction Zone',   'resources\static\resources\images\rooms\room_05.jpg', 1, '0101', 1, 5),
+    (7, 'Dark Altar',          'resources\static\resources\images\rooms\room_06.jpg', 1, '0020', 1, 1),
+    (8, 'Dragon Hatchery',     'resources\static\resources\images\rooms\room_07.jpg', 2, '1111', 0, 6),
+    (9, 'Neanderthal Cave',    'resources\static\resources\images\rooms\room_08.jpg', 2, '0100', 3, 6),
+    (10, 'Open Grave',         'resources\static\resources\images\rooms\room_09.jpg', 1, '0010', 2, 3),
+    (11, 'Recycling Center',   'resources\static\resources\images\rooms\room_10.jpg', 3, '0001', 3, 2),
+    (12, 'Ligers Den',         'resources\static\resources\images\rooms\room_11.jpg', 4, '1000', 2, 7),
+    (13, 'Goblin Armory',      'resources\static\resources\images\rooms\room_12.jpg', 2, '0200', 1, 6),
+    (14, 'Golem Factory',      'resources\static\resources\images\rooms\room_13.jpg', 2, '0100', 2, 3),
+    (15, 'Jackpot Stash',      'resources\static\resources\images\rooms\room_14.jpg', 1, '0002', 1, 1),
+    (16, 'Dark Laboratory',    'resources\static\resources\images\rooms\room_15.jpg', 1, '2000', 1, 5),
+    (17, 'Monstrous Monument', 'resources\static\resources\images\rooms\room_16.jpg', 1, '0110', 1, 5),
+    (18, 'Beast Menagerie',    'resources\static\resources\images\rooms\room_17.jpg', 4, '0100', 4, 8),
+    (19, 'Brainsucker Hive',   'resources\static\resources\images\rooms\room_18.jpg', 2, '1000', 2, 3),
+    (20, 'Dizzygas Hallway',   'resources\static\resources\images\rooms\room_19.jpg', 1, '0001', 1, 6),
+    (21, 'Minotaurs Maze',     'resources\static\resources\images\rooms\room_20.jpg', 2, '0100', 0, 4);
 
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
     (1,     'Acacia,_Warrior_of_Light',             'resources\static\resources\images\heroes\Acacia,_Warrior_of_Light.jpg',           'cleric', 6 , false, 2),
@@ -177,13 +177,13 @@ INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_pl
     (41,    'Wayward,_the_Drifter',                 'resources\static\resources\images\heroes\Wayward,_the_Drifter.jpg',               'mage', 13, true, 4);
 
 INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
-    (1, 'Belladona',         'nope', 350, '0010'),
-    (2, 'The Brothers Wise', 'nope', 775, '1000'),
-    (3, 'Xyzax',             'nope', 750, '0010'),
-    (4, 'Cerebellus',        'nope', 650, '1000'),
-    (5, 'King Croak',        'nope', 800, '0100'),
-    (6, 'Seducia',           'nope', 600, '1000'),
-    (7, 'Cleopatra',         'nope', 850, '0001');
+    (1, 'Belladona',         'resources\static\resources\images\bosses\boss_00.jpg', 350, '0010'),
+    (2, 'The Brothers Wise', 'resources\static\resources\images\bosses\boss_01.jpg', 775, '1000'),
+    (3, 'Xyzax',             'resources\static\resources\images\bosses\boss_02.jpg', 750, '0010'),
+    (4, 'Cerebellus',        'resources\static\resources\images\bosses\boss_03.jpg', 650, '1000'),
+    (5, 'King Croak',        'resources\static\resources\images\bosses\boss_04.jpg', 800, '0100'),
+    (6, 'Seducia',           'resources\static\resources\images\bosses\boss_05.jpg', 600, '1000'),
+    (7, 'Cleopatra',         'resources\static\resources\images\bosses\boss_06.jpg', 850, '0001');
 
 INSERT INTO lobbies(id, max_players) VALUES
     (1, 2),
