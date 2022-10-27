@@ -149,7 +149,7 @@ INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_pl
     (10,    'Crystol_and_A`lan_of_Gerd' ,           'resources\static\resources\images\Crystol_and_A%27lan_of_Gerd.jpg',        'fighter', 8 , false, 4),
     (11,    'Dartteon,_Elf_Pyromancer' ,            'resources\static\resources\images\Dartteon,_Elf_Pyromancer.jpg',           'mage', 8 , false, 2),
     (12,    'Delatorious,_Angel_of_Light' ,         'resources\static\resources\images\Delatorious,_Angel_of_Light.jpg',        'cleric', 8 , false, 2),
-    (13,    'Fire%27s_Breath,_Heroine_of_Arcadia' , 'resources\static\resources\images\Fire%27s_Breath,_Heroine_of_Arcadia.jpg', 'fighter', 6 , false, 2),
+    (13,    'Fire%27s_Breath,_Heroine_of_Arcadia' , 'resources\static\resources\images\Fire%27s_Breath,_Heroine_of_Arcadia.jpg','fighter', 6 , false, 2),
     (14,    'Frankov,_the_Envoy' ,                  'resources\static\resources\images\Frankov,_the_Envoy.jpg',                 'fighter', 11 , true, 2),
     (15,    'Hya,_Legendary_Shinobi' ,              'resources\static\resources\images\Hya,_Legendary_Shinobi.jpg',             'thief', 11 , true, 2),
     (16,    'Jarek,_Squire_to_the_Lion_Knights' ,   'resources\static\resources\images\Jarek,_Squire_to_the_Lion_Knights.jpg',  'fighter', 4 , false, 4),
