@@ -23,6 +23,7 @@ public class User{
     String description;
     String avatar;
 	String password;
+    boolean enabled;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
