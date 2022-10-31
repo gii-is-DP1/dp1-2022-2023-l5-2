@@ -58,7 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class OwnerServiceTests {                
+class OwnerServiceTests {
         @Autowired
 	protected OwnerService ownerService;
 
@@ -95,9 +95,8 @@ class OwnerServiceTests {
                 User user=new User();
                 user.setUsername("Sam");
                 user.setPassword("supersecretpassword");
-                user.setEnabled(true);
-                owner.setUser(user);                
-                
+                owner.setUser(user);
+
 		this.ownerService.saveOwner(owner);
 		assertThat(owner.getId().longValue()).isNotEqualTo(0);
 

@@ -20,10 +20,10 @@ import lombok.Setter;
 @Table(name = "games")
 public class Game extends BaseEntity{
 
-    @ManyToMany(mappedBy = "games")
+    @ManyToMany
     //Cambiar el String por la clase Player cuando este hecha
     private Collection<String> players;
-    
+
     private Date date;
     private Duration duration;
     private String winnerName; 

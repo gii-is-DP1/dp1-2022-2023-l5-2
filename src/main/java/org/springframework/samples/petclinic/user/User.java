@@ -18,11 +18,13 @@ import lombok.Setter;
 public class User{
 	@Id
 	String username;
-	
+    String nickname;
+    String email;
+    String description;
+    String avatar;
 	String password;
-	
-	boolean enabled;
-	
+    boolean enabled;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
 }
