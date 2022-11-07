@@ -9,6 +9,7 @@
     <spring:url value="/resources/images/pets.png" htmlEscape="true" var="homeScreen"/>
     <spring:url value="/lobby/new" htmlEscape="true" var="newLobby"/>
     <spring:url value="/lobby/" htmlEscape="true" var="joinLobby"/>
+    <spring:url value="/userManagement/" htmlEscape="true" var="editUser"/>
     <spring:url value="/" htmlEscape="true" var="spectateLobby"/>
 
     <body class="inicio">
@@ -23,11 +24,22 @@
                 <a class="btn btn-title" href="${joinLobby}">Join Game</a>
             </div>
 
+            <div class="centered-view">
+                <a class="btn btn-title" href="${editUser}">User Management (Provisional)</a>
+            </div>
+
+            <div class="centered-view">
+                <a class="btn btn-title" href="${spectateLobby}">Spectate Game</a>
+            </div>
+
     </body>
-        
+
+    <style>
+        .centered-view {
+            margin: 25px;
+            border-radius: 30px;
+        }
+    </style>
+            
 </bossmonster:layout>
-
-
-
-
 
