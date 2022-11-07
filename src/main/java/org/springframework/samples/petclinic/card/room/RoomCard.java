@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.card.room;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.petclinic.card.Card;
+import org.springframework.samples.petclinic.player.Player;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,6 +22,9 @@ public class RoomCard extends Card {
 
     private String treasure;
     private Integer damage;
+
+    @ManyToOne
+    private Player hand;
 
     @ManyToOne
     @JoinColumn(name = "passive_trigger_id")
