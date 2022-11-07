@@ -1,5 +1,4 @@
 package org.springframework.samples.bossmonster.game.card;
-package org.springframework.samples.bossmonster.game.card;
 
 import org.springframework.samples.bossmonster.model.NamedEntity;
 import org.springframework.samples.bossmonster.game.player.Player;
