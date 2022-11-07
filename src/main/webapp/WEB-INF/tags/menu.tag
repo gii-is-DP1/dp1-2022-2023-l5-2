@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
@@ -22,25 +22,25 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
+				<bossmonster:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
-				</petclinic:menuItem>
+				</bossmonster:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
+				<bossmonster:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="find owners">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Find owners</span>
-				</petclinic:menuItem>
+				</bossmonster:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
+				<bossmonster:menuItem active="${name eq 'vets'}" url="/vets"
 					title="veterinarians">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Veterinarians</span>
-				</petclinic:menuItem>
+				</bossmonster:menuItem>
 
-				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements/"
+				<bossmonster:menuItem active="${name eq 'achievements'}" url="/statistics/achievements/"
 					title="Achievements" dropdown="${true}">										
 						<ul class="dropdown-menu">
 							<li>
@@ -52,7 +52,7 @@
 
 							</li>
 						</ul>					
-				</petclinic:menuItem>
+				</bossmonster:menuItem>
 
 			</ul>
 
