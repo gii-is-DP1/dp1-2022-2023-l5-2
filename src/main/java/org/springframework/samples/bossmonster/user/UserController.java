@@ -90,7 +90,7 @@ public class UserController {
 		}
 		else {
 			result = new ModelAndView("welcome");
-			//userService.update(user);
+			userService.saveUser(user);
 			result.addObject("message", "User succesfully updated!");
 		}
 		return null;
