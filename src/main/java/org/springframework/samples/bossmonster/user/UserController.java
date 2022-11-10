@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Map;
 import java.util.Optional;
@@ -79,9 +81,18 @@ public class UserController {
 		return VIEWS_USER_EDIT_FORM;
     }
 
+	@Transactional
 	@PostMapping(value = "users/{userName}")
-	public String processEditForm(@PathVariable("userId") String userName, Model model) {
+	public String processEditForm(@Valid User user, BindingResult br) {
+		ModelAndView result;
+		if (br.hasErrors()) {
 
+		}
+		else {
+			result = new ModelAndView("welcome");
+			//userService.update(user);
+			result.addObject("message", "User succesfully updated!");
+		}
 		return null;
 	}
 
