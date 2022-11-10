@@ -72,15 +72,17 @@ public class UserController {
 		}
 	}
 
-    @GetMapping(value = "/users/{userName}")
-    public String initEditForm(@PathVariable("userId") String userName, Model model) {
-        Optional<User> user = this.userService.findUser(userName);
-		if (user.isPresent()) {
-			model.addAttribute(user);
-			return VIEWS_USER_EDIT_FORM;
-		}
-		else return "redirect:/";
-        
+    @GetMapping(value = "/users/edit")
+    public String initEditForm(Model model) {
+		User loggedInUser = userService.getLoggedInUser().get();
+		model.addAttribute(loggedInUser);
+		return VIEWS_USER_EDIT_FORM;
     }
+
+	@PostMapping(value = "users/{userName}")
+	public String processEditForm(@PathVariable("userId") String userName, Model model) {
+
+		return null;
+	}
 
 }
