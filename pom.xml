@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>dp1-L5-2-Root</artifactId>
+    <artifactId>dp1-L5-2-BossMonster</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -31,7 +31,7 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-    
+
     <developers>
 
         <developer>
@@ -51,7 +51,7 @@
             <name>Ignacio Gonzalez Gonzalez</name>
             <email>igngongon2@alum.us.es</email>
         </developer>
-        
+
         <developer>
             <id>Ignarrman</id>
             <name>Ignacio Arroyo Mantero</name>

@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="achievements">
+<bossmonster:layout pageName="achievements">
     <h2>Achievements</h2>
 
     <table id="achievementsTable" class="table table-striped">
@@ -51,4 +51,4 @@
         </c:forEach>
         </tbody>
     </table>
-</petclinic:layout>
+</bossmonster:layout>

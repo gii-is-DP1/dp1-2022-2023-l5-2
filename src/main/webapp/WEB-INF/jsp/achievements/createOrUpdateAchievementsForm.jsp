@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="achievements">
+<bossmonster:layout pageName="achievements">
     <jsp:body>
         <h2>
             <c:if test="${achievement['new']}">New </c:if> Achievement
@@ -13,10 +13,10 @@
                    class="form-horizontal">
             <input type="hidden" name="id" value="${achievement.id}"/>
             <div class="form-group has-feedback">                
-                <petclinic:inputField label="Name" name="name"/>
-                <petclinic:inputField label="Description" name="description"/>
-                <petclinic:inputField label="Badge" name="badgeImage"/>
-                <petclinic:inputField label="Threshold" name="threshold"/>
+                <bossmonster:inputField label="Name" name="name"/>
+                <bossmonster:inputField label="Description" name="description"/>
+                <bossmonster:inputField label="Badge" name="badgeImage"/>
+                <bossmonster:inputField label="Threshold" name="threshold"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -32,4 +32,4 @@
             </div>
         </form:form>        
     </jsp:body>
-</petclinic:layout>
+</bossmonster:layout>
