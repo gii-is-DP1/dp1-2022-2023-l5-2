@@ -17,14 +17,17 @@ package org.springframework.samples.bossmonster.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Juergen Hoeller
@@ -69,11 +72,17 @@ public class UserController {
 		}
 	}
 
-	@GetMapping(value = "/userManagement")
-	public String initEditForm(Map<String, Object> model) {
-		User user = new User();
-		model.put("user", user);
+    @GetMapping(value = "/users/edit")
+    public String initEditForm(Model model) {
+		User loggedInUser = userService.getLoggedInUser().get();
+		model.addAttribute(loggedInUser);
 		return VIEWS_USER_EDIT_FORM;
+    }
+
+	@PostMapping(value = "users/{userName}")
+	public String processEditForm(@PathVariable("userId") String userName, Model model) {
+
+		return null;
 	}
 
 }
