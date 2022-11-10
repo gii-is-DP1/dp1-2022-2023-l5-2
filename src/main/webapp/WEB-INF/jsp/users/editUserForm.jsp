@@ -15,19 +15,19 @@
 
             <label>User Name</label>
             <input name="username"/>
-
+            <br>
             <label>Password</label>
             <input name="password"/>
-
+            <br>
             <label>Nickname</label>
             <input name="nickname"/>
-
+            <br>
             <label>Email</label>
             <input name="email"/>
-
+            <br>
             <label>Description</label>
             <input name="description"/>
-            
+            <br>
             <input class="btn btn-default" type="submit" value="Save"/>
             <a class="btn btn-default" href="/">Cancel</a>
         </div>

@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+	private static final String VIEWS_USER_EDIT_FORM = "users/editUserForm";
 
 	private final OwnerService ownerService;
 
@@ -69,6 +70,13 @@ public class UserController {
 			this.ownerService.saveOwner(owner);
 			return "redirect:/";
 		}
+	}
+
+	@GetMapping(value = "/userManagement")
+	public String initEditForm(Map<String, Object> model) {
+		User user = new User();
+		model.put("user", user);
+		return VIEWS_USER_EDIT_FORM;
 	}
 
 }
