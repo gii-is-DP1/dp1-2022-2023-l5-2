@@ -6,11 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
-<bossmonster:layout pageName="owners">
+<bossmonster:layout pageName="users">
     <h2>
-        <c:if test="${owner['new']}">New </c:if> Owner
+        <c:if test="${user['new']}">New </c:if> User
     </h2>
-    <form:form modelAttribute="owner" class="form-horizontal" id="add-owner-form">
+    <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
             <bossmonster:inputField label="First Name" name="firstName"/>
             <bossmonster:inputField label="Last Name" name="lastName"/>
