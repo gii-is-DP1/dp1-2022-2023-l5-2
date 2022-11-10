@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,4 +50,9 @@ public class UserService {
 		return userRepository.findById(username);
 	}
 	
+	public Optional<User> getLoggedInUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return findUser(username);
+    }
+
 }
