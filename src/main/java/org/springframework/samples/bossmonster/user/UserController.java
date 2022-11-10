@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Map;
 import java.util.Optional;
@@ -38,7 +40,7 @@ import java.util.Optional;
 @Controller
 public class UserController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+	private static final String VIEWS_USER_CREATE_FORM = "users/createUserForm";
 	private static final String VIEWS_USER_EDIT_FORM = "users/editUserForm";
 
 	private final UserService userService;
@@ -57,13 +59,13 @@ public class UserController {
 	public String initCreationForm(Map<String, Object> model) {
 		User user = new User();
 		model.put("user", user);
-		return VIEWS_OWNER_CREATE_FORM;
+		return VIEWS_USER_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid User user, BindingResult result) {
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
+			return VIEWS_USER_CREATE_FORM;
 		}
 		else {
 			//creating user, user, and authority
@@ -72,15 +74,26 @@ public class UserController {
 		}
 	}
 
-    @GetMapping(value = "/users/{userName}")
-    public String initEditForm(@PathVariable("userId") String userName, Model model) {
-        Optional<User> user = this.userService.findUser(userName);
-		if (user.isPresent()) {
-			model.addAttribute(user);
-			return VIEWS_USER_EDIT_FORM;
-		}
-		else return "redirect:/";
-        
+    @GetMapping(value = "/users/edit")
+    public String initEditForm(Model model) {
+		User loggedInUser = userService.getLoggedInUser().get();
+		model.addAttribute(loggedInUser);
+		return VIEWS_USER_EDIT_FORM;
     }
+
+	@Transactional
+	@PostMapping(value = "users/edit")
+	public String processEditForm(@Valid User user, BindingResult br) {
+		ModelAndView result;
+		if (br.hasErrors()) {
+
+		}
+		else {
+			result = new ModelAndView("welcome");
+			//userService.update(user);
+			result.addObject("message", "User succesfully updated!");
+		}
+		return null;
+	}
 
 }

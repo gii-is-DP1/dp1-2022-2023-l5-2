@@ -4,7 +4,7 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 <bossmonster:layout pageName="editUser">
 
-<spring:url value="/userManagement/avatar" htmlEscape="true" var="avatar"/>
+<spring:url value="/users/avatar" htmlEscape="true" var="avatar"/>
 
 <h1>User Management</h1>
 
