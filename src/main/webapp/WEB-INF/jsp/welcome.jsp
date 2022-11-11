@@ -9,7 +9,7 @@
     <spring:url value="/resources/images/pets.png" htmlEscape="true" var="homeScreen"/>
     <spring:url value="/lobby/new" htmlEscape="true" var="newLobby"/>
     <spring:url value="/lobby/" htmlEscape="true" var="joinLobby"/>
-    <spring:url value="/users/${userName}" htmlEscape="true" var="editUser"/>
+    <spring:url value="/users/edit" htmlEscape="true" var="editUser"/>
     <spring:url value="/" htmlEscape="true" var="spectateLobby"/>
 
 
