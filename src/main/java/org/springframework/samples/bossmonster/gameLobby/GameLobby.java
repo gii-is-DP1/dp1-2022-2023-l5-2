@@ -2,6 +2,7 @@ package org.springframework.samples.bossmonster.gameLobby;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
@@ -22,5 +23,24 @@ public class GameLobby extends BaseEntity { // Que extiende?
     private Integer maxPlayers;
     @ManyToMany
     private List<User> joinedUsers;
+    @OneToOne
+    Game game;
+
+    public User addUser(User user) {
+        if(getJoinedUsers().size() >= getMaxPlayers()) throw new IllegalArgumentException("Cannot add user, lobby is full");
+        getJoinedUsers().add(user);
+        return user;
+    }
+
+    public boolean removeUser(User user) {
+        if(user == getLeaderUser()) throw new IllegalArgumentException("Cannot delete the leader user from their lobby");
+        return getJoinedUsers().remove(user);
+    }
+
+    public boolean gameStarted() {return getGame() != null;}
+
+    public boolean isAcceptingNewPlayers() {
+        return getJoinedUsers().size() < getMaxPlayers() && !gameStarted();
+    }
 
 }
