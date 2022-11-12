@@ -8,34 +8,20 @@
 
 <h1>User Management</h1>
 
-<form class="form-horizontal" method="post">
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-            <label>User Name</label>
-            <input name="username"/>
-            <br>
-            <label>Password</label>
-            <input name="password"/>
-            <br>
-            <label>Nickname</label>
-            <input name="nickname"/>
-            <br>
-            <label>Email</label>
-            <input name="email"/>
-            <br>
-            <label>Description</label>
-            <input name="description"/>
-            <br>
-            <input class="btn btn-default" type="submit" value="Save"/>
-            <a class="btn btn-default" href="/">Cancel</a>
-        </div>
+<form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
+    <div class="form-group has-feedback">
+        <bossmonster:inputField label="User Name" name="username"/>
+        <bossmonster:inputField label="Password" name="password"/>
+        <bossmonster:inputField label="Nickname" name="nickname"/>
+        <bossmonster:inputField label="Email" name="email"/>
+        <bossmonster:inputField label="Description" name="description"/>
     </div>
-</form>
-
-<div class="centered-view">
-    <a class="btn btn-title" href="${avatar}">Change Avatar</a>
-</div>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${avatar}">Change Avatar</a>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-default" type="submit">Update Owner</button>
+    </div>
+</form:form>
 
 </bossmonster:layout>
