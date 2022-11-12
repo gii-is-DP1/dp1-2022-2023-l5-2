@@ -29,7 +29,7 @@ public class Game extends BaseEntity{
     private String finalSouls; //formato 5/6/8/10
     private String finalHealth; //formato 0/0/0/2
 
-    @OneToOne
-    private GameResult result;
+    //@OneToOne
+    //private GameResult result;
 
 }

@@ -14,8 +14,8 @@ INSERT INTO authorities(id,username,authority) VALUES (5,'tadcabgom','user');
 INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES ('igngongon2','user',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES (6,'igngongon2','user');
 
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('Ignacio', 'password',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES(7 ,'Ignacio','user');
+INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('ignarrman', 'password',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
+INSERT INTO authorities(id,username,authority) VALUES(7 ,'ignarrman','user');
 
 INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('jessolort', 'jessolort',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 INSERT INTO authorities(id,username,authority) VALUES(8,'jessolort','user');
@@ -117,5 +117,11 @@ INSERT INTO lobbies(id, max_players) VALUES
     (1, 2),
     (2, 3);
 
-
+INSERT INTO game_results(id,winner,duration) VALUES
+    (1,7,1.26);
+INSERT INTO game_resultsUser(game_results_id,user_id) VALUES 
+    (1,1),
+    (1,2),
+    (1,3),
+    (1,7);
 
