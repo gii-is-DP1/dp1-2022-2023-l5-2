@@ -75,9 +75,10 @@ public class UserController {
 	}
 
     @GetMapping(value = "/users/edit")
-    public String initEditForm(Model model) {
+    public String initEditForm(Map<String, Object> model) {
 		User loggedInUser = userService.getLoggedInUser().get();
-		model.addAttribute(loggedInUser);
+		//model.addAttribute(loggedInUser);
+		model.put("user", loggedInUser);
 		return VIEWS_USER_EDIT_FORM;
     }
 
@@ -86,7 +87,7 @@ public class UserController {
 	public String processEditForm(@Valid User user, BindingResult br) {
 		ModelAndView result;
 		if (br.hasErrors()) {
-
+			return VIEWS_USER_EDIT_FORM;
 		}
 		else {
 			result = new ModelAndView("welcome");
