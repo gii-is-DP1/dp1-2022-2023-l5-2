@@ -24,6 +24,7 @@ import lombok.Setter;
 @Table(name = "users")
 public class User{
 
+    @NotEmpty
 	@Id
     @Size(min = 5, max = 20)
 	String username;
@@ -33,6 +34,7 @@ public class User{
     String nickname;
 
     @NotEmpty
+    @Size(min = 5, max = 40)
     @Email
     String email;
 
