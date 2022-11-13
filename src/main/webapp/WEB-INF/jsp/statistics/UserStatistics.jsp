@@ -19,7 +19,7 @@
             <td><c:out value="${winned}"/></td>
 
             <th>Win Rate:</th>
-            <td><c:out value="${winRate}"/></td>
+            <td><c:out value="${winRate}"/>%</td>
 
 
         </tr>
