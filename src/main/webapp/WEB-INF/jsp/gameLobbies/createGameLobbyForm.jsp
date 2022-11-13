@@ -9,24 +9,20 @@
 <h1>Create Game</h1>
 
 <form:form modelAttribute="gameLobby" class="form-horizontal">
-
-
-<div class="form-group has-feedback">
-
-        <form:label path="maxPlayers">Number of players: </form:label>
-            2 <form:radiobutton path="maxPlayers" value="2"/>
-            3 <form:radiobutton path="maxPlayers" value="3"/>
-            4 <form:radiobutton path="maxPlayers" value="4"/>
+        <div class="form-group">
+            <form:label class="col-sm-2" path="maxPlayers">Number of players: </form:label>
+            2 <form:radiobutton class="" path="maxPlayers" value="2"/>
+            3 <form:radiobutton class="" path="maxPlayers" value="3"/>
+            4 <form:radiobutton class="" path="maxPlayers" value="4"/>
             <form:errors path="maxPlayers"></form:errors>
+        </div>
 
-</div>
-
-<div class="form-group">
-   <div class="col-sm-offset-2 col-sm-10">
-    <button class="btn btn-default" type="submit">Create</button>
-    <a class="btn btn-default" href="/">Cancel</a>
-   </div>
-</div>
+    <div class="form-group">
+       <div class="col-sm-2">
+        <button class="btn btn-default" type="submit">Create</button>
+        <a class="btn btn-default" href="/">Cancel</a>
+       </div>
+    </div>
 
 </form:form>
 
