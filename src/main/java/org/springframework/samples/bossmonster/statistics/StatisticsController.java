@@ -1,6 +1,9 @@
 package org.springframework.samples.bossmonster.statistics;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
@@ -18,7 +21,7 @@ public class StatisticsController {
     StatisticsService service;
     UserService service2;
 
-    private final String STATISTICS_VIEW="/statistics/UserStatistics";
+    private static final String STATISTICS_VIEW="/statistics/UserStatistics";
 
     @Autowired
     public StatisticsController(StatisticsService s, UserService s2){
@@ -28,8 +31,25 @@ public class StatisticsController {
     
     @GetMapping("/")
     public ModelAndView showUserStatistics(){
+        ModelAndView result= new ModelAndView(STATISTICS_VIEW);
         User loggedInUser=service2.getLoggedInUser().get();
-        List<GameResult> games= service.findAll(loggedInUser);
+        String username= loggedInUser.getUsername();
+        List<GameResult> games= service.findAll(username);
+        Integer total= games.size();
+        Integer winned= service.findAllWinned(username).size();
+        Double winRate =service.winRate(username);
+        Double averageDuration= service.averageDuration(username);
+
+        result.addObject("user", loggedInUser);
+        result.addObject("results", games);
+        result.addObject("total", total);
+        result.addObject("winned", winned);
+        result.addObject("winRate", winRate);
+        result.addObject("averageDuration", averageDuration);
+        result.addObject("gamesResult", games);
+        
+        return result;
+
     }
 
 }

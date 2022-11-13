@@ -5,7 +5,7 @@ INSERT INTO users(username, password, enabled,nickname, email, description, avat
     ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
     ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
     ('igngongon2', 'user',             TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
-    ('Ignacio',    'password',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('ignarrman',  'password',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
     ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
     ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
     ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://dummyimage.com/105x100.png/5fa2dd/ffffff');
@@ -16,7 +16,7 @@ INSERT INTO authorities(id,username,authority) VALUES
     (4,'eletomvel',  'user'),
     (5,'tadcabgom',  'user'),
     (6,'igngongon2', 'user'),
-    (7 ,'Ignacio',   'user'),
+    (7,'ignarrman',  'user'),
     (8,'jessolort',  'user'),
     (9,'frarosram',  'user');
 
@@ -114,11 +114,17 @@ INSERT INTO lobbies(id, max_players) VALUES
     (1, 2),
     (2, 3);
 
-INSERT INTO game_results(id,winner,duration) VALUES
-    (1,7,1.26);
-INSERT INTO game_resultsUser(game_results_id,user_id) VALUES 
-    (1,1),
-    (1,2),
-    (1,3),
-    (1,7);
+INSERT INTO game_result(id,winner,duration,date) VALUES
+    (1,'ignarrman',1.26,'2018-08-12'),
+    (2,'ignarrman',3.40,'2018-08-14');
+
+INSERT INTO results_users(game_result_id,user_id) VALUES 
+    (1,'tadcabgom'),
+    (1,'jessolort'),
+    (1,'fralarmar'),
+    (1,'ignarrman'),
+    (2,'eletomvel'),
+    (2,'user1'),
+    (2,'igngongon2'),
+    (2,'ignarrman');
 

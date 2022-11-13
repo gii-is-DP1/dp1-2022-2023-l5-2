@@ -29,8 +29,8 @@ public class User{
 	String password;
     boolean enabled;
     
-    @ManyToMany
-    private List<GameResult> results;
+    @ManyToMany(mappedBy="participants")
+    private Set<GameResult> results;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
