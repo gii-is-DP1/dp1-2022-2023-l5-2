@@ -47,5 +47,21 @@ public class StatisticsService {
         List<String> partcipants= repo.findAllParticipants(Id);
         return partcipants;
     }
+    Integer winStreakUser(List<GameResult> games, String username){
+        Integer winStreak=0;
+        Integer acumValue=0;
+        for(Integer i=0; i<games.size();i++){
+            if(games.get(i).getWinner().getUsername()==username){
+                acumValue++;
+                if(acumValue>winStreak){
+                    winStreak=acumValue;
+                }
+            }else{
+                acumValue=0;
+            } 
+        }
+        System.out.println(winStreak+"//////////////////////////////////////////////");
+        return winStreak;
+    }
 
 }
