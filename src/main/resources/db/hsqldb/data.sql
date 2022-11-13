@@ -1,27 +1,24 @@
--- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(username,password, enabled, nickname, email, description, avatar) VALUES ('admin1','4dm1n',TRUE, 'Sr. Admin', 'pwalburn0@tinypic.com', 'Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'http://dummyimage.com/176x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
--- One user user, named user1 with passwor 0wn3r
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('user1','0wn3r',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (2,'user1','user');
 
-INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES ('eletomvel','EleTomas2002',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (4,'eletomvel','user');
+INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
+    ('admin1',     '4dm1nrr',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://dummyimage.com/176x100.png/5fa2dd/ffffff'),
+    ('user1',      '0wn3rrr',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('igngongon2', 'userrr',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('Ignacio',    'password',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 
-INSERT INTO users(username, password,enabled, nickname, email, description, avatar) VALUES ('tadcabgom','helloimapassword',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (5,'tadcabgom','user');
-
-INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES ('igngongon2','user',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (6,'igngongon2','user');
-
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('Ignacio', 'password',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES(7 ,'Ignacio','user');
-
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('jessolort', 'jessolort',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES(8,'jessolort','user');
-
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('frarosram', 'contra5ena',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES(9,'frarosram','user');
+INSERT INTO authorities(id,username,authority) VALUES 
+    (1,'admin1',     'admin'),
+    (2,'user1',      'user'),
+    (4,'eletomvel',  'user'),
+    (5,'tadcabgom',  'user'),
+    (6,'igngongon2', 'user'),
+    (7 ,'Ignacio',   'user'),
+    (8,'jessolort',  'user'),
+    (9,'frarosram',  'user');
 
 INSERT INTO room_type(id, name) VALUES
     (1,'TRAP'), (2,'MONSTER'), (3,'ADVANCED_TRAP'), (4,'ADVANCED_MONSTER');
