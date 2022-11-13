@@ -2,6 +2,10 @@ package org.springframework.samples.bossmonster.game;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
+import org.springframework.samples.bossmonster.game.card.room.RoomCard;
+import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.model.BaseEntity;
@@ -10,9 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.time.Duration;
-import java.util.Collection;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,13 +23,23 @@ import java.util.Date;
 public class Game extends BaseEntity{
 
     @OneToMany
-    private Collection<Player> players;
+    List<Player> players;
+    boolean active;
 
-    private Date date;
-    private Duration duration;
-    private String winnerName;
-    private String finalSouls; //formato 5/6/8/10
-    private String finalHealth; //formato 0/0/0/2
+    @OneToMany
+    List<Card> discardPile;
+    @OneToMany
+    List<HeroCard> heroPile;
+    @OneToMany
+    List<SpellCard> spellPile;
+    @OneToMany
+    List<RoomCard> roomPile;
+
+    @OneToMany
+    List<HeroCard> city;
+
+
+    public void moveCard() {}
 
     //@OneToOne
     //private GameResult result;

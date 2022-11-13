@@ -43,10 +43,9 @@ public class UserService {
 	public Optional<User> findUser(String username) {
 		return userRepository.findById(username);
 	}
-	
-	public Optional<User> getLoggedInUser() {
+
+    public Optional<User> getLoggedInUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return findUser(username);
     }
-
 }

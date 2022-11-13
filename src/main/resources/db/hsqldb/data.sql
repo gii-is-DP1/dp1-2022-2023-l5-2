@@ -1,4 +1,13 @@
 
+INSERT INTO user_avatar(id, name) VALUES
+    (1, 'AVATAR_1'),
+    (2, 'AVATAR_2'),
+    (3, 'AVATAR_3'),
+    (4, 'AVATAR_4'),
+    (5, 'AVATAR_5'),
+    (6, 'AVATAR_6'),
+    (7, 'AVATAR_7');
+
 INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
     ('admin1',     '4dm1n',            TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test tes? test! 123456789',   'http://dummyimage.com/176x100.png/5fa2dd/ffffff'),
     ('user1',      '0wn3r',            TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),

@@ -36,6 +36,8 @@ public class UserServiceTests {
     @Test
     void shouldFindLoggedInUser() {
 
+        
+
     }
 
 }
