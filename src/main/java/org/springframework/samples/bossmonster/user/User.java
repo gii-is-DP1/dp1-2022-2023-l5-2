@@ -1,6 +1,5 @@
 package org.springframework.samples.bossmonster.user;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,30 +28,30 @@ public class User{
     @NotEmpty
 	@Id
     @Size(min = 5, max = 20)
-	String username;
+	private String username;
 
     @NotEmpty
     @Size(min = 3, max = 20)
-    String nickname;
+    private String nickname;
 
     @NotEmpty
     @Size(min = 5, max = 40)
     @Email
-    String email;
+    private String email;
 
     @NotEmpty
     @Size(min = 3, max = 100)
-    String description;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "avatar_id")
-    UserAvatar avatar;
+    private UserAvatar avatar;
 
     @NotEmpty
     @Size(min = 6, max = 20)
-	String password;
+	private String password;
 
-    boolean enabled;
+    private boolean enabled;
     
     @ManyToMany(mappedBy="participants")
     private Set<GameResult> results;

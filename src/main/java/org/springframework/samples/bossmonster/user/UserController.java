@@ -106,4 +106,16 @@ public class UserController {
 		return result;
 	}
 
+	/* 
+	@GetMapping(value = "/users/edit/avatars")
+	public String initAvatarSelector(Map<String, Object> model) {
+		return null;
+	}
+
+	@GetMapping(value = "/users/edit/avatars")
+	public ModelAndView processAvatarSelector() {
+		return null;
+	}
+	*/
+
 }
