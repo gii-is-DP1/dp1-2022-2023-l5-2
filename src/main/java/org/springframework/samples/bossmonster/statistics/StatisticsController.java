@@ -39,6 +39,7 @@ public class StatisticsController {
         Integer winned= service.findAllWinned(username).size();
         Double winRate =service.winRate(username);
         Double averageDuration= service.averageDuration(username);
+        Integer winStreak=service.winStreakUser(games, username);
 
         result.addObject("user", loggedInUser);
         result.addObject("results", games);
@@ -46,6 +47,7 @@ public class StatisticsController {
         result.addObject("winned", winned);
         result.addObject("winRate", winRate);
         result.addObject("averageDuration", averageDuration);
+        result.addObject("winStreak", winStreak);
         result.addObject("gamesResult", games);
         
         return result;

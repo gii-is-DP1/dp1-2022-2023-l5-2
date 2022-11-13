@@ -28,7 +28,7 @@
             <td><c:out value="${total}"/></td>
 
             <th>Best Win Streak:</th>
-            <td>1</td>
+            <td><c:out value="${winStreak}"/></td>
             
             <th>Average Duration:</th>
             <td><c:out value="${averageDuration}"/></td>
