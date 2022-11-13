@@ -10,7 +10,10 @@
     <spring:url value="/lobby/new" htmlEscape="true" var="newLobby"/>
     <spring:url value="/lobby/" htmlEscape="true" var="joinLobby"/>
     <spring:url value="/users/edit" htmlEscape="true" var="editUser"/>
+    <spring:url value="/users/new" htmlEscape="true" var="newUser"/>
     <spring:url value="/" htmlEscape="true" var="spectateLobby"/>
+    <spring:url value="/users/statistics" htmlEscape="true" var="statistics"/>
+
 
 
     <body class="inicio">
@@ -26,11 +29,18 @@
             </div>
 
             <div class="centered-view">
-                <a class="btn btn-title" href="${editUser}">User Management (Provisional)</a>
+                <a class="btn btn-title" href="${editUser}">User Management</a>
             </div>
 
             <div class="centered-view">
-                <a class="btn btn-title" href="${spectateLobby}">Spectate Game</a>
+                <a class="btn btn-title" href="${newUser}">Create New User</a>
+            </div>
+
+            <div class="centered-view">
+                <a class="btn btn-title" href="${spectateLobby}">Spectate Game (Currently Unavialable)</a>
+            </div>
+            <div class="centered-view">
+                <a class="btn btn-title" href="${statistics}">Statistics</a>
             </div>
 
     </body>

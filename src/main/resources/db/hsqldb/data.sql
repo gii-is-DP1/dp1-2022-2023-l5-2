@@ -1,27 +1,33 @@
--- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(username,password, enabled, nickname, email, description, avatar) VALUES ('admin1','4dm1n',TRUE, 'Sr. Admin', 'pwalburn0@tinypic.com', 'Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'http://dummyimage.com/176x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
--- One user user, named user1 with passwor 0wn3r
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('user1','0wn3r',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (2,'user1','user');
 
-INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES ('eletomvel','EleTomas2002',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (4,'eletomvel','user');
+INSERT INTO user_avatar(id, name) VALUES
+    (1, 'AVATAR_1'),
+    (2, 'AVATAR_2'),
+    (3, 'AVATAR_3'),
+    (4, 'AVATAR_4'),
+    (5, 'AVATAR_5'),
+    (6, 'AVATAR_6'),
+    (7, 'AVATAR_7');
 
-INSERT INTO users(username, password,enabled, nickname, email, description, avatar) VALUES ('tadcabgom','helloimapassword',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (5,'tadcabgom','user');
+INSERT INTO users(username, password, enabled,nickname, email, description, avatar_id) VALUES 
+    ('admin1',     '4dm1nrr',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  1),
+    ('user1',      '0wn3rrr',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             2),
+    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         3),
+    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 4),
+    ('igngongon2', 'userrr',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               5),
+    ('ignarrman',  'mydoggie',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          6),
+    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   7),
+    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             1),
+    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              2);
 
-INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES ('igngongon2','user',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES (6,'igngongon2','user');
-
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('Ignacio', 'password',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES(7 ,'Ignacio','user');
-
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('jessolort', 'jessolort',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES(8,'jessolort','user');
-
-INSERT INTO users(username,password, enabled,nickname, email, description, avatar) VALUES ('frarosram', 'contra5ena',TRUE,'Sr. Admin','gnorthway1@wikimedia.org','Nulla justo. Aliquam quis turpis eget elit sodales scelerisque','http://dummyimage.com/105x100.png/5fa2dd/ffffff');
-INSERT INTO authorities(id,username,authority) VALUES(9,'frarosram','user');
+INSERT INTO authorities(id,username,authority) VALUES 
+    (1,'admin1',     'admin'),
+    (2,'user1',      'user'),
+    (4,'eletomvel',  'user'),
+    (5,'tadcabgom',  'user'),
+    (6,'igngongon2', 'user'),
+    (7,'ignarrman',  'user'),
+    (8,'jessolort',  'user'),
+    (9,'frarosram',  'user');
 
 INSERT INTO room_type(id, name) VALUES
     (1,'TRAP'), (2,'MONSTER'), (3,'ADVANCED_TRAP'), (4,'ADVANCED_MONSTER');
@@ -117,5 +123,34 @@ INSERT INTO lobbies(id, max_players) VALUES
     (1, 2),
     (2, 3);
 
+INSERT INTO game_result(id,winner,duration,date) VALUES
+    (1,'ignarrman', 1.26, '2018-08-12'),
+    (2,'ignarrman', 3.40, '2018-08-14'),
+    (3,'jessolort', 0.45, '2018-08-15'),
+    (4,'tadcabgom', 2.11, '2018-08-15'),
+    (5,'user1',     1.01, '2018-08-16'),
+    (6,'fralarmar', 3.57, '2018-08-20');
 
+INSERT INTO results_users(game_result_id,user_id) VALUES 
+    (1,'tadcabgom'),
+    (1,'jessolort'),
+    (1,'fralarmar'),
+    (1,'ignarrman'),
+    (2,'eletomvel'),
+    (2,'user1'),
+    (2,'igngongon2'),
+    (2,'ignarrman'),
+    (3,'jessolort'),
+    (3,'igngongon2'),
+    (3,'tadcabgom'),
+    (4,'tadcabgom'),
+    (4,'admin1'),
+    (5,'tadcabgom'),
+    (5,'fralarmar'),
+    (5,'jessolort'),
+    (5,'user1'),
+    (6,'eletomvel'),
+    (6,'fralarmar'),
+    (6,'igngongon2'),
+    (6,'ignarrman');
 

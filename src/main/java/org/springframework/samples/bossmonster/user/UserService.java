@@ -24,12 +24,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder
- * for @Transactional and @Cacheable annotations
- *
- * @author Michael Isvy
- */
 @Service
 public class UserService {
 
@@ -49,10 +43,9 @@ public class UserService {
 	public Optional<User> findUser(String username) {
 		return userRepository.findById(username);
 	}
-	
-	public Optional<User> getLoggedInUser() {
+
+    public Optional<User> getLoggedInUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return findUser(username);
     }
-
 }
