@@ -32,7 +32,7 @@ public class StatisticsService {
         Double result= 0.;
         if(total==0.0) result=total;
         else result=wins/total;
-        return result*100;
+        return Math.floor(result*100*100)/100;
     }
     Double averageDuration(String Id){
         List<GameResult> games= repo.findAllGameResultsUser(Id);
@@ -40,7 +40,7 @@ public class StatisticsService {
             return 0.;
         }else{
             Double duration= games.stream().mapToDouble(GameResult::getDuration).sum();
-            return duration/games.size();
+            return Math.floor((duration/games.size())*100)/100;
         }
     }
     List<String> findParticipants(int Id){
