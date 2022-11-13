@@ -17,19 +17,17 @@ package org.springframework.samples.bossmonster.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * @author Juergen Hoeller
@@ -62,16 +60,26 @@ public class UserController {
 		return VIEWS_USER_CREATE_FORM;
 	}
 
+	@Transactional
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid User user, BindingResult result) {
-		if (result.hasErrors()) {
-			return VIEWS_USER_CREATE_FORM;
+	public ModelAndView processCreationForm(@Valid User user, BindingResult br) {
+		ModelAndView result;
+
+		if (br.hasErrors()) {
+			result = new ModelAndView(VIEWS_USER_CREATE_FORM);
+			result.addObject("message", "Can't create user. Invalid values are present");
+		}
+		else if (userService.findUser(user.getUsername()).isPresent()) {
+			br.addError(new ObjectError("username", "This name is already used"));
+			result = new ModelAndView(VIEWS_USER_CREATE_FORM);
+			result.addObject("message", "The username provided is already used");
 		}
 		else {
-			//creating user, user, and authority
-			this.userService.saveUser(user);
-			return "redirect:/";
+			result = new ModelAndView("welcome");
+			userService.saveUser(user);
+			result.addObject("message", "User succesfully created!");
 		}
+		return result;
 	}
 
     @GetMapping(value = "/users/edit")
