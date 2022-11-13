@@ -41,7 +41,7 @@ public class Game extends BaseEntity{
 
     public void moveCard() {}
 
-    @OneToOne
-    private GameResult result;
+    //@OneToOne
+    //private GameResult result;
 
 }

@@ -8,16 +8,16 @@ INSERT INTO user_avatar(id, name) VALUES
     (6, 'AVATAR_6'),
     (7, 'AVATAR_7');
 
-INSERT INTO users(username, password, enabled,nickname, email, description, avatar_id) VALUES 
-    ('admin1',     '4dm1nrr',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  1),
-    ('user1',      '0wn3rrr',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             2),
-    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         3),
-    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 4),
-    ('igngongon2', 'userrr',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               5),
-    ('Ignacio',    'password',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          6),
-    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   7),
-    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             1),
-    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              2);
+INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
+    ('admin1',     '4dm1n',            TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test tes? test! 123456789',   'http://dummyimage.com/176x100.png/5fa2dd/ffffff'),
+    ('user1',      '0wn3r',            TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('igngongon2', 'user',             TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('ignarrman',  'password',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 
 INSERT INTO authorities(id,username,authority) VALUES 
     (1,'admin1',     'admin'),
@@ -25,7 +25,7 @@ INSERT INTO authorities(id,username,authority) VALUES
     (4,'eletomvel',  'user'),
     (5,'tadcabgom',  'user'),
     (6,'igngongon2', 'user'),
-    (7 ,'Ignacio',   'user'),
+    (7,'ignarrman',  'user'),
     (8,'jessolort',  'user'),
     (9,'frarosram',  'user');
 
@@ -123,5 +123,17 @@ INSERT INTO lobbies(id, max_players) VALUES
     (1, 2),
     (2, 3);
 
+INSERT INTO game_result(id,winner,duration,date) VALUES
+    (1,'ignarrman',1.26,'2018-08-12'),
+    (2,'ignarrman',3.40,'2018-08-14');
 
+INSERT INTO results_users(game_result_id,user_id) VALUES 
+    (1,'tadcabgom'),
+    (1,'jessolort'),
+    (1,'fralarmar'),
+    (1,'ignarrman'),
+    (2,'eletomvel'),
+    (2,'user1'),
+    (2,'igngongon2'),
+    (2,'ignarrman');
 

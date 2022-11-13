@@ -54,8 +54,8 @@ public class User{
 
     boolean enabled;
     
-    @ManyToMany
-    private List<GameResult> results;
+    @ManyToMany(mappedBy="participants")
+    private Set<GameResult> results;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
