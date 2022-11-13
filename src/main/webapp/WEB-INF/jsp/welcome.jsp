@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
-<!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
 <bossmonster:layout pageName="home">
 
@@ -39,9 +39,16 @@
             <div class="centered-view">
                 <a class="btn btn-title" href="${spectateLobby}">Spectate Game (Currently Unavialable)</a>
             </div>
+
             <div class="centered-view">
                 <a class="btn btn-title" href="${statistics}">Statistics</a>
             </div>
+
+            <sec:authorize access="hasAuthority('admin')">
+                <div class="centered-view">
+                    <a class="btn btn-title" href="${editUser}">Admin Options</a> <!-- De momento lleva a la misma de user management por ponerle algo -->
+                </div>
+            </sec:authorize>
 
     </body>
 
