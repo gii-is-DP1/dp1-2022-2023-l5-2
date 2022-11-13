@@ -83,18 +83,19 @@ public class UserController {
     }
 
 	@Transactional
-	@PostMapping(value = "users/edit")
-	public String processEditForm(@Valid User user, BindingResult br) {
+	@PostMapping(value = "/users/edit")
+	public ModelAndView processEditForm(@Valid User user, BindingResult br) {
 		ModelAndView result;
 		if (br.hasErrors()) {
-			return VIEWS_USER_EDIT_FORM;
+			result = new ModelAndView(VIEWS_USER_EDIT_FORM);
+			result.addObject("message", "Can't update user. Invalid values are present");
 		}
 		else {
 			result = new ModelAndView("welcome");
 			userService.saveUser(user);
 			result.addObject("message", "User succesfully updated!");
 		}
-		return null;
+		return result;
 	}
 
 }
