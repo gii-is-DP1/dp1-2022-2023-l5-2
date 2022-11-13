@@ -124,8 +124,12 @@ INSERT INTO lobbies(id, max_players) VALUES
     (2, 3);
 
 INSERT INTO game_result(id,winner,duration,date) VALUES
-    (1,'ignarrman',1.26,'2018-08-12'),
-    (2,'ignarrman',3.40,'2018-08-14');
+    (1,'ignarrman', 1.26, '2018-08-12'),
+    (2,'ignarrman', 3.40, '2018-08-14'),
+    (3,'jessolort', 0.45, '2018-08-15'),
+    (4,'tadcabgom', 2.11, '2018-08-15'),
+    (5,'user1',     1.01, '2018-08-16'),
+    (6,'fralarmar', 3.57, '2018-08-20');
 
 INSERT INTO results_users(game_result_id,user_id) VALUES 
     (1,'tadcabgom'),
@@ -135,5 +139,18 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (2,'eletomvel'),
     (2,'user1'),
     (2,'igngongon2'),
-    (2,'ignarrman');
+    (2,'ignarrman'),
+    (3,'jessolort'),
+    (3,'igngongon2'),
+    (3,'tadcabgom'),
+    (4,'tadcabgom'),
+    (4,'admin1'),
+    (5,'tadcabgom'),
+    (5,'fralarmar'),
+    (5,'jessolort'),
+    (5,'user1'),
+    (6,'eletomvel'),
+    (6,'fralarmar'),
+    (6,'igngongon2'),
+    (6,'ignarrman');
 
