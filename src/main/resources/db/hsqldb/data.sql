@@ -9,15 +9,15 @@ INSERT INTO user_avatar(id, name) VALUES
     (7, 'AVATAR_7');
 
 INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
-    ('admin1',     '4dm1n',            TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test tes? test! 123456789',   'http://dummyimage.com/176x100.png/5fa2dd/ffffff'),
-    ('user1',      '0wn3r',            TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
-    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
-    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
-    ('igngongon2', 'user',             TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
-    ('ignarrman',  'password',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
-    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
-    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
-    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://dummyimage.com/105x100.png/5fa2dd/ffffff');
+    ('admin1',     '4dm1nrr',            TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test tes? test! 123456789',   'http://dummyimage.com/176x100.png/5fa2dd/ffffff'),
+    ('user1',      '0wn3rrr',            TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('eletomvel',  'EleTomas2002',       TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('tadcabgom',  'helloimapassword',   TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('igngongon2', 'userrr',             TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('ignarrman',  'areyouhotmydoggie',  TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('jessolort',  'jessolort',          TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('frarosram',  'contra5ena',         TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://dummyimage.com/105x100.png/5fa2dd/ffffff'),
+    ('fralarmar',  'qwertyuiop',         TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://dummyimage.com/105x100.png/5fa2dd/ffffff');
 
 INSERT INTO authorities(id,username,authority) VALUES 
     (1,'admin1',     'admin'),

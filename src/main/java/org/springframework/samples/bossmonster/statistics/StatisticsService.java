@@ -47,5 +47,9 @@ public class StatisticsService {
         List<String> partcipants= repo.findAllParticipants(Id);
         return partcipants;
     }
+    Integer winStreakUser(List<GameResult> games, String username){
+        
+        return null;
+    }
 
 }
