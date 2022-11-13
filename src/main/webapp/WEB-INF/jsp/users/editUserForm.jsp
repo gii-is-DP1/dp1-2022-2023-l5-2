@@ -4,7 +4,7 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 <bossmonster:layout pageName="editUser">
 
-<spring:url value="/users/avatar" htmlEscape="true" var="avatar"/>
+<spring:url value="/users/edit/avatars" htmlEscape="true" var="avatar"/>
 
 <h1>User Management</h1>
 
@@ -17,7 +17,7 @@
         <bossmonster:inputField label="Description" name="description"/>
     </div>
     <div class="centered-view">
-        <a class="btn btn-title" href="${avatar}">Change Avatar</a>
+        <a class="btn btn-title" href="${avatar}">Change Avatar (Unimplemented)</a>
     </div>
     <div class="form-group">
         <button class="btn btn-default" type="submit">Save Changes</button>

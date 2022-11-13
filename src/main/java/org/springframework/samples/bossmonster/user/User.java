@@ -6,7 +6,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -42,7 +44,9 @@ public class User{
     @Size(min = 3, max = 100)
     String description;
 
-    String avatar;
+    @ManyToOne
+    @JoinColumn(name = "avatar_id")
+    UserAvatar avatar;
 
     @NotEmpty
     @Size(min = 6, max = 20)
