@@ -1,9 +1,6 @@
 package org.springframework.samples.bossmonster.statistics;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("users/statistics")
+@RequestMapping("/")
 public class StatisticsController {
     
     StatisticsService service;
@@ -29,7 +26,7 @@ public class StatisticsController {
         this.service2=s2;
     }
     
-    @GetMapping("/")
+    @GetMapping("/users/statistics")
     public ModelAndView showUserStatistics(){
         ModelAndView result= new ModelAndView(STATISTICS_VIEW);
         User loggedInUser=service2.getLoggedInUser().get();

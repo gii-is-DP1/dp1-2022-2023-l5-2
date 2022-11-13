@@ -1,6 +1,5 @@
 package org.springframework.samples.bossmonster.user;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;

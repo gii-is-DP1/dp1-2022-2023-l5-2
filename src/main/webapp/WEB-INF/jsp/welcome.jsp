@@ -12,6 +12,8 @@
     <spring:url value="/users/edit" htmlEscape="true" var="editUser"/>
     <spring:url value="/users/new" htmlEscape="true" var="newUser"/>
     <spring:url value="/" htmlEscape="true" var="spectateLobby"/>
+    <spring:url value="/users/statistics" htmlEscape="true" var="statistics"/>
+
 
 
     <body class="inicio">
@@ -36,6 +38,9 @@
 
             <div class="centered-view">
                 <a class="btn btn-title" href="${spectateLobby}">Spectate Game (Currently Unavialable)</a>
+            </div>
+            <div class="centered-view">
+                <a class="btn btn-title" href="${statistics}">Statistics</a>
             </div>
 
     </body>
