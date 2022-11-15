@@ -33,7 +33,7 @@ class GameServiceTest {
     void newGameFromLobby() {
         GameLobby lobby = new GameLobby();
 
-        gameService.newGameFromLobby(lobby);
+
 
     }
 
