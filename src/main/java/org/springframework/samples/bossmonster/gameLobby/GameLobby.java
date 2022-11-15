@@ -8,6 +8,7 @@ import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,6 +28,7 @@ public class GameLobby extends BaseEntity { // Que extiende?
     Game game;
 
     public User addUser(User user) {
+        if(getJoinedUsers() == null) setJoinedUsers(new ArrayList<>());
         if(getJoinedUsers().size() >= getMaxPlayers()) throw new IllegalArgumentException("Cannot add user, lobby is full");
         getJoinedUsers().add(user);
         return user;
@@ -38,6 +40,8 @@ public class GameLobby extends BaseEntity { // Que extiende?
     }
 
     public boolean gameStarted() {return getGame() != null;}
+
+    public boolean gameIsActive() {return !getGame().isActive();}
 
     public boolean isAcceptingNewPlayers() {
         return getJoinedUsers().size() < getMaxPlayers() && !gameStarted();
