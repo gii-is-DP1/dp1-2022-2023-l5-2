@@ -17,12 +17,14 @@ package org.springframework.samples.bossmonster.user;
 
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class UserService {
@@ -48,4 +50,8 @@ public class UserService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return findUser(username);
     }
+
+	public List<User> findAllUsers() {
+		return userRepository.findAll();
+	}
 }
