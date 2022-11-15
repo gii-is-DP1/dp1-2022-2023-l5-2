@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @WebMvcTest(
     controllers = UserController.class,
@@ -55,6 +56,7 @@ public class UserControllerTests {
         testUser.setNickname("BPoHC");
         testUser.setEnabled(true);
         given(this.userService.findUser(any(String.class))).willReturn(Optional.ofNullable(testUser));
+        given(this.userService.getLoggedInUser()).willReturn(Optional.ofNullable(testUser));
     }
 
     @WithMockUser(value = "spring")
@@ -69,7 +71,7 @@ public class UserControllerTests {
     @WithMockUser(value = "spring")
 	@Test
 	public void testProcessCreationFormSuccess() throws Exception {
-        mockMvc.perform(post("/users/new")
+        mockMvc.perform(post("/users/new").with(csrf())
             .param("username", "Adagumo")
             .param("password", "tausoken")
 			.param("nickname", "EEEMS")
@@ -81,7 +83,7 @@ public class UserControllerTests {
     @WithMockUser(value = "spring")
     @Test
     public void testProcessCreationFormHasErrors() throws Exception {
-        mockMvc.perform(post("users/new")
+        mockMvc.perform(post("/users/new").with(csrf())
         .param("username", "Adagumo")
         .param("password", "tausoken")
         .param("nickname", "User without description")
@@ -96,11 +98,11 @@ public class UserControllerTests {
     @WithMockUser(value = "spring")
     @Test
     public void testInitUpdateUserForm() throws Exception {
-        mockMvc.perform(get("users/edit"))
+        mockMvc.perform(get("/users/edit"))
         .andExpect(status().isOk())
         .andExpect(model().attribute("user", hasProperty("password", is("Tausoken"))))
         .andExpect(model().attribute("user", hasProperty("nickname", is("BPoHC"))))
-        .andExpect(model().attribute("user", hasProperty("email", is("pleasework@gmail.com"))))
+        .andExpect(model().attribute("user", hasProperty("email", is("tricknolstalgia@yahoo.es"))))
         .andExpect(model().attribute("user", hasProperty("description", is("Is a bottle opener!"))))
         .andExpect(view().name("users/editUserForm"));
     }
@@ -108,19 +110,20 @@ public class UserControllerTests {
     @WithMockUser(value = "spring")
     @Test
     public void testProcessUpdateUserFormSuccess() throws Exception {
-        mockMvc.perform(post("users/edit")
-        .param("password", "random password")
-        .param("nickname", "I am tired")
+        mockMvc.perform(post("/users/edit").with(csrf())
+        .param("username", "Saragimaru")
+        .param("password", "password")
+        .param("nickname", "Someone")
         .param("email", "idontliketests@alum.us")
         .param("description", "Dont fail again pls"))
-        .andExpect(status().is3xxRedirection())
+        .andExpect(status().isOk())
         .andExpect(view().name("welcome"));
     }
 
     @WithMockUser(value = "spring")
     @Test
     public void testProcessUpdateUserHasErrors() throws Exception {
-        mockMvc.perform(post("users/edit")
+        mockMvc.perform(post("/users/edit").with(csrf())
         .param("password", "no")
         .param("nickname", "I am still tired")
         .param("email", "not an email"))
