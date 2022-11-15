@@ -1,8 +1,10 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,5 +23,15 @@ public class GameLobbyService {
 
     public void deleteLobby(GameLobby lobby) {lobbyRepo.delete(lobby);}
 
+    public List<GameLobby> findByUser(User user) {return lobbyRepo.findByUser(user);}
 
+    public boolean userIsPlaying(User user) {
+        List<GameLobby> lobbies = lobbyRepo.findByUser(user);
+        return !(lobbies.isEmpty() || lobbies.stream()
+            .anyMatch(l -> l.gameStarted() && !l.gameIsActive()));
+    }
+
+    public List<GameLobby> findAll() {
+        return lobbyRepo.findAll();
+    }
 }
