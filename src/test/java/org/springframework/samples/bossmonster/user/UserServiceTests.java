@@ -1,6 +1,6 @@
 package org.springframework.samples.bossmonster.user;
 
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -20,7 +21,7 @@ public class UserServiceTests {
 
     @Test
     void shouldSaveUser() {
-        
+
         User testUser = new User();
         testUser.setUsername("Lumen");
         testUser.setPassword("Celeritas");
@@ -41,16 +42,20 @@ public class UserServiceTests {
 
         Optional<User> testUser = this.userService.findUser("tadcabgom");
         assertTrue(testUser.isPresent());
-        //assertThat(testUser.get().getPassword()).isEqualTo("helloimapassword");
-        //assertThat(testUser.get().getNickname()).isEqualTo("Sr. Admin");
-        //assertThat(testUser.get().getEmail()).isEqualTo("gnorthway1@wikimedia.org");
+        assertThat(testUser.get().getPassword()).isEqualTo("helloimapassword");
+        assertThat(testUser.get().getNickname()).isEqualTo("Tadeo");
+        assertThat(testUser.get().getEmail()).isEqualTo("iliketrains@gmail.com");
+        assertThat(testUser.get().getDescription()).isEqualTo("What I am suppose to write here?");
 
     }
 
+    @WithMockUser(value = "tadcabgom")
     @Test
     void shouldFindLoggedInUser() {
 
-        
+        User trueUser = this.userService.findUser("tadcabgom").get();
+        User detectedUser = this.userService.getLoggedInUser().get();
+        assertEquals(trueUser, detectedUser);
 
     }
 
