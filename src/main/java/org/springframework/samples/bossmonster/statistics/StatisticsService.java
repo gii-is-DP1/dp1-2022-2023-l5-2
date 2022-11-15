@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class StatisticsService {
     
-    GameResultRepository repo;
-    UserRepository repoUser;
+    private GameResultRepository repo;
+    private UserRepository repoUser;
 
     @Autowired
     public StatisticsService(GameResultRepository r, UserRepository r2){
@@ -43,15 +43,11 @@ public class StatisticsService {
             return Math.floor((duration/games.size())*100)/100;
         }
     }
-    List<String> findParticipants(int Id){
-        List<String> partcipants= repo.findAllParticipants(Id);
-        return partcipants;
-    }
     Integer winStreakUser(List<GameResult> games, String username){
         Integer winStreak=0;
         Integer acumValue=0;
         for(Integer i=0; i<games.size();i++){
-            if(games.get(i).getWinner().getUsername()==username){
+            if(games.get(i).getWinner().getUsername().equals(username)){
                 acumValue++;
                 if(acumValue>winStreak){
                     winStreak=acumValue;
@@ -60,6 +56,7 @@ public class StatisticsService {
                 acumValue=0;
             } 
         }
+        
         return winStreak;
     }
 
