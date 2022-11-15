@@ -52,8 +52,6 @@ public class GameLobbyController {
         ModelAndView result = new ModelAndView();
         User user = userService.getLoggedInUser().get();
 
-        //TODO: Check if user already in a game, prevent joining game
-
         if(roomCode == null) {
 
             result.setViewName(JOIN_LOBBY_FORM);
@@ -65,19 +63,24 @@ public class GameLobbyController {
 
             if(lobby.isPresent()) {
                 GameLobby presentLobby = lobby.get();
-                if (!spectate) {
-                    result = new ModelAndView("redirect:/lobby/" + roomCode);
+                String currentLobbyView = "redirect:/lobby/" + roomCode;
+                if (spectate) {
+                    result = new ModelAndView(currentLobbyView);
                 } else {
-                    if (!presentLobby.getJoinedUsers().contains(user)) {
+                    if(lobbyService.userIsPlaying(user)) {
+                        result.setViewName(JOIN_LOBBY_FORM);
+                        result.addObject("message","You are already in a game!");
+                    } else if (!presentLobby.getJoinedUsers().contains(user)) {
                         if(presentLobby.isAcceptingNewPlayers()) {
                             presentLobby.addUser(user);
                             lobbyService.saveLobby(presentLobby);
+                            result.setViewName(currentLobbyView);
                         } else {
                             result.setViewName(JOIN_LOBBY_FORM);
                             result.addObject("message", "Game is full!");
                         }
                     } else {
-                        result.setViewName("redirect:/lobby/" + roomCode);
+                        result.setViewName(currentLobbyView);
                     }
                 }
             } else {
@@ -130,29 +133,34 @@ public class GameLobbyController {
     @GetMapping("/new")
     public ModelAndView createLobby() {
 
-        //TODO: Check if user already in a game, prevent creating game
+        ModelAndView result = new ModelAndView();
 
-        ModelAndView result = new ModelAndView(CREATE_LOBBY_FORM);
+        result.setViewName(CREATE_LOBBY_FORM);
         result.addObject("gameLobby", new GameLobby());
+
         return result;
     }
 
     @PostMapping("/new")
     @Transactional
     public ModelAndView createLobby(@Valid GameLobby lobby, BindingResult br) {
-        ModelAndView result;
+        ModelAndView result = new ModelAndView();
         User user = userService.getLoggedInUser().get();
 
-        //TODO: Check if user already in a game, prevent creating game
 
-        if(br.hasErrors()) {
-            result = new ModelAndView(CREATE_LOBBY_FORM);
+        if(lobbyService.userIsPlaying(user)) {
+            result.setViewName(CREATE_LOBBY_FORM);
+            result.addObject("message","You are already in a game!");
         } else {
-            lobby.setLeaderUser(user);
-            lobby.setJoinedUsers(new ArrayList<>());
-            lobby.addUser(user);
-            lobbyService.saveLobby(lobby);
-            result = new ModelAndView("redirect:/lobby/"+lobby.getId());
+            if(br.hasErrors()) {
+                result.setViewName(CREATE_LOBBY_FORM);
+            } else {
+                lobby.setLeaderUser(user);
+                lobby.setJoinedUsers(new ArrayList<>());
+                lobby.addUser(user);
+                lobbyService.saveLobby(lobby);
+                result.setViewName("redirect:/lobby/"+lobby.getId());
+            }
         }
 
         return result;
@@ -170,6 +178,7 @@ public class GameLobbyController {
             Game game = gameService.newGameFromLobby(lobby);
             lobby.setGame(game);
             lobbyService.saveLobby(lobby);
+            gameService.saveGame(game);
             result.setViewName("redirect:/games/" + game.getId());
 
         } else {
