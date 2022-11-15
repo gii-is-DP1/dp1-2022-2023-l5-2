@@ -144,7 +144,7 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (3,'igngongon2'),
     (3,'tadcabgom'),
     (4,'tadcabgom'),
-    (4,'admin1'),
+    (4,'ignarrman'),
     (5,'tadcabgom'),
     (5,'fralarmar'),
     (5,'jessolort'),
