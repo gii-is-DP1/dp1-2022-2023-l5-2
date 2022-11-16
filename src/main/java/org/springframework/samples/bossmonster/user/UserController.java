@@ -22,6 +22,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,6 +41,7 @@ public class UserController {
 
 	private static final String VIEWS_USER_CREATE_FORM = "users/createUserForm";
 	private static final String VIEWS_USER_EDIT_FORM = "users/editUserForm";
+	private final String USER_LISTING_VIEW="users/manageUsersList";
 
 	private final UserService userService;
 
@@ -117,5 +119,23 @@ public class UserController {
 		return null;
 	}
 	*/
+
+
+	
+	@GetMapping("/users/manage")
+    public ModelAndView show(){
+        ModelAndView result= new ModelAndView(USER_LISTING_VIEW);
+        result.addObject("user", userService.findAllUsers());
+        return result;
+    }
+
+	@GetMapping("/users/{username}/delete")
+    public ModelAndView delete(@PathVariable String username){
+        userService.deleteUser(username);
+        ModelAndView result= new ModelAndView("redirect:/users/manage");
+		// result.addObject("user", userService.findAllUsers());
+        // result.addObject("message", "El usuario se ha borrado con éxito");
+        return result;
+    }
 
 }
