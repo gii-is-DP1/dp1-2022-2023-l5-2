@@ -26,7 +26,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.transaction.Transactional;
+import org.springframework.beans.BeanUtils;
+
+import org.springframework.transaction.annotation.Transactional;
+
+
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -41,6 +45,7 @@ public class UserController {
 
 	private static final String VIEWS_USER_CREATE_FORM = "users/createUserForm";
 	private static final String VIEWS_USER_EDIT_FORM = "users/editUserForm";
+	private static final String VIEWS_AVATAR_PICKER = "users/chooseUserAvatar";
 	private final String USER_LISTING_VIEW="users/manageUsersList";
 
 	private final UserService userService;
@@ -107,20 +112,26 @@ public class UserController {
 		}
 		return result;
 	}
-
-	/* 
+	
+	@Transactional(readOnly = true)
 	@GetMapping(value = "/users/edit/avatars")
-	public String initAvatarSelector(Map<String, Object> model) {
-		return null;
+	public ModelAndView initAvatarSelector() {
+		ModelAndView result = new ModelAndView(VIEWS_AVATAR_PICKER);
+		User user = userService.getLoggedInUser().get();
+		result.addObject("user", user);
+		return result;
 	}
 
-	@GetMapping(value = "/users/edit/avatars")
-	public ModelAndView processAvatarSelector() {
-		return null;
+	@Transactional
+	@PostMapping(value = "/users/edit/avatars")
+	public ModelAndView processAvatarSelector(User user) {
+		ModelAndView result = new ModelAndView(VIEWS_USER_EDIT_FORM);
+		User userUpdated = userService.getLoggedInUser().get();
+		BeanUtils.copyProperties(user, userUpdated, "id");
+		userService.saveUser(userUpdated);
+		result.addObject("message", "Avatar succesfully updated.");
+		return result;
 	}
-	*/
-
-
 	
 	@GetMapping("/users/manage")
     public ModelAndView show(){

@@ -1,23 +1,13 @@
-
-INSERT INTO user_avatar(id, name) VALUES
-    (1, 'AVATAR_1'),
-    (2, 'AVATAR_2'),
-    (3, 'AVATAR_3'),
-    (4, 'AVATAR_4'),
-    (5, 'AVATAR_5'),
-    (6, 'AVATAR_6'),
-    (7, 'AVATAR_7');
-
-INSERT INTO users(username, password, enabled,nickname, email, description, avatar_id) VALUES 
-    ('admin1',     '4dm1nrr',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  1),
-    ('user1',      '0wn3rrr',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             2),
-    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         3),
-    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 4),
-    ('igngongon2', 'userrr',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               5),
-    ('ignarrman',  'mydoggie',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          6),
-    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   7),
-    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             1),
-    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              2);
+INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
+    ('admin1',     '4dm1nrr',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://localhost:8080/resources/images/avatars/avatar_00.png'),
+    ('user1',      '0wn3rrr',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://localhost:8080/resources/images/avatars/avatar_01.png'),
+    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://localhost:8080/resources/images/avatars/avatar_02.png'),
+    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://localhost:8080/resources/images/avatars/avatar_03.png'),
+    ('igngongon2', 'userrr',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://localhost:8080/resources/images/avatars/avatar_04.png'),
+    ('ignarrman',  'mydoggie',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://localhost:8080/resources/images/avatars/avatar_05.png'),
+    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://localhost:8080/resources/images/avatars/avatar_06.png'),
+    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://localhost:8080/resources/images/avatars/avatar_00.png'),
+    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://localhost:8080/resources/images/avatars/avatar_01.png');
 
 INSERT INTO authorities(id,username,authority) VALUES 
     (1,'admin1',     'admin'),
@@ -144,7 +134,7 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (3,'igngongon2'),
     (3,'tadcabgom'),
     (4,'tadcabgom'),
-    (4,'admin1'),
+    (4,'ignarrman'),
     (5,'tadcabgom'),
     (5,'fralarmar'),
     (5,'jessolort'),

@@ -1,4 +1,4 @@
-package org.springframework.samples.bossmonster.gamelobby;
+package org.springframework.samples.bossmonster.gameLobby;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.configuration.SecurityConfiguration;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.GameService;
-import org.springframework.samples.bossmonster.gameLobby.GameLobby;
-import org.springframework.samples.bossmonster.gameLobby.GameLobbyController;
-import org.springframework.samples.bossmonster.gameLobby.GameLobbyService;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;

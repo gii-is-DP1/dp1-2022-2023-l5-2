@@ -36,7 +36,7 @@ public class GameService {
             .collect(Collectors.toList());
         g.setPlayers(players);
 
-        return repo.save(g);
+        return g;
     }
 
     public Optional<Game> findGame(Integer id) {
