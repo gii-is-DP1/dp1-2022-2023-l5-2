@@ -11,48 +11,48 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-@RequestMapping("/statistics/achievements")
-public class AchievementController {
+@RequestMapping("/statistics/s")
+public class Controller {
 
-    private AchievementService service;
+    private Service service;
 
-    private final String ACHIEVEMENTS_LISTING_VIEW="/achievements/AchievementsListing";
-    private final String ACHIEVEMENTS_FORM="/achievements/createOrUpdateAchievementForm";
+    private final String S_LISTING_VIEW="/s/sListing";
+    private final String S_FORM="/s/createOrUpdateForm";
 
     @Autowired
-    public AchievementController(AchievementService s){
+    public Controller(Service s){
         this.service=s;
     }
 
     @GetMapping("/")
-    public ModelAndView showAchievement(){
-        ModelAndView result= new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
-        result.addObject("achievements", service.getAllAchievements());
+    public ModelAndView show(){
+        ModelAndView result= new ModelAndView(S_LISTING_VIEW);
+        result.addObject("s", service.getAlls());
         return result;
     }
 
     @GetMapping("/{id}/delete")
-    public ModelAndView deleteAchievement(@PathVariable int Id){
+    public ModelAndView delete(@PathVariable int Id){
         service.deleteById(Id);
-        // ModelAndView result= new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
+        // ModelAndView result= new ModelAndView(S_LISTING_VIEW);
         // result.addObject("message", "El logro se ha borrado con éxito");
-        return showAchievement();
+        return show();
     }
 
     @GetMapping("/{id}/edit")
-    public ModelAndView editAchievement(@PathVariable int Id){
-        Achievement achievement=service.getById(Id);
-        ModelAndView result= new ModelAndView(ACHIEVEMENTS_FORM);
-        result.addObject("achievement", achievement);
+    public ModelAndView edit(@PathVariable int Id){
+        service.getById(Id);
+        ModelAndView result= new ModelAndView(S_FORM);
+        result.addObject("", );
         // result.addObject("message", "El logro se ha actualizado con éxito");
         return result;
     }
     @PostMapping("/{id}/edit")
-    public ModelAndView saveAchievement(@PathVariable int id, Achievement achievement){
-        Achievement achievementToBeUpdated= service.getById(id);
-        BeanUtils.copyProperties(achievement, achievementToBeUpdated,"id");
-        service.save(achievementToBeUpdated);
-        return showAchievement();
+    public ModelAndView save(@PathVariable int id,  ){
+         ToBeUpdated= service.getById(id);
+        BeanUtils.copyProperties(, ToBeUpdated,"id");
+        service.save(ToBeUpdated);
+        return show();
     }
 
 

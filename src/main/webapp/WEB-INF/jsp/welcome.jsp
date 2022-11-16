@@ -13,6 +13,7 @@
     <spring:url value="/users/new" htmlEscape="true" var="newUser"/>
     <spring:url value="/" htmlEscape="true" var="spectateLobby"/>
     <spring:url value="/users/statistics" htmlEscape="true" var="statistics"/>
+    <spring:url value="/users/manage" htmlEscape="true" var="adminOptions"/>
 
 
 
@@ -46,7 +47,7 @@
 
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
-                    <a class="btn btn-title" href="${editUser}">Admin Options</a> <!-- De momento lleva a la misma de user management por ponerle algo -->
+                    <a class="btn btn-title" href="${adminOptions}">Admin Options</a>
                 </div>
             </sec:authorize>
 

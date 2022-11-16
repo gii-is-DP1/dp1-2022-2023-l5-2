@@ -32,8 +32,8 @@ public class GameResult extends BaseEntity{
      private LocalDate date;
 
 
-     @ManyToOne(optional = false)
-     @JoinColumn(name = "winner", referencedColumnName = "username")
+     @ManyToOne()
+     @JoinColumn(name = "winner", referencedColumnName = "username",nullable=true)
       private User winner;
      @ManyToMany
      @JoinTable(
@@ -41,7 +41,6 @@ public class GameResult extends BaseEntity{
         joinColumns = @JoinColumn(name="game_result_id"),
         inverseJoinColumns = @JoinColumn(name= "user_id"))
      private Set<User> participants;
-
 }
      //@OneToOne(mappedBy = "result")
     // private Game game;
