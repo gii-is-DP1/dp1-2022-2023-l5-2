@@ -3,11 +3,10 @@ package org.springframework.samples.bossmonster.user;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -43,9 +42,8 @@ public class User{
     @Size(min = 3, max = 100)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "avatar_id")
-    private UserAvatar avatar;
+    @Column(name = "avatar")
+    private String avatar;
 
     @NotEmpty
     @Size(min = 6, max = 20)
