@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,21 +25,28 @@ import java.util.List;
 public class Game extends BaseEntity{
 
     @OneToMany
-    List<Player> players;
-    boolean active;
+    private List<Player> players;
+    private boolean active;
 
     @OneToMany
-    List<Card> discardPile;
-    @OneToMany
-    List<HeroCard> heroPile;
-    @OneToMany
-    List<SpellCard> spellPile;
-    @OneToMany
-    List<RoomCard> roomPile;
+    private List<Card> discardPile;
 
     @OneToMany
-    List<HeroCard> city;
+    private List<HeroCard> heroPile;
 
+    @OneToMany
+    private List<SpellCard> spellPile;
+
+    @OneToMany
+    private List<RoomCard> roomPile;
+
+
+    @OneToMany
+    private List<HeroCard> city;
+
+    private LocalDateTime startedTime;
+
+    private GamePhase phase;
 
     public void moveCard() {}
 

@@ -25,12 +25,8 @@ public class GameController {
 
         ModelAndView result=new ModelAndView();
         Game game = gameService.findGame(gameId).get();
-
         // TODO: CREATE GAME-RELATED ASSETS
         result.setViewName("redirect:/");
-
-
-
         return result;
     }
 
