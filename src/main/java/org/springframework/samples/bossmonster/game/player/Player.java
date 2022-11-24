@@ -20,9 +20,7 @@ public class Player extends BaseEntity {
     @OneToOne
     private User user;
 
-
     private Integer health;
-
 
     private Integer souls;
 

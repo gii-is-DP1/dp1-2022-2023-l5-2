@@ -70,7 +70,7 @@ abstract class GameBuilder {
 
     public void buildPlayers() {
         for (User i: users) {
-            // No me deja llamar a PlayerBuilder. Protected...?
+            // TODO No me deja llamar a PlayerBuilder. Protected...?
         }
     }
 }
