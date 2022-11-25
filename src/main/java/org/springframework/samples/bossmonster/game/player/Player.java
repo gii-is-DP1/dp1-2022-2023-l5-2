@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
@@ -23,6 +24,7 @@ public class Player extends BaseEntity {
     private User user;
 
     private Integer health;
+
     private Integer souls;
 
     // @OneToOne
@@ -30,6 +32,9 @@ public class Player extends BaseEntity {
 
     @OneToMany
     private List<Card> hand;
+
+    //@OneToOne
+    //Dungeon dungeon;
 
 
 }
