@@ -240,9 +240,40 @@ table td.action-column {
   -webkit-animation-timing-function: linear;
 }
 
+.card {
+    width: 12vw;
+}
+
+.expandable {
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 15px;
+    display: grid;
+}
+
+.expandable .card{
+    transition: 0.25s;
+    width: 15vw;
+    grid-column: span 1;
+    &:hover {
+        width: 20vw;
+    }
+}
+
+.pile-modal {
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    font-size: xxx-large;
+    font-family: sans-serif;
+    padding: 15px;
+    align-content: center;
+}
+
 hr {
   border-top: 1px dotted @spring-brown;
 }
+
+
 
 @import "typography.less";
 @import "header.less";
