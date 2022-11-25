@@ -19,43 +19,31 @@ INSERT INTO authorities(id,username,authority) VALUES
     (8,'jessolort',  'user'),
     (9,'frarosram',  'user');
 
-INSERT INTO room_type(id, name) VALUES
-    (1,'TRAP'), (2,'MONSTER'), (3,'ADVANCED_TRAP'), (4,'ADVANCED_MONSTER');
-
-INSERT INTO room_passive_trigger(id, name) VALUES
-    (1,'DESTROY_THIS_ROOM'),
-    (2,'DESTROY_ANOTHER_ROOM'),
-    (3,'HERO_DIES_IN_THIS_ROOM'),
-    (4,'DAMAGE_HERO'),
-    (5,'BUILD_THIS_ROOM'),
-    (6,'NONE'),
-    (7,'USE_SPELL_CARD'),
-    (8,'BUILD_MONSTER_ROOM');
 
 
-INSERT INTO rooms(id, name, card_image, room_type_id, treasure, damage, passive_trigger_id) VALUES
+INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_trigger, effect, effect_target) VALUES
 
-    (1, 'Bottomless Pit',      '/resources/images/rooms/room_00.jpg', 1, '0001', 1, 1),
-    (2, 'The Crushinator',     '/resources/images/rooms/room_01.jpg', 3, '0001', 2, 2),
-    (3, 'Vampire Bordello',    '/resources/images/rooms/room_02.jpg', 4, '0010', 3, 3),
-    (4, 'Monster Ballroom',    '/resources/images/rooms/room_03.jpg', 4, '0100', 0, 4),
-    (5, 'Boulder Ramp',        '/resources/images/rooms/room_04.jpg', 1, '0001', 1, 2),
-    (6, 'Construction Zone',   '/resources/images/rooms/room_05.jpg', 1, '0101', 1, 5),
-    (7, 'Dark Altar',          '/resources/images/rooms/room_06.jpg', 1, '0020', 1, 1),
-    (8, 'Dragon Hatchery',     '/resources/images/rooms/room_07.jpg', 2, '1111', 0, 6),
-    (9, 'Neanderthal Cave',    '/resources/images/rooms/room_08.jpg', 2, '0100', 3, 6),
-    (10, 'Open Grave',         '/resources/images/rooms/room_09.jpg', 1, '0010', 2, 3),
-    (11, 'Recycling Center',   '/resources/images/rooms/room_10.jpg', 3, '0001', 3, 2),
-    (12, 'Ligers Den',         '/resources/images/rooms/room_11.jpg', 4, '1000', 2, 7),
-    (13, 'Goblin Armory',      '/resources/images/rooms/room_12.jpg', 2, '0200', 1, 6),
-    (14, 'Golem Factory',      '/resources/images/rooms/room_13.jpg', 2, '0100', 2, 3),
-    (15, 'Jackpot Stash',      '/resources/images/rooms/room_14.jpg', 1, '0002', 1, 1),
-    (16, 'Dark Laboratory',    '/resources/images/rooms/room_15.jpg', 1, '2000', 1, 5),
-    (17, 'Monstrous Monument', '/resources/images/rooms/room_16.jpg', 1, '0110', 1, 5),
-    (18, 'Beast Menagerie',    '/resources/images/rooms/room_17.jpg', 4, '0100', 4, 8),
-    (19, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 2, '1000', 2, 3),
-    (20, 'Dizzygas Hallway',   '/resources/images/rooms/room_19.png', 1, '0001', 1, 6),
-    (21, 'Minotaurs Maze',     '/resources/images/rooms/room_20.png', 2, '0100', 0, 4);
+    (1, 'Bottomless Pit',      'resources/static/resources/images/rooms/room_00.jpg', 'ENUMERADO', '0001', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (2, 'The Crushinator',     'resources/static/resources/images/rooms/room_01.jpg', 'ENUMERADO', '0001', 2, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (3, 'Vampire Bordello',    'resources/static/resources/images/rooms/room_02.jpg', 'ENUMERADO', '0010', 3, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (4, 'Monster Ballroom',    'resources/static/resources/images/rooms/room_03.jpg', 'ENUMERADO', '0100', 0, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (5, 'Boulder Ramp',        'resources/static/resources/images/rooms/room_04.jpg', 'ENUMERADO', '0001', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (6, 'Construction Zone',   'resources/static/resources/images/rooms/room_05.jpg', 'ENUMERADO', '0101', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (7, 'Dark Altar',          'resources/static/resources/images/rooms/room_06.jpg', 'ENUMERADO', '0020', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (8, 'Dragon Hatchery',     'resources/static/resources/images/rooms/room_07.jpg', 'ENUMERADO', '1111', 0, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (9, 'Neanderthal Cave',    'resources/static/resources/images/rooms/room_08.jpg', 'ENUMERADO', '0100', 3, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (10, 'Open Grave',         'resources/static/resources/images/rooms/room_09.jpg', 'ENUMERADO', '0010', 2, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (11, 'Recycling Center',   'resources/static/resources/images/rooms/room_10.jpg', 'ENUMERADO', '0001', 3, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (12, 'Ligers Den',         'resources/static/resources/images/rooms/room_11.jpg', 'ENUMERADO', '1000', 2, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (13, 'Goblin Armory',      'resources/static/resources/images/rooms/room_12.jpg', 'ENUMERADO', '0200', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (14, 'Golem Factory',      'resources/static/resources/images/rooms/room_13.jpg', 'ENUMERADO', '0100', 2, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (15, 'Jackpot Stash',      'resources/static/resources/images/rooms/room_14.jpg', 'ENUMERADO', '0002', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (16, 'Dark Laboratory',    'resources/static/resources/images/rooms/room_15.jpg', 'ENUMERADO', '2000', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (17, 'Monstrous Monument', 'resources/static/resources/images/rooms/room_16.jpg', 'ENUMERADO', '0110', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (18, 'Beast Menagerie',    'resources/static/resources/images/rooms/room_17.jpg', 'ENUMERADO', '0100', 4, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (19, 'Brainsucker Hive',   'resources/static/resources/images/rooms/room_18.jpg', 'ENUMERADO', '1000', 2, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (20, 'Dizzygas Hallway',   'resources/static/resources/images/rooms/room_19.jpg', 'ENUMERADO', '0001', 1, 'ENUMERADO','ENUMERADO','ENUMERADO'),
+    (21, 'Minotaurs Maze',     'resources/static/resources/images/rooms/room_20.jpg', 'ENUMERADO', '0100', 0, 'ENUMERADO','ENUMERADO','ENUMERADO');
 
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
     (1,     'Acacia,_Warrior_of_Light',             '/resources/images/heroes/Acacia,_Warrior_of_Light.jpg',           'cleric', 6 , false, 2),
