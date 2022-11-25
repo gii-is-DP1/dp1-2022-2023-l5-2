@@ -32,10 +32,11 @@ public class GameResult extends BaseEntity{
      private LocalDate date;
 
 
-     @ManyToOne()
+     @ManyToOne
      @JoinColumn(name = "winner", referencedColumnName = "username",nullable=true)
       private User winner;
-     @ManyToMany
+      
+     @ManyToMany(mappedBy = "results")
      @JoinTable(
         name = "results_users",
         joinColumns = @JoinColumn(name="game_result_id"),
