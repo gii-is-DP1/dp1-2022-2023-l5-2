@@ -77,7 +77,7 @@ public class UserController {
 			result.addObject("message", "Can't create user. Invalid values are present");
 		}
 		else if (userService.findUser(user.getUsername()).isPresent()) {
-			br.addError(new ObjectError("username", "This name is already used"));
+			//br.rejectValue("username", "This name is already used");
 			result = new ModelAndView(VIEWS_USER_CREATE_FORM);
 			result.addObject("message", "The username provided is already used");
 		}
