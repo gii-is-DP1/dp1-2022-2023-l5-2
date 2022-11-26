@@ -8,6 +8,8 @@ import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
+import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.user.User;
 
 import lombok.Getter;
@@ -29,6 +31,7 @@ abstract class GameBuilder {
         buildPlayers();
         newGame.setStartedTime(LocalDateTime.now());
         newGame.setPhase(GamePhase.START_GAME);
+        newGame.setCurrentPlayerTurn(0);
     }
 
     public void buildHeroPile() {
@@ -70,7 +73,9 @@ abstract class GameBuilder {
 
     public void buildPlayers() {
         for (User i: users) {
-            // TODO No me deja llamar a PlayerBuilder. Protected...?
+            Player player = new Player();
+            player.buildNewPlayer(i);
+            player = player.getNewPlayer();
         }
     }
 }

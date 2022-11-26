@@ -6,6 +6,7 @@ import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.model.BaseEntity;
@@ -47,6 +48,8 @@ public class Game extends BaseEntity{
     private LocalDateTime startedTime;
 
     private GamePhase phase;
+
+    private Integer currentPlayerTurn;
 
     public void moveCard() {}
 

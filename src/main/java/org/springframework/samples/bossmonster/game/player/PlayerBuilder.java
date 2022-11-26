@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
+import org.springframework.samples.bossmonster.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,25 +16,28 @@ import lombok.Setter;
 abstract class PlayerBuilder {
     
     protected Player newPlayer;
-    
 
-    public void buildNewPlayer() {
-        newPlayer.setSouls(0);
-        newPlayer.setHealth(5);
-    }
-
-    public void buildStartingHand() {
+    public void buildPlayerStartingHand() {
         List<Card> startingHand = new ArrayList<>();
         // TODO Añadir 3 cartas de habitación aleatorias
-        // TODO Añadir dos cartas de hechizo aleatorias
+        // TODO Añadir 2 cartas de hechizo aleatorias
         newPlayer.setHand(startingHand);
     }
 
-    public void buildDungeon() {
+    public void buildPlayerDungeon() {
         Dungeon dungeon = new Dungeon();
         dungeon.setRooms(new RoomCard[5]);
         // TODO Añadir lista de heroes
         //newPlayer.setDungeon(dungeon);
+    }
+
+    public void buildPlayerStats() {
+        newPlayer.setSouls(0);
+        newPlayer.setHealth(5);
+    }
+
+    public void buildPlayerUser(User user) {
+        newPlayer.setUser(user);
     }
 
 }

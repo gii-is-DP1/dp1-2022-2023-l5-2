@@ -1,0 +1,24 @@
+package org.springframework.samples.bossmonster.game.gamePhase;
+
+public enum GameSubPhase {
+
+    // COMMON
+    FINISH_COOLDOWN,
+
+    // START_GAME
+    DISCARD_2_STARTING_CARDS, PLACE_FIRST_ROOM,
+
+    // START_ROUND
+    REVEAL_HEROES, GET_ROOM_CARD,
+
+    // BUILD
+    BUILD_NEW_ROOM, USE_BUILD_SPELLCARD, REVEAL_NEW_ROOMS,
+
+    // LURE
+    HEORES_ENTER_DUNGEON,
+
+    // ADVENTURE
+    HEROES_EXPLORE_DUNGEON, USE_ADVENTURE_SPELLCARD
+
+
+}
