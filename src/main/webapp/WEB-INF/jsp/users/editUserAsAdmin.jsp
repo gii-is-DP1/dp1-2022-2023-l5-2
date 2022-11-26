@@ -15,9 +15,19 @@
         <bossmonster:inputField label="Nickname" name="nickname"/>
         <bossmonster:inputField label="Email" name="email"/>
         <bossmonster:inputField label="Description" name="description"/>
-    </div>
-    <div class="centered-view">
-        <a class="btn btn-title" href="${avatar}">Change Avatar</a>
+        <form:label class="col-sm-2" path="avatar">Available avatars: </form:label>
+        <table>
+            <tr>
+                <td><img src="http://localhost:8080/resources/images/avatars/avatar_00.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_00.png"/></td>
+                <td><img src="http://localhost:8080/resources/images/avatars/avatar_01.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_01.png"/></td>
+                <td><img src="http://localhost:8080/resources/images/avatars/avatar_02.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_02.png"/></td>
+                <td><img src="http://localhost:8080/resources/images/avatars/avatar_03.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_03.png"/></td>
+                <td><img src="http://localhost:8080/resources/images/avatars/avatar_04.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_04.png"/></td>
+                <td><img src="http://localhost:8080/resources/images/avatars/avatar_05.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_05.png"/></td>
+                <td><img src="http://localhost:8080/resources/images/avatars/avatar_06.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_06.png"/></td>  
+            </tr>
+        </table>
+        <form:errors path="avatar"></form:errors>
     </div>
     <div class="form-group">
         <button class="btn btn-default" type="submit">Save Changes</button>

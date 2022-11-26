@@ -37,7 +37,7 @@
 
     <div class="form-group">
        <div class="col-sm-2">
-        <button class="btn btn-default" type="submit">Choose</button>
+        <button class="btn btn-default" type="submit" >Choose</button>
         <a class="btn btn-default" href="${cancel}">Cancel</a>
        </div>
     </div>
