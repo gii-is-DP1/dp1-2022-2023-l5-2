@@ -240,9 +240,57 @@ table td.action-column {
   -webkit-animation-timing-function: linear;
 }
 
+.card {
+    width: 12vw;
+}
+
+.expandable {
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 15px;
+    display: grid;
+}
+
+.expandable .card{
+    transition: 0.25s;
+    width: 15vw;
+    grid-column: span 1;
+    &:hover {
+        width: 20vw;
+    }
+}
+
+.pile-modal {
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    font-size: xxx-large;
+    font-family: sans-serif;
+    padding: 15px;
+    align-content: center;
+}
+.gameContainer {
+  display: grid;
+  grid-template-columns: 1.1fr 0.8fr 1.1fr;
+  grid-template-rows: 1.2fr 0.8fr 1fr;
+  gap: 0px 0px;
+  text-align: center;
+  grid-template-areas:
+    "City-and-Discard Phase-Display Opponents-Dungeons"
+    "Decks . Opponents-Dungeons"
+    "Player-hand Player-Dungeon Player-Dungeon";
+}
+
+.test {
+    border: 1px solid red;
+}
+
+
+
 hr {
   border-top: 1px dotted @spring-brown;
 }
+
+
 
 @import "typography.less";
 @import "header.less";
