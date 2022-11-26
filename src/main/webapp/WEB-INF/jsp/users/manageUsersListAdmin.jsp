@@ -15,6 +15,8 @@
                 <th>Description</th>
                 <th>Avatar</th>
                 <th>Password</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -37,6 +39,11 @@
                     </td>
                     <td>
                         <c:out value="${user.password}"/>
+                    </td>
+                    <td>
+                        <a href="${user.username}/edit"> 
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        </a>
                     </td>
                     <td> 
                         <a href="${user.username}/delete"> 
