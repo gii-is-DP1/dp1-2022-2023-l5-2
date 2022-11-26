@@ -28,6 +28,7 @@ public class StatisticsServiceTests {
 
         games=this.statisticsService.findAll("admin1");
         assertThat(games.size()).isEqualTo(0);
+
     }
     
     @Test

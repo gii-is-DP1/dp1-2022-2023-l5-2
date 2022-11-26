@@ -97,9 +97,16 @@ INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
     (6, 'Seducia',           'resources/images/bosses/boss_05.jpg', 600, '1000'),
     (7, 'Cleopatra',         'resources/images/bosses/boss_06.jpg', 850, '0001');
 
-INSERT INTO lobbies(id, max_players) VALUES
-    (1, 2),
-    (2, 3);
+INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
+    (1, 2, 'ignarrman',null),
+    (2, 3, 'eletomvel',null);
+
+INSERT INTO lobby_users(lobby_id,user_id) VALUES
+    (1, 'ignarrman'),
+    (1, 'tadcabgom'),
+    (2, 'frarosram'),
+    (2, 'jessolort'),
+    (2, 'eletomvel');
 
 INSERT INTO game_result(id,winner,duration,date) VALUES
     (1,'ignarrman', 1.26, '2018-08-12'),

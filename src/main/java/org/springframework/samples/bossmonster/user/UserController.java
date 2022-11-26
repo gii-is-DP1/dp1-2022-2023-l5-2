@@ -46,7 +46,7 @@ public class UserController {
 	private static final String VIEWS_USER_CREATE_FORM = "users/createUserForm";
 	private static final String VIEWS_USER_EDIT_FORM = "users/editUserForm";
 	private static final String VIEWS_AVATAR_PICKER = "users/chooseUserAvatar";
-	private final String USER_LISTING_VIEW="users/manageUsersList";
+	private final String USER_LISTING_VIEW="users/manageUsersListAdmin";
 
 	private final UserService userService;
 
@@ -140,13 +140,20 @@ public class UserController {
         return result;
     }
 
+	@Transactional
 	@GetMapping("/users/{username}/delete")
     public ModelAndView delete(@PathVariable String username){
         userService.deleteUser(username);
         ModelAndView result= new ModelAndView("redirect:/users/manage");
-		// result.addObject("user", userService.findAllUsers());
-        // result.addObject("message", "El usuario se ha borrado con éxito");
         return result;
     }
+
+	@GetMapping(value = "/users/{username}/edit")
+    public String initEditForm(Map<String, Object> model,@PathVariable String username) {
+		User loggedInUser = userService.findUser(username).get();
+		model.put("user", loggedInUser);
+		return VIEWS_USER_EDIT_FORM;
+    }
+
 
 }

@@ -32,6 +32,8 @@ public class GameLobbyRepositoryTest {
     void shouldSave() {
         var lobby = new GameLobby();
         lobby.setMaxPlayers(2);
+        User leader= userRepository.findById("user1").get();
+        lobby.setLeaderUser(leader);
 
         int previousSize = lobbyRepository.findAll().size();
         lobbyRepository.save(lobby);
@@ -43,7 +45,6 @@ public class GameLobbyRepositoryTest {
     @Test
     void shouldNotSaveWithErrors() {
         var lobby = new GameLobby();
-
         assertThrows(ValidationException.class, ()->lobbyRepository.save(lobby));
     }
 
@@ -51,9 +52,11 @@ public class GameLobbyRepositoryTest {
     void shouldFindById() {
         GameLobby l = new GameLobby();
         l.setMaxPlayers(2);
+        User leader= userRepository.findById("user1").get();
+        l.setLeaderUser(leader);
         lobbyRepository.save(l);
 
-        assertTrue(lobbyRepository.findById(1).isPresent());
+        assertTrue(lobbyRepository.findById(l.getId()).isPresent());
     }
 
     @Test
@@ -68,6 +71,7 @@ public class GameLobbyRepositoryTest {
 
         GameLobby lobby = new GameLobby();
         lobby.setMaxPlayers(2);
+        lobby.setLeaderUser(user);
         lobby.setJoinedUsers(List.of(user));
         lobbyRepository.save(lobby);
 

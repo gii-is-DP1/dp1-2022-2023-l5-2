@@ -2,6 +2,7 @@ package org.springframework.samples.bossmonster.gameResult;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,5 +19,12 @@ public interface GameResultRepository extends CrudRepository<GameResult,Integer>
 
     @Query(value = "SELECT * FROM GAME_RESULT g WHERE g.winner =?1", nativeQuery = true)
     List<GameResult> findAllWinnedGamesUser(@Param(value = "username") String nameUser);
+
+    @Modifying
+    @Query(value = "UPDATE game_result SET winner=null WHERE winner=?1",nativeQuery = true)
+    void setWinnerNull(@Param(value = "username") String winner);
     
+    @Modifying
+    @Query(value="DELETE FROM results_users WHERE user_id=?1", nativeQuery = true)
+    void deleteParticipated(@Param(value = "username") String username);
 }

@@ -14,14 +14,11 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "spell_card")
 public class SpellCard extends Card {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-
     @Column(name = "phase")
     @NotEmpty
     @Enumerated(EnumType.STRING)
     SpellPhase phase;
+
 
     @NotEmpty
     String effect;

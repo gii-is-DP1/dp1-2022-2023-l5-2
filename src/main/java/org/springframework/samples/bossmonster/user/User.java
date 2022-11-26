@@ -1,5 +1,6 @@
 package org.springframework.samples.bossmonster.user;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
 
 import lombok.Getter;
@@ -47,15 +49,22 @@ public class User{
 
     @NotEmpty
     @Size(min = 6, max = 20)
-	private String password;
+	private String password;    
 
     private boolean enabled;
     
-    @ManyToMany(mappedBy="participants",cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "participants",cascade = CascadeType.ALL)
     private Set<GameResult> results;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
+
+    @OneToMany(mappedBy = "winner")
+    private List<GameResult> wins;
+
+    @ManyToMany(mappedBy = "joinedUsers")
+    private List<GameLobby> lobbies;
+
 
     // @ManyToMany(mappedBy="users")
     // private Set<GameResult> results;
