@@ -140,6 +140,7 @@ public class UserController {
         return result;
     }
 
+	@Transactional
 	@GetMapping("/users/{username}/delete")
     public ModelAndView delete(@PathVariable String username){
         userService.deleteUser(username);

@@ -15,16 +15,24 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "lobbies")
-public class GameLobby extends BaseEntity { // Que extiende?
+public class GameLobby extends BaseEntity { // Que extiende?//
 
-    @ManyToOne
-    @JoinColumn(name = "leader_user_username")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "leader",referencedColumnName = "username")
     private User leaderUser;
+
     @NotNull
     private Integer maxPlayers;
+
     @ManyToMany
+    @JoinTable(
+        name = "lobby_users",
+        joinColumns = @JoinColumn(name="lobby_id"),
+        inverseJoinColumns = @JoinColumn(name= "user_id"))
     private List<User> joinedUsers;
+
     @OneToOne
+    @JoinColumn(name = "game_id",nullable = true)
     Game game;
 
     public User addUser(User user) {

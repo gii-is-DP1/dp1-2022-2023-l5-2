@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.gameResult;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -32,11 +33,11 @@ public class GameResult extends BaseEntity{
      private LocalDate date;
 
 
-     @ManyToOne
-     @JoinColumn(name = "winner", referencedColumnName = "username",nullable=true)
+     @ManyToOne( optional = true)
+     @JoinColumn(name = "winner", referencedColumnName = "username")
       private User winner;
       
-     @ManyToMany(mappedBy = "results")
+     @ManyToMany
      @JoinTable(
         name = "results_users",
         joinColumns = @JoinColumn(name="game_result_id"),

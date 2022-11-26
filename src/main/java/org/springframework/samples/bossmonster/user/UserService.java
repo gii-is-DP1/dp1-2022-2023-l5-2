@@ -17,10 +17,16 @@ package org.springframework.samples.bossmonster.user;
 
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.bossmonster.game.Game;
+import org.springframework.samples.bossmonster.gameLobby.GameLobby;
+import org.springframework.samples.bossmonster.gameLobby.GameLobbyRepository;
+import org.springframework.samples.bossmonster.gameResult.GameResult;
+import org.springframework.samples.bossmonster.gameResult.GameResultRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +36,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
 	private UserRepository userRepository;
+	private GameResultRepository resultRepository;
+	private GameLobbyRepository lobbyRepository;
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, GameResultRepository resultRepository, GameLobbyRepository lobbyRepository) {
 		this.userRepository = userRepository;
+		this.resultRepository=resultRepository;
+		this.lobbyRepository=lobbyRepository;
 	}
 
 	@Transactional
@@ -56,7 +66,12 @@ public class UserService {
 	}
 
 	public void deleteUser(String username){
-		
+		resultRepository.setWinnerNull(username);
+		resultRepository.deleteParticipated(username);
+		lobbyRepository.deleteParticipantsIfLeaderIsDeleted(username);
+		lobbyRepository.deleteJoinedUserIfUserGetsDeleted(username);
+		lobbyRepository.deleteLobbyIfLeaderDeleted(username);
+
         userRepository.deleteById(username);
     }
 }
