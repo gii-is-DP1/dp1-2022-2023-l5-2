@@ -29,9 +29,7 @@ abstract class GameBuilder {
         buildDiscardPile();
         buildCity();
         buildPlayers();
-        newGame.setStartedTime(LocalDateTime.now());
-        newGame.setPhase(GamePhase.START_GAME);
-        newGame.setCurrentPlayerTurn(0);
+        buildStats();
     }
 
     public void buildHeroPile() {
@@ -72,10 +70,18 @@ abstract class GameBuilder {
     }
 
     public void buildPlayers() {
+        List<Player> players = new ArrayList<>();
         for (User i: users) {
-            Player player = new Player();
-            player.buildNewPlayer(i);
-            player = player.getNewPlayer();
+            //Player newPlayer = new Player();
+            //newPlayer.buildNewPlayer(i);
+            //newPlayer = newPlayer.getNewPlayer();
+            //players.add(newPlayer);
         }
+    }
+
+    public void buildStats() {
+        newGame.setStartedTime(LocalDateTime.now());
+        newGame.setPhase(GamePhase.START_GAME);
+        newGame.setCurrentPlayerTurn(0);
     }
 }
