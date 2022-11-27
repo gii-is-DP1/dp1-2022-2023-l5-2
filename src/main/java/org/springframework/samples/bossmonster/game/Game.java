@@ -10,11 +10,13 @@ import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.model.BaseEntity;
+import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +26,9 @@ import java.util.List;
 @Setter
 @Table(name = "games")
 public class Game extends BaseEntity{
+
+    @Transient
+    private GameBuilder gameBuilder;
 
     @OneToMany
     private List<Player> players;
@@ -55,5 +60,17 @@ public class Game extends BaseEntity{
 
     //@OneToOne
     //private GameResult result;
+
+    public void buildNewGame(List<User> users) {
+        gameBuilder.buildHeroPile(users);
+        gameBuilder.buildSpellPile();
+        gameBuilder.buildRoomPile();
+        gameBuilder.buildDiscardPile();
+        gameBuilder.buildCity();
+        gameBuilder.buildPlayers(users);
+        gameBuilder.buildStats();
+    }
+
+    public Game getNewGame() { return gameBuilder.getNewGame(); }
 
 }

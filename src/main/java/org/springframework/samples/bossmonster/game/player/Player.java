@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
 import java.util.List;
 
 @Getter
@@ -20,7 +22,8 @@ import java.util.List;
 @Entity
 public class Player extends BaseEntity {
 
-    //private PlayerBuilder playerBuilder;
+    @Transient
+    private PlayerBuilder playerBuilder;
 
     @OneToOne
     private User user;
@@ -38,14 +41,14 @@ public class Player extends BaseEntity {
     //@OneToOne
     //Dungeon dungeon;
 
-    //public void buildNewPlayer(User user) {
-    //    playerBuilder.buildPlayerStartingHand();
-    //    playerBuilder.buildPlayerDungeon();
-    //    playerBuilder.buildPlayerStats();
-    //    playerBuilder.buildPlayerUser(user);
-    //}
+    public void buildNewPlayer(User user) {
+        playerBuilder.buildPlayerStartingHand();
+        playerBuilder.buildPlayerDungeon();
+        playerBuilder.buildPlayerStats();
+        playerBuilder.buildPlayerUser(user);
+    }
 
-    //public Player getNewPlayer() { return playerBuilder.getNewPlayer(); }
+    public Player getNewPlayer() { return playerBuilder.getNewPlayer(); }
 
 
 }
