@@ -175,7 +175,7 @@ public class GameLobbyController {
 
         if(lobby.getLeaderUser() == user) {
 
-            Game game = gameService.newGameFromLobby(lobby);
+            Game game = gameService.createNewGameFromLobby(lobby);
             lobby.setGame(game);
             lobbyService.saveLobby(lobby);
             gameService.saveGame(game);

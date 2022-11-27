@@ -20,19 +20,8 @@ import lombok.Setter;
 abstract class GameBuilder {
     
     protected Game newGame;
-    private List<User> users;
 
-    public void buildNewGame() {
-        buildHeroPile();
-        buildSpellPile();
-        buildRoomPile();
-        buildDiscardPile();
-        buildCity();
-        buildPlayers();
-        buildStats();
-    }
-
-    public void buildHeroPile() {
+    public void buildHeroPile(List<User> users) {
         Integer players = users.size();
         List<HeroCard> allHeroCards = new ArrayList<>();
         List<HeroCard> selectedHeroCards = new ArrayList<>();
@@ -69,13 +58,13 @@ abstract class GameBuilder {
         newGame.setCity(city);
     }
 
-    public void buildPlayers() {
+    public void buildPlayers(List<User> users) {
         List<Player> players = new ArrayList<>();
         for (User i: users) {
-            //Player newPlayer = new Player();
-            //newPlayer.buildNewPlayer(i);
-            //newPlayer = newPlayer.getNewPlayer();
-            //players.add(newPlayer);
+            Player newPlayer = new Player();
+            newPlayer.buildNewPlayer(i);
+            newPlayer = newPlayer.getNewPlayer();
+            players.add(newPlayer);
         }
     }
 

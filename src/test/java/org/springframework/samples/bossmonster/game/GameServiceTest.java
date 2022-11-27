@@ -30,7 +30,7 @@ class GameServiceTest {
     }
 
     @Test
-    void newGameFromLobby() {
+    void createNewGameFromLobby() {
         GameLobby lobby = new GameLobby();
 
 
