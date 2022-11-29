@@ -31,7 +31,6 @@ class GameServiceTest {
     @Test
     void createNewGameFromLobby() {
         GameLobby lobby = new GameLobby();
-
     }
 
     @Test
