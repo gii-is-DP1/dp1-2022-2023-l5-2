@@ -3,6 +3,8 @@ package org.springframework.samples.bossmonster.game.card.room;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.Effect;
+import org.springframework.samples.bossmonster.game.card.EffectTarget;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

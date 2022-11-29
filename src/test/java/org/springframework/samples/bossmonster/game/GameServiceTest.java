@@ -19,7 +19,6 @@ class GameServiceTest {
     protected GameService gameService;
 
 
-
     @BeforeEach
     void setUp() {
         gameService = new GameService(gameRepository, playerService);
@@ -32,8 +31,6 @@ class GameServiceTest {
     @Test
     void createNewGameFromLobby() {
         GameLobby lobby = new GameLobby();
-
-
 
     }
 
