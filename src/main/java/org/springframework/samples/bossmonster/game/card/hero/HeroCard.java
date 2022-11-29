@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.game.card.hero;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
 
@@ -17,11 +18,6 @@ import lombok.Setter;
 @Table(name = "heroes")
 public class HeroCard extends Card{
 
-    @Column(name = "treasure")
-    @NotEmpty
-    private String treasure;
-
-
     @Column(name = "health")
     @NotEmpty
     private Integer health;
@@ -30,8 +26,16 @@ public class HeroCard extends Card{
     @NotEmpty
     private Boolean isEpic;
 
+    @Column(name = "treasure")
+    @NotEmpty
+    private String treasure;
+
     @Column(name = "necessary_players")
     @NotEmpty
     private Integer necessaryPlayers;
+
+    @Column(name = "actual_health")
+    @NotEmpty
+    private Integer actualHealth;
 
 }

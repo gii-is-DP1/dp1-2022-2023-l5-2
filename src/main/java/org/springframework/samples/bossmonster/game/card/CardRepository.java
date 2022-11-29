@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface CardRepository<T extends Card> extends CrudRepository<T, Integer> {
     List<T> findAll();
-
 }
