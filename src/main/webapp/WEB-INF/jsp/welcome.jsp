@@ -13,6 +13,7 @@
     <spring:url value="/users/new" htmlEscape="true" var="newUser"/>
     <spring:url value="/" htmlEscape="true" var="spectateLobby"/>
     <spring:url value="/users/statistics" htmlEscape="true" var="statistics"/>
+    <spring:url value="/achievements/achievements" htmlEscape="true" var="achievements"/>
     <spring:url value="/users/manage" htmlEscape="true" var="adminOptions"/>
 
 
@@ -43,6 +44,10 @@
 
             <div class="centered-view">
                 <a class="btn btn-title" href="${statistics}">Statistics</a>
+            </div>
+
+            <div class="centered-view">
+                <a class="btn btn-title" href="${achievements}">Achievements</a>
             </div>
 
             <sec:authorize access="hasAuthority('admin')">
