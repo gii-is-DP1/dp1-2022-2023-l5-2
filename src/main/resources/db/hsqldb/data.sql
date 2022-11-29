@@ -139,3 +139,23 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (6,'igngongon2'),
     (6,'ignarrman');
 
+INSERT INTO achievement(id, name, description) VALUES
+    (0, 'Tutorial Monster', 'Win 1 game.'),
+    (1, 'Room Monster', 'Win 5 game.'),
+    (2, 'Midboss Monster', 'Win 25 games.'),
+    (3, 'Boss Monster', 'Win 50 games.'),
+    (4, 'Holy Monster', 'Get a 3 win streak.'),
+    (5, 'Indestructible Monster', 'Get a 5 win streak.'),
+    (6, 'Cursed Monster', 'Win a game without using Spell Cards.'),
+    (7, 'Poor Monster', 'Win a game without building Advanced Rooms.'),
+    (8, 'Survivor Monster', 'Win a game by being the only player alive.'),
+    (9, 'Untouchable Monster', 'Win a game without losing lives.'),
+    (10, 'Young Monster', 'Win a game without leveling up your final boss.'),
+    (11, 'Pure Monster', 'Win a game without ever having more than 2 treasure types.'),
+    (12, 'Lucky Monster', 'Kill the Buffon.'),
+    (13, 'Killer Monster', 'Kill a hero using a room/spell effect.'),
+    (14, 'Golden Monster', 'Have 3 advanced rooms in your dungeon.'),
+    (15, 'New Monster', 'Create your account.');
+
+
+    

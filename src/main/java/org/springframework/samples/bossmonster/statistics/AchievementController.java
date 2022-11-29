@@ -16,21 +16,21 @@ public class AchievementController {
 
     private AchievementService service;
 
-    private final String ACHIEVEMENTS_LISTING_VIEW="/achievements/AchievementsListing";
-    private final String ACHIEVEMENTS_FORM="/achievements/createOrUpdateAchievementForm";
+    private final String ACHIEVEMENTS_LISTING_VIEW="/achievements/achievementsListing";
+//    private final String ACHIEVEMENTS_FORM="/achievements/createOrUpdateAchievementForm";
 
     @Autowired
     public AchievementController(AchievementService s){
         this.service=s;
     }
-
-    @GetMapping("/")
+ 
+    @GetMapping("/achievements/achievements")
     public ModelAndView showAchievement(){
         ModelAndView result= new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
         result.addObject("achievements", service.getAllAchievements());
         return result;
     }
-
+/*
     @GetMapping("/{id}/delete")
     public ModelAndView deleteAchievement(@PathVariable int Id){
         service.deleteById(Id);
@@ -54,7 +54,7 @@ public class AchievementController {
         service.save(achievementToBeUpdated);
         return showAchievement();
     }
-
+*/
 
 }
 
