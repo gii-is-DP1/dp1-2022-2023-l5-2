@@ -28,15 +28,10 @@ public class GameService {
         return repo.save(g);
     }
 
-    public Game newGameFromLobby(GameLobby l) {
-        Game g = new Game();
-
-        List<Player> players = l.getJoinedUsers()
-            .stream().map(u->playerService.playerFromUser(u))
-            .collect(Collectors.toList());
-        g.setPlayers(players);
-
-        return g;
+    public Game createNewGameFromLobby(GameLobby lobby) {
+        Game newGame = new Game();
+        newGame.buildNewGame(lobby.getJoinedUsers());
+        return newGame.getNewGame();
     }
 
     public Optional<Game> findGame(Integer id) {

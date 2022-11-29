@@ -258,7 +258,7 @@ class GameLobbyControllerTest {
         Game game = new Game();
         game.setId(5);
         when(mockLobby.getLeaderUser()).thenReturn(testUser);
-        when(gameService.newGameFromLobby(any(GameLobby.class))).thenReturn(game);
+        when(gameService.createNewGameFromLobby(any(GameLobby.class))).thenReturn(game);
 
         mockMvc.perform(get("/lobby/888/newGame"))
             .andExpect(status().is3xxRedirection())

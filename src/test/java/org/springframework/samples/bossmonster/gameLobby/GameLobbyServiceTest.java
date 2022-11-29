@@ -40,7 +40,8 @@ class GameLobbyServiceTest {
     void shouldSaveLobby() {
         var lobby = new GameLobby();
         lobby.setMaxPlayers(2);
-
+        User leader= userService.findUser("user1").get();
+        lobby.setLeaderUser(leader);
         int previousSize = lobbyService.findAll().size();
         lobbyService.saveLobby(lobby);
         int newSize = lobbyService.findAll().size();
@@ -70,6 +71,8 @@ class GameLobbyServiceTest {
         userService.saveUser(testUser);
 
         GameLobby lobby = new GameLobby();
+        User leader= userService.findUser("user1").get();
+        lobby.setLeaderUser(leader);
         lobby.setMaxPlayers(2);
         lobby.setJoinedUsers(List.of(testUser));
         lobbyService.saveLobby(lobby);

@@ -8,6 +8,8 @@ import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
+import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.user.User;
 
 import lombok.Getter;
@@ -18,20 +20,8 @@ import lombok.Setter;
 abstract class GameBuilder {
     
     protected Game newGame;
-    private List<User> users;
 
-    public void buildNewGame() {
-        buildHeroPile();
-        buildSpellPile();
-        buildRoomPile();
-        buildDiscardPile();
-        buildCity();
-        buildPlayers();
-        newGame.setStartedTime(LocalDateTime.now());
-        newGame.setPhase(GamePhase.START_GAME);
-    }
-
-    public void buildHeroPile() {
+    public void buildHeroPile(List<User> users) {
         Integer players = users.size();
         List<HeroCard> allHeroCards = new ArrayList<>();
         List<HeroCard> selectedHeroCards = new ArrayList<>();
@@ -68,9 +58,19 @@ abstract class GameBuilder {
         newGame.setCity(city);
     }
 
-    public void buildPlayers() {
+    public void buildPlayers(List<User> users) {
+        List<Player> players = new ArrayList<>();
         for (User i: users) {
-            // TODO No me deja llamar a PlayerBuilder. Protected...?
+            Player newPlayer = new Player();
+            newPlayer.buildNewPlayer(i);
+            newPlayer = newPlayer.getNewPlayer();
+            players.add(newPlayer);
         }
+    }
+
+    public void buildStats() {
+        newGame.setStartedTime(LocalDateTime.now());
+        newGame.setPhase(GamePhase.START_GAME);
+        newGame.setCurrentPlayerTurn(0);
     }
 }

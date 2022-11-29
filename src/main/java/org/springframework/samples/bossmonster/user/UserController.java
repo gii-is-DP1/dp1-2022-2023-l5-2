@@ -18,7 +18,6 @@ package org.springframework.samples.bossmonster.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -46,7 +45,8 @@ public class UserController {
 	private static final String VIEWS_USER_CREATE_FORM = "users/createUserForm";
 	private static final String VIEWS_USER_EDIT_FORM = "users/editUserForm";
 	private static final String VIEWS_AVATAR_PICKER = "users/chooseUserAvatar";
-	private final String USER_LISTING_VIEW="users/manageUsersList";
+	private static final String USER_LISTING_VIEW="users/manageUsersListAdmin";
+	private static final String VIEWS_USER_EDIT_FORM_ADMIN= "users/editUserAsAdmin";
 
 	private final UserService userService;
 
@@ -121,7 +121,7 @@ public class UserController {
 		result.addObject("user", user);
 		return result;
 	}
-
+//
 	@Transactional
 	@PostMapping(value = "/users/edit/avatars")
 	public ModelAndView processAvatarSelector(User user) {
@@ -140,13 +140,35 @@ public class UserController {
         return result;
     }
 
+	@Transactional
 	@GetMapping("/users/{username}/delete")
     public ModelAndView delete(@PathVariable String username){
         userService.deleteUser(username);
         ModelAndView result= new ModelAndView("redirect:/users/manage");
-		// result.addObject("user", userService.findAllUsers());
-        // result.addObject("message", "El usuario se ha borrado con éxito");
         return result;
     }
+
+	@GetMapping(value = "/users/{username}/edit")
+    public String initEditFormAdmin(Map<String, Object> model,@PathVariable String username) {
+		User loggedInUser = userService.findUser(username).get();
+		model.put("user", loggedInUser);
+		return VIEWS_USER_EDIT_FORM_ADMIN;
+    }
+	@Transactional
+	@PostMapping(value = "/users/{username}/edit")
+	public ModelAndView processEditFormAdmin(@Valid User user, BindingResult br,@PathVariable String username) {
+		ModelAndView result;
+		if (br.hasErrors()) {
+			result = new ModelAndView(VIEWS_USER_EDIT_FORM_ADMIN);
+			result.addObject("message", "Can't update user. Invalid values are present");
+		}
+		else {
+			result = new ModelAndView("welcome");
+			userService.saveUser(user);
+			result.addObject("message", "User succesfully updated!");
+		}
+		return result;
+	}
+
 
 }
