@@ -34,8 +34,7 @@ public class HeroCard extends Card{
     @NotEmpty
     private Integer necessaryPlayers;
 
-    @Column(name = "actual_health")
-    @NotEmpty
+    @Transient
     private Integer actualHealth;
 
 }
