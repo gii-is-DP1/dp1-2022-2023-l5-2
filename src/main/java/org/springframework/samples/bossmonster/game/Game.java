@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.game;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
@@ -25,10 +26,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "games")
-public class Game extends BaseEntity{
-
-    @Transient
-    private GameBuilder gameBuilder;
+public class Game extends BaseEntity {
 
     @OneToMany
     private List<Player> players;
@@ -46,6 +44,9 @@ public class Game extends BaseEntity{
     @OneToMany
     private List<RoomCard> roomPile;
 
+    @OneToMany
+    private List<FinalBossCard> finalBossPile;
+
 
     @OneToMany
     private List<HeroCard> city;
@@ -60,17 +61,5 @@ public class Game extends BaseEntity{
 
     //@OneToOne
     //private GameResult result;
-
-    public void buildNewGame(List<User> users) {
-        gameBuilder.buildHeroPile(users);
-        gameBuilder.buildSpellPile();
-        gameBuilder.buildRoomPile();
-        gameBuilder.buildDiscardPile();
-        gameBuilder.buildCity();
-        gameBuilder.buildPlayers(users);
-        gameBuilder.buildStats();
-    }
-
-    public Game getNewGame() { return gameBuilder.getNewGame(); }
 
 }

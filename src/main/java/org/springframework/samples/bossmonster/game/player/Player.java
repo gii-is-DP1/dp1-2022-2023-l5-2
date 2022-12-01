@@ -41,14 +41,4 @@ public class Player extends BaseEntity {
     //@OneToOne
     //Dungeon dungeon;
 
-    public void buildNewPlayer(User user) {
-        playerBuilder.buildPlayerStartingHand();
-        playerBuilder.buildPlayerDungeon();
-        playerBuilder.buildPlayerStats();
-        playerBuilder.buildPlayerUser(user);
-    }
-
-    public Player getNewPlayer() { return playerBuilder.getNewPlayer(); }
-
-
 }
