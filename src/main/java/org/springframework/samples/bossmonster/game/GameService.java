@@ -29,9 +29,9 @@ public class GameService {
     }
 
     public Game createNewGameFromLobby(GameLobby lobby) {
-        Game newGame = new Game();
-        newGame.buildNewGame(lobby.getJoinedUsers());
-        return newGame.getNewGame();
+        GameBuilder gameBuilder = new GameBuilder();
+        Game newGame = gameBuilder.buildNewGame(lobby.getJoinedUsers());
+        return newGame;
     }
 
     public Optional<Game> findGame(Integer id) {
