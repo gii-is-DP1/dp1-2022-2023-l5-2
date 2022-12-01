@@ -23,27 +23,38 @@ INSERT INTO authorities(id,username,authority) VALUES
 
 INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_trigger, effect, effect_target) VALUES
 
-    (1, 'Bottomless Pit',      'resources/static/resources/images/rooms/room_00.jpg', 'TRAP', '0001', 1, 'DESTROY_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (2, 'The Crushinator',     'resources/static/resources/images/rooms/room_01.jpg', 'ADVANCED_TRAP', '0001', 2, 'DESTROY_ANOTHER_ROOM','ENUMERADO','ENUMERADO'),
-    (3, 'Vampire Bordello',    'resources/static/resources/images/rooms/room_02.jpg', 'ADVANCED_MONSTER', '0010', 3, 'HERO_DIES_IN_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (4, 'Monster Ballroom',    'resources/static/resources/images/rooms/room_03.jpg', 'ADVANCED_MONSTER', '0100', 0, 'NONE','ENUMERADO','ENUMERADO'),
-    (5, 'Boulder Ramp',        'resources/static/resources/images/rooms/room_04.jpg', 'TRAP', '0001', 1, 'DESTROY_ANOTHER_ROOM','ENUMERADO','ENUMERADO'),
-    (6, 'Construction Zone',   'resources/static/resources/images/rooms/room_05.jpg', 'TRAP', '0101', 1, 'BUILD_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (7, 'Dark Altar',          'resources/static/resources/images/rooms/room_06.jpg', 'TRAP', '0020', 1, 'DESTROY_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (8, 'Dragon Hatchery',     'resources/static/resources/images/rooms/room_07.jpg', 'MONSTER', '1111', 0, 'NONE','ENUMERADO','ENUMERADO'),
-    (9, 'Neanderthal Cave',    'resources/static/resources/images/rooms/room_08.jpg', 'MONSTER', '0100', 3, 'NONE','ENUMERADO','ENUMERADO'),
-    (10, 'Open Grave',         'resources/static/resources/images/rooms/room_09.jpg', 'TRAP', '0010', 2, 'HERO_DIES_IN_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (11, 'Recycling Center',   'resources/static/resources/images/rooms/room_10.jpg', 'ADVANCED_TRAP', '0001', 3, 'DESTROY_ANOTHER_ROOM','ENUMERADO','ENUMERADO'),
-    (12, 'Ligers Den',         'resources/static/resources/images/rooms/room_11.jpg', 'ADVANCED_MONSTER', '1000', 2, 'USE_SPELL_CARD','ENUMERADO','ENUMERADO'),
-    (13, 'Goblin Armory',      'resources/static/resources/images/rooms/room_12.jpg', 'MONSTER', '0200', 1, 'NONE','ENUMERADO','ENUMERADO'),
-    (14, 'Golem Factory',      'resources/static/resources/images/rooms/room_13.jpg', 'MONSTER', '0100', 2, 'HERO_DIES_IN_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (15, 'Jackpot Stash',      'resources/static/resources/images/rooms/room_14.jpg', 'TRAP', '0002', 1, 'DESTROY_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (16, 'Dark Laboratory',    'resources/static/resources/images/rooms/room_15.jpg', 'TRAP', '2000', 1, 'BUILD_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (17, 'Monstrous Monument', 'resources/static/resources/images/rooms/room_16.jpg', 'TRAP', '0110', 1, 'BUILD_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (18, 'Beast Menagerie',    'resources/static/resources/images/rooms/room_17.jpg', 'ADVANCED_MONSTER', '0100', 4, 'BUILD_MONSTER_ROOM','ENUMERADO','ENUMERADO'),
-    (19, 'Brainsucker Hive',   'resources/static/resources/images/rooms/room_18.jpg', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','ENUMERADO','ENUMERADO'),
-    (20, 'Dizzygas Hallway',   'resources/static/resources/images/rooms/room_19.jpg', 'TRAP', '0001', 1, 'NONE','ENUMERADO','ENUMERADO'),
-    (21, 'Minotaurs Maze',     'resources/static/resources/images/rooms/room_20.jpg', 'MONSTER', '0100', 0, 'NONE','ENUMERADO','ENUMERADO');
+    (1, 'Bottomless Pit',      '/resources/images/rooms/room_00.jpg', 'TRAP', '0001', 1, 'DESTROY_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (2, 'The Crushinator',     '/resources/images/rooms/room_01.jpg', 'ADVANCED_TRAP', '0001', 2, 'DESTROY_ANOTHER_ROOM','ENUMERADO','ENUMERADO'),
+    (3, 'Vampire Bordello',    '/resources/images/rooms/room_02.jpg', 'ADVANCED_MONSTER', '0010', 3, 'HERO_DIES_IN_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (4, 'Monster Ballroom',    '/resources/images/rooms/room_03.jpg', 'ADVANCED_MONSTER', '0100', 0, 'NONE','ENUMERADO','ENUMERADO'),
+    (5, 'Boulder Ramp',        '/resources/images/rooms/room_04.jpg', 'TRAP', '0001', 1, 'DESTROY_ANOTHER_ROOM','ENUMERADO','ENUMERADO'),
+    (6, 'Construction Zone',   '/resources/images/rooms/room_05.jpg', 'TRAP', '0101', 1, 'BUILD_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (7, 'Dark Altar',          '/resources/images/rooms/room_06.jpg', 'TRAP', '0020', 1, 'DESTROY_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (8, 'Dragon Hatchery',     '/resources/images/rooms/room_07.jpg', 'MONSTER', '1111', 0, 'NONE','ENUMERADO','ENUMERADO'),
+    (9, 'Neanderthal Cave',    '/resources/images/rooms/room_08.jpg', 'MONSTER', '0100', 3, 'NONE','ENUMERADO','ENUMERADO'),
+    (10, 'Open Grave',         '/resources/images/rooms/room_09.jpg', 'TRAP', '0010', 2, 'HERO_DIES_IN_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (11, 'Recycling Center',   '/resources/images/rooms/room_10.jpg', 'ADVANCED_TRAP', '0001', 3, 'DESTROY_ANOTHER_ROOM','ENUMERADO','ENUMERADO'),
+    (12, 'Ligers Den',         '/resources/images/rooms/room_11.jpg', 'ADVANCED_MONSTER', '1000', 2, 'USE_SPELL_CARD','ENUMERADO','ENUMERADO'),
+    (13, 'Goblin Armory',      '/resources/images/rooms/room_12.jpg', 'MONSTER', '0200', 1, 'NONE','ENUMERADO','ENUMERADO'),
+    (14, 'Golem Factory',      '/resources/images/rooms/room_13.jpg', 'MONSTER', '0100', 2, 'HERO_DIES_IN_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (15, 'Jackpot Stash',      '/resources/images/rooms/room_14.jpg', 'TRAP', '0002', 1, 'DESTROY_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (16, 'Dark Laboratory',    '/resources/images/rooms/room_15.jpg', 'TRAP', '2000', 1, 'BUILD_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (17, 'Monstrous Monument', '/resources/images/rooms/room_16.jpg', 'TRAP', '0110', 1, 'BUILD_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (18, 'Beast Menagerie',    '/resources/images/rooms/room_17.jpg', 'ADVANCED_MONSTER', '0100', 4, 'BUILD_MONSTER_ROOM','ENUMERADO','ENUMERADO'),
+    (19, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','ENUMERADO','ENUMERADO'),
+    (20, 'Dizzygas Hallway',   '/resources/images/rooms/room_19.png', 'TRAP', '0001', 1, 'NONE','ENUMERADO','ENUMERADO'),
+    (21, 'Minotaurs Maze',     '/resources/images/rooms/room_20.png', 'MONSTER', '0100', 0, 'NONE','ENUMERADO','ENUMERADO');
+
+INSERT INTO spell_card(id, name, card_image, phase, target, effect, requirements) VALUES
+    (1, 'Giant Size', 'resources/static/resources/images/spells/spell_00', 'adventurePhase', 'MONSTERROOM', 'ENUMERADO', 'HAVEMONSTERROOM'),
+    (2, 'Soul Harvest', 'resources/static/resources/images/spells/spell_01', 'adventureAndConstructionPhase', 'HEROINSCORE', 'ENUMERADO', 'HAVESOULS'),
+    (3, 'Princess in Peril', 'resources/static/resources/images/spells/spell_02', 'constructionPhase', 'HEROINTOWN', 'ENUMERADO', 'THEREISHEROINTOWN'),
+    (4, 'Motivation', 'resources/static/resources/images/spells/spell_03', 'constructionPhase', 'ALLPLAYERS', 'ENUMERADO', 'NONE'),
+    (5, 'Exhaustion', 'resources/static/resources/images/spells/spell_04', 'adventurePhase', 'HEROINDUNGEON', 'ENUMERADO', 'THEREISHEROINDUNGEON'),
+    (6, 'Annihilator', 'resources/static/resources/images/spells/spell_05', 'adventurePhase', 'TRAPROOM', 'ENUMERADO', 'HAVETRAPROOM'),
+    (7, 'Cave-in', 'resources/static/resources/images/spells/spell_06', 'adventurePhase', 'ROOM', 'ENUMERADO', 'HAVEROOM'),
+    (8, 'Kobold Strike', 'resources/static/resources/images/spells/spell_07', 'constructionPhase', 'ALLPLAYERS', 'ENUMERADO', 'NONE'),
+    (9, 'Teleportation', 'resources/static/resources/images/spells/spell_08', 'adventurePhase', 'HEROINDUNGEON', 'ENUMERADO', 'THEREISHEROINDUNGEON');
 
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
     (1,     'Acacia,_Warrior_of_Light',             '/resources/images/heroes/Acacia,_Warrior_of_Light.jpg',           'cleric', 6, false, 2),
@@ -89,13 +100,13 @@ INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_pl
     (41,    'Wayward,_the_Drifter',                 '/resources/images/heroes/Wayward,_the_Drifter.jpg',               'mage', 13, true, 4);
 
 INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
-    (1, 'Belladona',         'resources/images/bosses/boss_00.jpg', 350, '0010'),
-    (2, 'The Brothers Wise', 'resources/images/bosses/boss_01.jpg', 775, '1000'),
-    (3, 'Xyzax',             'resources/images/bosses/boss_02.jpg', 750, '0010'),
-    (4, 'Cerebellus',        'resources/images/bosses/boss_03.jpg', 650, '1000'),
-    (5, 'King Croak',        'resources/images/bosses/boss_04.jpg', 800, '0100'),
-    (6, 'Seducia',           'resources/images/bosses/boss_05.jpg', 600, '1000'),
-    (7, 'Cleopatra',         'resources/images/bosses/boss_06.jpg', 850, '0001');
+    (1, 'Belladona',         '/resources/images/bosses/boss_00.jpg', 350, '0010'),
+    (2, 'The Brothers Wise', '/resources/images/bosses/boss_01.jpg', 775, '1000'),
+    (3, 'Xyzax',             '/resources/images/bosses/boss_02.jpg', 750, '0010'),
+    (4, 'Cerebellus',        '/resources/images/bosses/boss_03.jpg', 650, '1000'),
+    (5, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, '0100'),
+    (6, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, '1000'),
+    (7, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, '0001');
 
 INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
     (1, 2, 'ignarrman',null),
@@ -139,10 +150,13 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (6,'igngongon2'),
     (6,'ignarrman');
 
-INSERT INTO achievement(id, name, description) VALUES
-    (0, 'Tutorial Monster', 'Win 1 game.'),
-    (1, 'Room Monster', 'Win 5 game.'),
-    (2, 'Midboss Monster', 'Win 25 games.'),
+INSERT INTO achievement(id, name, description, image, threshold, metric) VALUES
+    (0, 'Tutorial Monster', 'Win 1 game.', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
+    (1, 'Room Monster', 'Win 5 game.', '/resources/images/bosses/boss_00.jpg', 5, 'VICTORIES'),
+    (2, 'Midboss Monster', 'Win 25 games.', '/resources/images/bosses/boss_00.jpg', 10, 'VICTORIES');
+
+/*
+,
     (3, 'Boss Monster', 'Win 50 games.'),
     (4, 'Holy Monster', 'Get a 3 win streak.'),
     (5, 'Indestructible Monster', 'Get a 5 win streak.'),
@@ -155,7 +169,5 @@ INSERT INTO achievement(id, name, description) VALUES
     (12, 'Lucky Monster', 'Kill the Buffon.'),
     (13, 'Killer Monster', 'Kill a hero using a room/spell effect.'),
     (14, 'Golden Monster', 'Have 3 advanced rooms in your dungeon.'),
-    (15, 'New Monster', 'Create your account.');
-
-
-    
+    (15, 'New Monster', 'Create your account.')
+ */

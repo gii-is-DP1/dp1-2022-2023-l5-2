@@ -5,5 +5,7 @@ public enum SpellRequirements {
     HAVESOULS,
     THERISHEROINTOWN,
     THEREISHEROINDUGEON,
-    HAVETRAPROOM
+    HAVETRAPROOM,
+    HAVEROOM
+    
 }
