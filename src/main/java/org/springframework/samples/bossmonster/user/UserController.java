@@ -163,7 +163,7 @@ public class UserController {
 			result.addObject("message", "Can't update user. Invalid values are present");
 		}
 		else {
-			result = new ModelAndView("welcome");
+			result = new ModelAndView("redirect:/users/manage");
 			userService.saveUser(user);
 			result.addObject("message", "User succesfully updated!");
 		}

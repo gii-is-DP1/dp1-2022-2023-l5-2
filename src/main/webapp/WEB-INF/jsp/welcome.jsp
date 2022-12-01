@@ -50,6 +50,10 @@
                 <a class="btn btn-title" href="${achievements}">Achievements</a>
             </div>
 
+            <div class="centered-view">
+                <a class="btn btn-title" href="${statistics}">Friends</a> <!-- Dirección provisional -->
+            </div>
+
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
                     <a class="btn btn-title" href="${adminOptions}">Admin Options</a>
