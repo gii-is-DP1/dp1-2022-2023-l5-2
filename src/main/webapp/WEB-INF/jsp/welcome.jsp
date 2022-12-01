@@ -18,9 +18,9 @@
 
 
 
-    <body class="inicio">
+    <body class="inicio" background="/resources/images/background.png">
 
-            <img src="${homeScreen}"/>
+            <!-- <img src="${homeScreen}"/> -->
 
             <div class="centered-view">
                 <a class="btn btn-title" href="${newLobby}">Create Game</a>
