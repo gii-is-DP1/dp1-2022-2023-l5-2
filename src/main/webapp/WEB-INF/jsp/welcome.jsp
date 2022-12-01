@@ -18,7 +18,7 @@
 
 
 
-    <body class="inicio" background="/resources/images/background.png">
+    <body class="inicio" background="/resources/images/background2.png">
 
             <!-- <img src="${homeScreen}"/> -->
 
