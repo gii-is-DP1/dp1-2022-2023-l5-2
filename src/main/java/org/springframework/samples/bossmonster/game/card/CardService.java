@@ -1,6 +1,8 @@
 package org.springframework.samples.bossmonster.game.card;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
+import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCardRepository;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardRepository;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
@@ -18,12 +20,15 @@ public class CardService {
     SpellCardRepository spellCardRepo;
     RoomCardRepository roomCardRepo;
     HeroCardRepository heroCardRepo;
+    FinalBossCardRepository bossCardRepo;
 
     @Autowired
-    public CardService(SpellCardRepository spellCardRepo, RoomCardRepository roomCardRepo, HeroCardRepository heroCardRepo) {
+    public CardService(SpellCardRepository spellCardRepo, RoomCardRepository roomCardRepo, HeroCardRepository heroCardRepo,
+                       FinalBossCardRepository bossCardRepo) {
         this.spellCardRepo = spellCardRepo;
         this.roomCardRepo = roomCardRepo;
         this.heroCardRepo = heroCardRepo;
+        this.bossCardRepo = bossCardRepo;
     }
 
     public List<SpellCard> createSpellCardDeck() {
@@ -44,10 +49,16 @@ public class CardService {
         return deck;
     }
 
+    public List<FinalBossCard> createBossCardDeck() {
+        List<FinalBossCard> deck = bossCardRepo.findAll();
+        Collections.shuffle(deck);
+        return deck;
+    }
+
     public void giveCard(List<Card> source, List<Card> target) {
         Card toGive = source.remove(source.size()-1);
         target.add(toGive);
     }
 
-    
+
 }
