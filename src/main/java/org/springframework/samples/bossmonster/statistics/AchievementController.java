@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-@RequestMapping("/statistics/achievements")
+@RequestMapping("/")
 public class AchievementController {
 
     private AchievementService service;
@@ -24,7 +24,7 @@ public class AchievementController {
         this.service=s;
     }
  
-    @GetMapping("/achievements/achievements")
+    @GetMapping("/users/achievements")
     public ModelAndView showAchievement(){
         ModelAndView result= new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
         result.addObject("achievements", service.getAllAchievements());
