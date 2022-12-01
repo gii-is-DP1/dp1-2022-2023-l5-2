@@ -45,6 +45,17 @@ INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_tri
     (20, 'Dizzygas Hallway',   '/resources/images/rooms/room_19.png', 'TRAP', '0001', 1, 'NONE','ENUMERADO','ENUMERADO'),
     (21, 'Minotaurs Maze',     '/resources/images/rooms/room_20.png', 'MONSTER', '0100', 0, 'NONE','ENUMERADO','ENUMERADO');
 
+INSERT INTO spell_card(id, name, card_image, phase, target, effect, requirements) VALUES
+    (1, 'Giant Size', 'resources/static/resources/images/spells/spell_00', 'adventurePhase', 'MONSTERROOM', 'ENUMERADO', 'HAVEMONSTERROOM'),
+    (2, 'Soul Harvest', 'resources/static/resources/images/spells/spell_01', 'adventureAndConstructionPhase', 'HEROINSCORE', 'ENUMERADO', 'HAVESOULS'),
+    (3, 'Princess in Peril', 'resources/static/resources/images/spells/spell_02', 'constructionPhase', 'HEROINTOWN', 'ENUMERADO', 'THEREISHEROINTOWN'),
+    (4, 'Motivation', 'resources/static/resources/images/spells/spell_03', 'constructionPhase', 'ALLPLAYERS', 'ENUMERADO', 'NONE'),
+    (5, 'Exhaustion', 'resources/static/resources/images/spells/spell_04', 'adventurePhase', 'HEROINDUNGEON', 'ENUMERADO', 'THEREISHEROINDUNGEON'),
+    (6, 'Annihilator', 'resources/static/resources/images/spells/spell_05', 'adventurePhase', 'TRAPROOM', 'ENUMERADO', 'HAVETRAPROOM'),
+    (7, 'Cave-in', 'resources/static/resources/images/spells/spell_06', 'adventurePhase', 'ROOM', 'ENUMERADO', 'HAVEROOM'),
+    (8, 'Kobold Strike', 'resources/static/resources/images/spells/spell_07', 'constructionPhase', 'ALLPLAYERS', 'ENUMERADO', 'NONE'),
+    (9, 'Teleportation', 'resources/static/resources/images/spells/spell_08', 'adventurePhase', 'HEROINDUNGEON', 'ENUMERADO', 'THEREISHEROINDUNGEON');
+
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
     (1,     'Acacia,_Warrior_of_Light',             '/resources/images/heroes/Acacia,_Warrior_of_Light.jpg',           'cleric', 6, false, 2),
     (2,     'Antonius,_the_Rune_Knight',            '/resources/images/heroes/Antonius,_the_Rune_Knight.jpg',          'fighter', 13, true, 2),
