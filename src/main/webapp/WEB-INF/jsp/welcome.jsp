@@ -13,7 +13,7 @@
     <spring:url value="/users/new" htmlEscape="true" var="newUser"/>
     <spring:url value="/" htmlEscape="true" var="spectateLobby"/>
     <spring:url value="/users/statistics" htmlEscape="true" var="statistics"/>
-    <spring:url value="/achievements/achievements" htmlEscape="true" var="achievements"/>
+    <spring:url value="/users/achievements" htmlEscape="true" var="achievements"/>
     <spring:url value="/users/manage" htmlEscape="true" var="adminOptions"/>
 
 
