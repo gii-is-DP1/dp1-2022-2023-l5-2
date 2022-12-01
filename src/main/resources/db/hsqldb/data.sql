@@ -139,10 +139,13 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (6,'igngongon2'),
     (6,'ignarrman');
 
-INSERT INTO achievement(id, name, description) VALUES
-    (0, 'Tutorial Monster', 'Win 1 game.'),
-    (1, 'Room Monster', 'Win 5 game.'),
-    (2, 'Midboss Monster', 'Win 25 games.'),
+INSERT INTO achievement(id, name, description, image, threshold, metric) VALUES
+    (0, 'Tutorial Monster', 'Win 1 game.', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
+    (1, 'Room Monster', 'Win 5 game.', '/resources/images/bosses/boss_00.jpg', 5, 'VICTORIES'),
+    (2, 'Midboss Monster', 'Win 25 games.', '/resources/images/bosses/boss_00.jpg', 10, 'VICTORIES');
+
+/*
+,
     (3, 'Boss Monster', 'Win 50 games.'),
     (4, 'Holy Monster', 'Get a 3 win streak.'),
     (5, 'Indestructible Monster', 'Get a 5 win streak.'),
@@ -155,6 +158,5 @@ INSERT INTO achievement(id, name, description) VALUES
     (12, 'Lucky Monster', 'Kill the Buffon.'),
     (13, 'Killer Monster', 'Kill a hero using a room/spell effect.'),
     (14, 'Golden Monster', 'Have 3 advanced rooms in your dungeon.'),
-    (15, 'New Monster', 'Create your account.');
-
-
+    (15, 'New Monster', 'Create your account.')
+ */

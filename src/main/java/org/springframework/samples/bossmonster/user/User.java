@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
+import org.springframework.samples.bossmonster.statistics.Achievement;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -64,6 +65,17 @@ public class User{
 
     @ManyToMany(mappedBy = "joinedUsers")
     private List<GameLobby> lobbies;
+
+    @ManyToMany
+	private Set<Achievement> achievements;
+
+    public Set<Achievement> getAchievements() {
+		return achievements;
+	}
+
+	public void setAchievements(Set<Achievement> achievements) {
+		this.achievements = achievements;
+	}
 
 
     // @ManyToMany(mappedBy="users")
