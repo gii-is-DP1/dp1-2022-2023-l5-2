@@ -16,12 +16,17 @@ class GameServiceTest {
     private GameRepository gameRepository;
     @MockBean
     private PlayerService playerService;
-    protected GameService gameService;
+
+    @MockBean
+    private GameService gameService;
+
+    @MockBean
+    private GameBuilder gameBuilder;
 
 
     @BeforeEach
     void setUp() {
-        gameService = new GameService(gameRepository, playerService);
+        gameService = new GameService(gameRepository, playerService, gameBuilder);
     }
 
     @Test
