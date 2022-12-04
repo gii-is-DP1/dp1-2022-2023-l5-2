@@ -2,6 +2,7 @@ package org.springframework.samples.bossmonster.game;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
@@ -13,11 +14,7 @@ import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,8 +25,9 @@ import java.util.List;
 @Table(name = "games")
 public class Game extends BaseEntity {
 
-    @OneToMany
-    private List<Player> players;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "game")
+    private List<Player> players = new java.util.ArrayList<>();
     private boolean active;
 
     @OneToMany
@@ -57,9 +55,9 @@ public class Game extends BaseEntity {
 
     private Integer currentPlayerTurn;
 
-    public void moveCard() {}
-
     //@OneToOne
     //private GameResult result;
-
+    public Player getPlayerFromUser(User user) {
+        return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().get();
+    }
 }

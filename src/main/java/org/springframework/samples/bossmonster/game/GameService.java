@@ -17,13 +17,13 @@ public class GameService {
 
     GameRepository repo;
     PlayerService playerService;
-
+    GameBuilder gameBuilder;
 
     @Autowired
-    public GameService(GameRepository repo, PlayerService playerService) {
+    public GameService(GameRepository repo, PlayerService playerService, GameBuilder gameBuilder) {
         this.repo=repo;
         this.playerService=playerService;
-
+        this.gameBuilder=gameBuilder;
     }
 
     public Game saveGame(Game g) {
@@ -31,14 +31,16 @@ public class GameService {
     }
 
     public Game createNewGameFromLobby(GameLobby lobby) {
-        GameBuilder gameBuilder = new GameBuilder();
-        Game newGame = gameBuilder.buildNewGame(lobby.getJoinedUsers());
+        Game newGame = gameBuilder.buildNewGame(lobby);
+        repo.save(newGame);
         return newGame;
     }
 
     public Optional<Game> findGame(Integer id) {
         return repo.findById(id);
     }
+
+    public List<Game> findAllGames() {return repo.findAll();}
 
     ////////////////////////   FUNCIONES DENTRO DEL JUEGO   ////////////////////////
 

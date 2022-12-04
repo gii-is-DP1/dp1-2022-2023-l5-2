@@ -2,6 +2,8 @@ package org.springframework.samples.bossmonster.game;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface GameRepository extends CrudRepository<Game, Integer> {
+import java.util.List;
 
+public interface GameRepository extends CrudRepository<Game, Integer> {
+    List<Game> findAll();
 }

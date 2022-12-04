@@ -1,9 +1,7 @@
 package org.springframework.samples.bossmonster.game;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.CardService;
@@ -14,35 +12,45 @@ import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.game.player.PlayerBuilder;
+import org.springframework.samples.bossmonster.game.player.PlayerService;
+import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Component
 public class GameBuilder {
 
-    public Game buildNewGame(List<User> users) {
+    CardService cardService;
+    PlayerService playerService;
+
+    @Autowired
+    public GameBuilder(CardService cardService, PlayerService playerService) {
+        this.cardService = cardService;
+        this.playerService = playerService;
+    }
+
+    public Game buildNewGame(GameLobby lobby) {
         Game newGame = new Game();
-        buildHeroPile(newGame, users);
+        buildHeroPile(newGame, lobby);
         buildSpellPile(newGame);
         buildRoomPile(newGame);
         buildFinalBossPile(newGame);
         buildDiscardPile(newGame);
         buildCity(newGame);
-        buildPlayers(newGame, users);
+        buildPlayers(newGame,lobby.getJoinedUsers());
         buildStats(newGame);
         return newGame;
     }
-    
-    @Autowired
-    CardService cardService;
 
-    public void buildHeroPile(Game newGame, List<User> users) {
-        Integer players = users.size();
+    public void buildHeroPile(Game newGame, GameLobby lobby) {
+        System.out.println("Creando heroes");
+        Integer players = lobby.getJoinedUsers().size();
         List<HeroCard> allHeroCards = cardService.createHeroCardDeck();
         List<HeroCard> selectedHeroCards = new ArrayList<>();
         for(HeroCard i: allHeroCards) { if (players <= i.getNecessaryPlayers()) selectedHeroCards.add(i);}
@@ -78,7 +86,7 @@ public class GameBuilder {
         List<Player> players = new ArrayList<>();
         PlayerBuilder playerBuilder = new PlayerBuilder();
         for (User i: users) {
-            
+
             playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
             playerBuilder.setCurrentSpellPile(newGame.getSpellPile());
             playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
@@ -86,6 +94,7 @@ public class GameBuilder {
             Player newPlayer = playerBuilder.buildNewPlayer(i);
             players.add(newPlayer);
 
+            newGame.setPlayers(players);
             newGame.setRoomPile(playerBuilder.getCurrentRoomPile());
             newGame.setSpellPile(playerBuilder.getCurrentSpellPile());
             newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
