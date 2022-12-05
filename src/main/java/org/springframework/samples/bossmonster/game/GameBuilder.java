@@ -12,7 +12,6 @@ import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.game.player.PlayerBuilder;
-import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Component;
@@ -27,12 +26,10 @@ import java.util.List;
 public class GameBuilder {
 
     CardService cardService;
-    PlayerService playerService;
 
     @Autowired
-    public GameBuilder(CardService cardService, PlayerService playerService) {
+    public GameBuilder(CardService cardService) {
         this.cardService = cardService;
-        this.playerService = playerService;
     }
 
     public Game buildNewGame(GameLobby lobby) {
@@ -49,7 +46,6 @@ public class GameBuilder {
     }
 
     public void buildHeroPile(Game newGame, GameLobby lobby) {
-        System.out.println("Creando heroes");
         Integer players = lobby.getJoinedUsers().size();
         List<HeroCard> allHeroCards = cardService.createHeroCardDeck();
         List<HeroCard> selectedHeroCards = new ArrayList<>();
@@ -84,21 +80,22 @@ public class GameBuilder {
 
     public void buildPlayers(Game newGame, List<User> users) {
         List<Player> players = new ArrayList<>();
-        PlayerBuilder playerBuilder = new PlayerBuilder();
+        PlayerBuilder playerBuilder = new PlayerBuilder(newGame);
+        playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
+        playerBuilder.setCurrentSpellPile(newGame.getSpellPile());
+        playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
+        playerBuilder.setCurrentBossPile(newGame.getFinalBossPile());
         for (User i: users) {
-
-            playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
-            playerBuilder.setCurrentSpellPile(newGame.getSpellPile());
-            playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
 
             Player newPlayer = playerBuilder.buildNewPlayer(i);
             players.add(newPlayer);
 
-            newGame.setPlayers(players);
-            newGame.setRoomPile(playerBuilder.getCurrentRoomPile());
-            newGame.setSpellPile(playerBuilder.getCurrentSpellPile());
-            newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
         }
+        newGame.setPlayers(players);
+        newGame.setRoomPile(playerBuilder.getCurrentRoomPile());
+        newGame.setFinalBossPile(playerBuilder.getCurrentBossPile());
+        newGame.setSpellPile(playerBuilder.getCurrentSpellPile());
+        newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
     }
 
     public void buildStats(Game newGame) {
