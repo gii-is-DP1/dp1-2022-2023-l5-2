@@ -8,14 +8,23 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.samples.bossmonster.model.BaseEntity;
+
+import javax.persistence.*;
 
 @Getter
 @Setter
-public class Dungeon {
-    
+@Entity
+public class Dungeon extends BaseEntity {
+
+    @OneToOne
     FinalBossCard bossCard;
 
+    @OneToMany
+    @OrderColumn
     RoomCard[] rooms;
-    List<HeroCard>[] heroesInRoom;
+
+    //@OneToMany
+    //List<HeroCard>[] heroesInRoom;
 
 }
