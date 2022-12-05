@@ -2,15 +2,13 @@ package org.springframework.samples.bossmonster.game;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
-import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
+import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.player.Player;
-import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
@@ -56,6 +54,7 @@ public class Game extends BaseEntity {
 
     //@OneToOne
     //private GameResult result;
+
     public Player getPlayerFromUser(User user) {
         return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().get();
     }

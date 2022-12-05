@@ -1,9 +1,7 @@
-package org.springframework.samples.bossmonster.game;
+package org.springframework.samples.bossmonster.game.gameState;
 
 import javax.persistence.Entity;
 
-import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
-import org.springframework.samples.bossmonster.game.gamePhase.GameSubPhase;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
 import lombok.Getter;

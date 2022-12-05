@@ -3,7 +3,6 @@ package org.springframework.samples.bossmonster.gameResult;
 import java.time.LocalDate;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;

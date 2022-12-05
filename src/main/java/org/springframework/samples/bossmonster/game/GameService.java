@@ -1,16 +1,13 @@
 package org.springframework.samples.bossmonster.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
-import org.springframework.samples.bossmonster.game.gamePhase.GameSubPhase;
-import org.springframework.samples.bossmonster.game.player.Player;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GameService {

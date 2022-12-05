@@ -3,7 +3,6 @@ package org.springframework.samples.bossmonster.game.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
@@ -23,17 +22,10 @@ public class PlayerBuilder {
     private final Integer STARTING_ROOM_CARDS = 3;
     private final Integer STARTING_SPELL_CARDS = 2;
 
-    //private final Game game;
-    
     List<RoomCard> currentRoomPile;
     List<SpellCard> currentSpellPile;
     List<Card> currentDiscardPile;
     List<FinalBossCard> currentBossPile;
-
-//    public PlayerBuilder(Game game) {
-//        this.game = game;
-//    }
-
 
     public Player buildNewPlayer(User user) {
         Player newPlayer = new Player();

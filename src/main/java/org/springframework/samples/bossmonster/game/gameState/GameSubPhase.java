@@ -1,4 +1,4 @@
-package org.springframework.samples.bossmonster.game.gamePhase;
+package org.springframework.samples.bossmonster.game.gameState;
 
 public enum GameSubPhase {
 
