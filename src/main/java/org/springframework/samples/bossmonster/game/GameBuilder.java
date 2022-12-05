@@ -9,8 +9,9 @@ import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
-import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
-import org.springframework.samples.bossmonster.game.gamePhase.GameSubPhase;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
+import org.springframework.samples.bossmonster.game.gameState.GameState;
+import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.game.player.PlayerBuilder;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
