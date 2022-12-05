@@ -1,15 +1,18 @@
 package org.springframework.samples.bossmonster.game;
 
+import javax.persistence.Entity;
+
 import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
 import org.springframework.samples.bossmonster.game.gamePhase.GameSubPhase;
-
+import org.springframework.samples.bossmonster.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class GameState {
+@Entity
+public class GameState extends BaseEntity {
     
     private GamePhase phase;
     private GameSubPhase subPhase;
