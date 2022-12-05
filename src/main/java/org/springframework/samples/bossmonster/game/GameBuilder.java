@@ -105,6 +105,6 @@ public class GameBuilder {
         state.setCurrentPlayer(0);
         state.setPhase(GamePhase.START_GAME);
         state.setSubPhase(GameSubPhase.ANNOUNCE_NEW_PHASE);
-        //newGame.setState(state);
+        newGame.setState(state);
     }
 }
