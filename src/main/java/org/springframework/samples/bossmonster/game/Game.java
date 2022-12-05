@@ -49,11 +49,10 @@ public class Game extends BaseEntity {
     @OneToMany
     private List<HeroCard> city;
 
+    //@OneToOne
+    //private GameState state;
+
     private LocalDateTime startedTime;
-
-    private GamePhase phase;
-
-    private Integer currentPlayerTurn;
 
     //@OneToOne
     //private GameResult result;

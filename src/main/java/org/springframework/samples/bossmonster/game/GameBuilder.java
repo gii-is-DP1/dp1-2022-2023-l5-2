@@ -10,6 +10,7 @@ import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
+import org.springframework.samples.bossmonster.game.gamePhase.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.game.player.PlayerBuilder;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
@@ -80,17 +81,17 @@ public class GameBuilder {
 
     public void buildPlayers(Game newGame, List<User> users) {
         List<Player> players = new ArrayList<>();
-        PlayerBuilder playerBuilder = new PlayerBuilder(newGame);
+        PlayerBuilder playerBuilder = new PlayerBuilder();
         playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
         playerBuilder.setCurrentSpellPile(newGame.getSpellPile());
         playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
         playerBuilder.setCurrentBossPile(newGame.getFinalBossPile());
-        for (User i: users) {
 
+        for (User i: users) {
             Player newPlayer = playerBuilder.buildNewPlayer(i);
             players.add(newPlayer);
-
         }
+
         newGame.setPlayers(players);
         newGame.setRoomPile(playerBuilder.getCurrentRoomPile());
         newGame.setFinalBossPile(playerBuilder.getCurrentBossPile());
@@ -100,7 +101,10 @@ public class GameBuilder {
 
     public void buildStats(Game newGame) {
         newGame.setStartedTime(LocalDateTime.now());
-        newGame.setPhase(GamePhase.START_GAME);
-        newGame.setCurrentPlayerTurn(0);
+        GameState state = new GameState();
+        state.setCurrentPlayer(0);
+        state.setPhase(GamePhase.START_GAME);
+        state.setSubPhase(GameSubPhase.ANNOUNCE_NEW_PHASE);
+        //newGame.setState(state);
     }
 }

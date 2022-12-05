@@ -22,15 +22,17 @@ public class PlayerBuilder {
 
     private final Integer STARTING_ROOM_CARDS = 3;
     private final Integer STARTING_SPELL_CARDS = 2;
-    private final Game game;
+
+    //private final Game game;
+    
     List<RoomCard> currentRoomPile;
     List<SpellCard> currentSpellPile;
     List<Card> currentDiscardPile;
     List<FinalBossCard> currentBossPile;
 
-    public PlayerBuilder(Game game) {
-        this.game = game;
-    }
+//    public PlayerBuilder(Game game) {
+//        this.game = game;
+//    }
 
 
     public Player buildNewPlayer(User user) {
