@@ -5,8 +5,21 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="achievements">
-    <h2>Achievements</h2>
+    <h2>My Achievements</h2>
 
+    <ul>
+        <c:forEach items="${achievements}" var="achievement">
+            <li>               
+                    <c:out value="${achievement.name}"/>
+                    <c:if test="${achievement.image == ''}">none</c:if>
+                    <c:if test="${achievement.image != ''}">
+                        <img src="${achievement.image}" width="100px"  /> 
+                    </c:if>
+            </li>                                
+        </c:forEach>
+    </ul>
+
+    <h2>Available achievements</h2>
     <table id="achievementsTable" class="table table-striped">
         <thead>
         <tr>
@@ -15,8 +28,6 @@
             <th>Image</th>
             <th>Threshold</th>
             <th>Metric</th>
-            <th></th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -41,23 +52,9 @@
             
                 <td>       
                     <c:out value="${achievement.metric} "/>
-                </td>
-
-                <td> 
-                    <a href="/statistics/achievements/${achievement.id}/edit"> 
-                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>                            
-                    </a>       
-                </td>
-                <td> 
-                    <a href="/statistics/achievements/${achievement.id}/delete"> 
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </a>      
-                </td>
-                
+                </td>         
             </tr>
         </c:forEach>
         </tbody>
-    </table>
-    <a class="btn btn-default" href="/statistics/achievements/new">Create new achievement</a>
+    </table>    
 </bossmonster:layout>
-

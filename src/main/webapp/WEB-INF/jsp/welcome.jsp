@@ -12,7 +12,8 @@
     <spring:url value="/users/edit" htmlEscape="true" var="editUser"/>
     <spring:url value="/users/new" htmlEscape="true" var="newUser"/>
     <spring:url value="/users/statistics" htmlEscape="true" var="statistics"/>
-    <spring:url value="/users/achievements" htmlEscape="true" var="achievements"/>
+    <spring:url value="/statistics/achievements" htmlEscape="true" var="achievements"/>
+    <spring:url value="/statistics/achievements/me" htmlEscape="true" var="myAchievements"/>
     <spring:url value="/users/manage" htmlEscape="true" var="adminOptions"/>
 
 
@@ -42,8 +43,14 @@
             </div>
 
             <div class="centered-view">
-                <a class="btn btn-title" href="${achievements}">Achievements</a>
+                <a class="btn btn-title" href="${myAchievements}">My Achievements</a>
             </div>
+
+            <sec:authorize access="hasAuthority('admin')">
+                <div class="centered-view">
+                    <a class="btn btn-title" href="${achievements}">Achievements</a>
+                </div>
+            </sec:authorize>
 
             <div class="centered-view">
                 <a class="btn btn-title" href="${statistics}">Friends</a> <!-- Dirección provisional -->
