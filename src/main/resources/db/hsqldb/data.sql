@@ -157,5 +157,11 @@ INSERT INTO achievement(id, name, description) VALUES
     (14, 'Golden Monster', 'Have 3 advanced rooms in your dungeon.'),
     (15, 'New Monster', 'Create your account.');
 
+INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
+    (0,TRUE, 'ignarrman', 'fralarmar'),
+    (1,TRUE, 'ignarrman', 'eletomvel'),
+    (2,TRUE, 'ignarrman', 'jessolort'),
+    (3,TRUE, 'ignarrman', 'frarosram'),
+    (4,TRUE, 'ignarrman', 'igngongon2');
 
     

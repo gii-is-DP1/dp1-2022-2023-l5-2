@@ -15,6 +15,7 @@
     <spring:url value="/users/statistics" htmlEscape="true" var="statistics"/>
     <spring:url value="/achievements/achievements" htmlEscape="true" var="achievements"/>
     <spring:url value="/users/manage" htmlEscape="true" var="adminOptions"/>
+    <spring:url value="/users/friends" htmlEscape="true" var="friendModule"/>
 
 
 
@@ -51,9 +52,8 @@
             </div>
 
             <div class="centered-view">
-                <a class="btn btn-title" href="${statistics}">Friends</a> <!-- Dirección provisional -->
+                <a class="btn btn-title" href="${friendModule}">Friends</a> <!-- Dirección provisional -->
             </div>
-
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
                     <a class="btn btn-title" href="${adminOptions}">Admin Options</a>
