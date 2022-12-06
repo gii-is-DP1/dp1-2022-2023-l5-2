@@ -26,6 +26,7 @@ public class AchievementService {
     }
 
     public void deleteAchievementById(int id){
+        repo.deleteAchievementFromUsers(id);
         repo.deleteById(id);
     }
 
@@ -40,25 +41,6 @@ public class AchievementService {
     public Achievement getAchievementByName(String name){
         return repo.findByName(name);
     }
-/* 
-    AchievementRepository repo;
 
-    @Autowired
-    public AchievementService(AchievementRepository repository){
-        this.repo=repository;
-    }
-
-    List<Achievement> getAllAchievements(){
-        return repo.findAll();
-    }
-
-    public Achievement getById(int Id){
-        return repo.findById(Id).get();
-    }
-    public void deleteById(int Id){
-        repo.deleteById(Id);
-    }
-    public void save(Achievement a){
-        repo.save(a);
-    }*/
+    
 }

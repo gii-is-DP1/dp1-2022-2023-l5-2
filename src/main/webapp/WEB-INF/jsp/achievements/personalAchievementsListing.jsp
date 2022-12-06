@@ -31,27 +31,27 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${achievements}" var="achievement">
+        <c:forEach items="${availableAchievements}" var="availableAchievements">
             <tr>
                 <td>
-                    <c:out value="${achievement.name}"/>
+                    <c:out value="${availableAchievements.name}"/>
                 </td>
                 <td>                    
-                      <c:out value="${achievement.description} "/>                                        
+                      <c:out value="${availableAchievements.description} "/>                                        
                 </td>
                 <td>                    
-                    <c:if test="${achievement.image == ''}">none</c:if>
-                    <c:if test="${achievement.image != ''}">
-                        <img src="${achievement.image}" width="100px"  /> 
+                    <c:if test="${availableAchievements.image == ''}">none</c:if>
+                    <c:if test="${availableAchievements.image != ''}">
+                        <img src="${availableAchievements.image}" width="100px"  /> 
                     </c:if>
                 </td>
                 
                 <td>       
-                    <c:out value="${achievement.threshold} "/>
+                    <c:out value="${availableAchievements.threshold} "/>
                 </td>
             
                 <td>       
-                    <c:out value="${achievement.metric} "/>
+                    <c:out value="${availableAchievements.metric} "/>
                 </td>         
             </tr>
         </c:forEach>

@@ -109,6 +109,7 @@ public class AchievementController {
     public ModelAndView showPersonalAchievementsListing(@PathVariable String username){
         ModelAndView result=new ModelAndView(PERSONAL_LISTING_VIEW);
         result.addObject("achievements",achievementService.getAchievementsByUser(username));
+        result.addObject("availableAchievements",achievementService.getAchievements());
         return result;
     }
 
@@ -137,7 +138,7 @@ public class AchievementController {
         if(loged!=null && (loged instanceof UserDetails))
             user=userService.findUser(((UserDetails)loged).getUsername()).get();
         if(user!=null){
-            result=showPersonalAchievementsListing(user.getUsername());
+            result = showPersonalAchievementsListing(user.getUsername());
         }else{
             result=new ModelAndView("welcome");
             result.addObject("message","You are not an User, thus you don't have achievements");
@@ -145,5 +146,6 @@ public class AchievementController {
         }
         return result;
     }
+
 }
 
