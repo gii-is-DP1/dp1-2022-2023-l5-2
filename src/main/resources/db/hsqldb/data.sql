@@ -48,7 +48,7 @@ INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_tri
 INSERT INTO spell_card(id, name, card_image, phase, target, effect, requirements) VALUES
     (22,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','adventurePhase'               ,'MONSTERROOM'  ,'ENUMERADO','HAVEMONSTERROOM')      ,
     (23,'Soul Harvest'     ,'/resources/images/spells/spell_01.jpg','adventureAndConstructionPhase','HEROINSCORE'  ,'ENUMERADO','HAVESOULS')            ,
-    (24,'Princess in Peril','/resources/images/spells/spell_02.j    pg','constructionPhase'            ,'HEROINTOWN'   ,'ENUMERADO','THEREISHEROINTOWN')    ,
+    (24,'Princess in Peril','/resources/images/spells/spell_02.jpg','constructionPhase'            ,'HEROINTOWN'   ,'ENUMERADO','THEREISHEROINTOWN')    ,
     (25,'Motivation'       ,'/resources/images/spells/spell_03.jpg','constructionPhase'            ,'ALLPLAYERS'   ,'ENUMERADO','NONE')                 ,
     (26,'Exhaustion'       ,'/resources/images/spells/spell_04.jpg','adventurePhase'               ,'HEROINDUNGEON','ENUMERADO','THEREISHEROINDUNGEON') ,
     (27,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','adventurePhase'               ,'TRAPROOM'     ,'ENUMERADO','HAVETRAPROOM')         ,
