@@ -25,7 +25,7 @@ public class Player extends BaseEntity {
 
     private Integer souls;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Dungeon dungeon;
 
     @OneToMany

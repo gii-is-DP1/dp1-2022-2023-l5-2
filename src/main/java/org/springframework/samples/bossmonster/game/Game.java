@@ -47,7 +47,7 @@ public class Game extends BaseEntity {
     @OneToMany
     private List<HeroCard> city;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private GameState state;
 
     private LocalDateTime startedTime;
@@ -56,6 +56,6 @@ public class Game extends BaseEntity {
     //private GameResult result;
 
     public Player getPlayerFromUser(User user) {
-        return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().get();
+        return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().orElse(null);
     }
 }
