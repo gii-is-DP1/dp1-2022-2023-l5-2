@@ -3,19 +3,14 @@ package org.springframework.samples.bossmonster.user;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
+import org.springframework.samples.bossmonster.statistics.Achievement;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -64,6 +59,21 @@ public class User{
 
     @ManyToMany(mappedBy = "joinedUsers")
     private List<GameLobby> lobbies;
+
+    @ManyToMany
+    @JoinTable(
+        name = "achievement_users",
+        joinColumns = @JoinColumn(name="username"),
+        inverseJoinColumns = @JoinColumn(name= "achievement_id"))
+	private Set<Achievement> achievements;
+
+    public Set<Achievement> getAchievements() {
+		return achievements;
+	}
+
+	public void setAchievements(Set<Achievement> achievements) {
+		this.achievements = achievements;
+	}
 
 
     // @ManyToMany(mappedBy="users")

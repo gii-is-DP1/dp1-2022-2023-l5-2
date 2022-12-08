@@ -242,6 +242,7 @@ table td.action-column {
 
 .card {
     width: 12vw;
+    border-radius: 8px;
 }
 
 .expandable {
@@ -259,6 +260,15 @@ table td.action-column {
     }
 }
 
+.dungeon .card{
+    width: 5vw;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
 .pile-modal {
     text-align: center;
     color: white;
@@ -268,17 +278,76 @@ table td.action-column {
     padding: 15px;
     align-content: center;
 }
-.gameContainer {
-  display: grid;
+.gameContainer {  display: grid;
   grid-template-columns: 1.1fr 0.8fr 1.1fr;
   grid-template-rows: 1.2fr 0.8fr 1fr;
   gap: 0px 0px;
-  text-align: center;
+  grid-auto-flow: row;
   grid-template-areas:
-    "City-and-Discard Phase-Display Opponents-Dungeons"
-    "Decks . Opponents-Dungeons"
-    "Player-hand Player-Dungeon Player-Dungeon";
+    "city-and-discard phase-display opponents-dungeons"
+    "decks . opponents-dungeons"
+    "player-hand player-dungeon player-dungeon";
 }
+
+.player-hand {
+    grid-area: player-hand;
+    text-align: center;
+}
+
+.player-dungeon { grid-area: player-dungeon; }
+
+.opponents-dungeons {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "dungeon1"
+    "dungeon2"
+    "dungeon3"
+    "dungeon4";
+  grid-area: opponents-dungeons;
+}
+
+.dungeon1 { grid-area: dungeon1; }
+
+.dungeon3 { grid-area: dungeon3; }
+
+.dungeon2 { grid-area: dungeon2; }
+
+.dungeon4 { grid-area: dungeon4; }
+
+.phase-display {
+    grid-area: phase-display;
+    text-align: center;
+    font-size: xxx-large;
+}
+
+.city-and-discard {  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "hero1 discard"
+    "hero2 discard"
+    "hero3 discard"
+    "hero4 discard";
+  grid-area: city-and-discard;
+}
+
+.hero1 { grid-area: hero1; }
+
+.hero2 { grid-area: hero2; }
+
+.hero3 { grid-area: hero3; }
+
+.hero4 { grid-area: hero4; }
+
+.discard { grid-area: discard; }
+
+.decks { grid-area: decks; }
+
 
 .test {
     border: 1px solid red;

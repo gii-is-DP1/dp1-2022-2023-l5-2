@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.Effect;
 import org.springframework.samples.bossmonster.game.card.EffectTarget;
+import org.springframework.samples.bossmonster.game.card.Effect;
+import org.springframework.samples.bossmonster.game.card.EffectTarget;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -26,15 +28,16 @@ public class SpellCard extends Card {
     @Enumerated(EnumType.STRING)
     EffectTarget target;
 
+
     @Column(name = "effect")
     @NotEmpty
     @Enumerated(EnumType.STRING)
     Effect effect;
 
+
     @Column(name = "requirements")
     @NotEmpty
     @Enumerated(EnumType.STRING)
     SpellRequirements requirements;
-
 
 }

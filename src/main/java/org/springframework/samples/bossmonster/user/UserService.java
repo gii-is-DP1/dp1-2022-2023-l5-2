@@ -17,7 +17,6 @@ package org.springframework.samples.bossmonster.user;
 
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

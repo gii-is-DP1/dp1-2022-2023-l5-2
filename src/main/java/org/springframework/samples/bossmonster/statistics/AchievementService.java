@@ -13,21 +13,34 @@ public class AchievementService {
     AchievementRepository repo;
 
     @Autowired
-    public AchievementService(AchievementRepository repository){
-        this.repo=repository;
+    public AchievementService(AchievementRepository repo){
+        this.repo=repo;
     }
 
-    List<Achievement> getAllAchievements(){
+    List<Achievement> getAchievements(){
         return repo.findAll();
     }
 
-    public Achievement getById(int Id){
-        return repo.findById(Id).get();
+    public Achievement getById(int id){
+        return repo.findById(id).get();
     }
-    public void deleteById(int Id){
-        repo.deleteById(Id);
+
+    public void deleteAchievementById(int id){
+        repo.deleteAchievementFromUsers(id);
+        repo.deleteById(id);
     }
-    public void save(Achievement a){
-        repo.save(a);
+
+    public void save(Achievement achievement){
+        repo.save(achievement);
     }
+
+    public List<Achievement>  getAchievementsByUser(String username) {
+        return repo.findPlayerAchievements(username);
+    }
+
+    public Achievement getAchievementByName(String name){
+        return repo.findByName(name);
+    }
+
+    
 }
