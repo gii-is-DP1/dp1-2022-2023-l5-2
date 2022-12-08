@@ -55,8 +55,9 @@ public class CardService {
         return deck;
     }
 
-    public void giveCard(List<Card> source, List<Card> target) {
-        Card toGive = source.remove(source.size()-1);
+    public void giveCard(List<Card> source, List<Card> target, int cardPosition) {
+        if (cardPosition >= source.size()) { cardPosition = source.size() - 1; }
+        Card toGive = source.remove(cardPosition);
         target.add(toGive);
     }
 
