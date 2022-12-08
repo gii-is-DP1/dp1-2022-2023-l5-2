@@ -14,8 +14,10 @@ import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -121,16 +123,24 @@ public class GameService {
 
     public void lureHeroToBestDungeon(Game game) {
 
-        //for (int i = 0; i < game.getCity(); i ++) {
+        for (int i = 0; i < game.getCity().size(); i ++) {
 
-        //    List<Player> bestDungeon = new ArrayList<>();
-        //    TreasureType targetTreasure = game.getCity().get(i).getTreasure();
+            List<Player> playersWithBestDungeon = new ArrayList<>();
+            Integer bestValue;
+            TreasureType targetTreasure = game.getCity().get(i).getTreasure();
 
-        //    if (targetTreasure != TreasureType.FOOL) bestDungeon = game.getPlayers().stream().max(x -> x.getDungeon().getTreasureAmount(targetTreasure)).collect(Collectors.toList());
-       //     else bestDungeon = game.getPlayers().stream().min(x -> x.getSouls()).collect(Collectors.toList());
-
-       //     if (bestDungeon.size() == 1) {  }
-        //}
+            if (targetTreasure != TreasureType.FOOL) {
+                bestValue = game.getPlayers().stream().max(Comparator.comparing(x -> x.getDungeon().getTreasureAmount(targetTreasure))).get().getDungeon().getTreasureAmount(targetTreasure);
+                playersWithBestDungeon = game.getPlayers().stream().filter(x -> x.getDungeon().getTreasureAmount(targetTreasure) == bestValue).collect(Collectors.toList());
+            }
+            else {
+                bestValue = game.getPlayers().stream().min(Comparator.comparing(x -> x.getSouls())).get().getSouls();
+                playersWithBestDungeon = game.getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
+            }
+            if (playersWithBestDungeon.size() == 1) { 
+                // TODO El heroe entra en la mazmorra
+             }
+        }
 
     }
 
