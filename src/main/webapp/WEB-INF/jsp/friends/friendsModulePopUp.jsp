@@ -5,16 +5,32 @@
 
 <bossmonster:layout pageName="friendsModule">
     <h1>Friends</h1>
-    <table>
-        <tr>
-            <td>
-                <c:forEach items="${friends}" var="friends">
-                    <li>
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                        <c:out value="${friends}" />
-                    </li>
-                </c:forEach>
-            </td>
-        </tr>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Avatar</th>
+                <th>Username</th>
+                <th>Nickname</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${friends}" var="friends">
+                <tr>
+                    <td>
+                        <img src="${friends.avatar}" height ="80" width="100"/>
+                    </td>
+                    <td>
+                        <c:out value="${friends.username}"/>
+                    </td>
+                    <td>
+                        <c:out value="${friends.nickname}"/>
+                    </td>
+                    <td>
+                        <c:out value="${friends.description}"/>
+                    </td>
+                </tr>   
+        </c:forEach>
+        </tbody>
     </table>
 </bossmonster:layout>

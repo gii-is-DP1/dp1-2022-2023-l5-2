@@ -25,11 +25,11 @@ public interface FriendRequestRepository extends CrudRepository<FriendRequest,In
     @Query(value = "UPDATE friend_requests SET accepted=FALSE WHERE id=?1",nativeQuery = true)
     void declineFriendRequest(@Param(value = "id") int requestId);
 
-    @Query(value = "SELECT DISTINCT u.* FROM friend_requests fr INNER JOIN users u ON FR.requester=?1 WHERE FR.accepted=TRUE",nativeQuery = true)
-    List<User> findAllRequestedAccepted(@Param(value = "username") String username);
+    @Query(value = "SELECT DISTINCT u.username FROM friend_requests fr INNER JOIN users u ON FR.requester=?1 WHERE FR.accepted=TRUE",nativeQuery = true)
+    List<String> findAllRequestedAccepted(@Param(value = "username") String username);
 
-    @Query(value="SELECT DISTINCT u.* FROM friend_requests fr INNER JOIN users u ON FR.receiver=?1 WHERE FR.accepted=TRUE",nativeQuery = true)
-    List<User> findAllReceivedAccepted(@Param(value = "username") String username);
+    @Query(value="SELECT DISTINCT u.username FROM friend_requests fr INNER JOIN users u ON FR.receiver=?1 WHERE FR.accepted=TRUE",nativeQuery = true)
+    List<String> findAllReceivedAccepted(@Param(value = "username") String username);
 
     
 }
