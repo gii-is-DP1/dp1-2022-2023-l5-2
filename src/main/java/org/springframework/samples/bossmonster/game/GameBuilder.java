@@ -43,7 +43,7 @@ public class GameBuilder {
         buildDiscardPile(newGame);
         buildCity(newGame);
         buildPlayers(newGame,lobby.getJoinedUsers());
-        buildStats(newGame);
+        buildStats(newGame, lobby.getJoinedUsers().size());
         return newGame;
     }
 
@@ -100,17 +100,17 @@ public class GameBuilder {
         newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
     }
 
-    public void buildStats(Game newGame) {
+    public void buildStats(Game newGame, Integer totalPlayers) {
         newGame.setStartedTime(LocalDateTime.now());
         GameState state = new GameState();
         state.setCurrentPlayer(0);
         state.setPhase(GamePhase.START_GAME);
         state.setSubPhase(GameSubPhase.ANNOUNCE_NEW_PHASE);
+        state.setTotalPlayers(totalPlayers);
         state.setCounter(0);
         state.setActionLimit(0);
         state.setCheckClock(true);
-        LocalDateTime time = LocalDateTime.now();
-        state.setClock(time.plusSeconds(5));
+        state.setClock(LocalDateTime.now().plusSeconds(5));
         newGame.setState(state);
     }
 }
