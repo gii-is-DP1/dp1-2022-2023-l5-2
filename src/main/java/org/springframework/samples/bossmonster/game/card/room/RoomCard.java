@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.Effect;
 import org.springframework.samples.bossmonster.game.card.EffectTarget;
+import org.springframework.samples.bossmonster.game.card.TreasureType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,5 +38,20 @@ public class RoomCard extends Card {
     @Enumerated(EnumType.STRING)
     @Column(name="effect_target")
     private EffectTarget effectTarget;
+
+    public Integer parseTreasureAmount(TreasureType targetTreasure) {
+
+        Integer targetPosition;
+        switch (targetTreasure) {
+            case BOOK: { targetPosition = 0; break; }
+            case SWORD: { targetPosition = 1; break; }
+            case CROSS: { targetPosition = 2; break; }
+            case BAG: { targetPosition = 3; break; }
+            default: return null;
+        }
+        
+        return Integer.valueOf(treasure.charAt(targetPosition));
+
+    }
 
 }
