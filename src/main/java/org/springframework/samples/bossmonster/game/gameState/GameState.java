@@ -42,7 +42,7 @@ public class GameState extends BaseEntity {
 
     public void updateChangeConditionClock(Integer seconds) {
         checkClock = true;
-        clock = clock.plusSeconds(seconds);
+        clock = LocalDateTime.now().plusSeconds(seconds);
     }
 
     public void updateChangeConditionCounter(Integer newLimit) {
