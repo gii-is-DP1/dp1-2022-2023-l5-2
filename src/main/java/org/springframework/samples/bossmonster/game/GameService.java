@@ -1,11 +1,19 @@
 package org.springframework.samples.bossmonster.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.CardRepository;
+import org.springframework.samples.bossmonster.game.card.CardService;
+import org.springframework.samples.bossmonster.game.card.TreasureType;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
+import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
+import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +22,10 @@ public class GameService {
 
     GameRepository repo;
     PlayerService playerService;
+    CardService cardService;
     GameBuilder gameBuilder;
+
+    private static final Integer PLAYER_HAND_CARD_LIMIT = 5;
 
     @Autowired
     public GameService(GameRepository repo, PlayerService playerService, GameBuilder gameBuilder) {
@@ -72,6 +83,59 @@ public class GameService {
 
     public void processAdventureRound() {
         // 1): Cada heroe de cada mazmorra avanza. (1 sala o todas las salas?)
+    }
+
+    ////////////////////////////   AUXILIAR FUNCTIONS   ////////////////////////////
+
+    public void discardCard(Integer id, Player player, int cardPosition) {
+        Optional<Game> game = findGame(id);
+        if (!game.isPresent()) { return; }
+        cardService.giveCard(player.getHand(), game.get().getDiscardPile(), cardPosition);
+    }
+
+    public void checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
+
+    }
+
+    public void placeDungeonRoom(Player player, Integer position, RoomCard room) {
+
+    }
+
+    public void destroyDungeonRoom(Player player, Integer position, RoomCard room) {
+
+    }
+
+    public void getNewRoomCard(Game game, Player player) {
+        List<Card> cardList = new ArrayList<>(game.getRoomPile());
+        cardService.giveCard(cardList, player.getHand(), 0);
+
+    }
+
+    public void getNewSpellCard(Player player) {
+
+    }
+
+    public void getCardFromDiscardPile(Player player, Card card) {
+
+    }
+
+    public void lureHeroToBestDungeon(Game game) {
+
+        //for (int i = 0; i < game.getCity(); i ++) {
+
+        //    List<Player> bestDungeon = new ArrayList<>();
+        //    TreasureType targetTreasure = game.getCity().get(i).getTreasure();
+
+        //    if (targetTreasure != TreasureType.FOOL) bestDungeon = game.getPlayers().stream().max(x -> x.getDungeon().getTreasureAmount(targetTreasure)).collect(Collectors.toList());
+       //     else bestDungeon = game.getPlayers().stream().min(x -> x.getSouls()).collect(Collectors.toList());
+
+       //     if (bestDungeon.size() == 1) {  }
+        //}
+
+    }
+
+    public void heroAdvanceRoomDungeon() {
+
     }
 
 }
