@@ -107,7 +107,7 @@ public class GameBuilder {
         state.setPhase(GamePhase.START_GAME);
         state.setSubPhase(GameSubPhase.ANNOUNCE_NEW_PHASE);
         state.setCounter(0);
-        state.setLimit(0);
+        state.setActionLimit(0);
         state.setCheckClock(true);
         LocalDateTime time = LocalDateTime.now();
         state.setClock(time.plusSeconds(5));
