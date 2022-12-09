@@ -8,6 +8,7 @@ import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.model.BaseEntity;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -65,43 +66,55 @@ public class Game extends BaseEntity {
 
     ////////////////////////////   AUXILIAR FUNCTIONS   ////////////////////////////
 
+    ////////// PLAYER HAND RELATED //////////
+
     public void discardCard(Player player, int cardPosition) {
-        //cardService.giveCard(player.getHand(), game.get().getDiscardPile(), cardPosition);
-    }
-
-    public void checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
-
-    }
-
-    public void placeDungeonRoom(Player player, Integer position, RoomCard room) {
-
-    }
-
-    public void destroyDungeonRoom(Player player, Integer position, RoomCard room) {
-
+        List<Card> playerHand = player.getHand();
+        Card discardedCard = playerHand.remove(cardPosition);
+        discardPile.add(discardedCard);
+        player.setHand(playerHand);
     }
 
     public void getNewRoomCard(Player player) {
-        //List<Card> cardList = new ArrayList<>(game.getRoomPile());
-        //cardService.giveCard(cardList, player.getHand(), 0);
-
+        List<Card> playerHand = player.getHand();
+        RoomCard newCard = roomPile.remove(0);
+        playerHand.add(newCard);
+        player.setHand(playerHand);
     }
 
     public void getNewSpellCard(Player player) {
+        List<Card> playerHand = player.getHand();
+        SpellCard newCard = spellPile.remove(0);
+        playerHand.add(newCard);
+        player.setHand(playerHand);
+    }
+
+    public void getCardFromDiscardPile(Player player, int position) {
+        List<Card> playerHand = player.getHand();
+        Card newCard = discardPile.remove(position);
+        playerHand.add(newCard);
+        player.setHand(playerHand);
+    }
+
+    ////////// REFILL PILE RELATED //////////
+
+    public void refillRoomPile() {
+        for(Card card: discardPile) {
+            if (card.getClass() == RoomCard.class) {
+                // I gave up
+            }
+        }
+    }
+
+    public void refillSpellPile() {
 
     }
 
-    public void getCardFromDiscardPile(Player player, Card card) {
-
-    }
-
-    public void heroAdvanceRoomDungeon() {
-
-    }
+    ////////// HERO RELATED //////////
 
     public void lureHeroToBestDungeon() {
 
-        for (int i = 0; i < getCity().size(); i ++) {
+        for (int i = 0; i < city.size(); i ++) {
 
             List<Player> playersWithBestDungeon = new ArrayList<>();
             Integer bestValue;
@@ -115,11 +128,59 @@ public class Game extends BaseEntity {
                 bestValue = getPlayers().stream().min(Comparator.comparing(x -> x.getSouls())).get().getSouls();
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
             }
-            if (playersWithBestDungeon.size() == 1) { 
-                // TODO El heroe entra en la mazmorra
 
+            if (playersWithBestDungeon.size() == 1) { 
+                playersWithBestDungeon.get(0).getDungeon().addNewHeroToDungeon(city.get(i));
+                city.remove(i);
              }
+             
         }
 
     }
+
+    public void placeHeroInCity() {
+        List<HeroCard> nonEpicHeroes = heroPile.stream().filter(x -> !x.getIsEpic()).collect(Collectors.toList());
+        for (var i = 0; i < players.size(); i ++) {
+            if (nonEpicHeroes.size() > 0) {
+                HeroCard newHero = nonEpicHeroes.get(0);
+                city.add(newHero);
+                nonEpicHeroes.remove(0);
+                heroPile.remove(newHero);
+            }
+            else if (heroPile.size() > 0) {
+                HeroCard newHero = heroPile.get(0);
+                city.add(newHero);
+                heroPile.remove(0);
+            }
+        }
+    }
+
+    ////////// DUNGEON RELATED //////////
+
+    public void checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
+
+    }
+
+    public void placeDungeonRoom(Player player, Integer position, RoomCard room) {
+        Dungeon playerDungeon = player.getDungeon();
+        RoomCard[] rooms = playerDungeon.getRooms();
+        rooms[position] = room;
+        playerDungeon.setRooms(rooms);
+        player.setDungeon(playerDungeon);
+    }
+
+    public void destroyDungeonRoom(Player player, Integer position) {
+        // Almost the same that the last one. I still made it to make the code easier to understand
+        Dungeon playerDungeon = player.getDungeon();
+        RoomCard[] rooms = playerDungeon.getRooms();
+        rooms[position] = null;
+        playerDungeon.setRooms(rooms);
+        player.setDungeon(playerDungeon);
+    }
+
+    public void heroAdvanceRoomDungeon() {
+
+    }
+
+
 }

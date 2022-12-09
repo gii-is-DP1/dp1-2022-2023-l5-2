@@ -25,6 +25,13 @@ public class Dungeon extends BaseEntity {
     @OrderColumn
     RoomCard[] rooms;
 
+    Boolean[] roomIsRevealed;
+
+    Integer[] trueDamage;
+
+    @OneToMany
+    List<HeroCard> entrance;
+
     //@OneToMany
     //List<HeroCard>[] heroesInRoom;
 
@@ -36,6 +43,10 @@ public class Dungeon extends BaseEntity {
         }
         return totalAmount;
         
+    }
+
+    public void addNewHeroToDungeon(HeroCard hero) {
+        entrance.add(hero);
     }
 
 }

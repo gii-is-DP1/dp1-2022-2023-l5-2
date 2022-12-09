@@ -51,6 +51,9 @@ public class PlayerBuilder {
     public void buildPlayerDungeon(Player newPlayer) {
         Dungeon dungeon = new Dungeon();
         dungeon.setRooms(new RoomCard[5]);
+        dungeon.setRoomIsRevealed(new Boolean[5]);
+        dungeon.setTrueDamage(new Integer[5]);
+        dungeon.setEntrance(new ArrayList<>());
         FinalBossCard boss = currentBossPile.remove(currentBossPile.size()-1);
         dungeon.setBossCard(boss);
         newPlayer.setDungeon(dungeon);
