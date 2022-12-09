@@ -1,23 +1,14 @@
 package org.springframework.samples.bossmonster.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.bossmonster.game.card.Card;
-import org.springframework.samples.bossmonster.game.card.CardRepository;
 import org.springframework.samples.bossmonster.game.card.CardService;
-import org.springframework.samples.bossmonster.game.card.TreasureType;
-import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
-import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
-import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -86,8 +77,6 @@ public class GameService {
     public void processAdventureRound() {
         // 1): Cada heroe de cada mazmorra avanza. (1 sala o todas las salas?)
     }
-
-    ////////////////////////////   AUXILIAR FUNCTIONS   ////////////////////////////
 
 
 
