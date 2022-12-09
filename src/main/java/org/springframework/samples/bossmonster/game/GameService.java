@@ -89,63 +89,6 @@ public class GameService {
 
     ////////////////////////////   AUXILIAR FUNCTIONS   ////////////////////////////
 
-    public void discardCard(Integer id, Player player, int cardPosition) {
-        Optional<Game> game = findGame(id);
-        if (!game.isPresent()) { return; }
-        cardService.giveCard(player.getHand(), game.get().getDiscardPile(), cardPosition);
-    }
 
-    public void checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
-
-    }
-
-    public void placeDungeonRoom(Player player, Integer position, RoomCard room) {
-
-    }
-
-    public void destroyDungeonRoom(Player player, Integer position, RoomCard room) {
-
-    }
-
-    public void getNewRoomCard(Game game, Player player) {
-        List<Card> cardList = new ArrayList<>(game.getRoomPile());
-        cardService.giveCard(cardList, player.getHand(), 0);
-
-    }
-
-    public void getNewSpellCard(Player player) {
-
-    }
-
-    public void getCardFromDiscardPile(Player player, Card card) {
-
-    }
-
-    public void lureHeroToBestDungeon(Game game) {
-
-        for (int i = 0; i < game.getCity().size(); i ++) {
-
-            List<Player> playersWithBestDungeon = new ArrayList<>();
-            Integer bestValue;
-            TreasureType targetTreasure = game.getCity().get(i).getTreasure();
-
-            if (targetTreasure != TreasureType.FOOL) {
-                bestValue = game.getPlayers().stream().max(Comparator.comparing(x -> x.getDungeon().getTreasureAmount(targetTreasure))).get().getDungeon().getTreasureAmount(targetTreasure);
-                playersWithBestDungeon = game.getPlayers().stream().filter(x -> x.getDungeon().getTreasureAmount(targetTreasure) == bestValue).collect(Collectors.toList());
-            }
-            else {
-                bestValue = game.getPlayers().stream().min(Comparator.comparing(x -> x.getSouls())).get().getSouls();
-                playersWithBestDungeon = game.getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
-            }
-            if (playersWithBestDungeon.size() == 1) { 
-                // TODO El heroe entra en la mazmorra
-             }
-        }
-
-    }
-
-    public void heroAdvanceRoomDungeon() {
-
-    }
 
 }
