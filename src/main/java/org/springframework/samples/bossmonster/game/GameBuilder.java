@@ -98,6 +98,7 @@ public class GameBuilder {
         newGame.setFinalBossPile(playerBuilder.getCurrentBossPile());
         newGame.setSpellPile(playerBuilder.getCurrentSpellPile());
         newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
+        newGame.sortPlayersByFinalBossEx();
     }
 
     public void buildStats(Game newGame, Integer totalPlayers) {
