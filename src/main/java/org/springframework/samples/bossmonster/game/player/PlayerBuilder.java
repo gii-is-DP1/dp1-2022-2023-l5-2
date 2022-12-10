@@ -8,6 +8,7 @@ import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
+import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Component;
 
@@ -50,9 +51,12 @@ public class PlayerBuilder {
 
     public void buildPlayerDungeon(Player newPlayer) {
         Dungeon dungeon = new Dungeon();
-        dungeon.setRooms(new RoomCard[5]);
-        dungeon.setRoomIsRevealed(new Boolean[5]);
-        dungeon.setTrueDamage(new Integer[5]);
+        DungeonRoomSlot[] slots = new DungeonRoomSlot[5];
+        for (int i = 0; i < 5; i ++) {
+            DungeonRoomSlot newRoomSlot = new DungeonRoomSlot();
+            slots[i] = newRoomSlot;
+        }
+        dungeon.setRoomSlots(slots);
         dungeon.setEntrance(new ArrayList<>());
         FinalBossCard boss = currentBossPile.remove(currentBossPile.size()-1);
         dungeon.setBossCard(boss);

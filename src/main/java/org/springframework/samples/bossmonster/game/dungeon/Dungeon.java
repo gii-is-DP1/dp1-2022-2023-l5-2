@@ -23,11 +23,7 @@ public class Dungeon extends BaseEntity {
 
     @OneToMany
     @OrderColumn
-    RoomCard[] rooms;
-
-    Boolean[] roomIsRevealed;
-
-    Integer[] trueDamage;
+    DungeonRoomSlot[] roomSlots;
 
     @OneToMany
     List<HeroCard> entrance;
@@ -38,8 +34,8 @@ public class Dungeon extends BaseEntity {
     public Integer getTreasureAmount(TreasureType treasure) {
 
         Integer totalAmount = 0;
-        for (RoomCard room: rooms) {
-            totalAmount += room.parseTreasureAmount(treasure);
+        for (DungeonRoomSlot roomSlot: roomSlots) {
+            totalAmount += roomSlot.getRoom().parseTreasureAmount(treasure);
         }
         return totalAmount;
         
