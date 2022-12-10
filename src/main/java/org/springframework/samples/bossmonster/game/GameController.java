@@ -2,6 +2,7 @@ package org.springframework.samples.bossmonster.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.CardService;
+import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,8 @@ public class GameController {
     }
 
     @GetMapping("/{gameId}")
-    public ModelAndView joinGame(@PathVariable Integer gameId) {
+    public ModelAndView joinGame(@PathVariable Integer gameId, HttpServletResponse response) {
+        //response.addHeader("Refresh", "1");
 
         ModelAndView result=new ModelAndView();
         Game game = gameService.findGame(gameId).get();
@@ -44,6 +47,11 @@ public class GameController {
         result.addObject("game", game);
         result.addObject("currentPlayer", currentPlayer);
         result.addObject("players", otherPlayers);
+        result.addObject("swordHeroes", game.getSpecifiedCity(TreasureType.SWORD));
+        result.addObject("bagHeroes", game.getSpecifiedCity(TreasureType.BAG));
+        result.addObject("bookHeroes", game.getSpecifiedCity(TreasureType.BOOK));
+        result.addObject("crossHeroes", game.getSpecifiedCity(TreasureType.CROSS));
+
         return result;
     }
 

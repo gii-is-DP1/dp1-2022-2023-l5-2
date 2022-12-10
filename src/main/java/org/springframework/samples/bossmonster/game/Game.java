@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
@@ -64,6 +65,10 @@ public class Game extends BaseEntity {
 
     public Player getPlayerFromUser(User user) {
         return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().orElse(null);
+    }
+
+    public List<HeroCard> getSpecifiedCity(TreasureType type) {
+        return getCity().stream().filter(heroCard -> heroCard.getTreasure() == type).collect(Collectors.toList());
     }
 
     ////////////////////////////   AUXILIAR FUNCTIONS   ////////////////////////////
@@ -139,11 +144,11 @@ public class Game extends BaseEntity {
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
             }
 
-            if (playersWithBestDungeon.size() == 1) { 
+            if (playersWithBestDungeon.size() == 1) {
                 playersWithBestDungeon.get(0).getDungeon().addNewHeroToDungeon(city.get(i));
                 city.remove(i);
              }
-             
+
         }
 
     }

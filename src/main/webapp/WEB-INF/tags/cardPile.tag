@@ -10,6 +10,8 @@
 <%@ attribute name="cardStyle" required="false" rtexprvalue="true"%>
 <%@ attribute name="facedown" required="false" rtexprvalue="true"%>
 
+<spring:url value="/resources/images/blank_card.png" var="blank"/>
+
 <c:choose>
     <c:when test="${not empty cards}">
 
@@ -19,7 +21,7 @@
             <bossmonster:card card="${displayedCard}" facedown="${facedown == true}" type="${type}"/>
         </bossmonster:modalButton>
 
-        <bossmonster:modal modalId="${pileId}" modalName="${pileName}" style="${pile-modal}">
+        <bossmonster:modal modalId="${pileId}" modalName="${pileName}">
             <div class="expandable">
                 <c:forEach items="${cards}" var="card">
                     <bossmonster:card card="${card}" style="${cardStyle}"/>
@@ -29,7 +31,7 @@
 
     </c:when>
     <c:otherwise>
-        Empty
+        <img src="${blank}" class="card">
     </c:otherwise>
 </c:choose>
 

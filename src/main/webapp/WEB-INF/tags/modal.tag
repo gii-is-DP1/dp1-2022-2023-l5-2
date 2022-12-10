@@ -6,11 +6,14 @@
 <%@ attribute name="modalId" required="true" rtexprvalue="true"%>
 <%@ attribute name="modalName" required="true" rtexprvalue="true"%>
 <%@ attribute name="style" required="false" rtexprvalue="true"%>
+<%@ attribute name="unclosable" required="false" rtexprvalue="true"%>
 
-<div id="${modalId}" class="modal fade in">
-    <div class="${style}">
+<div id="${modalId}" class="modal fade in" data-backdrop="${unclosable?'static':'true'}" >
+    <div class="gameModal ${style}">
         <c:out value="${modalName}"/>
-        <a class="btn btn-default" data-dismiss="modal">x</a>
+        <c:if test="${not unclosable eq 'true'}">
+            <a class="btn btn-default" data-dismiss="modal">x</a>
+        </c:if>
         <br/>
         <jsp:doBody/>
     </div>
