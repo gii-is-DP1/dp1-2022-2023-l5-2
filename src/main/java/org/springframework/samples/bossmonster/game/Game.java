@@ -9,6 +9,7 @@ import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
+import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.model.BaseEntity;
@@ -163,18 +164,16 @@ public class Game extends BaseEntity {
 
     public void placeDungeonRoom(Player player, Integer position, RoomCard room) {
         Dungeon playerDungeon = player.getDungeon();
-        RoomCard[] rooms = playerDungeon.getRooms();
-        rooms[position] = room;
-        playerDungeon.setRooms(rooms);
+        DungeonRoomSlot[] slots = playerDungeon.getRoomSlots();
+        slots[position].setRoom(room);
         player.setDungeon(playerDungeon);
     }
 
     public void destroyDungeonRoom(Player player, Integer position) {
         // Almost the same that the last one. I still made it to make the code easier to understand
         Dungeon playerDungeon = player.getDungeon();
-        RoomCard[] rooms = playerDungeon.getRooms();
-        rooms[position] = null;
-        playerDungeon.setRooms(rooms);
+        DungeonRoomSlot[] slots = playerDungeon.getRoomSlots();
+        slots[position].setRoom(null);
         player.setDungeon(playerDungeon);
     }
 
