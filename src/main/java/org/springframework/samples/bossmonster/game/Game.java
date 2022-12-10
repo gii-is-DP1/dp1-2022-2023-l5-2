@@ -206,13 +206,26 @@ public class Game extends BaseEntity {
             DungeonRoomSlot room = playerDungeon.getRoomSlots()[i];
             Integer dealtDamage = room.getRoomTrueDamage();
             for(HeroCard hero: room.getHeroesInRoom()) {
-                //
+                // TODO Deal damage to hero
+
+                Integer heroValue;
+                if (hero.getIsEpic()) heroValue = 2;
+                else heroValue = 1;
+
+                if (false) player.setSouls(player.getSouls() + heroValue); // TODO Check if hero dies
+                else {
+                    if (i == 0) player.setHealth(player.getHealth() - heroValue);
+                    else {
+                        // TODO Hero goes to next room in dungeon
+                    }
+                }
+                // TODO Hero is deleted from room
             }
         }
     }
 
     public void heroAutomaticallyMovesAfterDestroyingRoom() {
-
+        
     }
 
     ////////// MISC //////////
