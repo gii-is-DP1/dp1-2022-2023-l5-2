@@ -234,4 +234,14 @@ public class Game extends BaseEntity {
         setPlayers(players.stream().sorted(Comparator.comparing(x -> x.getDungeon().getBossCard().getXp(), Comparator.reverseOrder())).collect(Collectors.toList()));
     }
 
+    public List<Card> getCurrentPlayerHand() {
+        return players.get(getState().getCurrentPlayer()).getHand();
+    }
+
+    public void incrementCounter() {
+        state.setCounter(state.getCounter() + 1);
+    }
+
+    ////////// PROCESS STATE //////////
+
 }
