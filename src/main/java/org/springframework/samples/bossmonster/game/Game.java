@@ -167,6 +167,11 @@ public class Game extends BaseEntity {
 
     ////////// DUNGEON RELATED //////////
 
+    public void placeFirstRoom(Player player, RoomCard room) {
+        player.getDungeon().placeRoom(room, 0);
+    }
+
+    // TODO Cambiar
     public Boolean checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
         Boolean result;
         RoomType oldRoomType = player.getDungeon().getRoomSlots()[position].getRoom().getRoomType();
@@ -179,7 +184,7 @@ public class Game extends BaseEntity {
         return result;
     }
 
-    // Probablemente no funcione
+    // TODO Cambiar
     public Boolean placeDungeonRoom(Player player, Integer position, RoomCard room) {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
@@ -193,6 +198,7 @@ public class Game extends BaseEntity {
         return placed;
     }
 
+    // TODO Cambiar
     public void destroyDungeonRoom(Player player, Integer position) {
         Dungeon playerDungeon = player.getDungeon();
         DungeonRoomSlot[] slots = playerDungeon.getRoomSlots();
