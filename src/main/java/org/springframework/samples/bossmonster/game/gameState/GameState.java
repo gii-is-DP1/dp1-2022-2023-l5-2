@@ -40,24 +40,24 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   CHANGE STATE   ////////////////////////////
 
-    public void updateChangeConditionClock(Integer seconds) {
+    private void updateChangeConditionClock(Integer seconds) {
         checkClock = true;
         clock = LocalDateTime.now().plusSeconds(seconds);
     }
 
-    public void updateChangeConditionCounter(Integer newLimit) {
+    private void updateChangeConditionCounter(Integer newLimit) {
         checkClock = false;
         counter = 0;
         actionLimit = newLimit;
     }
 
-    public void checkState() {
+    public void checkStateStatus() {
         if ( (checkClock == false && counter >= actionLimit) ||
              (checkClock == true && clock.isAfter(LocalDateTime.now())) )
         { updateGameState(); }
     }
 
-    public void updateGameState() {
+    private void updateGameState() {
         switch (phase) {
             case START_GAME: updateStartGameState(); break;
             case START_ROUND: updateStartRoundState(); break;
@@ -70,21 +70,21 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
 
-    public void changePhase(GamePhase newPhase) {
+    private void changePhase(GamePhase newPhase) {
         phase = newPhase;
         subPhase = GameSubPhase.ANNOUNCE_NEW_PHASE;
         updateChangeConditionClock(PHASE_COOLDOWN_SECONDS);
         currentPlayer = 0;
     }
 
-    public void announcePlayerTurn() {
+    private void announcePlayerTurn() {
         subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
         updateChangeConditionClock(PLAYER_COOLDOWN_SECONDS);
     }
 
     ////////////////////////////   START GAME   ////////////////////////////
 
-    public void updateStartGameState() {
+    private void updateStartGameState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
@@ -112,7 +112,7 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   START ROUND   ////////////////////////////
 
-    public void updateStartRoundState() {
+    private void updateStartRoundState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.REVEAL_HEROES;
@@ -139,7 +139,7 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   BUILD   ////////////////////////////
 
-    public void updateBuildState() {
+    private void updateBuildState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
@@ -175,7 +175,7 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   LURE   ////////////////////////////
 
-    public void updateLureState() {
+    private void updateLureState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.HEROES_ENTER_DUNGEON;
@@ -191,7 +191,7 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   ADVENTURE   ////////////////////////////
 
-    public void updateAdventureState() {
+    private void updateAdventureState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
