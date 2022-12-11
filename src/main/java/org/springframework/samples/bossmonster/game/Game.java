@@ -246,6 +246,7 @@ public class Game extends BaseEntity {
 
     public void incrementCounter() {
         state.setCounter(state.getCounter() + 1);
+        state.checkStateStatus();
     }
 
     ////////// PROCESS STATE //////////
