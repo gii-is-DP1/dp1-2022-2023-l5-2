@@ -36,5 +36,9 @@ public class DungeonRoomSlot extends BaseEntity {
         this.roomTrueDamage = 0;
     }
 
+    public void replaceRoom(RoomCard newRoom) {
+        room = newRoom;
+    }
+
 
 }
