@@ -62,8 +62,17 @@ public class Dungeon extends BaseEntity {
         }
     }
 
-    public void placeRoom(RoomCard room, Integer position) {
+    public void replaceDungeonRoom(RoomCard room, Integer position) {
         roomSlots[position].replaceRoom(room);
+    }
+
+    public RoomCard getRoom(Integer position) {
+        return roomSlots[position].getRoom();
+    }
+
+    public void moveHeroToNextRoom(HeroCard hero, Integer currentRoomSlot) {
+        roomSlots[currentRoomSlot].removeHero(hero);
+        roomSlots[currentRoomSlot - 1].addHero(hero);
     }
 
 }

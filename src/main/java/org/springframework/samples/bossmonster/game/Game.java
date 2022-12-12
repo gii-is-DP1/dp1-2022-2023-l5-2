@@ -11,7 +11,9 @@ import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
+import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
@@ -176,50 +178,41 @@ public class Game extends BaseEntity {
     ////////// DUNGEON RELATED //////////
 
     public void placeFirstRoom(Player player, RoomCard room) {
-        player.getDungeon().placeRoom(room, 0);
+        player.getDungeon().replaceDungeonRoom(room, 0);
     }
 
-    // TODO Cambiar
     public Boolean checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
         Boolean result;
-        RoomType oldRoomType = player.getDungeon().getRoomSlots()[position].getRoom().getRoomType();
+        RoomType oldRoomType = player.getDungeon().getRoom(position).getRoomType();
         RoomType newRoomType = room.getRoomType();
         switch (newRoomType) {
-            case ADVANCED_MONSTER: { result = oldRoomType == RoomType.MONSTER; break; }
-            case ADVANCED_TRAP: { result = oldRoomType == RoomType.TRAP; break; }
+            case ADVANCED_MONSTER: { result = oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER; break; }
+            case ADVANCED_TRAP: { result = oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP; break; }
             default: result = true;
         }
         return result;
     }
 
-    // TODO Cambiar
     public Boolean placeDungeonRoom(Player player, Integer position, RoomCard room) {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
-            Dungeon playerDungeon = player.getDungeon();
-            DungeonRoomSlot[] slots = playerDungeon.getRoomSlots();
-            slots[position].setRoom(room);
-            player.setDungeon(playerDungeon);
+            player.getDungeon().replaceDungeonRoom(room, position);
             placed = true;
         }
         else placed = false;
         return placed;
     }
 
-    // TODO Cambiar
     public void destroyDungeonRoom(Player player, Integer position) {
-        Dungeon playerDungeon = player.getDungeon();
-        DungeonRoomSlot[] slots = playerDungeon.getRoomSlots();
-        slots[position].setRoom(null);
-        player.setDungeon(playerDungeon);
+        player.getDungeon().replaceDungeonRoom(null, position);
     }
 
     public void heroAdvanceRoomDungeon(Player player) {
         Dungeon playerDungeon = player.getDungeon();
         for(int i = 4; i >= 0; i --) {
-            DungeonRoomSlot room = playerDungeon.getRoomSlots()[i];
-            Integer dealtDamage = room.getRoomTrueDamage();
-            for(HeroCard hero: room.getHeroesInRoom()) {
+            DungeonRoomSlot roomSlot = playerDungeon.getRoomSlots()[i];
+            Integer dealtDamage = roomSlot.getRoomTrueDamage();
+            for(HeroCard hero: roomSlot.getHeroesInRoom()) {
                 // TODO Deal damage to hero
 
                 Integer heroValue;
@@ -228,7 +221,7 @@ public class Game extends BaseEntity {
 
                 if (false) player.setSouls(player.getSouls() + heroValue); // TODO Check if hero dies
                 else {
-                    if (i == 0) player.setHealth(player.getHealth() - heroValue);
+                    if (i == 0) { player.setHealth(player.getHealth() - heroValue); }
                     else {
                         // TODO Hero goes to next room in dungeon
                     }
@@ -255,6 +248,16 @@ public class Game extends BaseEntity {
     public void incrementCounter() {
         state.setCounter(state.getCounter() + 1);
         state.checkStateStatus();
+    }
+
+    public void forceStateForTesting(GamePhase phase, GameSubPhase subPhase, Integer currentPlayer, Integer counter, Integer actionLimit, Integer seconds, Boolean checkClock) {
+        getState().setPhase(phase);
+        getState().setSubPhase(subPhase);
+        getState().setCurrentPlayer(currentPlayer);
+        getState().setCounter(counter);
+        getState().setActionLimit(actionLimit);
+        getState().setClock(LocalDateTime.now().plusSeconds(seconds));
+        getState().setCheckClock(checkClock);
     }
 
     ////////// PROCESS STATE //////////
