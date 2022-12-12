@@ -3,6 +3,8 @@ package org.springframework.samples.bossmonster.game.gameState;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
@@ -14,7 +16,9 @@ import lombok.Setter;
 @Entity
 public class GameState extends BaseEntity {
 
+    @Enumerated(EnumType.STRING)
     private GamePhase phase;
+    @Enumerated(EnumType.STRING)
     private GameSubPhase subPhase;
     private Integer currentPlayer;
     private Integer totalPlayers;
