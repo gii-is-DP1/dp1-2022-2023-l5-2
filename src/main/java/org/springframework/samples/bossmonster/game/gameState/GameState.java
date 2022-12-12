@@ -3,7 +3,10 @@ package org.springframework.samples.bossmonster.game.gameState;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
 import lombok.Getter;
@@ -12,9 +15,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Slf4j
 public class GameState extends BaseEntity {
 
+    @Enumerated(EnumType.STRING)
     private GamePhase phase;
+    @Enumerated(EnumType.STRING)
     private GameSubPhase subPhase;
     private Integer currentPlayer;
     private Integer totalPlayers;
@@ -53,9 +59,12 @@ public class GameState extends BaseEntity {
     }
 
     public void checkStateStatus() {
+        log.debug("Checking game status..." );
+        log.debug("Clock time until update: " + clock.compareTo(LocalDateTime.now()));
         if ( (checkClock == false && counter >= actionLimit) ||
-             (checkClock == true && clock.isAfter(LocalDateTime.now())) )
-        { updateGameState(); }
+             (checkClock == true && clock.isBefore(LocalDateTime.now())) )
+        { log.debug("Game update condition met, updating...");
+            updateGameState(); }
     }
 
     private void updateGameState() {
@@ -109,6 +118,7 @@ public class GameState extends BaseEntity {
                 break;
             }
         }
+        log.debug("Updated start subphase to "+getSubPhase());
     }
 
     ////////////////////////////   START ROUND   ////////////////////////////

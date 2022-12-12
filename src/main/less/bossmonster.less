@@ -240,8 +240,13 @@ table td.action-column {
   -webkit-animation-timing-function: linear;
 }
 
+.invis {
+    border: none;
+    background: none;
+}
+
 .card {
-    width: 12vw;
+    width: 150px;
     border-radius: 8px;
 }
 
@@ -253,15 +258,15 @@ table td.action-column {
 
 .expandable .card{
     transition: 0.25s;
-    width: 15vw;
+    width: 200px;
     grid-column: span 1;
     &:hover {
-        width: 20vw;
+        width: 250px;
     }
 }
 
 .dungeon .card{
-    width: 5vw;
+    width: 5em;
 }
 
 .disabled {
@@ -269,7 +274,7 @@ table td.action-column {
     cursor: default;
 }
 
-.pile-modal {
+.gameModal {
     text-align: center;
     color: white;
     font-weight: 600;
