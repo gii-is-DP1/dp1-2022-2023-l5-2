@@ -36,6 +36,7 @@ public class GameState extends BaseEntity {
     private static final Integer PHASE_COOLDOWN_SECONDS = 5;
     private static final Integer PLAYER_COOLDOWN_SECONDS = 3;
     private static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 5;
+    private static final Integer SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS = 5;
     private static final Integer SHOW_ROOMS_COOLDOWN_SECONDS = 5;
 
     ////////////////////////////   CHANGE STATE   ////////////////////////////
@@ -120,18 +121,12 @@ public class GameState extends BaseEntity {
                 break;
             }
             case REVEAL_HEROES: {
-                announcePlayerTurn();
-                break;
-            }
-            case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.GET_ROOM_CARD;
-                updateChangeConditionCounter(NEW_ROUND_GIVEN_ROOM_CARDS);
+                updateChangeConditionClock(SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS);
                 break;
             }
             case GET_ROOM_CARD: {
-                currentPlayer ++;
-                if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
-                else { changePhase(GamePhase.BUILD); }
+                changePhase(GamePhase.BUILD);
                 break;
             }
         }
