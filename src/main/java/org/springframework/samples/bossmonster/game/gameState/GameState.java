@@ -3,7 +3,10 @@ package org.springframework.samples.bossmonster.game.gameState;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
 import lombok.Getter;
@@ -12,9 +15,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Slf4j
 public class GameState extends BaseEntity {
-    
+
+    @Enumerated(EnumType.STRING)
     private GamePhase phase;
+    @Enumerated(EnumType.STRING)
     private GameSubPhase subPhase;
     private Integer currentPlayer;
     private Integer totalPlayers;
@@ -22,7 +28,7 @@ public class GameState extends BaseEntity {
     // Used to count player actions
     private Integer counter;
     // If counter reaches this value, the state updates if checkClock is false
-    private Integer limit;
+    private Integer actionLimit;
     // Used to control time based aspects of the game
     private LocalDateTime clock;
     // If true, game updates when clock matches current time. If false, when counter matches limit
@@ -36,28 +42,32 @@ public class GameState extends BaseEntity {
     private static final Integer PHASE_COOLDOWN_SECONDS = 5;
     private static final Integer PLAYER_COOLDOWN_SECONDS = 3;
     private static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 5;
+    private static final Integer SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS = 5;
     private static final Integer SHOW_ROOMS_COOLDOWN_SECONDS = 5;
 
     ////////////////////////////   CHANGE STATE   ////////////////////////////
 
-    public void updateChangeConditionClock(Integer seconds) {
+    private void updateChangeConditionClock(Integer seconds) {
         checkClock = true;
         clock = LocalDateTime.now().plusSeconds(seconds);
     }
 
-    public void updateChangeConditionCounter(Integer newLimit) {
+    private void updateChangeConditionCounter(Integer newLimit) {
         checkClock = false;
         counter = 0;
-        limit = newLimit;
+        actionLimit = newLimit;
     }
 
-    public void checkState() {
-        if ( (checkClock == false && counter >= limit) ||
-             (checkClock == true && clock.isAfter(LocalDateTime.now())) ) 
-        { updateGameState(); }
+    public void checkStateStatus() {
+        log.debug("Checking game status..." );
+        log.debug("Clock time until update: " + clock.compareTo(LocalDateTime.now()));
+        if ( (checkClock == false && counter >= actionLimit) ||
+             (checkClock == true && clock.isBefore(LocalDateTime.now())) )
+        { log.debug("Game update condition met, updating...");
+            updateGameState(); }
     }
 
-    public void updateGameState() {
+    private void updateGameState() {
         switch (phase) {
             case START_GAME: updateStartGameState(); break;
             case START_ROUND: updateStartRoundState(); break;
@@ -70,26 +80,26 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
 
-    public void changePhase(GamePhase newPhase) {
+    private void changePhase(GamePhase newPhase) {
         phase = newPhase;
         subPhase = GameSubPhase.ANNOUNCE_NEW_PHASE;
         updateChangeConditionClock(PHASE_COOLDOWN_SECONDS);
         currentPlayer = 0;
     }
 
-    public void announcePlayerTurn() {
+    private void announcePlayerTurn() {
         subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
         updateChangeConditionClock(PLAYER_COOLDOWN_SECONDS);
     }
 
     ////////////////////////////   START GAME   ////////////////////////////
 
-    public void updateStartGameState() {
+    private void updateStartGameState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
                 updateChangeConditionClock(PLAYER_COOLDOWN_SECONDS);
-                break; 
+                break;
             }
             case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.DISCARD_2_STARTING_CARDS;
@@ -97,7 +107,7 @@ public class GameState extends BaseEntity {
                 break;
             }
             case DISCARD_2_STARTING_CARDS: {
-                subPhase = GameSubPhase.PLACE_FIRST_ROOM; 
+                subPhase = GameSubPhase.PLACE_FIRST_ROOM;
                 updateChangeConditionCounter(START_GAME_ROOMS_PLACED);
                 break;
             }
@@ -108,11 +118,12 @@ public class GameState extends BaseEntity {
                 break;
             }
         }
+        log.debug("Updated start subphase to "+getSubPhase());
     }
 
     ////////////////////////////   START ROUND   ////////////////////////////
 
-    public void updateStartRoundState() {
+    private void updateStartRoundState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.REVEAL_HEROES;
@@ -120,18 +131,12 @@ public class GameState extends BaseEntity {
                 break;
             }
             case REVEAL_HEROES: {
-                announcePlayerTurn();
-                break;
-            }
-            case ANNOUNCE_NEW_PLAYER: {
-                subPhase = GameSubPhase.GET_ROOM_CARD; 
-                updateChangeConditionCounter(NEW_ROUND_GIVEN_ROOM_CARDS);
+                subPhase = GameSubPhase.GET_ROOM_CARD;
+                updateChangeConditionClock(SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS);
                 break;
             }
             case GET_ROOM_CARD: {
-                currentPlayer ++;
-                if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
-                else { changePhase(GamePhase.BUILD); }
+                changePhase(GamePhase.BUILD);
                 break;
             }
         }
@@ -139,20 +144,20 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   BUILD   ////////////////////////////
 
-    public void updateBuildState() {
+    private void updateBuildState() {
         switch (subPhase) {
-            case ANNOUNCE_NEW_PHASE: { 
+            case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
                 updateChangeConditionClock(PLAYER_COOLDOWN_SECONDS);
-                break; 
+                break;
             }
-            case ANNOUNCE_NEW_PLAYER: { 
+            case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.BUILD_NEW_ROOM;
                 updateChangeConditionCounter(BUILD_PHASE_BUILDED_ROOMS_LIMIT);
-                break; 
+                break;
             }
             case BUILD_NEW_ROOM: {
-                subPhase = GameSubPhase.USE_SPELLCARD; 
+                subPhase = GameSubPhase.USE_SPELLCARD;
                 // There is no limit here, the current player chooses when this phase ends
                 updateChangeConditionCounter(1);
                 break;
@@ -175,10 +180,10 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   LURE   ////////////////////////////
 
-    public void updateLureState() {
+    private void updateLureState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
-                subPhase = GameSubPhase.HEROES_ENTER_DUNGEON; 
+                subPhase = GameSubPhase.HEROES_ENTER_DUNGEON;
                 // TODO Ni idea de como poner esto ahora mismo
                 break;
             }
@@ -191,7 +196,7 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   ADVENTURE   ////////////////////////////
 
-    public void updateAdventureState() {
+    private void updateAdventureState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;

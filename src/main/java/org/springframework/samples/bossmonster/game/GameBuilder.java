@@ -98,6 +98,7 @@ public class GameBuilder {
         newGame.setFinalBossPile(playerBuilder.getCurrentBossPile());
         newGame.setSpellPile(playerBuilder.getCurrentSpellPile());
         newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
+        newGame.sortPlayersByFinalBossEx();
     }
 
     public void buildStats(Game newGame, Integer totalPlayers) {
@@ -108,7 +109,7 @@ public class GameBuilder {
         state.setSubPhase(GameSubPhase.ANNOUNCE_NEW_PHASE);
         state.setTotalPlayers(totalPlayers);
         state.setCounter(0);
-        state.setLimit(0);
+        state.setActionLimit(0);
         state.setCheckClock(true);
         state.setClock(LocalDateTime.now().plusSeconds(5));
         newGame.setState(state);

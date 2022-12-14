@@ -107,6 +107,13 @@ INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
     (76, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, 'SWORD'),
     (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK'),
     (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG');
+    (72, 'Belladona',         '/resources/images/bosses/boss_00.jpg', 350, 'CROSS'),
+    (73, 'The Brothers Wise', '/resources/images/bosses/boss_01.jpg', 775, 'BOOK'),
+    (74, 'Xyzax',             '/resources/images/bosses/boss_02.jpg', 750, 'CROSS'),
+    (75, 'Cerebellus',        '/resources/images/bosses/boss_03.jpg', 650, 'BOOK'),
+    (76, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, 'SWORD'),
+    (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK'),
+    (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG');
 
 INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
     (1, 2, 'ignarrman',null),
@@ -119,8 +126,7 @@ INSERT INTO lobby_users(lobby_id,user_id) VALUES
     (2, 'frarosram'),
     (2, 'jessolort'),
     (2, 'eletomvel'),
-    (3, 'ignarrman'),
-    (3, 'tadcabgom'),
+    -- Para comprobar el juego, unirse al lobby 3 como admin1 y "espectador"
     (3, 'eletomvel'),
     (3, 'admin1');
 

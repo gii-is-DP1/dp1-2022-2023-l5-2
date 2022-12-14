@@ -1,6 +1,7 @@
 package org.springframework.samples.bossmonster.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
@@ -14,7 +15,10 @@ public class GameService {
 
     GameRepository repo;
     PlayerService playerService;
+    CardService cardService;
     GameBuilder gameBuilder;
+
+    private static final Integer PLAYER_HAND_CARD_LIMIT = 5;
 
     @Autowired
     public GameService(GameRepository repo, PlayerService playerService, GameBuilder gameBuilder) {
@@ -73,5 +77,7 @@ public class GameService {
     public void processAdventureRound() {
         // 1): Cada heroe de cada mazmorra avanza. (1 sala o todas las salas?)
     }
+
+
 
 }
