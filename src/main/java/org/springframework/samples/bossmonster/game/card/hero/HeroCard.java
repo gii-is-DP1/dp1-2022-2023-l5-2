@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 
 
 import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.TreasureType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +29,7 @@ public class HeroCard extends Card{
 
     @Column(name = "treasure")
     @NotEmpty
-    private String treasure;
+    private TreasureType treasure;
 
     @Column(name = "necessary_players")
     @NotEmpty
