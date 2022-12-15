@@ -74,4 +74,10 @@ public class Dungeon extends BaseEntity {
         roomSlots[currentRoomSlot - 1].addHero(hero);
     }
 
+    public void revealRooms() {
+        for(var i = 0; i < 5; i ++) {
+            if (roomSlots[i].getRoom() != null) roomSlots[i].setIsVisible(true);
+        }
+    }
+
 }
