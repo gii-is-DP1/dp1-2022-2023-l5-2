@@ -9,11 +9,7 @@ import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -22,9 +18,6 @@ import java.util.List;
 @Entity
 public class Player extends BaseEntity {
 
-    @Transient
-    private PlayerBuilder playerBuilder;
-
     @OneToOne
     private User user;
 
@@ -32,13 +25,11 @@ public class Player extends BaseEntity {
 
     private Integer souls;
 
-    // @OneToOne
-    // private Dungeon dungeon;
+    @OneToOne(cascade = CascadeType.ALL)
+    Dungeon dungeon;
 
     @OneToMany
     private List<Card> hand;
 
-    //@OneToOne
-    //Dungeon dungeon;
 
 }

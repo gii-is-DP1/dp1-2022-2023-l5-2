@@ -46,78 +46,82 @@ INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_tri
     (21, 'Minotaurs Maze',     '/resources/images/rooms/room_20.png', 'MONSTER', '0100', 0, 'NONE','ENUMERADO','ENUMERADO');
 
 INSERT INTO spell_card(id, name, card_image, phase, target, effect, requirements) VALUES
-    (1, 'Giant Size', 'resources/static/resources/images/spells/spell_00', 'adventurePhase', 'MONSTERROOM', 'ENUMERADO', 'HAVEMONSTERROOM'),
-    (2, 'Soul Harvest', 'resources/static/resources/images/spells/spell_01', 'adventureAndConstructionPhase', 'HEROINSCORE', 'ENUMERADO', 'HAVESOULS'),
-    (3, 'Princess in Peril', 'resources/static/resources/images/spells/spell_02', 'constructionPhase', 'HEROINTOWN', 'ENUMERADO', 'THEREISHEROINTOWN'),
-    (4, 'Motivation', 'resources/static/resources/images/spells/spell_03', 'constructionPhase', 'ALLPLAYERS', 'ENUMERADO', 'NONE'),
-    (5, 'Exhaustion', 'resources/static/resources/images/spells/spell_04', 'adventurePhase', 'HEROINDUNGEON', 'ENUMERADO', 'THEREISHEROINDUNGEON'),
-    (6, 'Annihilator', 'resources/static/resources/images/spells/spell_05', 'adventurePhase', 'TRAPROOM', 'ENUMERADO', 'HAVETRAPROOM'),
-    (7, 'Cave-in', 'resources/static/resources/images/spells/spell_06', 'adventurePhase', 'ROOM', 'ENUMERADO', 'HAVEROOM'),
-    (8, 'Kobold Strike', 'resources/static/resources/images/spells/spell_07', 'constructionPhase', 'ALLPLAYERS', 'ENUMERADO', 'NONE'),
-    (9, 'Teleportation', 'resources/static/resources/images/spells/spell_08', 'adventurePhase', 'HEROINDUNGEON', 'ENUMERADO', 'THEREISHEROINDUNGEON');
+    (22,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','adventurePhase'               ,'MONSTERROOM'  ,'ENUMERADO','HAVEMONSTERROOM')      ,
+    (23,'Soul Harvest'     ,'/resources/images/spells/spell_01.jpg','adventureAndConstructionPhase','HEROINSCORE'  ,'ENUMERADO','HAVESOULS')            ,
+    (24,'Princess in Peril','/resources/images/spells/spell_02.jpg','constructionPhase'            ,'HEROINTOWN'   ,'ENUMERADO','THEREISHEROINTOWN')    ,
+    (25,'Motivation'       ,'/resources/images/spells/spell_03.jpg','constructionPhase'            ,'ALLPLAYERS'   ,'ENUMERADO','NONE')                 ,
+    (26,'Exhaustion'       ,'/resources/images/spells/spell_04.jpg','adventurePhase'               ,'HEROINDUNGEON','ENUMERADO','THEREISHEROINDUNGEON') ,
+    (27,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','adventurePhase'               ,'TRAPROOM'     ,'ENUMERADO','HAVETRAPROOM')         ,
+    (28,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'ROOM'         ,'ENUMERADO','HAVEROOM')             ,
+    (29,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'ALLPLAYERS'   ,'ENUMERADO','NONE')                 ,
+    (30,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'HEROINDUNGEON','ENUMERADO','THEREISHEROINDUNGEON');
 
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
-    (1,     'Acacia,_Warrior_of_Light',             '/resources/images/heroes/Acacia,_Warrior_of_Light.jpg',           'cleric', 6, false, 2),
-    (2,     'Antonius,_the_Rune_Knight',            '/resources/images/heroes/Antonius,_the_Rune_Knight.jpg',          'fighter', 13, true, 2),
-    (3,     'Asmor_the_Aweless',                    '/resources/images/heroes/Asmor_the_Aweless.jpg',                  'fighter', 13, true, 4),
-    (4,     'Blackbeard_Jake',                      '/resources/images/heroes/Blackbeard_Jake.jpg',                    'thief', 11, true, 3),
-    (5,     'Boden_the_Pantless' ,                  '/resources/images/heroes/Boden_the_Pantless.jpg',                 'fighter', 4, false, 2),
-    (6,     'Brandork_the_Neverwrong' ,             '/resources/images/heroes/Brandork_the_Neverwrong.jpg',            'mage', 4, false, 4),
-    (7,     'Cecil_Leoran,_Master_Factotum' ,       '/resources/images/heroes/Cecil_Leoran,_Master_Factotum.jpg',      'thief', 13, true, 2),
-    (8,     'Charles_the_Young' ,                   '/resources/images/heroes/Charles_the_Young.jpg',                  'cleric', 6, false, 3),
-    (9,     'Chia_Kang,_Mystical_Warlock_of_Yu' ,   '/resources/images/heroes/Chia_Kang,_Mystical_Warlock_of_Yu.jpg',  'mage', 11, true, 3),
-    (10,    'Crystol_and_A`lan_of_Gerd' ,           '/resources/images/heroes/Crystol_and_A%27lan_of_Gerd.jpg',        'fighter', 8, false, 4),
-    (11,    'Dartteon,_Elf_Pyromancer' ,            '/resources/images/heroes/Dartteon,_Elf_Pyromancer.jpg',           'mage', 8, false, 2),
-    (12,    'Delatorious,_Angel_of_Light' ,         '/resources/images/heroes/Delatorious,_Angel_of_Light.jpg',        'cleric', 8, false, 2),
-    (13,    'Fire%27s_Breath,_Heroine_of_Arcadia' , '/resources/images/heroes/Fire%27s_Breath,_Heroine_of_Arcadia.jpg','fighter', 6, false, 2),
-    (14,    'Frankov,_the_Envoy' ,                  '/resources/images/heroes/Frankov,_the_Envoy.jpg',                 'fighter', 11, true, 2),
-    (15,    'Hya,_Legendary_Shinobi' ,              '/resources/images/heroes/Hya,_Legendary_Shinobi.jpg',             'thief', 11, true, 2),
-    (16,    'Jarek,_Squire_to_the_Lion_Knights' ,   '/resources/images/heroes/Jarek,_Squire_to_the_Lion_Knights.jpg',  'fighter', 4, false, 4),
-    (17,    'Jejune_%26_Everlea,_Holy_Sisters' ,    '/resources/images/heroes/Jejune_%26_Everlea,_Holy_Sisters.jpg',   'cleric', 13, true, 4),
-    (18,    'Jerome,_Kung_Fu_Monkey' ,              '/resources/images/heroes/Jerome,_Kung_Fu_Monkey.jpg',             'thief', 8, false, 4),
-    (19,    'Jesta_the_Rogue' ,                     '/resources/images/heroes/Jesta_the_Rogue.jpg',                    'thief', 8, false, 4),
-    (20,    'Johnny_of_the_Evening_Watch' ,         '/resources/images/heroes/Johnny_of_the_Evening_Watch.jpg',        'fighter', 8, false, 2),
-    (21,    'Joman_Chimm,_Cutpurse' ,               '/resources/images/heroes/Joman_Chimm,_Cutpurse.jpg',              'thief', 4, false, 2),
-    (22,    'Kalish_Ninefingers' ,                  '/resources/images/heroes/Kalish_Ninefingers.jpg',                 'mage', 6, false, 3),
-    (23,    'Katelyn,_Angelic_Healer' ,             '/resources/images/heroes/Katelyn,_Angelic_Healer.jpg',            'cleric', 11, true, 2),
-    (24,    'Kerberos_Dirtbeard,_Canine_Cleric' ,   '/resources/images/heroes/Kerberos_Dirtbeard,_Canine_Cleric.jpg',  'cleric', 11, true, 3),
-    (25,    'Kins_Klauski,_Mad_Conquistador' ,      '/resources/images/heroes/Kins_Klauski,_Mad_Conquistador.jpg',     'thief', 6, false, 3),
-    (26,    'Koey,_the_Last_Dragon_Mage' ,          '/resources/images/heroes/Koey,_the_Last_Dragon_Mage.jpg',         'mage', 8, false, 4),
-    (27,    'Lance_Uppercut,_Treasure_Hunter' ,     '/resources/images/heroes/Lance_Uppercut,_Treasure_Hunter.jpg',    'thief', 4, false, 4),
-    (28,    'Lord_Van_Ette' ,                       '/resources/images/heroes/Lord_Van_Ette.jpg',                      'cleric', 13, true, 2),
-    (29,    'Mitchell,_the_Judge' ,                 '/resources/images/heroes/Mitchell,_the_Judge.jpg',                'mage', 6, false, 2),
-    (30,    'Nate_the_Squidslayer' ,                '/resources/images/heroes/Nate_the_Squidslayer.jpg',               'fighter', 11, true, 3),
-    (31,    'Nick_the_Masher' ,                     '/resources/images/heroes/Nick_the_Masher.jpg',                    'cleric', 4, false, 2),
-    (32,    'Pugi_the_Druidess' ,                   '/resources/images/heroes/Pugi_the_Druidess.jpg',                  'cleric', 4, false, 4),
-    (33,    'Romero,_the_Indigo_Friar' ,            '/resources/images/heroes/Romero,_the_Indigo_Friar.jpg',           'cleric', 8, false, 4),
-    (34,    'Samurai_Tom' ,                         '/resources/images/heroes/Samurai_Tom.jpg',                        'fighter', 6, false, 3),
-    (35,    'Sir_Digby_Apple,_Ace_Detective' ,      '/resources/images/heroes/Sir_Digby_Apple,_Ace_Detective.jpg',     'thief', 8, false, 2),
-    (36,    'Tempros_the_Time_Marauder',            '/resources/images/heroes/Tempros_the_Time_Marauder.jpg',          'mage', 11, true, 2),
-    (37,    'Terric_Warhelm,_Half-Elf_Archmage',    '/resources/images/heroes/Terric_Warhelm,_Half-Elf_Archmage.jpg',  'mage', 13, true, 2),
-    (38,    'The_Fool' ,                            '/resources/images/heroes/The_Fool.jpg',                           'fool', 2, false, 2),
-    (39,    'Tieg_and_the_Magic_Bubble',            '/resources/images/heroes/Tieg_and_the_Magic_Bubble.jpg',          'mage', 4, false, 2),
-    (40,    'Wallbanger_Basketweaver',              '/resources/images/heroes/Wallbanger_Basketweaver.jpg',            'thief', 13, true, 4),
-    (41,    'Wayward,_the_Drifter',                 '/resources/images/heroes/Wayward,_the_Drifter.jpg',               'mage', 13, true, 4);
+    (31,     'Acacia,_Warrior_of_Light',             '/resources/images/heroes/Acacia,_Warrior_of_Light.jpg',           'CROSS', 6, false, 2),
+    (32,     'Antonius,_the_Rune_Knight',            '/resources/images/heroes/Antonius,_the_Rune_Knight.jpg',          'SWORD', 13, true, 2),
+    (33,     'Asmor_the_Aweless',                    '/resources/images/heroes/Asmor_the_Aweless.jpg',                  'SWORD', 13, true, 4),
+    (34,     'Blackbeard_Jake',                      '/resources/images/heroes/Blackbeard_Jake.jpg',                    'BAG', 11, true, 3),
+    (35,     'Boden_the_Pantless' ,                  '/resources/images/heroes/Boden_the_Pantless.jpg',                 'SWORD', 4, false, 2),
+    (36,     'Brandork_the_Neverwrong' ,             '/resources/images/heroes/Brandork_the_Neverwrong.jpg',            'BOOK', 4, false, 4),
+    (37,     'Cecil_Leoran,_Master_Factotum' ,       '/resources/images/heroes/Cecil_Leoran,_Master_Factotum.jpg',      'BAG', 13, true, 2),
+    (38,     'Charles_the_Young' ,                   '/resources/images/heroes/Charles_the_Young.jpg',                  'CROSS', 6, false, 3),
+    (39,     'Chia_Kang,_Mystical_Warlock_of_Yu' ,   '/resources/images/heroes/Chia_Kang,_Mystical_Warlock_of_Yu.jpg',  'BOOK', 11, true, 3),
+    (40,    'Crystol_and_A`lan_of_Gerd' ,           '/resources/images/heroes/Crystol_and_A%27lan_of_Gerd.jpg',         'SWORD', 8, false, 4),
+    (41,    'Dartteon,_Elf_Pyromancer' ,            '/resources/images/heroes/Dartteon,_Elf_Pyromancer.jpg',            'BOOK', 8, false, 2),
+    (42,    'Delatorious,_Angel_of_Light' ,         '/resources/images/heroes/Delatorious,_Angel_of_Light.jpg',         'CROSS', 8, false, 2),
+    (43,    'Fire%27s_Breath,_Heroine_of_Arcadia' , '/resources/images/heroes/Fire%27s_Breath,_Heroine_of_Arcadia.jpg', 'SWORD', 6, false, 2),
+    (44,    'Frankov,_the_Envoy' ,                  '/resources/images/heroes/Frankov,_the_Envoy.jpg',                  'SWORD', 11, true, 2),
+    (45,    'Hya,_Legendary_Shinobi' ,              '/resources/images/heroes/Hya,_Legendary_Shinobi.jpg',              'BAG', 11, true, 2),
+    (46,    'Jarek,_Squire_to_the_Lion_Knights' ,   '/resources/images/heroes/Jarek,_Squire_to_the_Lion_Knights.jpg',   'SWORD', 4, false, 4),
+    (47,    'Jejune_%26_Everlea,_Holy_Sisters' ,    '/resources/images/heroes/Jejune_%26_Everlea,_Holy_Sisters.jpg',    'CROSS', 13, true, 4),
+    (48,    'Jerome,_Kung_Fu_Monkey' ,              '/resources/images/heroes/Jerome,_Kung_Fu_Monkey.jpg',              'BAG', 8, false, 4),
+    (49,    'Jesta_the_Rogue' ,                     '/resources/images/heroes/Jesta_the_Rogue.jpg',                     'BAG', 8, false, 4),
+    (50,    'Johnny_of_the_Evening_Watch' ,         '/resources/images/heroes/Johnny_of_the_Evening_Watch.jpg',         'SWORD', 8, false, 2),
+    (51,    'Joman_Chimm,_Cutpurse' ,               '/resources/images/heroes/Joman_Chimm,_Cutpurse.jpg',               'BAG', 4, false, 2),
+    (52,    'Kalish_Ninefingers' ,                  '/resources/images/heroes/Kalish_Ninefingers.jpg',                  'BOOK', 6, false, 3),
+    (53,    'Katelyn,_Angelic_Healer' ,             '/resources/images/heroes/Katelyn,_Angelic_Healer.jpg',             'CROSS', 11, true, 2),
+    (54,    'Kerberos_Dirtbeard,_Canine_Cleric' ,   '/resources/images/heroes/Kerberos_Dirtbeard,_Canine_Cleric.jpg',   'CROSS', 11, true, 3),
+    (55,    'Kins_Klauski,_Mad_Conquistador' ,      '/resources/images/heroes/Kins_Klauski,_Mad_Conquistador.jpg',      'BAG', 6, false, 3),
+    (56,    'Koey,_the_Last_Dragon_Mage' ,          '/resources/images/heroes/Koey,_the_Last_Dragon_Mage.jpg',          'BOOK', 8, false, 4),
+    (57,    'Lance_Uppercut,_Treasure_Hunter' ,     '/resources/images/heroes/Lance_Uppercut,_Treasure_Hunter.jpg',     'BAG', 4, false, 4),
+    (58,    'Lord_Van_Ette' ,                       '/resources/images/heroes/Lord_Van_Ette.jpg',                       'CROSS', 13, true, 2),
+    (59,    'Mitchell,_the_Judge' ,                 '/resources/images/heroes/Mitchell,_the_Judge.jpg',                 'BOOK', 6, false, 2),
+    (60,    'Nate_the_Squidslayer' ,                '/resources/images/heroes/Nate_the_Squidslayer.jpg',                'SWORD', 11, true, 3),
+    (61,    'Nick_the_Masher' ,                     '/resources/images/heroes/Nick_the_Masher.jpg',                     'CROSS', 4, false, 2),
+    (62,    'Pugi_the_Druidess' ,                   '/resources/images/heroes/Pugi_the_Druidess.jpg',                   'CROSS', 4, false, 4),
+    (63,    'Romero,_the_Indigo_Friar' ,            '/resources/images/heroes/Romero,_the_Indigo_Friar.jpg',            'CROSS', 8, false, 4),
+    (64,    'Samurai_Tom' ,                         '/resources/images/heroes/Samurai_Tom.jpg',                         'SWORD', 6, false, 3),
+    (65,    'Sir_Digby_Apple,_Ace_Detective' ,      '/resources/images/heroes/Sir_Digby_Apple,_Ace_Detective.jpg',      'BAG', 8, false, 2),
+    (66,    'Tempros_the_Time_Marauder',            '/resources/images/heroes/Tempros_the_Time_Marauder.jpg',           'BOOK', 11, true, 2),
+    (67,    'Terric_Warhelm,_Half-Elf_Archmage',    '/resources/images/heroes/Terric_Warhelm,_Half-Elf_Archmage.jpg',   'BOOK', 13, true, 2),
+    (68,    'The_Fool' ,                            '/resources/images/heroes/The_Fool.jpg',                            'FOOL', 2, false, 2),
+    (69,    'Tieg_and_the_Magic_Bubble',            '/resources/images/heroes/Tieg_and_the_Magic_Bubble.jpg',           'BOOK', 4, false, 2),
+    (70,    'Wallbanger_Basketweaver',              '/resources/images/heroes/Wallbanger_Basketweaver.jpg',             'BAG', 13, true, 4),
+    (71,    'Wayward,_the_Drifter',                 '/resources/images/heroes/Wayward,_the_Drifter.jpg',                'BOOK', 13, true, 4);
 
 INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
-    (1, 'Belladona',         '/resources/images/bosses/boss_00.jpg', 350, '0010'),
-    (2, 'The Brothers Wise', '/resources/images/bosses/boss_01.jpg', 775, '1000'),
-    (3, 'Xyzax',             '/resources/images/bosses/boss_02.jpg', 750, '0010'),
-    (4, 'Cerebellus',        '/resources/images/bosses/boss_03.jpg', 650, '1000'),
-    (5, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, '0100'),
-    (6, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, '1000'),
-    (7, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, '0001');
+    (72, 'Belladona',         '/resources/images/bosses/boss_00.jpg', 350, 'CROSS'),
+    (73, 'The Brothers Wise', '/resources/images/bosses/boss_01.jpg', 775, 'BOOK'),
+    (74, 'Xyzax',             '/resources/images/bosses/boss_02.jpg', 750, 'CROSS'),
+    (75, 'Cerebellus',        '/resources/images/bosses/boss_03.jpg', 650, 'BOOK'),
+    (76, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, 'SWORD'),
+    (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK'),
+    (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG');
 
 INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
     (1, 2, 'ignarrman',null),
-    (2, 3, 'eletomvel',null);
+    (2, 3, 'eletomvel',null),
+    (3, 3, 'admin1',null);
 
 INSERT INTO lobby_users(lobby_id,user_id) VALUES
     (1, 'ignarrman'),
     (1, 'tadcabgom'),
     (2, 'frarosram'),
     (2, 'jessolort'),
-    (2, 'eletomvel');
+    (2, 'eletomvel'),
+    -- Para comprobar el juego, unirse al lobby 3 como admin1 y "espectador"
+    (3, 'eletomvel'),
+    (3, 'admin1');
 
 INSERT INTO game_result(id,winner,duration,date) VALUES
     (1,'ignarrman', 1.26, '2018-08-12'),
@@ -151,9 +155,17 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (6,'ignarrman');
 
 INSERT INTO achievement(id, name, description, image, threshold, metric) VALUES
-    (0, 'Tutorial Monster', 'Win 1 game.', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
-    (1, 'Room Monster', 'Win 5 game.', '/resources/images/bosses/boss_00.jpg', 5, 'VICTORIES'),
-    (2, 'Midboss Monster', 'Win 25 games.', '/resources/images/bosses/boss_00.jpg', 10, 'VICTORIES');
+    (1, 'Tutorial Monster', 'Win 1 game.', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
+    (2, 'Room Monster', 'Win 5 game.', '/resources/images/bosses/boss_00.jpg', 5, 'VICTORIES'),
+    (3, 'Midboss Monster', 'Win 25 games.', '/resources/images/bosses/boss_00.jpg', 10, 'VICTORIES');
+
+INSERT INTO achievement_users(username, achievement_id) VALUES
+    ('igngongon2', 1),
+    ('jessolort', 2),
+    ('fralarmar', 1),
+    ('tadcabgom', 3),
+    ('eletomvel', 3),
+    ('ignarrman', 1);
 
 /*
 ,
@@ -171,3 +183,4 @@ INSERT INTO achievement(id, name, description, image, threshold, metric) VALUES
     (14, 'Golden Monster', 'Have 3 advanced rooms in your dungeon.'),
     (15, 'New Monster', 'Create your account.')
  */
+

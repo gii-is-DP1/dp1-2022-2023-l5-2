@@ -5,6 +5,13 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="achievements">
+    <jsp:attribute name="customScript">
+        <script>
+            $(function () {
+                $("#birthDate").datepicker({dateFormat: 'yy/mm/dd'});
+            });
+        </script>
+    </jsp:attribute>
     <jsp:body>
         <h2>
             <c:if test="${achievement['new']}">New </c:if> Achievement
@@ -15,8 +22,17 @@
             <div class="form-group has-feedback">                
                 <bossmonster:inputField label="Name" name="name"/>
                 <bossmonster:inputField label="Description" name="description"/>
-                <bossmonster:inputField label="Badge" name="badgeImage"/>
+                <bossmonster:inputField label="Image" name="image"/>
                 <bossmonster:inputField label="Threshold" name="threshold"/>
+                <bossmonster:selectField label="Metric"  name="metric" names="${metrics}" size="1"/>
+                <!-- Metrics:  We provide also  the solution with spring form:select and classical HTML selects     -->
+                <!-- form:select path="metric" items="${metrics}"/-->
+                <!-- select  name="metric"-->
+                    <!-- c:forEach items="${metrics}" var="metric"-->
+                        <!--option value="${metric}"><c:out value="${metric}"/></option>-->
+                    <!--/c:forEach-->
+                <!-- /select-->
+
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -30,6 +46,6 @@
                     </c:choose>
                 </div>
             </div>
-        </form:form>        
+        </form:form>                
     </jsp:body>
 </bossmonster:layout>

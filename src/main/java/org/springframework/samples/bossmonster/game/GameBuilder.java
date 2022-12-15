@@ -1,9 +1,7 @@
 package org.springframework.samples.bossmonster.game;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.CardService;
@@ -11,38 +9,46 @@ import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
-import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
+import org.springframework.samples.bossmonster.game.gameState.GameState;
+import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.game.player.PlayerBuilder;
+import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Component
 public class GameBuilder {
 
-    public Game buildNewGame(List<User> users) {
+    CardService cardService;
+
+    @Autowired
+    public GameBuilder(CardService cardService) {
+        this.cardService = cardService;
+    }
+
+    public Game buildNewGame(GameLobby lobby) {
         Game newGame = new Game();
-        buildHeroPile(newGame, users);
+        buildHeroPile(newGame, lobby);
         buildSpellPile(newGame);
         buildRoomPile(newGame);
         buildFinalBossPile(newGame);
         buildDiscardPile(newGame);
         buildCity(newGame);
-        buildPlayers(newGame, users);
-        buildStats(newGame);
+        buildPlayers(newGame,lobby.getJoinedUsers());
+        buildStats(newGame, lobby.getJoinedUsers().size());
         return newGame;
     }
-    
-    @Autowired
-    CardService cardService;
 
-    public void buildHeroPile(Game newGame, List<User> users) {
-        Integer players = users.size();
+    public void buildHeroPile(Game newGame, GameLobby lobby) {
+        Integer players = lobby.getJoinedUsers().size();
         List<HeroCard> allHeroCards = cardService.createHeroCardDeck();
         List<HeroCard> selectedHeroCards = new ArrayList<>();
         for(HeroCard i: allHeroCards) { if (players <= i.getNecessaryPlayers()) selectedHeroCards.add(i);}
@@ -77,24 +83,35 @@ public class GameBuilder {
     public void buildPlayers(Game newGame, List<User> users) {
         List<Player> players = new ArrayList<>();
         PlayerBuilder playerBuilder = new PlayerBuilder();
-        for (User i: users) {
-            
-            playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
-            playerBuilder.setCurrentSpellPile(newGame.getSpellPile());
-            playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
+        playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
+        playerBuilder.setCurrentSpellPile(newGame.getSpellPile());
+        playerBuilder.setCurrentRoomPile(newGame.getRoomPile());
+        playerBuilder.setCurrentBossPile(newGame.getFinalBossPile());
 
+        for (User i: users) {
             Player newPlayer = playerBuilder.buildNewPlayer(i);
             players.add(newPlayer);
-
-            newGame.setRoomPile(playerBuilder.getCurrentRoomPile());
-            newGame.setSpellPile(playerBuilder.getCurrentSpellPile());
-            newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
         }
+
+        newGame.setPlayers(players);
+        newGame.setRoomPile(playerBuilder.getCurrentRoomPile());
+        newGame.setFinalBossPile(playerBuilder.getCurrentBossPile());
+        newGame.setSpellPile(playerBuilder.getCurrentSpellPile());
+        newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
+        newGame.sortPlayersByFinalBossEx();
     }
 
-    public void buildStats(Game newGame) {
+    public void buildStats(Game newGame, Integer totalPlayers) {
         newGame.setStartedTime(LocalDateTime.now());
-        newGame.setPhase(GamePhase.START_GAME);
-        newGame.setCurrentPlayerTurn(0);
+        GameState state = new GameState();
+        state.setCurrentPlayer(0);
+        state.setPhase(GamePhase.START_GAME);
+        state.setSubPhase(GameSubPhase.ANNOUNCE_NEW_PHASE);
+        state.setTotalPlayers(totalPlayers);
+        state.setCounter(0);
+        state.setActionLimit(0);
+        state.setCheckClock(true);
+        state.setClock(LocalDateTime.now().plusSeconds(5));
+        newGame.setState(state);
     }
 }

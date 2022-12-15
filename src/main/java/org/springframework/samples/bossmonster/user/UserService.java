@@ -17,15 +17,11 @@ package org.springframework.samples.bossmonster.user;
 
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.bossmonster.game.Game;
-import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameLobby.GameLobbyRepository;
-import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.gameResult.GameResultRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

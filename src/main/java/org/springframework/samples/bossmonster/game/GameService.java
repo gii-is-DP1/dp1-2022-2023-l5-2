@@ -1,29 +1,30 @@
 package org.springframework.samples.bossmonster.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.bossmonster.game.gamePhase.GamePhase;
-import org.springframework.samples.bossmonster.game.gamePhase.GameSubPhase;
-import org.springframework.samples.bossmonster.game.player.Player;
+import org.springframework.samples.bossmonster.game.card.CardService;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GameService {
 
     GameRepository repo;
     PlayerService playerService;
+    CardService cardService;
+    GameBuilder gameBuilder;
 
+    private static final Integer PLAYER_HAND_CARD_LIMIT = 5;
 
     @Autowired
-    public GameService(GameRepository repo, PlayerService playerService) {
+    public GameService(GameRepository repo, PlayerService playerService, GameBuilder gameBuilder) {
         this.repo=repo;
         this.playerService=playerService;
-
+        this.gameBuilder=gameBuilder;
     }
 
     public Game saveGame(Game g) {
@@ -31,14 +32,16 @@ public class GameService {
     }
 
     public Game createNewGameFromLobby(GameLobby lobby) {
-        GameBuilder gameBuilder = new GameBuilder();
-        Game newGame = gameBuilder.buildNewGame(lobby.getJoinedUsers());
+        Game newGame = gameBuilder.buildNewGame(lobby);
+        repo.save(newGame);
         return newGame;
     }
 
     public Optional<Game> findGame(Integer id) {
         return repo.findById(id);
     }
+
+    public List<Game> findAllGames() {return repo.findAll();}
 
     ////////////////////////   FUNCIONES DENTRO DEL JUEGO   ////////////////////////
 
@@ -53,7 +56,7 @@ public class GameService {
     }
 
     public void processStartGameTurn() {
-
+        
     }
 
     public void processStartRoundTurn() {
@@ -74,5 +77,7 @@ public class GameService {
     public void processAdventureRound() {
         // 1): Cada heroe de cada mazmorra avanza. (1 sala o todas las salas?)
     }
+
+
 
 }
