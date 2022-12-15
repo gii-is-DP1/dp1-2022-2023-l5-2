@@ -19,13 +19,13 @@ import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Entity
 @Getter
@@ -66,6 +66,14 @@ public class Game extends BaseEntity {
 
     public Player getPlayerFromUser(User user) {
         return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().orElse(null);
+    }
+
+    public Player getCurrentPlayer() {
+        return getPlayers().get(getState().getCurrentPlayer());
+    }
+
+    public List<HeroCard> getSpecifiedCity(TreasureType type) {
+        return getCity().stream().filter(heroCard -> heroCard.getTreasure() == type).collect(Collectors.toList());
     }
 
     ////////////////////////////   AUXILIAR FUNCTIONS   ////////////////////////////
@@ -141,11 +149,11 @@ public class Game extends BaseEntity {
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
             }
 
-            if (playersWithBestDungeon.size() == 1) { 
+            if (playersWithBestDungeon.size() == 1) {
                 playersWithBestDungeon.get(0).getDungeon().addNewHeroToDungeon(city.get(i));
                 city.remove(i);
              }
-             
+
         }
 
     }
@@ -224,7 +232,7 @@ public class Game extends BaseEntity {
     }
 
     public void heroAutomaticallyMovesAfterDestroyingRoom() {
-        
+
     }
 
     public void revealAllDungeonRooms() {
@@ -260,4 +268,86 @@ public class Game extends BaseEntity {
 
     ////////// PROCESS STATE //////////
 
+    public List<Card> getChoice() {
+        List<Card> result;
+        switch (getState().getSubPhase()) {
+            case USE_SPELLCARD:
+                result = getCurrentPlayer().getHand().stream()
+                    .filter(card -> card instanceof SpellCard)
+                    .collect(Collectors.toList());
+                break;
+            case DISCARD_2_STARTING_CARDS:
+                result = getCurrentPlayer().getHand();
+                break;
+            case PLACE_FIRST_ROOM:
+            case BUILD_NEW_ROOM:
+                result = getCurrentPlayer().getHand().stream()
+                    .filter(card -> card instanceof RoomCard)
+                    .collect(Collectors.toList());
+                break;
+            default:
+                result = List.of();
+                break;
+        }
+
+
+        return result;
+    }
+
+    public void makeChoice(Integer index) {
+        if(index != null) {
+            switch (getState().getSubPhase()) {
+                case USE_SPELLCARD:
+                case DISCARD_2_STARTING_CARDS:
+                    discardCard(getCurrentPlayer(), index);
+                    break;
+                case PLACE_FIRST_ROOM:
+                    discardCard(getCurrentPlayer(), index);
+                    break;
+                case BUILD_NEW_ROOM:
+                    discardCard(getCurrentPlayer(), index);
+                    break;
+            }
+        }
+        incrementCounter();
+    }
+
+    public boolean getIsChoiceOptional() {
+        boolean result;
+        switch (getState().getSubPhase()) {
+            case USE_SPELLCARD:
+            case BUILD_NEW_ROOM:
+                result = true;
+                break;
+            default:
+                result = false;
+                break;
+        }
+        return result;
+    }
+
+    public List<Integer> getUnplayableCards() {
+        List<Integer> result;
+        List<Card> hand = getCurrentPlayer().getHand();
+        switch (getState().getSubPhase()) {
+            case USE_SPELLCARD:
+                result = IntStream.range(0, hand.size()-1)
+                    .filter(i->!(hand.get(i) instanceof SpellCard))
+                    .boxed().collect(Collectors.toList());
+            case PLACE_FIRST_ROOM:
+            case BUILD_NEW_ROOM:
+                result = IntStream.range(0, hand.size()-1)
+                    .filter(i->!(hand.get(i) instanceof RoomCard))
+                    .boxed().collect(Collectors.toList());
+                break;
+            default:
+                result = List.of();
+                break;
+        }
+        return result;
+    }
+
+    public Boolean getPlayerHasToChoose(Player player) {
+        return player == getCurrentPlayer() && !getChoice().isEmpty();
+    }
 }

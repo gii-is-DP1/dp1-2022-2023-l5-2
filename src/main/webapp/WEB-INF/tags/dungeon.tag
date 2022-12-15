@@ -18,12 +18,20 @@
     </div>
     <div>
         <bossmonster:card card="${player.dungeon.bossCard}"/>
-        <c:forEach items="${player.dungeon.rooms}" var="room">
-            <bossmonster:card card="${room}"/>
+        <c:forEach items="${player.dungeon.roomSlots}" var="slot">
+            <bossmonster:dungeonSlot slot="${slot}"/>
         </c:forEach>
-        <c:forEach begin="${fn:length(player.dungeon.rooms)}" end="4">
-            <img src="${blank}" class="card"/>
-        </c:forEach>
-
     </div>
 </div>
+<bossmonster:modalButton style="btn btn-default" modalId="player${player.user.username}">
+    View Dungeon
+</bossmonster:modalButton>
+
+<bossmonster:modal modalId="player${player.user.username}" modalName="${player.user.nickname}'s Dungeon">
+    <div class="expandable">
+        <c:forEach items="${player.dungeon.roomSlots}" var="slot">
+            <bossmonster:dungeonSlot slot="${slot}"/>
+        </c:forEach>
+        <bossmonster:card card="${player.dungeon.bossCard}"/>
+    </div>
+</bossmonster:modal>

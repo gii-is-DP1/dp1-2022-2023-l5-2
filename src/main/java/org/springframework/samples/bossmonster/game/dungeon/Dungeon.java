@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.game.dungeon;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
@@ -23,7 +24,7 @@ public class Dungeon extends BaseEntity {
     @OneToOne
     FinalBossCard bossCard;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @OrderColumn
     DungeonRoomSlot[] roomSlots;
 
@@ -40,7 +41,7 @@ public class Dungeon extends BaseEntity {
             totalAmount += roomSlot.getRoom().parseTreasureAmount(treasure);
         }
         return totalAmount;
-        
+
     }
 
     public void addNewHeroToDungeon(HeroCard hero) {
