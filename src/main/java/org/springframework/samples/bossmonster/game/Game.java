@@ -235,6 +235,12 @@ public class Game extends BaseEntity {
 
     }
 
+    public void revealAllDungeonRooms() {
+        for (Player p: players) {
+            p.getDungeon().revealRooms();
+        }
+    }
+
     ////////// MISC //////////
 
     public void sortPlayersByFinalBossEx() {
