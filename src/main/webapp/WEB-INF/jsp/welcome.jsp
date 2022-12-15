@@ -18,7 +18,7 @@
 
 
 
-    <body class="inicio" background="/resources/images/background6.png">
+    <body class="inicio">
 
             <!-- <img src="${homeScreen}"/> -->
 
@@ -66,6 +66,9 @@
         .centered-view {
             margin: 25px;
             border-radius: 30px;
+        }
+        body{
+            background-image: url("/resources/images/background6.png");
         }
     </style>
             
