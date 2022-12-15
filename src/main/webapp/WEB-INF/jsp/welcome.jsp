@@ -70,7 +70,9 @@
             border-radius: 30px;
         }
         body{
-            background-image: url("/resources/images/background6.png");
+            background-image: url("/resources/images/background.png");
+            background-size: cover;
+            background-position: center;
         }
     </style>
             
