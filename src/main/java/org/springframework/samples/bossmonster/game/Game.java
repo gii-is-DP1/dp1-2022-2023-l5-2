@@ -7,6 +7,7 @@ import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
+import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
@@ -232,12 +233,19 @@ public class Game extends BaseEntity {
     }
 
     public void heroAutomaticallyMovesAfterDestroyingRoom() {
-
+        // TODO
     }
 
     public void revealAllDungeonRooms() {
         for (Player p: players) {
             p.getDungeon().revealRooms();
+        }
+    }
+
+    public void processRoomEffectTrigger(RoomPassiveTrigger trigger) {
+        for(int i = 0; i < 5; i ++) {
+            // Ups... a refactorizar toca
+            
         }
     }
 
@@ -253,6 +261,11 @@ public class Game extends BaseEntity {
 
     public void incrementCounter() {
         state.setCounter(state.getCounter() + 1);
+        state.checkStateStatus();
+    }
+
+    public void decrementCounter() {
+        state.setCounter(state.getCounter() - 1);
         state.checkStateStatus();
     }
 
@@ -289,8 +302,6 @@ public class Game extends BaseEntity {
                 result = List.of();
                 break;
         }
-
-
         return result;
     }
 

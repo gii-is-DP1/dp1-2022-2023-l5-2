@@ -5,22 +5,36 @@ import java.util.List;
 
 import org.hibernate.metamodel.model.domain.internal.SetAttributeImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.CardService;
+import org.springframework.samples.bossmonster.game.card.room.RoomCard;
+import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
+import org.springframework.stereotype.Service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class GameTest {
     
     protected Game game;
 
     GameLobby lobby;
 
+    @Autowired
+    protected CardService cardService;
+
     GameBuilder gameBuilder;
 
     @BeforeEach
     void setUp() {
+        gameBuilder = new GameBuilder(cardService);
         lobby = setUpGameLobby();
         game = gameBuilder.buildNewGame(lobby);
     }
@@ -58,6 +72,7 @@ public class GameTest {
         return testUser;
     }
 
+    //@Test
     void shouldGetPlayerFromUser() {
         for (Player testPlayer: game.getPlayers()) {
             User testPlayerUser = testPlayer.getUser();
@@ -66,15 +81,51 @@ public class GameTest {
     }
 
     void shouldDiscardCard() {
+        List<Card> expectedDiscardPile = game.getDiscardPile();
+        for (Player testPlayer: game.getPlayers()) {
+            List<Card> expectedHand = testPlayer.getHand();
 
+            game.discardCard(testPlayer, 0);
+            Card discardedCard = expectedHand.remove(0);
+            expectedDiscardPile.add(discardedCard);
+
+            List<Card> trueHand = testPlayer.getHand();
+            List<Card> trueDiscardPile = game.getDiscardPile();
+            assertEquals(trueHand, expectedHand);
+            assertEquals(expectedDiscardPile, trueDiscardPile);
+        }
     }
 
     void shouldGetNewRoomCard() {
+        List<RoomCard> expectedRoomPile = game.getRoomPile();
+        for (Player testPlayer: game.getPlayers()) {
+            List<Card> expectedHand = testPlayer.getHand();
 
+            game.getNewRoomCard(testPlayer);
+            RoomCard newRoomCard = expectedRoomPile.remove(0);
+            expectedHand.add(newRoomCard);
+
+            List<Card> trueHand = testPlayer.getHand();
+            List<RoomCard> trueRoomPile = game.getRoomPile();
+            assertEquals(trueHand, expectedHand);
+            assertEquals(expectedRoomPile, trueRoomPile);
+        }
     }
 
     void shouldGetNewSpellCard() {
+        List<SpellCard> expectedSpellPile = game.getSpellPile();
+        for (Player testPlayer: game.getPlayers()) {
+            List<Card> expectedHand = testPlayer.getHand();
 
+            game.getNewRoomCard(testPlayer);
+            SpellCard newRoomCard = expectedSpellPile.remove(0);
+            expectedHand.add(newRoomCard);
+
+            List<Card> trueHand = testPlayer.getHand();
+            List<SpellCard> trueSpellPile = game.getSpellPile();
+            assertEquals(trueHand, expectedHand);
+            assertEquals(expectedSpellPile, trueSpellPile);
+        }
     }
 
     void shouldGetCardFromDiscardedPile() {
@@ -82,19 +133,19 @@ public class GameTest {
     }
 
     void shouldRefillRoomPile() {
-
+        // Uups...
     }
 
     void shouldRefillSpellPile() {
-
+        // Uups x2...
     }
 
     void shouldLureHeroToBestDungeon() {
-
+        // UFFFFFFFFFFFFFFFF
     }
 
     void shouldPlaceHeroInCity() {
-
+        
     }
 
     void shouldPlaceFirstRoom() {
