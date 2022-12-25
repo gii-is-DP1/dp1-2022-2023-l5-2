@@ -82,7 +82,7 @@ public class Dungeon extends BaseEntity {
         }
     }
 
-    public Boolean roomCardEffectIsTriggered(RoomPassiveTrigger trigger, Integer position) {
+    public Boolean checkRoomCardEffectIsTriggered(RoomPassiveTrigger trigger, Integer position) {
         RoomCard card = roomSlots[position].getRoom();
         return (!card.equals(null) && card.getPassiveTrigger() == trigger);
     }
