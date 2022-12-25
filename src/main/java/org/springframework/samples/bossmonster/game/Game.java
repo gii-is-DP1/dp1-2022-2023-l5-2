@@ -82,31 +82,23 @@ public class Game extends BaseEntity {
     ////////// PLAYER HAND RELATED //////////
 
     public void discardCard(Player player, int cardPosition) {
-        List<Card> playerHand = player.getHand();
-        Card discardedCard = playerHand.remove(cardPosition);
+        Card discardedCard = player.removeHandCard(cardPosition);
         discardPile.add(discardedCard);
-        player.setHand(playerHand);
     }
 
     public void getNewRoomCard(Player player) {
-        List<Card> playerHand = player.getHand();
         RoomCard newCard = roomPile.remove(0);
-        playerHand.add(newCard);
-        player.setHand(playerHand);
+        player.addHandCard(newCard);
     }
 
     public void getNewSpellCard(Player player) {
-        List<Card> playerHand = player.getHand();
         SpellCard newCard = spellPile.remove(0);
-        playerHand.add(newCard);
-        player.setHand(playerHand);
+        player.addHandCard(newCard);
     }
 
     public void getCardFromDiscardPile(Player player, int position) {
-        List<Card> playerHand = player.getHand();
         Card newCard = discardPile.remove(position);
-        playerHand.add(newCard);
-        player.setHand(playerHand);
+        player.addHandCard(newCard);
     }
 
     ////////// REFILL PILE RELATED //////////
@@ -185,11 +177,14 @@ public class Game extends BaseEntity {
     public Boolean checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
         Boolean result;
         RoomType oldRoomType = player.getDungeon().getRoom(position).getRoomType();
-        RoomType newRoomType = room.getRoomType();
-        switch (newRoomType) {
-            case ADVANCED_MONSTER: { result = oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER; break; }
-            case ADVANCED_TRAP: { result = oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP; break; }
-            default: result = true;
+        if (oldRoomType == null) result = true;
+        else {
+            RoomType newRoomType = room.getRoomType();
+            switch (newRoomType) {
+                case ADVANCED_MONSTER: { result = oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER; break; }
+                case ADVANCED_TRAP: { result = oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP; break; }
+                default: result = true;
+            }
         }
         return result;
     }
@@ -237,15 +232,40 @@ public class Game extends BaseEntity {
     }
 
     public void revealAllDungeonRooms() {
-        for (Player p: players) {
-            p.getDungeon().revealRooms();
+        for (Player p: players) p.getDungeon().revealRooms();
+    }
+
+    public void checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger) {
+        for(int i = 0; i < 5; i ++) {
+            if (player.getDungeon().checkRoomCardEffectIsTriggered(trigger, i)) {
+                processRoomEffect(player.getDungeon().getRoomSlots()[i].getRoom().getId());
+            }
         }
     }
 
-    public void processRoomEffectTrigger(RoomPassiveTrigger trigger) {
-        for(int i = 0; i < 5; i ++) {
-            // Ups... a refactorizar toca
-            
+    public void processRoomEffect(Integer roomCardId) {
+        switch (roomCardId) {
+            case 01: break; // Kill a hero in this room
+            case 02: break; // +2 Damage for every room
+            case 03: break; // Heal a wound
+            case 04: break; // Set room damage to number of monster rooms
+            case 05: break; // Deal 5 damage to a hero in this room
+            case 06: break; // Build an additional room
+            case 07: break; // Choose a card from the discard pile and draw it
+            case 8: break; // Nothing.
+            case 9: break; // Nothing. Update build check valid room for this one
+            case 10: break; // Choose a room card from the discard pile and draw it
+            case 11: break; // Draw 2 room cards
+            case 12: break; // Draw a spell card
+            case 13: break; // +1 Damage to adyacent monster rooms
+            case 14: break; // Draw a room card
+            case 15: break; // Doubles room treasure value
+            case 16: break; // Draw 2 spell cards and discard a spellcard
+            case 17: break; // Draw a monster room from the discard pile
+            case 18: break; // Draw a room card
+            case 19: break; // Draw a spell card
+            case 20: break; // +2 Damage to next dungeon room if it is a trap room
+            case 21: break; // Hero is sent back one room (only once)
         }
     }
 

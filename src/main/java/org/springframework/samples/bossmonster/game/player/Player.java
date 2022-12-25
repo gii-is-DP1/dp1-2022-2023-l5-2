@@ -32,4 +32,12 @@ public class Player extends BaseEntity {
     private List<Card> hand;
 
 
+    public Card removeHandCard(int cardPosition) {
+        return hand.remove(cardPosition);
+    }
+
+    public void addHandCard(Card card) {
+        hand.add(card);
+    }
+
 }
