@@ -13,8 +13,8 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <c:if test="${not empty game.choice}">
                 <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
-                    <button class="invis" value="${index}" name="choice" class="${game.unplayableCards.contains(index)?'disabled':''}">
-                        <bossmonster:card card="${game.choice[index]}" />
+                    <button class="invis" value="${index}" name="choice" ${game.unplayableCards.contains(index)?'disabled':''}>
+                        <bossmonster:card card="${game.choice[index]}" style="${game.unplayableCards.contains(index)?'disabled':''}"/>
                     </button>
                 </c:forEach>
                 <c:if test="${game.isChoiceOptional}">

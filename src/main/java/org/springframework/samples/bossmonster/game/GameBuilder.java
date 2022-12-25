@@ -113,5 +113,6 @@ public class GameBuilder {
         state.setCheckClock(true);
         state.setClock(LocalDateTime.now().plusSeconds(5));
         newGame.setState(state);
+        state.setGame(newGame);
     }
 }
