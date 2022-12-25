@@ -39,6 +39,8 @@ public class GameState extends BaseEntity {
     private static final Integer NEW_ROUND_GIVEN_ROOM_CARDS = 1;
     private static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;
 
+    private static final Integer BUILD_ROOM_ACTIONS = 2; // Choosing a card + Choosing a dungeon slot
+
     private static final Integer PHASE_COOLDOWN_SECONDS = 5;
     private static final Integer PLAYER_COOLDOWN_SECONDS = 3;
     private static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 5;
@@ -153,7 +155,7 @@ public class GameState extends BaseEntity {
             }
             case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.BUILD_NEW_ROOM;
-                updateChangeConditionCounter(BUILD_PHASE_BUILDED_ROOMS_LIMIT);
+                updateChangeConditionCounter(BUILD_PHASE_BUILDED_ROOMS_LIMIT * BUILD_ROOM_ACTIONS);
                 break;
             }
             case BUILD_NEW_ROOM: {

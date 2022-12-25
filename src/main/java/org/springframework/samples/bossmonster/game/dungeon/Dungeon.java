@@ -8,6 +8,7 @@ import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
+import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 
 import lombok.Getter;
@@ -79,6 +80,11 @@ public class Dungeon extends BaseEntity {
         for(var i = 0; i < 5; i ++) {
             if (roomSlots[i].getRoom() != null) roomSlots[i].setIsVisible(true);
         }
+    }
+
+    public Boolean roomCardEffectIsTriggered(RoomPassiveTrigger trigger, Integer position) {
+        RoomCard card = roomSlots[position].getRoom();
+        return (!card.equals(null) && card.getPassiveTrigger() == trigger);
     }
 
 }
