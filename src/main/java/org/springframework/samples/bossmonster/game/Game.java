@@ -241,34 +241,8 @@ public class Game extends BaseEntity {
     public void checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger) {
         for(int i = 0; i < 5; i ++) {
             if (player.getDungeon().checkRoomCardEffectIsTriggered(trigger, i)) {
-                processRoomEffect(player.getDungeon().getRoomSlots()[i].getRoom().getId());
+                // TODO
             }
-        }
-    }
-
-    public void processRoomEffect(Integer roomCardId) {
-        switch (roomCardId) {
-            case 01: break; // Kill a hero in this room
-            case 02: break; // +2 Damage for every room
-            case 03: break; // Heal a wound
-            case 04: break; // Set room damage to number of monster rooms
-            case 05: break; // Deal 5 damage to a hero in this room
-            case 06: break; // Build an additional room
-            case 07: break; // Choose a card from the discard pile and draw it
-            case 8: break; // Nothing.
-            case 9: break; // Nothing. Update build check valid room for this one
-            case 10: break; // Choose a room card from the discard pile and draw it
-            case 11: break; // Draw 2 room cards
-            case 12: break; // Draw a spell card
-            case 13: break; // +1 Damage to adyacent monster rooms
-            case 14: break; // Draw a room card
-            case 15: break; // Doubles room treasure value
-            case 16: break; // Draw 2 spell cards and discard a spellcard
-            case 17: break; // Draw a monster room from the discard pile
-            case 18: break; // Draw a room card
-            case 19: break; // Draw a spell card
-            case 20: break; // +2 Damage to next dungeon room if it is a trap room
-            case 21: break; // Hero is sent back one room (only once)
         }
     }
 

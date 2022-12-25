@@ -93,4 +93,8 @@ public class Dungeon extends BaseEntity {
         return (!card.equals(null) && card.getPassiveTrigger() == trigger);
     }
 
+    public void damageRandomHeroInDungeonPosition(Integer position, Integer damage) {
+
+    }
+
 }
