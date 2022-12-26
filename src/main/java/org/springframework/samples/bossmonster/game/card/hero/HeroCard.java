@@ -41,4 +41,11 @@ public class HeroCard extends Card{
     @Transient
     private Integer actualHealth;
 
+    @Transient
+    private Boolean minotaursMazeEffectTriggered;
+
+    public void dealDamage(Integer amount) {
+        actualHealth -= amount;
+    }
+
 }

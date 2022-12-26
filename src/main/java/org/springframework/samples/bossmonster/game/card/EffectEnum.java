@@ -1,6 +1,7 @@
 package org.springframework.samples.bossmonster.game.card;
 
 import org.springframework.samples.bossmonster.game.Game;
+import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -8,10 +9,11 @@ import org.springframework.samples.bossmonster.game.player.Player;
 //Enumerado actua como dummy para la base de datos.
 public enum EffectEnum implements EffectInterface {
     
+    // Implemented. Not tested
     KILL_ONE_HERO_IN_THIS_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            player.getDungeon().damageRandomHeroInDungeonPosition(dungeonPosition, 99);
         }
     },
 
@@ -32,15 +34,16 @@ public enum EffectEnum implements EffectInterface {
         public void apply(Player player, Integer dungeonPosition, Game game) {
             if (player.getHealth() < 5) {
                 player.setHealth(player.getHealth() + 1);
-                player.setSouls(player.getSouls() - 1);
+                player.setSouls(player.getSouls() + 1);
             }
         }
     },
 
+    // Implemented. Not tested
     DEAL_5_DAMAGE_TO_A_HERO_IN_THIS_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            player.getDungeon().damageRandomHeroInDungeonPosition(dungeonPosition, 5);
         }
     },
 
@@ -125,10 +128,14 @@ public enum EffectEnum implements EffectInterface {
         }
     },
 
+    // Implemented. Not tested
     ADD_2_DAMAGE_TO_NEXT_ROOM_IF_IT_IS_A_TRAP_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            if (dungeonPosition > 0) {
+                DungeonRoomSlot drs = player.getDungeon().getRoomSlots()[dungeonPosition - 1];
+                if (drs.getRoom() != null && (drs.getRoom().getRoomType() == RoomType.TRAP || drs.getRoom().getRoomType() == RoomType.ADVANCED_TRAP)) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 2);
+            }
         }
     },
 

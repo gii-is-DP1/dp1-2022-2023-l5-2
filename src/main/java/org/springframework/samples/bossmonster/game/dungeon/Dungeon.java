@@ -1,9 +1,9 @@
 package org.springframework.samples.bossmonster.game.dungeon;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Stream;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
@@ -88,7 +88,16 @@ public class Dungeon extends BaseEntity {
     }
 
     public void damageRandomHeroInDungeonPosition(Integer position, Integer damage) {
-
+        List<HeroCard> heroesInSlot = roomSlots[position].getHeroesInRoom();
+        if (!heroesInSlot.isEmpty()) {
+            Random random = new Random();
+            int index = random.nextInt(heroesInSlot.size());
+            HeroCard chosenHero = heroesInSlot.get(index);
+            chosenHero.dealDamage(damage);
+            if (chosenHero.getActualHealth() <= 0) {
+                // TODO
+            }
+        }
     }
 
 }

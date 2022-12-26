@@ -48,4 +48,6 @@ public class DungeonRoomSlot extends BaseEntity {
         heroesInRoom.remove(hero);
     }
 
+    
+
 }
