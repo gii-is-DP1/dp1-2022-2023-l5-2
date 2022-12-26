@@ -34,6 +34,8 @@ public class GameBuilder {
         this.cardService = cardService;
     }
 
+    //////////////////////////   TRUE GAME   //////////////////////////
+
     public Game buildNewGame(GameLobby lobby) {
         Game newGame = new Game();
         buildHeroPile(newGame, lobby);
@@ -114,4 +116,5 @@ public class GameBuilder {
         state.setClock(LocalDateTime.now().plusSeconds(5));
         newGame.setState(state);
     }
+
 }
