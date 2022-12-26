@@ -240,6 +240,12 @@ table td.action-column {
   -webkit-animation-timing-function: linear;
 }
 
+.badge {
+    font-size:inherit;
+    margin: 10px;
+    border: 2px solid black;
+}
+
 .invis {
     border: none;
     background: none;
@@ -248,12 +254,18 @@ table td.action-column {
 .card {
     width: 150px;
     border-radius: 8px;
+    -webkit-filter: drop-shadow(2px 1px 0 black)
+                      drop-shadow(-1px -1px 0 black);
 }
 
 .expandable {
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 15px;
     display: grid;
+}
+
+.dungeon .card{
+    width: 15%;
 }
 
 .expandable .card{
@@ -265,9 +277,15 @@ table td.action-column {
     }
 }
 
-.dungeon .card{
-    width: 15%;
+.clickable {
+    &:hover {
+    cursor:pointer;
+    border:none;
+    outline:5px solid;
+    border-color:@spring-green;
+    }
 }
+
 .city .card {
     width: 40%;
 }
@@ -287,47 +305,69 @@ table td.action-column {
     align-content: center;
 }
 .gameContainer {
-
+    font-size:large;
+    text-align:center;
 }
 
-.player-hand {
-    text-align: center;
+.hand {
+    padding-top:15px;
 }
 
-.player-dungeon { }
+.player-dungeon {
+    background-color:lighten(orange,20);
+}
 
 .opponents-dungeons {
 }
 
-.dungeon1 { }
+.dungeon {
+    padding:10px;
+    border-radius:10px;
+    margin-left:15px;
+}
 
-.dungeon3 { }
+.dungeon0 {
+    background-color:lighten(slateblue,10);
+}
 
-.dungeon2 { }
+.dungeon1 {
+    background-color:lighten(orangered,20);
+ }
 
-.dungeon4 {}
+.dungeon2 {
+    background-color:palegreen;
+}
+
+.dungeon3 {
+    background-color:khaki;
+ }
 
 .phase-display {
-    grid-area: phase-display;
     text-align: center;
-    font-size: xxx-large;
+    font-size: xx-large;
+    overflow-wrap: anywhere;
 }
 
 .city-and-discard {
 }
 
-.hero1 {}
-
-.hero2 {}
-
-.hero3 {}
-
-.hero4 {}
-
 .discard {}
 
 .decks {}
 
+.souls {
+    color:black;
+    background-color:lightskyblue;
+}
+
+.health {
+    color:black;
+    background-color:lighten(red,20);
+}
+
+.player-name {
+    background-color:@spring-green;
+}
 
 .test {
     border: 1px solid red;

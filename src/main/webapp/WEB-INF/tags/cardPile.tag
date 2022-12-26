@@ -18,7 +18,7 @@
         <c:set var="displayedCard" value="${cards[fn:length(cards)-1]}"/>
 
         <bossmonster:modalButton modalId="${pileId}" style="${facedown == true? 'disabled':''}">
-            <bossmonster:card card="${displayedCard}" facedown="${facedown == true}" type="${type}"/>
+            <bossmonster:card card="${displayedCard}" style="clickable" facedown="${facedown == true}" type="${type}"/>
         </bossmonster:modalButton>
 
         <bossmonster:modal modalId="${pileId}" modalName="${pileName}">

@@ -25,55 +25,40 @@
         </form>
     </bossmonster:modal>
 
-<div class="test gameContainer">
+<div class="gameContainer">
     <div class="row">
         <div class="col-md-2">
-            <div class="test city row">
-                <bossmonster:cardPile cards="${bagHeroes}" pileId="bagPile" pileName="Thief Hero Pile" />
-            </div>
-            <div class="test city row">
-                <bossmonster:cardPile cards="${swordHeroes}" pileId="swordPile" pileName="Warrior Hero Pile" />
-            </div>
-            <div class="test city row">
-                <bossmonster:cardPile cards="${crossHeroes}" pileId="crossPile" pileName="Cleric Hero Pile" />
-            </div>
-            <div class="test city row">
-                <bossmonster:cardPile cards="${bookHeroes}" pileId="bookPile" pileName="Mage Hero Pile" />
-            </div>
+            <bossmonster:cardPile cards="${game.city}" pileId="cityPile" pileName="Heroes in City" />
+            <b>City</b>
         </div>
-        <div class="col-md-2 test discard">
+        <div class="col-md-2 discard">
             <bossmonster:cardPile cards="${game.discardPile}" pileId="discardPile" pileName="Discard Pile" />
+            <b>Discard Pile</b>
         </div>
-        <div class="col-md-3 test phase-display">
+        <div class="col-md-3 alert alert-info phase-display">
             <b><c:out value = "${game.state.phase}"/></b>
             <b><c:out value = "${game.state.subPhase}"/></b>
             <b><c:out value = "${game.currentPlayer.user.nickname}'s Turn"/></b>
         </div>
-        <div class="test col-md-5">
-            <div class="test dungeon1 row">
-                <bossmonster:dungeon player="${players[0]}"/>
-            </div>
-            <div class="test dungeon2 row">
-                <bossmonster:dungeon player="${players[1]}"/>
-            </div>
-            <div class="test dungeon3 row">
-                <bossmonster:dungeon player="${players[2]}"/>
-            </div>
-            <div class="test dungeon4 row">
-            </div>
+        <div class="col-md-5 opponents-dungeon">
+            <c:forEach begin="0" end="${fn:length(players)-1}" var="index">
+                <div class="dungeon dungeon${index} row">
+                    <bossmonster:dungeon player="${players[index]}"/>
+                </div>
+            </c:forEach>
         </div>
     </div>
     <div class="row">
-        <div class="test col-md-2 col-md-offset-2">
+        <div class="hand col-md-2 col-md-offset-1">
             <bossmonster:cardPile cards="${currentPlayer.hand}" pileId="hand" pileName="Your Hand" />
             <br />
-            Your Hand
+            <b>Your Hand</b>
         </div>
-        <div class="test col-md-8">
+        <div class="player-dungeon dungeon col-md-8">
             <bossmonster:dungeon player="${currentPlayer}"/>
         </div>
     </div>
-    <div class="test decks">
+    <div class="decks">
         Decks
         <br />
         <bossmonster:cardPile cards="${game.roomPile}" type="room" facedown="true" pileId="roomDeck" pileName="Rooms Deck"/>
