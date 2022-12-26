@@ -8,6 +8,9 @@
 <%@ attribute name="style" required="false" rtexprvalue="true"%>
 
 <c:choose>
+    <c:when test="${empty card}">
+        <spring:url value="/resources/images/blank_card.png" var="image"/>
+    </c:when>
 	<c:when test="${facedown}">
 	    <c:choose>
 	        <c:when test="${type == 'room'}">
