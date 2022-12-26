@@ -19,7 +19,7 @@
     <div>
         <bossmonster:card card="${player.dungeon.bossCard}"/>
         <c:forEach items="${player.dungeon.roomSlots}" var="slot">
-            <bossmonster:dungeonSlot slot="${slot}"/>
+            <bossmonster:card card="${slot.room}"/>
         </c:forEach>
     </div>
 </div>
@@ -30,7 +30,7 @@
 <bossmonster:modal modalId="player${player.user.username}" modalName="${player.user.nickname}'s Dungeon">
     <div class="expandable">
         <c:forEach items="${player.dungeon.roomSlots}" var="slot">
-            <bossmonster:dungeonSlot slot="${slot}"/>
+            <bossmonster:card card="${slot.room}"/>
         </c:forEach>
         <bossmonster:card card="${player.dungeon.bossCard}"/>
     </div>

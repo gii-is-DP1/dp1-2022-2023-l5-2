@@ -2,11 +2,12 @@ package org.springframework.samples.bossmonster.game.gameState;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.samples.bossmonster.game.Game;
+import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
+import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
 import lombok.Getter;
@@ -24,6 +25,8 @@ public class GameState extends BaseEntity {
     private GameSubPhase subPhase;
     private Integer currentPlayer;
     private Integer totalPlayers;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Game game;
 
     // Used to count player actions
     private Integer counter;
@@ -33,6 +36,7 @@ public class GameState extends BaseEntity {
     private LocalDateTime clock;
     // If true, game updates when clock matches current time. If false, when counter matches limit
     private Boolean checkClock;
+    private Boolean buildingRoom;
 
     private static final Integer START_GAME_DISCARDED_CARDS = 2;
     private static final Integer START_GAME_ROOMS_PLACED = 1;
@@ -130,11 +134,15 @@ public class GameState extends BaseEntity {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.REVEAL_HEROES;
                 updateChangeConditionClock(SHOW_HEROES_COOLDOWN_SECONDS);
+                game.placeHeroInCity();
                 break;
             }
             case REVEAL_HEROES: {
                 subPhase = GameSubPhase.GET_ROOM_CARD;
                 updateChangeConditionClock(SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS);
+                for (Player player: game.getPlayers()) {
+                    game.getNewRoomCard(player);
+                }
                 break;
             }
             case GET_ROOM_CARD: {
@@ -145,6 +153,10 @@ public class GameState extends BaseEntity {
     }
 
     ////////////////////////////   BUILD   ////////////////////////////
+    public Boolean isBuildingRoom() {
+        return (subPhase == GameSubPhase.BUILD_NEW_ROOM) &&
+            (counter % 2 != 0);
+    }
 
     private void updateBuildState() {
         switch (subPhase) {
@@ -175,6 +187,7 @@ public class GameState extends BaseEntity {
             }
             case REVEAL_NEW_ROOMS: {
                 changePhase(GamePhase.LURE);
+                game.revealAllDungeonRooms();
                 break;
             }
         }
@@ -186,7 +199,7 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.HEROES_ENTER_DUNGEON;
-                // TODO Ni idea de como poner esto ahora mismo
+                game.lureHeroToBestDungeon();
                 break;
             }
             case HEROES_ENTER_DUNGEON: {

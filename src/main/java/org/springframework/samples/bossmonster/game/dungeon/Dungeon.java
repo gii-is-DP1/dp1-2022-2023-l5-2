@@ -1,5 +1,6 @@
 package org.springframework.samples.bossmonster.game.dungeon;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -61,6 +62,11 @@ public class Dungeon extends BaseEntity {
             }
             else slot.setRoomTrueDamage(0);
         }
+    }
+
+    public Integer getBuiltRooms() {
+
+        return (int) Arrays.stream(getRoomSlots()).filter(slot->slot.getRoom()!=null).count();
     }
 
     public void replaceDungeonRoom(RoomCard room, Integer position) {
