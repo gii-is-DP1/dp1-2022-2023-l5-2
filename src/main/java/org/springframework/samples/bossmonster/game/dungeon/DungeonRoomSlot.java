@@ -51,4 +51,5 @@ public class DungeonRoomSlot extends BaseEntity {
     public Boolean isEmpty() {
         return room == null;
     }
+
 }

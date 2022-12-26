@@ -34,6 +34,8 @@ public class GameBuilder {
         this.cardService = cardService;
     }
 
+    //////////////////////////   TRUE GAME   //////////////////////////
+
     public Game buildNewGame(GameLobby lobby) {
         Game newGame = new Game();
         buildHeroPile(newGame, lobby);
@@ -115,4 +117,5 @@ public class GameBuilder {
         newGame.setState(state);
         state.setGame(newGame);
     }
+
 }

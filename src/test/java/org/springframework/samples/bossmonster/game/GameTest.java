@@ -61,13 +61,13 @@ public class GameTest {
 
     }
 
-    User setUpTestUser(Integer number) {
+    User setUpTestUser(Integer uniqueNumber) {
         User testUser = new User();
-        testUser.setUsername(String.format("TestUserName%s", number));
-        testUser.setPassword(String.format("TestUserPassword%s", number));
-        testUser.setEmail(String.format("TestUserEmail%s", number));
-        testUser.setDescription(String.format("TestUserDescription%s", number));
-        testUser.setNickname(String.format("Nickname%s", number));
+        testUser.setUsername(String.format("TestUserName%s", uniqueNumber));
+        testUser.setPassword(String.format("TestUserPassword%s", uniqueNumber));
+        testUser.setEmail(String.format("TestUserEmail%s", uniqueNumber));
+        testUser.setDescription(String.format("TestUserDescription%s", uniqueNumber));
+        testUser.setNickname(String.format("Nickname%s", uniqueNumber));
         testUser.setEnabled(true);
         return testUser;
     }

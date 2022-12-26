@@ -38,6 +38,16 @@ public class GameState extends BaseEntity {
     private Boolean checkClock;
     private Boolean buildingRoom;
 
+    // These variables are used to store the current state when a card effect needs a special state
+    @Enumerated(EnumType.STRING)
+    private GamePhase phaseBeforeEffect;
+    @Enumerated(EnumType.STRING)
+    private GameSubPhase subPhaseBeforeEffect;
+    private Integer counterBeforeEffect;
+    private Integer actionLimitBeforeEffect;
+    private LocalDateTime clockBeforeEffect;
+    private Boolean checkClockBeforeEffect;
+
     private static final Integer START_GAME_DISCARDED_CARDS = 2;
     private static final Integer START_GAME_ROOMS_PLACED = 1;
     private static final Integer NEW_ROUND_GIVEN_ROOM_CARDS = 1;
@@ -75,13 +85,27 @@ public class GameState extends BaseEntity {
 
     private void updateGameState() {
         switch (phase) {
-            case START_GAME: updateStartGameState(); break;
+            case START_GAME:  updateStartGameState(); break;
             case START_ROUND: updateStartRoundState(); break;
-            case BUILD: updateBuildState(); break;
-            case LURE: updateLureState(); break;
-            case ADVENTURE: updateAdventureState(); break;
-            case END_GAME: break;
+            case BUILD:       updateBuildState(); break;
+            case LURE:        updateLureState(); break;
+            case ADVENTURE:   updateAdventureState(); break;
+            case END_GAME:    break;
+            case EFFECT:      rollbackPreEffectState(); break;
         }
+    }
+
+    public void triggerSpecialCardEffectState(GameSubPhase triggeredSubPhase) {
+        log.debug("State Flow Interrumpted by card effect");
+        phaseBeforeEffect = phase;
+        subPhaseBeforeEffect = subPhase;
+        counterBeforeEffect = counter;
+        actionLimitBeforeEffect = actionLimit;
+        clockBeforeEffect = clock;
+        checkClockBeforeEffect = checkClock;
+        phase = GamePhase.EFFECT;
+        subPhase = triggeredSubPhase;
+        updateChangeConditionCounter(1);
     }
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
@@ -241,5 +265,17 @@ public class GameState extends BaseEntity {
     ////////////////////////////   END GAME   ////////////////////////////
 
     // TODO
+
+    ////////////////////////////   EFFECT GAME   ////////////////////////////
+
+    private void rollbackPreEffectState() {
+        log.debug("Card Effect State Ended. Returning to previous state...");
+        phase = phaseBeforeEffect;
+        subPhase = subPhaseBeforeEffect;
+        counter = counterBeforeEffect;
+        actionLimit = actionLimitBeforeEffect;
+        clock = clockBeforeEffect;
+        checkClock = checkClockBeforeEffect;
+    }
 
 }
