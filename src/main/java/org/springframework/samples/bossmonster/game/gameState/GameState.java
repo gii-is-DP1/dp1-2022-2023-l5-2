@@ -2,11 +2,11 @@ package org.springframework.samples.bossmonster.game.gameState;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.samples.bossmonster.game.Game;
+import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
 import lombok.Getter;
@@ -24,6 +24,8 @@ public class GameState extends BaseEntity {
     private GameSubPhase subPhase;
     private Integer currentPlayer;
     private Integer totalPlayers;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Game game;
 
     // Used to count player actions
     private Integer counter;
@@ -33,12 +35,23 @@ public class GameState extends BaseEntity {
     private LocalDateTime clock;
     // If true, game updates when clock matches current time. If false, when counter matches limit
     private Boolean checkClock;
+    private Boolean buildingRoom;
+
+    // These variables are used to store the current state when a card effect needs a special state
+    @Enumerated(EnumType.STRING)
+    private GamePhase phaseBeforeEffect;
+    @Enumerated(EnumType.STRING)
+    private GameSubPhase subPhaseBeforeEffect;
+    private Integer counterBeforeEffect;
+    private Integer actionLimitBeforeEffect;
+    private LocalDateTime clockBeforeEffect;
+    private Boolean checkClockBeforeEffect;
 
     private static final Integer START_GAME_DISCARDED_CARDS = 2;
     private static final Integer START_GAME_ROOMS_PLACED = 1;
-    private static final Integer NEW_ROUND_GIVEN_ROOM_CARDS = 1;
-    private static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;
-
+    private static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;   // If a card effect changes the limit, this value will update automatically
+    private static final Integer EFFECT_STATE_COUNTER_LIMIT = 1;        // All special card effects have only one action
+    private static final Integer BUILD_ROOM_ACTIONS = 2;                // Choosing a card + Choosing a dungeon slot
     private static final Integer PHASE_COOLDOWN_SECONDS = 5;
     private static final Integer PLAYER_COOLDOWN_SECONDS = 3;
     private static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 5;
@@ -69,13 +82,27 @@ public class GameState extends BaseEntity {
 
     private void updateGameState() {
         switch (phase) {
-            case START_GAME: updateStartGameState(); break;
+            case START_GAME:  updateStartGameState(); break;
             case START_ROUND: updateStartRoundState(); break;
-            case BUILD: updateBuildState(); break;
-            case LURE: updateLureState(); break;
-            case ADVENTURE: updateAdventureState(); break;
-            case END_GAME: break;
+            case BUILD:       updateBuildState(); break;
+            case LURE:        updateLureState(); break;
+            case ADVENTURE:   updateAdventureState(); break;
+            case END_GAME:    break;
+            case EFFECT:      rollbackPreEffectState(); break;
         }
+    }
+
+    public void triggerSpecialCardEffectState(GameSubPhase triggeredSubPhase) {
+        log.debug("State Flow Interrumpted by card effect");
+        phaseBeforeEffect = phase;
+        subPhaseBeforeEffect = subPhase;
+        counterBeforeEffect = counter;
+        actionLimitBeforeEffect = actionLimit;
+        clockBeforeEffect = clock;
+        checkClockBeforeEffect = checkClock;
+        phase = GamePhase.EFFECT;
+        subPhase = triggeredSubPhase;
+        updateChangeConditionCounter(EFFECT_STATE_COUNTER_LIMIT);
     }
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
@@ -128,11 +155,15 @@ public class GameState extends BaseEntity {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.REVEAL_HEROES;
                 updateChangeConditionClock(SHOW_HEROES_COOLDOWN_SECONDS);
+                game.placeHeroInCity();
                 break;
             }
             case REVEAL_HEROES: {
                 subPhase = GameSubPhase.GET_ROOM_CARD;
                 updateChangeConditionClock(SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS);
+                for (Player player: game.getPlayers()) {
+                    game.getNewRoomCard(player);
+                }
                 break;
             }
             case GET_ROOM_CARD: {
@@ -143,6 +174,10 @@ public class GameState extends BaseEntity {
     }
 
     ////////////////////////////   BUILD   ////////////////////////////
+    public Boolean isBuildingRoom() {
+        return (subPhase == GameSubPhase.BUILD_NEW_ROOM) &&
+            (counter % 2 != 0);
+    }
 
     private void updateBuildState() {
         switch (subPhase) {
@@ -153,7 +188,7 @@ public class GameState extends BaseEntity {
             }
             case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.BUILD_NEW_ROOM;
-                updateChangeConditionCounter(BUILD_PHASE_BUILDED_ROOMS_LIMIT);
+                updateChangeConditionCounter(BUILD_PHASE_BUILDED_ROOMS_LIMIT * BUILD_ROOM_ACTIONS);
                 break;
             }
             case BUILD_NEW_ROOM: {
@@ -173,6 +208,7 @@ public class GameState extends BaseEntity {
             }
             case REVEAL_NEW_ROOMS: {
                 changePhase(GamePhase.LURE);
+                game.revealAllDungeonRooms();
                 break;
             }
         }
@@ -184,7 +220,7 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.HEROES_ENTER_DUNGEON;
-                // TODO Ni idea de como poner esto ahora mismo
+                game.lureHeroToBestDungeon();
                 break;
             }
             case HEROES_ENTER_DUNGEON: {
@@ -226,5 +262,17 @@ public class GameState extends BaseEntity {
     ////////////////////////////   END GAME   ////////////////////////////
 
     // TODO
+
+    ////////////////////////////   EFFECT GAME   ////////////////////////////
+
+    private void rollbackPreEffectState() {
+        log.debug("Card Effect State Ended. Returning to previous state...");
+        phase = phaseBeforeEffect;
+        subPhase = subPhaseBeforeEffect;
+        counter = counterBeforeEffect;
+        actionLimit = actionLimitBeforeEffect;
+        clock = clockBeforeEffect;
+        checkClock = checkClockBeforeEffect;
+    }
 
 }

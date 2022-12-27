@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class DungeonRoomSlot extends BaseEntity {
-    
+
     @OneToOne
     private RoomCard room;
 
@@ -38,6 +38,7 @@ public class DungeonRoomSlot extends BaseEntity {
 
     public void replaceRoom(RoomCard newRoom) {
         room = newRoom;
+        isVisible = false;
     }
 
     public void addHero(HeroCard hero) {
@@ -46,6 +47,10 @@ public class DungeonRoomSlot extends BaseEntity {
 
     public void removeHero(HeroCard hero) {
         heroesInRoom.remove(hero);
+    }
+
+    public Boolean isEmpty() {
+        return room == null;
     }
 
 }

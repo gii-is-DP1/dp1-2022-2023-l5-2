@@ -3,7 +3,7 @@ package org.springframework.samples.bossmonster.game.card.spell;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
-import org.springframework.samples.bossmonster.game.card.Effect;
+import org.springframework.samples.bossmonster.game.card.EffectEnum;
 import org.springframework.samples.bossmonster.game.card.EffectTarget;
 
 import javax.persistence.*;
@@ -29,7 +29,7 @@ public class SpellCard extends Card {
     @Column(name = "effect")
     @NotEmpty
     @Enumerated(EnumType.STRING)
-    Effect effect;
+    EffectEnum effect;
 
     @Column(name = "requirements")
     @NotEmpty

@@ -7,6 +7,7 @@ import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
+import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
@@ -20,10 +21,7 @@ import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -61,6 +59,7 @@ public class Game extends BaseEntity {
 
     private LocalDateTime startedTime;
 
+    private Integer roomToBuildFromHand;
     //@OneToOne
     //private GameResult result;
 
@@ -81,31 +80,23 @@ public class Game extends BaseEntity {
     ////////// PLAYER HAND RELATED //////////
 
     public void discardCard(Player player, int cardPosition) {
-        List<Card> playerHand = player.getHand();
-        Card discardedCard = playerHand.remove(cardPosition);
+        Card discardedCard = player.removeHandCard(cardPosition);
         discardPile.add(discardedCard);
-        player.setHand(playerHand);
     }
 
     public void getNewRoomCard(Player player) {
-        List<Card> playerHand = player.getHand();
         RoomCard newCard = roomPile.remove(0);
-        playerHand.add(newCard);
-        player.setHand(playerHand);
+        player.addHandCard(newCard);
     }
 
     public void getNewSpellCard(Player player) {
-        List<Card> playerHand = player.getHand();
         SpellCard newCard = spellPile.remove(0);
-        playerHand.add(newCard);
-        player.setHand(playerHand);
+        player.addHandCard(newCard);
     }
 
     public void getCardFromDiscardPile(Player player, int position) {
-        List<Card> playerHand = player.getHand();
         Card newCard = discardPile.remove(position);
-        playerHand.add(newCard);
-        player.setHand(playerHand);
+        player.addHandCard(newCard);
     }
 
     ////////// REFILL PILE RELATED //////////
@@ -183,12 +174,19 @@ public class Game extends BaseEntity {
 
     public Boolean checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
         Boolean result;
-        RoomType oldRoomType = player.getDungeon().getRoom(position).getRoomType();
-        RoomType newRoomType = room.getRoomType();
-        switch (newRoomType) {
-            case ADVANCED_MONSTER: { result = oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER; break; }
-            case ADVANCED_TRAP: { result = oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP; break; }
-            default: result = true;
+        RoomCard oldRoom = player.getDungeon().getRoom(position);
+        if (oldRoom == null) {
+            if(position == player.getDungeon().getBuiltRooms()) result = true;
+            else result = false;
+        }
+        else {
+            RoomType oldRoomType = player.getDungeon().getRoom(position).getRoomType();
+            RoomType newRoomType = room.getRoomType();
+            switch (newRoomType) {
+                case ADVANCED_MONSTER: { result = oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER; break; }
+                case ADVANCED_TRAP: { result = oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP; break; }
+                default: result = true;
+            }
         }
         return result;
     }
@@ -197,6 +195,7 @@ public class Game extends BaseEntity {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
             player.getDungeon().replaceDungeonRoom(room, position);
+            player.getHand().remove(room);
             placed = true;
         }
         else placed = false;
@@ -232,7 +231,19 @@ public class Game extends BaseEntity {
     }
 
     public void heroAutomaticallyMovesAfterDestroyingRoom() {
+        // TODO
+    }
 
+    public void revealAllDungeonRooms() {
+        for (Player p: players) p.getDungeon().revealRooms();
+    }
+
+    public void checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger) {
+        for(int i = 0; i < 5; i ++) {
+            if (player.getDungeon().checkRoomCardEffectIsTriggered(trigger, i)) {
+                // TODO
+            }
+        }
     }
 
     ////////// MISC //////////
@@ -247,6 +258,11 @@ public class Game extends BaseEntity {
 
     public void incrementCounter() {
         state.setCounter(state.getCounter() + 1);
+        state.checkStateStatus();
+    }
+
+    public void decrementCounter() {
+        state.setCounter(state.getCounter() - 1);
         state.checkStateStatus();
     }
 
@@ -266,40 +282,45 @@ public class Game extends BaseEntity {
         List<Card> result;
         switch (getState().getSubPhase()) {
             case USE_SPELLCARD:
-                result = getCurrentPlayer().getHand().stream()
-                    .filter(card -> card instanceof SpellCard)
-                    .collect(Collectors.toList());
-                break;
             case DISCARD_2_STARTING_CARDS:
-                result = getCurrentPlayer().getHand();
+                result = getCurrentPlayerHand();
                 break;
             case PLACE_FIRST_ROOM:
             case BUILD_NEW_ROOM:
-                result = getCurrentPlayer().getHand().stream()
-                    .filter(card -> card instanceof RoomCard)
-                    .collect(Collectors.toList());
+                if(!state.isBuildingRoom()) {
+                    result = getCurrentPlayerHand();
+                } else {
+                    result = Arrays.stream(getCurrentPlayer().getDungeon().getRoomSlots())
+                        .map(slot->slot.getRoom())
+                        .collect(Collectors.toList());
+                }
                 break;
             default:
                 result = List.of();
                 break;
         }
-
-
         return result;
     }
 
     public void makeChoice(Integer index) {
-        if(index != null) {
+        if(index >= 0) {
             switch (getState().getSubPhase()) {
                 case USE_SPELLCARD:
                 case DISCARD_2_STARTING_CARDS:
                     discardCard(getCurrentPlayer(), index);
                     break;
                 case PLACE_FIRST_ROOM:
-                    discardCard(getCurrentPlayer(), index);
+                    placeFirstRoom(getCurrentPlayer(), (RoomCard) getCurrentPlayerHand().get(index));
                     break;
                 case BUILD_NEW_ROOM:
-                    discardCard(getCurrentPlayer(), index);
+                    if(!state.isBuildingRoom()) {
+                        setRoomToBuildFromHand(index);
+                    } else {
+                        placeDungeonRoom(getCurrentPlayer(),
+                            index,
+                            (RoomCard) getCurrentPlayerHand().get(getRoomToBuildFromHand()));
+                        setRoomToBuildFromHand(null);
+                    }
                     break;
             }
         }
@@ -322,17 +343,31 @@ public class Game extends BaseEntity {
 
     public List<Integer> getUnplayableCards() {
         List<Integer> result;
-        List<Card> hand = getCurrentPlayer().getHand();
+        List<Card> hand = getCurrentPlayerHand();
         switch (getState().getSubPhase()) {
             case USE_SPELLCARD:
-                result = IntStream.range(0, hand.size()-1)
+                result = IntStream.range(0, hand.size())
                     .filter(i->!(hand.get(i) instanceof SpellCard))
                     .boxed().collect(Collectors.toList());
+                break;
             case PLACE_FIRST_ROOM:
-            case BUILD_NEW_ROOM:
-                result = IntStream.range(0, hand.size()-1)
+                result = IntStream.range(0, hand.size())
                     .filter(i->!(hand.get(i) instanceof RoomCard))
                     .boxed().collect(Collectors.toList());
+                break;
+            case BUILD_NEW_ROOM:
+                if(!state.isBuildingRoom()) {
+                    result = IntStream.range(0, hand.size())
+                        .filter(i->!(hand.get(i) instanceof RoomCard))
+                        .boxed().collect(Collectors.toList());
+                } else {
+                    Card selectedCard = hand.get(roomToBuildFromHand);
+                    result = IntStream.range(0, getCurrentPlayer().getDungeon().getRoomSlots().length)
+                        .filter(i->
+                            selectedCard instanceof RoomCard &&
+                            !(checkPlaceableRoomInDungeonPosition(getCurrentPlayer(),i,(RoomCard) selectedCard)))
+                        .boxed().collect(Collectors.toList());
+                }
                 break;
             default:
                 result = List.of();
