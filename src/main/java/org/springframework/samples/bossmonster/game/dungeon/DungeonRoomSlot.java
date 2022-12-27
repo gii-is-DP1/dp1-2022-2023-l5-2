@@ -38,6 +38,7 @@ public class DungeonRoomSlot extends BaseEntity {
 
     public void replaceRoom(RoomCard newRoom) {
         room = newRoom;
+        isVisible = false;
     }
 
     public void addHero(HeroCard hero) {

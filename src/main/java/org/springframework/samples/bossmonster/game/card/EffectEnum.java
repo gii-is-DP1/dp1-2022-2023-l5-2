@@ -9,6 +9,13 @@ import org.springframework.samples.bossmonster.game.player.Player;
 //Enumerado actua como dummy para la base de datos.
 public enum EffectEnum implements EffectInterface {
     
+    ENUMERADO {
+        @Override
+        public void apply(Player player, Integer dungeonPosition, Game game) {
+            // TODO
+        }
+    },
+
     // Implemented. Not tested
     KILL_ONE_HERO_IN_THIS_ROOM {
         @Override
