@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.game.Game;
-import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
@@ -50,11 +49,9 @@ public class GameState extends BaseEntity {
 
     private static final Integer START_GAME_DISCARDED_CARDS = 2;
     private static final Integer START_GAME_ROOMS_PLACED = 1;
-    private static final Integer NEW_ROUND_GIVEN_ROOM_CARDS = 1;
-    private static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;
-
-    private static final Integer BUILD_ROOM_ACTIONS = 2; // Choosing a card + Choosing a dungeon slot
-
+    private static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;   // If a card effect changes the limit, this value will update automatically
+    private static final Integer EFFECT_STATE_COUNTER_LIMIT = 1;        // All special card effects have only one action
+    private static final Integer BUILD_ROOM_ACTIONS = 2;                // Choosing a card + Choosing a dungeon slot
     private static final Integer PHASE_COOLDOWN_SECONDS = 5;
     private static final Integer PLAYER_COOLDOWN_SECONDS = 3;
     private static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 5;
@@ -105,7 +102,7 @@ public class GameState extends BaseEntity {
         checkClockBeforeEffect = checkClock;
         phase = GamePhase.EFFECT;
         subPhase = triggeredSubPhase;
-        updateChangeConditionCounter(1);
+        updateChangeConditionCounter(EFFECT_STATE_COUNTER_LIMIT);
     }
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
