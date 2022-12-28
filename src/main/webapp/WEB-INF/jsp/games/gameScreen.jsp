@@ -11,7 +11,6 @@
     <bossmonster:modal modalId="selectMenu" modalName="Please select an option" unclosable="true">
         <form class="expandable" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            Unplayable cards: <c:out value="${game.unplayableCards}"/>
             <c:if test="${not empty game.choice}">
                 <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
                     <button class="invis" value="${index}" name="choice" ${game.unplayableCards.contains(index)?'disabled':''}>

@@ -31,7 +31,7 @@
     <div>
         <bossmonster:card card="${player.dungeon.bossCard}"/>
         <c:forEach items="${player.dungeon.roomSlots}" var="slot">
-            <bossmonster:card card="${slot.room}"/>
+            <bossmonster:card card="${slot.room}" facedown="${not slot.isVisible}" type="room"/>
         </c:forEach>
     </div>
 </div>

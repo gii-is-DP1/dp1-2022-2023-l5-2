@@ -141,7 +141,10 @@ public class GameState extends BaseEntity {
             case PLACE_FIRST_ROOM: {
                 currentPlayer ++;
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
-                else { changePhase(GamePhase.START_ROUND); }
+                else {
+                    changePhase(GamePhase.START_ROUND);
+                    game.revealAllDungeonRooms();
+                }
                 break;
             }
         }
@@ -202,13 +205,13 @@ public class GameState extends BaseEntity {
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
                 else {
                     subPhase = GameSubPhase.REVEAL_NEW_ROOMS;
+                    game.revealAllDungeonRooms();
                     updateChangeConditionClock(SHOW_ROOMS_COOLDOWN_SECONDS);
                 }
                 break;
             }
             case REVEAL_NEW_ROOMS: {
                 changePhase(GamePhase.LURE);
-                game.revealAllDungeonRooms();
                 break;
             }
         }
@@ -220,7 +223,7 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.HEROES_ENTER_DUNGEON;
-                game.lureHeroToBestDungeon();
+//                game.lureHeroToBestDungeon();
                 break;
             }
             case HEROES_ENTER_DUNGEON: {
