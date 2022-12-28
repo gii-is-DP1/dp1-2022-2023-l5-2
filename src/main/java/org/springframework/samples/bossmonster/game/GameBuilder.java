@@ -99,7 +99,6 @@ public class GameBuilder {
         newGame.setRoomPile(playerBuilder.getCurrentRoomPile());
         newGame.setFinalBossPile(playerBuilder.getCurrentBossPile());
         newGame.setSpellPile(playerBuilder.getCurrentSpellPile());
-        newGame.setDiscardPile(playerBuilder.getCurrentDiscardPile());
         newGame.sortPlayersByFinalBossEx();
     }
 

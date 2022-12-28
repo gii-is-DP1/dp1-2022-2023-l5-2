@@ -15,7 +15,6 @@ public class GameService {
 
     GameRepository repo;
     PlayerService playerService;
-    CardService cardService;
     GameBuilder gameBuilder;
 
     private static final Integer PLAYER_HAND_CARD_LIMIT = 5;
