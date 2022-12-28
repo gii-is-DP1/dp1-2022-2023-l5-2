@@ -174,6 +174,7 @@ public class GameState extends BaseEntity {
     }
 
     ////////////////////////////   BUILD   ////////////////////////////
+    
     public Boolean isBuildingRoom() {
         return (subPhase == GameSubPhase.BUILD_NEW_ROOM) &&
             (counter % 2 != 0);
