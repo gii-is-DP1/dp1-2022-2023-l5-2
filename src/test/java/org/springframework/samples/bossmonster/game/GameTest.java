@@ -82,6 +82,7 @@ public class GameTest {
         }
     }
 
+    @Test
     void shouldDiscardCard() {
         List<Card> expectedDiscardPile = game.getDiscardPile();
         for (Player testPlayer: game.getPlayers()) {
@@ -98,6 +99,7 @@ public class GameTest {
         }
     }
 
+    @Test
     void shouldGetNewRoomCard() {
         List<RoomCard> expectedRoomPile = game.getRoomPile();
         for (Player testPlayer: game.getPlayers()) {
@@ -114,6 +116,7 @@ public class GameTest {
         }
     }
 
+    @Test
     void shouldGetNewSpellCard() {
         List<SpellCard> expectedSpellPile = game.getSpellPile();
         for (Player testPlayer: game.getPlayers()) {
@@ -130,6 +133,7 @@ public class GameTest {
         }
     }
 
+    @Test
     void shouldGetCardFromDiscardedPile() {
 
     }
@@ -162,6 +166,9 @@ public class GameTest {
 
     }
 
+    @Test
+    void shouldMakeChoice() {
 
+    }
 
 }

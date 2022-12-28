@@ -25,7 +25,6 @@ public class PlayerBuilder {
 
     List<RoomCard> currentRoomPile;
     List<SpellCard> currentSpellPile;
-    List<Card> currentDiscardPile;
     List<FinalBossCard> currentBossPile;
 
     public Player buildNewPlayer(User user) {
