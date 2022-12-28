@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
@@ -18,9 +20,11 @@ import org.springframework.stereotype.Service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+
+@DataJpaTest(includeFilters = {@ComponentScan.Filter(Service.class)},
+    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = GameService.class))
 public class GameTest {
-    
+
     protected Game game;
 
     GameLobby lobby;
@@ -41,7 +45,7 @@ public class GameTest {
 
         GameLobby lobby = new GameLobby();
         List<User> joinedUsers = new ArrayList<>();
-        
+
         User leaderUser = setUpTestUser(1);
         User joinedUser1 = setUpTestUser(2);
         User joinedUser2 = setUpTestUser(3);
@@ -50,11 +54,11 @@ public class GameTest {
         joinedUsers.add(joinedUser1);
         joinedUsers.add(joinedUser2);
         joinedUsers.add(joinedUser3);
-        
+
         lobby.setLeaderUser(leaderUser);
         lobby.setJoinedUsers(joinedUsers);
         lobby.setMaxPlayers(4);
-        
+
         return lobby;
 
     }
@@ -70,7 +74,7 @@ public class GameTest {
         return testUser;
     }
 
-    //@Test
+    @Test
     void shouldGetPlayerFromUser() {
         for (Player testPlayer: game.getPlayers()) {
             User testPlayerUser = testPlayer.getUser();
@@ -143,7 +147,7 @@ public class GameTest {
     }
 
     void shouldPlaceHeroInCity() {
-        
+
     }
 
     void shouldPlaceFirstRoom() {
@@ -158,6 +162,6 @@ public class GameTest {
 
     }
 
-    
+
 
 }
