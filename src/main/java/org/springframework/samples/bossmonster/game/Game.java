@@ -346,27 +346,17 @@ public class Game extends BaseEntity {
         List<Card> hand = getCurrentPlayerHand();
         switch (getState().getSubPhase()) {
             case USE_SPELLCARD:
-                result = IntStream.range(0, hand.size())
-                    .filter(i->!(hand.get(i) instanceof SpellCard))
-                    .boxed().collect(Collectors.toList());
+                result = IntStream.range(0, hand.size()).filter(i->!(hand.get(i) instanceof SpellCard)).boxed().collect(Collectors.toList());
                 break;
             case PLACE_FIRST_ROOM:
-                result = IntStream.range(0, hand.size())
-                    .filter(i->!(hand.get(i) instanceof RoomCard))
-                    .boxed().collect(Collectors.toList());
+                result = IntStream.range(0, hand.size()).filter(i->!(hand.get(i) instanceof RoomCard)).boxed().collect(Collectors.toList());
                 break;
             case BUILD_NEW_ROOM:
                 if(!state.isBuildingRoom()) {
-                    result = IntStream.range(0, hand.size())
-                        .filter(i->!(hand.get(i) instanceof RoomCard))
-                        .boxed().collect(Collectors.toList());
+                    result = IntStream.range(0, hand.size()).filter(i->!(hand.get(i) instanceof RoomCard)).boxed().collect(Collectors.toList());
                 } else {
                     Card selectedCard = hand.get(roomToBuildFromHand);
-                    result = IntStream.range(0, getCurrentPlayer().getDungeon().getRoomSlots().length)
-                        .filter(i->
-                            selectedCard instanceof RoomCard &&
-                            !(checkPlaceableRoomInDungeonPosition(getCurrentPlayer(),i,(RoomCard) selectedCard)))
-                        .boxed().collect(Collectors.toList());
+                    result = IntStream.range(0, getCurrentPlayer().getDungeon().getRoomSlots().length).filter(i->selectedCard instanceof RoomCard &&!(checkPlaceableRoomInDungeonPosition(getCurrentPlayer(),i,(RoomCard) selectedCard))).boxed().collect(Collectors.toList());
                 }
                 break;
             default:
