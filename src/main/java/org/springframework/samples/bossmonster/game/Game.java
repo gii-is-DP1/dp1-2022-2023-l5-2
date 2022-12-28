@@ -2,6 +2,7 @@ package org.springframework.samples.bossmonster.game;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
@@ -28,6 +29,7 @@ import java.util.stream.IntStream;
 @Entity
 @Getter
 @Setter
+@Slf4j
 @Table(name = "games")
 public class Game extends BaseEntity {
 
@@ -169,7 +171,9 @@ public class Game extends BaseEntity {
     ////////// DUNGEON RELATED //////////
 
     public void placeFirstRoom(Player player, RoomCard room) {
+        log.debug("Placing " + room.getName() + " in " + player.getUser().getNickname() + "'s Dungeon");
         player.getDungeon().replaceDungeonRoom(room, 0);
+        player.getHand().remove(room);
     }
 
     public Boolean checkPlaceableRoomInDungeonPosition(Player player, Integer position, RoomCard room) {
@@ -303,30 +307,37 @@ public class Game extends BaseEntity {
     }
 
     public void makeChoice(Integer index) {
-        if(index >= 0) {
-            switch (getState().getSubPhase()) {
-                case USE_SPELLCARD:
-                case DISCARD_2_STARTING_CARDS:
-                    discardCard(getCurrentPlayer(), index);
-                    break;
-                case PLACE_FIRST_ROOM:
-                    placeFirstRoom(getCurrentPlayer(), (RoomCard) getCurrentPlayerHand().get(index));
-                    break;
-                case BUILD_NEW_ROOM:
-                    if(!state.isBuildingRoom()) {
-                        setRoomToBuildFromHand(index);
-                    } else {
-                        placeDungeonRoom(getCurrentPlayer(),
-                            index,
-                            (RoomCard) getCurrentPlayerHand().get(getRoomToBuildFromHand()));
-                        setRoomToBuildFromHand(null);
-                    }
-                    break;
-            }
+        if (index < 0) {
+            log.info("Chose to pass");
+            if(!getIsChoiceOptional()) return;
+            incrementCounter();
+            if (getState().getSubPhase() == GameSubPhase.BUILD_NEW_ROOM)
+                incrementCounter();
+            return;
+        }
+        if(getUnplayableCards().contains(index)) return;
+        switch (getState().getSubPhase()) {
+            case USE_SPELLCARD:
+            case DISCARD_2_STARTING_CARDS:
+                discardCard(getCurrentPlayer(), index);
+                break;
+            case PLACE_FIRST_ROOM:
+                log.debug("Placing first room...");
+                placeFirstRoom(getCurrentPlayer(), (RoomCard) getCurrentPlayerHand().get(index));
+                break;
+            case BUILD_NEW_ROOM:
+                if (!state.isBuildingRoom()) {
+                    setRoomToBuildFromHand(index);
+                } else {
+                    placeDungeonRoom(getCurrentPlayer(),
+                        index,
+                        (RoomCard) getCurrentPlayerHand().get(getRoomToBuildFromHand()));
+                    setRoomToBuildFromHand(null);
+                }
+                break;
         }
         incrementCounter();
     }
-
     public boolean getIsChoiceOptional() {
         boolean result;
         switch (getState().getSubPhase()) {
