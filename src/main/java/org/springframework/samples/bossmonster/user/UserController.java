@@ -45,8 +45,8 @@ public class UserController {
 	private static final String VIEWS_USER_CREATE_FORM = "users/createUserForm";
 	private static final String VIEWS_USER_EDIT_FORM = "users/editUserForm";
 	private static final String VIEWS_AVATAR_PICKER = "users/chooseUserAvatar";
-	private static final String USER_LISTING_VIEW="users/manageUsersListAdmin";
-	private static final String VIEWS_USER_EDIT_FORM_ADMIN= "users/editUserAsAdmin";
+	private static final String USER_LISTING_VIEW = "users/manageUsersListAdmin";
+	private static final String VIEWS_USER_EDIT_FORM_ADMIN = "users/editUserAsAdmin";
 
 	private final UserService userService;
 

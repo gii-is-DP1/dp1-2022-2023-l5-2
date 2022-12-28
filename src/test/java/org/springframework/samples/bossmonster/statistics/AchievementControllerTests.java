@@ -17,6 +17,15 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.List;
+import java.util.Optional;
+
+
 @WebMvcTest(
     controllers = AchievementController.class,
     excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
@@ -32,6 +41,7 @@ public class AchievementControllerTests {
     private MockMvc mockMvc;
     
     private Achievement testAchievement;
+    private List<Achievement> testAchievementsList;
 
     @BeforeEach
     void setUp(){
@@ -41,6 +51,15 @@ public class AchievementControllerTests {
         testAchievement.setImage("Test image");
         testAchievement.setThreshold(47);
         testAchievement.setMetric(Metric.GAMES_PLAYED);
+        testAchievementsList.add(testAchievement);
+        given(this.achievementService.getAchievements()).willReturn(testAchievementsList);
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void testShowAchievements() throws Exception{
+        mockMvc.perform(get("/statistics/achievements"))
+        .andExpect(status().isOk());
     }
 
 }
