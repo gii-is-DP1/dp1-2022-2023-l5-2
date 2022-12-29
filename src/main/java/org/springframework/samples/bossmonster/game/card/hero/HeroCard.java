@@ -11,7 +11,6 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
-import org.springframework.samples.bossmonster.game.card.TreasureType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +30,7 @@ public class HeroCard extends Card{
     private Boolean isEpic;
 
     @Column(name = "treasure")
+    @Enumerated(EnumType.STRING)
     @NotEmpty
     private TreasureType treasure;
 

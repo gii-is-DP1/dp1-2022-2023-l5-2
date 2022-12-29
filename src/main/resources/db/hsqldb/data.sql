@@ -107,13 +107,6 @@ INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
     (76, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, 'SWORD'),
     (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK'),
     (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG');
-    (72, 'Belladona',         '/resources/images/bosses/boss_00.jpg', 350, 'CROSS'),
-    (73, 'The Brothers Wise', '/resources/images/bosses/boss_01.jpg', 775, 'BOOK'),
-    (74, 'Xyzax',             '/resources/images/bosses/boss_02.jpg', 750, 'CROSS'),
-    (75, 'Cerebellus',        '/resources/images/bosses/boss_03.jpg', 650, 'BOOK'),
-    (76, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, 'SWORD'),
-    (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK'),
-    (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG');
 
 INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
     (1, 2, 'ignarrman',null),
@@ -174,25 +167,10 @@ INSERT INTO achievement_users(username, achievement_id) VALUES
     ('eletomvel', 3),
     ('ignarrman', 1);
 
-/*
-,
-    (3, 'Boss Monster', 'Win 50 games.'),
-    (4, 'Holy Monster', 'Get a 3 win streak.'),
-    (5, 'Indestructible Monster', 'Get a 5 win streak.'),
-    (6, 'Cursed Monster', 'Win a game without using Spell Cards.'),
-    (7, 'Poor Monster', 'Win a game without building Advanced Rooms.'),
-    (8, 'Survivor Monster', 'Win a game by being the only player alive.'),
-    (9, 'Untouchable Monster', 'Win a game without losing lives.'),
-    (10, 'Young Monster', 'Win a game without leveling up your final boss.'),
-    (11, 'Pure Monster', 'Win a game without ever having more than 2 treasure types.'),
-    (12, 'Lucky Monster', 'Kill the Buffon.'),
-    (13, 'Killer Monster', 'Kill a hero using a room/spell effect.'),
-    (14, 'Golden Monster', 'Have 3 advanced rooms in your dungeon.'),
-    (15, 'New Monster', 'Create your account.');
-
 INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
     (0,TRUE, 'ignarrman', 'fralarmar'),
     (1,TRUE, 'ignarrman', 'eletomvel'),
     (2,TRUE, 'ignarrman', 'jessolort'),
     (3,TRUE, 'ignarrman', 'frarosram'),
-    (4,TRUE, 'ignarrman', 'igngongon2');
+    (4,TRUE, 'ignarrman', 'igngongon2'),
+    (5,FALSE, 'user1', 'ignarrman');

@@ -5,8 +5,6 @@ import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.Effect;
 import org.springframework.samples.bossmonster.game.card.EffectTarget;
-import org.springframework.samples.bossmonster.game.card.Effect;
-import org.springframework.samples.bossmonster.game.card.EffectTarget;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;

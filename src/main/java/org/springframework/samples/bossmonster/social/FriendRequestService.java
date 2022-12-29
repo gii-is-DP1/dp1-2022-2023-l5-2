@@ -2,8 +2,8 @@ package org.springframework.samples.bossmonster.social;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.print.DocFlavor.STRING;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.user.User;
@@ -31,14 +31,6 @@ public class FriendRequestService {
         return repo.findAllRequested(username);
     }
 
-    public void acceptFriendRequest(int id){
-        repo.acceptFriendRequest(id);
-    }
-
-    public void declineFriendRequest(int id){
-        repo.declineFriendRequest(id);
-    }
-
     @Transactional(readOnly = true)
     public List<User> calculateFriends(String username){
         List<String> received= repo.findAllReceivedAccepted(username);
@@ -53,5 +45,38 @@ public class FriendRequestService {
             friends.add(user);
         }
         return friends;
+    }
+    
+    public Boolean checkAlreadyFriends(String senderUsername, String receiverUsername){
+        List<User> friends= calculateFriends(senderUsername);
+        User receiver= uService.findUser(receiverUsername).get();
+        if(friends.contains(receiver)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public Boolean checkAlreadySendOne(String senderUsername, String receiverUsername){
+        List<FriendRequest> requests=findAllRequested(senderUsername);
+        List<FriendRequest> notAccepted=requests.stream().filter(fr-> fr.getAccepted()==false && fr.getReceiver().getUsername()==receiverUsername).collect(Collectors.toList());
+        if(notAccepted.size()>=1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public List<FriendRequest> notAcceptedRequests(String username){
+        return repo.findAllNotAccepted(username);
+    }
+    public void acceptRequest(String username){
+        User me=uService.getLoggedInUser().get();
+        repo.acceptFriendRequest(username,me.getUsername());
+    }
+    public void declineFriendRequest(String  username){
+        User me=uService.getLoggedInUser().get();
+        repo.declineFriendRequest(username, me.getUsername());
+    }
+    public void saveFriendRequest(FriendRequest fr){
+        repo.save(fr);
     }
 }

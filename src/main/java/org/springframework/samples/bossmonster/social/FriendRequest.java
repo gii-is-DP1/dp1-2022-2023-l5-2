@@ -1,9 +1,8 @@
 package org.springframework.samples.bossmonster.social;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,7 +19,8 @@ import lombok.Setter;
 @Table(name = "friend_requests")
 public class FriendRequest extends BaseEntity{
     
-    private Boolean accepted;
+    @Column(columnDefinition = "boolean default false")
+    private Boolean accepted=false;
 
     @OneToOne
     @JoinColumn(name = "requester")

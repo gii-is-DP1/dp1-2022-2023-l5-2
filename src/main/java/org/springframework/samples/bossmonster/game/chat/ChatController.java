@@ -6,12 +6,12 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ChatController {
     
-    private static final String VIEWS_CHAT = "___";
+    // private static final String VIEWS_CHAT = "___";
 
-    private final ChatService chatService;
+    // private final ChatService chatService;
 
-    @Autowired
-    public ChatController(ChatService chatService){
-        this.chatService = chatService;
-    }
+    // @Autowired
+    // public ChatController(ChatService chatService){
+    //     this.chatService = chatService;
+    // }
 }

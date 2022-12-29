@@ -74,11 +74,4 @@ public class User{
 	public void setAchievements(Set<Achievement> achievements) {
 		this.achievements = achievements;
 	}
-
-
-    // @ManyToMany(mappedBy="users")
-    // private Set<GameResult> results;
-
-    // @OneToMany(mappedBy = "user")
-    // private Set<Authorities> authorities;
 }

@@ -5,8 +5,7 @@
 
 <bossmonster:layout pageName="friendsModule">
 
-<spring:url value="/users/friends/new" htmlEscape="true" var="newFriend"/>
-<spring:url value="/users/friends/notAccepted" htmlEscape="true" var="notAcceptedRequest"/>
+<spring:url value="/users/friends/" htmlEscape="true" var="friendList"/>
 
     <h1>Friends</h1>
     <table class="table">
@@ -19,31 +18,33 @@
             </tr>
         </thead>
         <tbody>
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${notAcceptedRequests}" var="notAccepted">
                 <tr>
                     <td>
-                        <img src="${user.avatar}" height ="80" width="100"/>
+                        <img src="${notAccepted.requester.avatar}" height ="80" width="100"/>
                     </td>
                     <td>
-                        <c:out value="${user.username}"/>
+                        <c:out value="${notAccepted.requester.username}"/>
                     </td>
                     <td>
-                        <c:out value="${user.nickname}"/>
+                        <c:out value="${notAccepted.requester.nickname}"/>
                     </td>
                     <td>
-                        <c:out value="${user.description}"/>
+                        <c:out value="${notAccepted.requester.description}"/>
                     </td>
                     <td> 
-                        <a href="${user.username}/delete"> 
+                        <a href="/users/friends/notAccepted/${notAccepted.requester.username}/delete"> 
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>      
+                        </a>
+                        <a href="/users/friends/notAccepted/${notAccepted.requester.username}"> 
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>       
                     </td>
                 </tr>   
         </c:forEach>
         </tbody>
     </table>
     <div class="centered-view">
-        <a class="btn btn-title" href="${newFriend}">Add new Friend</a>
-        <a class="btn btn-title" href="${notAcceptedRequest}">Pending Requests</a>
+        <a class="btn btn-title" href="${friendList}">Friend List</a>
     </div>
 </bossmonster:layout>
