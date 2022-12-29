@@ -43,5 +43,3 @@ public class GameResult extends BaseEntity{
         inverseJoinColumns = @JoinColumn(name= "user_id"))
      private Set<User> participants;
 }
-     //@OneToOne(mappedBy = "result")
-    // private Game game;
