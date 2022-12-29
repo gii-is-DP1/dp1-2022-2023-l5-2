@@ -99,14 +99,14 @@ INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_pl
     (70,    'Wallbanger_Basketweaver',              '/resources/images/heroes/Wallbanger_Basketweaver.jpg',            'BAG', 13, true, 4),
     (71,    'Wayward,_the_Drifter',                 '/resources/images/heroes/Wayward,_the_Drifter.jpg',               'BOOK', 13, true, 4);
 
-INSERT INTO bosses(id, name, card_image, xp, treasure) VALUES
-    (72, 'Belladona',         '/resources/images/bosses/boss_00.jpg', 350, 'CROSS'),
-    (73, 'The Brothers Wise', '/resources/images/bosses/boss_01.jpg', 775, 'BOOK'),
-    (74, 'Xyzax',             '/resources/images/bosses/boss_02.jpg', 750, 'CROSS'),
-    (75, 'Cerebellus',        '/resources/images/bosses/boss_03.jpg', 650, 'BOOK'),
-    (76, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, 'SWORD'),
-    (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK'),
-    (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG');
+INSERT INTO bosses(id, name, card_image, xp, treasure, effect) VALUES
+    (72, 'Belladona',         '/resources/images/bosses/boss_00.jpg', 350, 'CROSS','CONVERT_A_WOUND_INTO_A_SOUL'),
+    (73, 'The Brothers Wise', '/resources/images/bosses/boss_01.jpg', 775, 'BOOK','CHOOSE_SPELL_CARD_FROM_SPELL_PILE'),
+    (74, 'Xyzax',             '/resources/images/bosses/boss_02.jpg', 750, 'CROSS','CHOOSE_2_CARDS_FROM_DISCARD_PILE'),
+    (75, 'Cerebellus',        '/resources/images/bosses/boss_03.jpg', 650, 'BOOK','DRAW_3_SPELL_CARDS_AND_DISCARD_1_SPELL_CARD'),
+    (76, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, 'SWORD','BUILD_AN_ADVANCED_MONSTER_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE'),
+    (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK','LURE_A_CHOSEN_HERO_FROM_CITY_OR_HERO_PILE_TO_DUNGEON'),
+    (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG','BUILD_AN_ADVANCED_TRAP_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE');
 
 INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
     (1, 2, 'ignarrman',null),

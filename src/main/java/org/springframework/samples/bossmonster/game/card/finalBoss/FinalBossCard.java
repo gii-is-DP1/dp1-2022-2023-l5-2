@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.game.card.finalBoss;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.EffectEnum;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 
 import javax.persistence.Column;
@@ -24,5 +25,10 @@ public class FinalBossCard extends Card {
     @NotEmpty
     @Enumerated(EnumType.STRING)
     private TreasureType treasure;
+
+    @Column(name="effect")
+    @NotEmpty
+    @Enumerated(EnumType.STRING)
+    private EffectEnum effect;
 
 }
