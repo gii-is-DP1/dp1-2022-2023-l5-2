@@ -7,30 +7,40 @@
 
 <spring:url value="/resources/images/blank_card.png" var="blank"/>
 
-<div class="dungeon">
+<div>
     <div>
-        <span class="glyphicon glyphicon-star">
+        <span class="badge player-name">
+        <c:out value="${player.user.nickname}"/>
+        </span>
+
+        <div class="badge souls">
+            <span class="glyphicon glyphicon-star">
+            </span>
             <c:out value="${player.souls}"/>
-        </span>
+        </div>
+
+        <div class="badge health">
         <span class="glyphicon glyphicon-heart">
-            <c:out value="${player.health}"/>
         </span>
+            <c:out value="${player.health}"/>
+        </div>
+        <bossmonster:modalButton style="btn btn-default col-md-offset-1" modalId="player${player.user.username}">
+            View Dungeon
+        </bossmonster:modalButton>
     </div>
     <div>
         <bossmonster:card card="${player.dungeon.bossCard}"/>
         <c:forEach items="${player.dungeon.roomSlots}" var="slot">
-            <bossmonster:dungeonSlot slot="${slot}"/>
+            <bossmonster:card card="${slot.room}" facedown="${not slot.isVisible}" type="room"/>
         </c:forEach>
     </div>
 </div>
-<bossmonster:modalButton style="btn btn-default" modalId="player${player.user.username}">
-    View Dungeon
-</bossmonster:modalButton>
+
 
 <bossmonster:modal modalId="player${player.user.username}" modalName="${player.user.nickname}'s Dungeon">
     <div class="expandable">
         <c:forEach items="${player.dungeon.roomSlots}" var="slot">
-            <bossmonster:dungeonSlot slot="${slot}"/>
+            <bossmonster:card card="${slot.room}"/>
         </c:forEach>
         <bossmonster:card card="${player.dungeon.bossCard}"/>
     </div>

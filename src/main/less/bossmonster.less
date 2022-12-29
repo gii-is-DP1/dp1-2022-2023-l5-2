@@ -240,6 +240,12 @@ table td.action-column {
   -webkit-animation-timing-function: linear;
 }
 
+.badge {
+    font-size:inherit;
+    margin: 10px;
+    border: 2px solid black;
+}
+
 .invis {
     border: none;
     background: none;
@@ -248,12 +254,18 @@ table td.action-column {
 .card {
     width: 150px;
     border-radius: 8px;
+    -webkit-filter: drop-shadow(2px 1px 0 black)
+                      drop-shadow(-1px -1px 0 black);
 }
 
 .expandable {
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 15px;
     display: grid;
+}
+
+.dungeon .card{
+    width: 15%;
 }
 
 .expandable .card{
@@ -265,8 +277,17 @@ table td.action-column {
     }
 }
 
-.dungeon .card{
-    width: 5em;
+.clickable {
+    &:hover {
+    cursor:pointer;
+    border:none;
+    outline:5px solid;
+    border-color:@spring-green;
+    }
+}
+
+.city .card {
+    width: 40%;
 }
 
 .disabled {
@@ -283,76 +304,70 @@ table td.action-column {
     padding: 15px;
     align-content: center;
 }
-.gameContainer {  display: grid;
-  grid-template-columns: 1.1fr 0.8fr 1.1fr;
-  grid-template-rows: 1.2fr 0.8fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "city-and-discard phase-display opponents-dungeons"
-    "decks . opponents-dungeons"
-    "player-hand player-dungeon player-dungeon";
+.gameContainer {
+    font-size:large;
+    text-align:center;
 }
 
-.player-hand {
-    grid-area: player-hand;
-    text-align: center;
+.hand {
+    padding-top:15px;
 }
 
-.player-dungeon { grid-area: player-dungeon; }
-
-.opponents-dungeons {  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "dungeon1"
-    "dungeon2"
-    "dungeon3"
-    "dungeon4";
-  grid-area: opponents-dungeons;
+.player-dungeon {
+    background-color:lighten(orange,20);
 }
 
-.dungeon1 { grid-area: dungeon1; }
+.opponents-dungeons {
+}
 
-.dungeon3 { grid-area: dungeon3; }
+.dungeon {
+    padding:10px;
+    border-radius:10px;
+    margin-left:15px;
+}
 
-.dungeon2 { grid-area: dungeon2; }
+.dungeon0 {
+    background-color:lighten(slateblue,10);
+}
 
-.dungeon4 { grid-area: dungeon4; }
+.dungeon1 {
+    background-color:lighten(orangered,20);
+ }
+
+.dungeon2 {
+    background-color:palegreen;
+}
+
+.dungeon3 {
+    background-color:khaki;
+ }
 
 .phase-display {
-    grid-area: phase-display;
     text-align: center;
-    font-size: xxx-large;
+    font-size: xx-large;
+    overflow-wrap: anywhere;
 }
 
-.city-and-discard {  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "hero1 discard"
-    "hero2 discard"
-    "hero3 discard"
-    "hero4 discard";
-  grid-area: city-and-discard;
+.city-and-discard {
 }
 
-.hero1 { grid-area: hero1; }
+.discard {}
 
-.hero2 { grid-area: hero2; }
+.decks {}
 
-.hero3 { grid-area: hero3; }
+.souls {
+    color:black;
+    background-color:lightskyblue;
+}
 
-.hero4 { grid-area: hero4; }
+.health {
+    color:black;
+    background-color:lighten(red,20);
+}
 
-.discard { grid-area: discard; }
-
-.decks { grid-area: decks; }
-
+.player-name {
+    background-color:@spring-green;
+}
 
 .test {
     border: 1px solid red;

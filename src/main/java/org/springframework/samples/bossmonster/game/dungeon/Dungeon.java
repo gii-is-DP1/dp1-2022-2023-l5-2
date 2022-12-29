@@ -1,13 +1,15 @@
 package org.springframework.samples.bossmonster.game.dungeon;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Stream;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
+import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 
 import lombok.Getter;
@@ -62,6 +64,11 @@ public class Dungeon extends BaseEntity {
         }
     }
 
+    public Integer getBuiltRooms() {
+
+        return (int) Arrays.stream(getRoomSlots()).filter(slot->slot.getRoom()!=null).count();
+    }
+
     public void replaceDungeonRoom(RoomCard room, Integer position) {
         roomSlots[position].replaceRoom(room);
     }
@@ -73,6 +80,30 @@ public class Dungeon extends BaseEntity {
     public void moveHeroToNextRoom(HeroCard hero, Integer currentRoomSlot) {
         roomSlots[currentRoomSlot].removeHero(hero);
         roomSlots[currentRoomSlot - 1].addHero(hero);
+    }
+
+    public void revealRooms() {
+        for(var i = 0; i < 5; i ++) {
+            if (roomSlots[i].getRoom() != null) roomSlots[i].setIsVisible(true);
+        }
+    }
+
+    public Boolean checkRoomCardEffectIsTriggered(RoomPassiveTrigger trigger, Integer position) {
+        RoomCard card = roomSlots[position].getRoom();
+        return (!card.equals(null) && card.getPassiveTrigger() == trigger);
+    }
+
+    public void damageRandomHeroInDungeonPosition(Integer position, Integer damage) {
+        List<HeroCard> heroesInSlot = roomSlots[position].getHeroesInRoom();
+        if (!heroesInSlot.isEmpty()) {
+            Random random = new Random();
+            int index = random.nextInt(heroesInSlot.size());
+            HeroCard chosenHero = heroesInSlot.get(index);
+            chosenHero.dealDamage(damage);
+            if (chosenHero.getActualHealth() <= 0) {
+                // TODO
+            }
+        }
     }
 
 }

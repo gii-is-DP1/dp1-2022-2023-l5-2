@@ -3,7 +3,7 @@ package org.springframework.samples.bossmonster.game.card.room;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
-import org.springframework.samples.bossmonster.game.card.Effect;
+import org.springframework.samples.bossmonster.game.card.EffectEnum;
 import org.springframework.samples.bossmonster.game.card.EffectTarget;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 
@@ -33,7 +33,7 @@ public class RoomCard extends Card {
 
     @Enumerated(EnumType.STRING)
     @Column(name="effect")
-    private Effect effect;
+    private EffectEnum effect;
     
     @Enumerated(EnumType.STRING)
     @Column(name="effect_target")

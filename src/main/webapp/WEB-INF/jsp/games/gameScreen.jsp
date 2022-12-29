@@ -13,8 +13,8 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <c:if test="${not empty game.choice}">
                 <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
-                    <button class="invis" value="${index}" name="choice" class="${game.unplayableCards.contains(index)?'disabled':''}">
-                        <bossmonster:card card="${game.choice[index]}" />
+                    <button class="invis" value="${index}" name="choice" ${game.unplayableCards.contains(index)?'disabled':''}>
+                        <bossmonster:card card="${game.choice[index]}" style="${game.unplayableCards.contains(index)?'disabled':''}"/>
                     </button>
                 </c:forEach>
                 <c:if test="${game.isChoiceOptional}">
@@ -24,52 +24,40 @@
         </form>
     </bossmonster:modal>
 
-<div class="test gameContainer">
-    <div class="test player-hand">
-        <bossmonster:cardPile cards="${currentPlayer.hand}" pileId="hand" pileName="Your Hand" />
-        <br />
-        Your Hand
-    </div>
-    <div class="test player-dungeon">
-        <bossmonster:dungeon player="${currentPlayer}"/>
-    </div>
-    <div class="test opponents-dungeons">
-        <div class="test dungeon1">
-            <bossmonster:dungeon player="${players[0]}"/>
+<div class="gameContainer">
+    <div class="row">
+        <div class="col-md-2">
+            <bossmonster:cardPile cards="${game.city}" pileId="cityPile" pileName="Heroes in City" />
+            <b>City</b>
         </div>
-        <div class="test dungeon3">
-            <bossmonster:dungeon player="${players[1]}"/>
-        </div>
-        <div class="test dungeon2">
-            <bossmonster:dungeon player="${players[2]}"/>
-        </div>
-        <div class="test dungeon4">
-        </div>
-    </div>
-    <div class="test phase-display">
-        <b><c:out value = "${game.state.phase}"/></b>
-        <b><c:out value = "${game.state.subPhase}"/></b>
-
-        <b><c:out value = "${game.currentPlayer.user.nickname}'s Turn"/></b>
-    </div>
-    <div class="test city-and-discard">
-        <div class="test hero1">
-            <bossmonster:cardPile cards="${bagHeroes}" pileId="bagPile" pileName="Thief Hero Pile" />
-        </div>
-        <div class="test hero2">
-            <bossmonster:cardPile cards="${swordHeroes}" pileId="swordPile" pileName="Warrior Hero Pile" />
-        </div>
-        <div class="test hero3">
-            <bossmonster:cardPile cards="${crossHeroes}" pileId="crossPile" pileName="Cleric Hero Pile" />
-        </div>
-        <div class="test hero4">
-            <bossmonster:cardPile cards="${bookHeroes}" pileId="bookPile" pileName="Mage Hero Pile" />
-        </div>
-        <div class="test discard">
+        <div class="col-md-2 discard">
             <bossmonster:cardPile cards="${game.discardPile}" pileId="discardPile" pileName="Discard Pile" />
+            <b>Discard Pile</b>
+        </div>
+        <div class="col-md-3 alert alert-info phase-display">
+            <b><c:out value = "${game.state.phase}"/></b>
+            <b><c:out value = "${game.state.subPhase}"/></b>
+            <b><c:out value = "${game.currentPlayer.user.nickname}'s Turn"/></b>
+        </div>
+        <div class="col-md-5 opponents-dungeon">
+            <c:forEach begin="0" end="${fn:length(players)-1}" var="index">
+                <div class="dungeon dungeon${index} row">
+                    <bossmonster:dungeon player="${players[index]}"/>
+                </div>
+            </c:forEach>
         </div>
     </div>
-    <div class="test decks">
+    <div class="row">
+        <div class="hand col-md-2 col-md-offset-1">
+            <bossmonster:cardPile cards="${currentPlayer.hand}" pileId="hand" pileName="Your Hand" />
+            <br />
+            <b>Your Hand</b>
+        </div>
+        <div class="player-dungeon dungeon col-md-8">
+            <bossmonster:dungeon player="${currentPlayer}"/>
+        </div>
+    </div>
+    <div class="decks">
         Decks
         <br />
         <bossmonster:cardPile cards="${game.roomPile}" type="room" facedown="true" pileId="roomDeck" pileName="Rooms Deck"/>
