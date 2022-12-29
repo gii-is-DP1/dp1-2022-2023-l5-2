@@ -5,19 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.gameResult.GameResultRepository;
-import org.springframework.samples.bossmonster.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StatisticsService {
     
     private GameResultRepository repo;
-    private UserRepository repoUser;
 
     @Autowired
-    public StatisticsService(GameResultRepository r, UserRepository r2){
+    public StatisticsService(GameResultRepository r){
         this.repo=r;
-        this.repoUser=r2;
     }
 
     List<GameResult> findAll(String Id){

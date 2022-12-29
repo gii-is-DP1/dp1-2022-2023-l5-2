@@ -26,10 +26,12 @@ public class SpellCard extends Card {
     @Enumerated(EnumType.STRING)
     EffectTarget target;
 
+
     @Column(name = "effect")
     @NotEmpty
     @Enumerated(EnumType.STRING)
     EffectEnum effect;
+
 
     @Column(name = "requirements")
     @NotEmpty

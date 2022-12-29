@@ -30,8 +30,8 @@ public class HeroCard extends Card{
     private Boolean isEpic;
 
     @Column(name = "treasure")
-    @NotEmpty
     @Enumerated(EnumType.STRING)
+    @NotEmpty
     private TreasureType treasure;
 
     @Column(name = "necessary_players")
