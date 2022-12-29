@@ -40,6 +40,8 @@ public class GameService {
         return repo.findById(id);
     }
 
-    public List<Game> findAllGames() {return repo.findAll();}
+    public List<Game> findAllGames() {
+        return repo.findAll();
+    }
 
 }
