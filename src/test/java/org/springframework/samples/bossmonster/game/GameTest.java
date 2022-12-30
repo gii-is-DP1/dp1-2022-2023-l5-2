@@ -1,6 +1,7 @@
 package org.springframework.samples.bossmonster.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 
@@ -170,9 +172,9 @@ public class GameTest {
 
     @Test
     void shouldDiscardCard() {
-        List<Card> expectedDiscardPile = game.getDiscardPile();
+        List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
         for (Player testPlayer: game.getPlayers()) {
-            List<Card> expectedHand = testPlayer.getHand();
+            List<Card> expectedHand = new ArrayList<>(testPlayer.getHand());
 
             game.discardCard(testPlayer, 0);
             Card discardedCard = expectedHand.remove(0);
@@ -187,10 +189,10 @@ public class GameTest {
 
     @Test
     void shouldGetNewRoomCard() {
-        List<RoomCard> expectedRoomPile = game.getRoomPile();
+        List<RoomCard> expectedRoomPile = new ArrayList<>(game.getRoomPile());
         for (Player testPlayer: game.getPlayers()) {
-            List<Card> expectedHand = testPlayer.getHand();
-
+            List<Card> expectedHand = new ArrayList<>(testPlayer.getHand());
+            
             game.getNewRoomCard(testPlayer);
             RoomCard newRoomCard = expectedRoomPile.remove(0);
             expectedHand.add(newRoomCard);
@@ -204,9 +206,9 @@ public class GameTest {
 
     @Test
     void shouldGetNewSpellCard() {
-        List<SpellCard> expectedSpellPile = game.getSpellPile();
+        List<SpellCard> expectedSpellPile = new ArrayList<>(game.getSpellPile());
         for (Player testPlayer: game.getPlayers()) {
-            List<Card> expectedHand = testPlayer.getHand();
+            List<Card> expectedHand = new ArrayList<>(testPlayer.getHand());
 
             game.getNewSpellCard(testPlayer);
             SpellCard newSpellCard = expectedSpellPile.remove(0);
@@ -222,9 +224,9 @@ public class GameTest {
     @Test
     void shouldGetCardFromDiscardedPile() {
         for(Player p: game.getPlayers()) for(int i = 4; i >= 0; i --) game.discardCard(p, i);
-        List<Card> expectedDiscardPile = game.getDiscardPile();
+        List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
         for (Player testPlayer: game.getPlayers()) {
-            List<Card> expectedHand = testPlayer.getHand();
+            List<Card> expectedHand = new ArrayList<>(testPlayer.getHand());
 
             game.getCardFromDiscardPile(testPlayer, 0);
             Card newCard = expectedDiscardPile.remove(0);
@@ -240,8 +242,8 @@ public class GameTest {
     @Test
     void shouldRefillRoomPile() {
         for(Player p: game.getPlayers()) for(int i = 4; i >= 0; i --) game.discardCard(p, i);
-        List<RoomCard> expectedRoomPile = game.getRoomPile();
-        List<Card> expectedDiscardPile = game.getDiscardPile();
+        List<RoomCard> expectedRoomPile = new ArrayList<>(game.getRoomPile());
+        List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
         Iterator<Card> iterator = expectedDiscardPile.iterator();
         while (iterator.hasNext()) {
             Card c = iterator.next();
@@ -259,8 +261,8 @@ public class GameTest {
     @Test
     void shouldRefillSpellPile() {
         for(Player p: game.getPlayers()) for(int i = 4; i >= 0; i --) game.discardCard(p, i);
-        List<SpellCard> expectedSpellPile = game.getSpellPile();
-        List<Card> expectedDiscardPile = game.getDiscardPile();
+        List<SpellCard> expectedSpellPile = new ArrayList<>(game.getSpellPile());
+        List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
         Iterator<Card> iterator = expectedDiscardPile.iterator();
         while (iterator.hasNext()) {
             Card c = iterator.next();
@@ -299,8 +301,6 @@ public class GameTest {
         List<HeroCard> truePlayer3DungeonEntrance = game.getPlayers().get(2).getDungeon().getEntrance();
         List<HeroCard> truePlayer4DungeonEntrance = game.getPlayers().get(3).getDungeon().getEntrance();
 
-        for(HeroCard h: trueCity) System.out.println("true ########################\n\n\n" + h.getTreasure());
-        for(HeroCard h: expectedCity) System.out.println("expected ########################\n\n\n" + h.getTreasure());
         assertEquals(expectedCity, trueCity);
         assertEquals(expectedPlayer1DungeonEntrance, truePlayer1DungeonEntrance);
         assertEquals(expectedPlayer2DungeonEntrance, truePlayer2DungeonEntrance);
@@ -312,8 +312,20 @@ public class GameTest {
 
     }
 
+    @Test
     void shouldPlaceFirstRoom() {
+        for (Player p: game.getPlayers()) {
+            RoomCard chosenCard = (RoomCard) p.getHand().stream().filter(x -> x.getClass() == RoomCard.class).findAny().get();
+            Dungeon expectedDungeon = p.getDungeon();
+            List<Card> expectedHand = new ArrayList<>(p.getHand());
+            expectedHand.remove(chosenCard);
+            expectedDungeon.getRoomSlots()[0].setRoom(chosenCard);
 
+            List<Card> trueHand = p.getHand();
+            Dungeon trueDungeon = p.getDungeon();
+            assertEquals(expectedHand, trueHand);
+            assertEquals(expectedDungeon, trueDungeon);
+        }
     }
 
     void shouldCheckPlaceableRoomInDungeonPosition() {
@@ -344,12 +356,37 @@ public class GameTest {
 
     }
 
+    @Test
     void shouldSortPlayersByFinalBossEx() {
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Player player3 = game.getPlayers().get(2);
+        Player player4 = game.getPlayers().get(3);
+        player1.getDungeon().getBossCard().setXp(100);
+        player2.getDungeon().getBossCard().setXp(250);
+        player3.getDungeon().getBossCard().setXp(750);
+        player4.getDungeon().getBossCard().setXp(500);
 
+        List<Player> expectedPlayerList = new ArrayList<>();
+        expectedPlayerList.add(player3);
+        expectedPlayerList.add(player4);
+        expectedPlayerList.add(player2);
+        expectedPlayerList.add(player1);
+
+        game.sortPlayersByFinalBossEx();
+
+        assertEquals(expectedPlayerList, game.getPlayers());
+        Collections.reverse(expectedPlayerList);
+        assertNotEquals(expectedPlayerList, game.getPlayers());
     }
 
+    @Test
     void shouldGetCurrentPlayerHand() {
-
+        for(int i = 0; i < 4; i ++) {
+            game.getState().setCurrentPlayer(i);
+            List<Card> expectedHand = game.getPlayers().get(i).getHand();
+            assertEquals(expectedHand, game.getCurrentPlayerHand());
+        }
     }
 
     static Stream<Arguments> shouldMakeChoice() {
