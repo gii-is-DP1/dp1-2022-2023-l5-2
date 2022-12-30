@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
@@ -32,9 +33,6 @@ public class Dungeon extends BaseEntity {
 
     @OneToMany
     List<HeroCard> entrance;
-
-    //@OneToMany
-    //List<HeroCard>[] heroesInRoom;
 
     public Integer getTreasureAmount(TreasureType treasure) {
 
@@ -78,7 +76,7 @@ public class Dungeon extends BaseEntity {
         return roomSlots[position].getRoom();
     }
 
-    public void moveHeroToNextRoom(HeroCard hero, Integer currentRoomSlot) {
+    public void moveHeroToNextRoom(HeroCardStateInDungeon hero, Integer currentRoomSlot) {
         roomSlots[currentRoomSlot].removeHero(hero);
         roomSlots[currentRoomSlot - 1].addHero(hero);
     }
@@ -91,20 +89,18 @@ public class Dungeon extends BaseEntity {
 
     public Boolean checkRoomCardEffectIsTriggered(RoomPassiveTrigger trigger, Integer position) {
         RoomCard card = roomSlots[position].getRoom();
-        return (!card.equals(null) && card.getPassiveTrigger() == trigger);
+        return (!(card == null) && card.getPassiveTrigger() == trigger);
     }
 
-    public void damageRandomHeroInDungeonPosition(Integer position, Integer damage) {
-        List<HeroCard> heroesInSlot = roomSlots[position].getHeroesInRoom();
-        if (!heroesInSlot.isEmpty()) {
-            Random random = new Random();
-            int index = random.nextInt(heroesInSlot.size());
-            HeroCard chosenHero = heroesInSlot.get(index);
-            chosenHero.dealDamage(damage);
-            if (chosenHero.getActualHealth() <= 0) {
-                // TODO
-            }
-        }
+    
+
+    // Used for testing
+    public Dungeon cloneDungeon() {
+        Dungeon clone = new Dungeon();
+        clone.bossCard = bossCard;
+        clone.roomSlots = roomSlots;
+        clone.entrance = entrance;
+        return clone;
     }
 
 }
