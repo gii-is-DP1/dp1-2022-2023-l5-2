@@ -54,7 +54,16 @@ INSERT INTO spell_card(id, name, card_image, phase, target, effect, requirements
     (27,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','adventurePhase'               ,'TRAPROOM'     ,'ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM','HAVETRAPROOM')         ,
     (28,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'ROOM'         ,'DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT','HAVEROOM')             ,
     (29,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'ALLPLAYERS'   ,'SKIP_BUILD_PHASE','NONE')                 ,
-    (30,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'HEROINDUNGEON','SEND_HERO_TO_FIRST_ROOM','THEREISHEROINDUNGEON');
+    (30,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'HEROINDUNGEON','SEND_HERO_TO_FIRST_ROOM','THEREISHEROINDUNGEON'),
+    (79,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','adventurePhase'               ,'MONSTERROOM'  ,'ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM','HAVEMONSTERROOM')      ,
+    (80,'Soul Harvest'     ,'/resources/images/spells/spell_01.jpg','adventureAndConstructionPhase','HEROINSCORE'  ,'TRADE_A_SOUL_FOR_2_SPELL_CARDS','HAVESOULS')            ,
+    (81,'Princess in Peril','/resources/images/spells/spell_02.jpg','constructionPhase'            ,'HEROINTOWN'   ,'LURE_A_CHOSEN_HERO_FROM_CITY_TO_DUNGEON','THEREISHEROINTOWN')    ,
+    (82,'Motivation'       ,'/resources/images/spells/spell_03.jpg','constructionPhase'            ,'ALLPLAYERS'   ,'BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS','NONE')                 ,
+    (83,'Exhaustion'       ,'/resources/images/spells/spell_04.jpg','adventurePhase'               ,'HEROINDUNGEON','DEAL_ROOM_AMOUNT_DAMAGE_TO_HERO','THEREISHEROINDUNGEON') ,
+    (84,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','adventurePhase'               ,'TRAPROOM'     ,'ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM','HAVETRAPROOM')         ,
+    (85,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'ROOM'         ,'DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT','HAVEROOM')             ,
+    (86,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'ALLPLAYERS'   ,'SKIP_BUILD_PHASE','NONE')                 ,
+    (87,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'HEROINDUNGEON','SEND_HERO_TO_FIRST_ROOM','THEREISHEROINDUNGEON');
 
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
     (31,     'Acacia,_Warrior_of_Light',             '/resources/images/heroes/Acacia,_Warrior_of_Light.jpg',           'CROSS', 6, false, 2),
