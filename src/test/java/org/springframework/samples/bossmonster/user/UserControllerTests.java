@@ -18,6 +18,8 @@ import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -134,6 +136,62 @@ public class UserControllerTests {
         .andExpect(model().attributeHasFieldErrors("user", "description"))
         .andExpect(view().name("users/editUserForm"));
     }
+
+    @WithMockUser(value = "admin1")
+    @Test
+    public void testuserListingForAdmin() throws Exception{
+        mockMvc.perform(get("/admin/users"))
+        .andExpect(status().isOk());
+    }
+
+    @WithMockUser(value="admin1")
+    @Test
+    public void shouldDeleteUser() throws Exception{
+        mockMvc.perform(get("/admin/users/user1/delete"))
+        .andExpect(view().name("redirect:/admin/users"))
+        .andExpect(status().is3xxRedirection());
+    }
+
+    @WithMockUser(value = "admin1")
+    @Test
+    public void shouldShowEditFormasAdmin() throws Exception{
+        mockMvc.perform(get("/admin/users/user1/edit"))
+        .andExpect(status().isOk())
+        .andExpect(model().attribute("user", hasProperty("password", is("Tausoken"))))
+        .andExpect(model().attribute("user", hasProperty("nickname", is("BPoHC"))))
+        .andExpect(model().attribute("user", hasProperty("email", is("tricknolstalgia@yahoo.es"))))
+        .andExpect(model().attribute("user", hasProperty("description", is("Is a bottle opener!"))))
+        .andExpect(view().name("users/editUserAsAdmin"));
+    }
+    @WithMockUser(value = "admin1")
+    @Test
+    public void shouldProcessEditUserAsAdmin() throws Exception{
+        mockMvc.perform(post( "/admin/users/user1/edit").with(csrf())
+        .param("username", "Saragimaru")
+        .param("password", "newPassword")
+        .param("nickname", "editedByAdmin")
+        .param("email", "idontliketests@alum.us")
+        .param("description", "This time it will succeed, i promise"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/admin/users"));
+    }
+    @WithMockUser(value = "admin1")
+    @Test
+    public void shouldNotProcessEditUserAsAdmin() throws Exception{
+        mockMvc.perform(post( "/admin/users/user1/edit").with(csrf())
+        .param("username", "Saragimaru")
+        .param("password", "short")
+        .param("nickname", "There must be something wrong if your nickname is this long")
+        .param("email", "emails are for losers"))
+        .andExpect(status().isOk())
+        .andExpect(model().attributeHasErrors("user"))
+        .andExpect(model().attributeHasFieldErrors("user", "password"))
+        .andExpect(model().attributeHasFieldErrors("user", "email"))
+        .andExpect(model().attributeHasFieldErrors("user", "description"));
+    }
+
+
+
 
 
 }
