@@ -1,6 +1,6 @@
 package org.springframework.samples.bossmonster.game.chat;
 
-import java.util.*;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
