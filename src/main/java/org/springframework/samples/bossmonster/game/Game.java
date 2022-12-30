@@ -7,6 +7,7 @@ import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
@@ -64,6 +65,9 @@ public class Game extends BaseEntity {
     private Integer roomToBuildFromHand;
     //@OneToOne
     //private GameResult result;
+
+    public static final Integer NORMAL_HERO_SOUL_VALUE = 1;
+    public static final Integer EPIC_HERO_SOUL_VALUE = 2;
 
     public Player getPlayerFromUser(User user) {
         return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().orElse(null);
@@ -188,8 +192,8 @@ public class Game extends BaseEntity {
             RoomType oldRoomType = player.getDungeon().getRoom(position).getRoomType();
             RoomType newRoomType = room.getRoomType();
             switch (newRoomType) {
-                case ADVANCED_MONSTER: { result = oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER; break; }
-                case ADVANCED_TRAP: { result = oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP; break; }
+                case ADVANCED_MONSTER: { result = (oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER); break; }
+                case ADVANCED_TRAP: { result = (oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP); break; }
                 default: result = true;
             }
         }
@@ -211,28 +215,8 @@ public class Game extends BaseEntity {
         player.getDungeon().replaceDungeonRoom(null, position);
     }
 
-    public void heroAdvanceRoomDungeon(Player player) {
-        Dungeon playerDungeon = player.getDungeon();
-        for(int i = 4; i >= 0; i --) {
-            DungeonRoomSlot roomSlot = playerDungeon.getRoomSlots()[i];
-            Integer dealtDamage = roomSlot.getRoomTrueDamage();
-            for(HeroCard hero: roomSlot.getHeroesInRoom()) {
-                // TODO Deal damage to hero
-
-                Integer heroValue;
-                if (hero.getIsEpic()) heroValue = 2;
-                else heroValue = 1;
-
-                if (false) player.setSouls(player.getSouls() + heroValue); // TODO Check if hero dies
-                else {
-                    if (i == 0) { player.setHealth(player.getHealth() - heroValue); }
-                    else {
-                        // TODO Hero goes to next room in dungeon
-                    }
-                }
-                // TODO Hero is deleted from room
-            }
-        }
+    public void processAdventurePhase(Player player) {
+        player.heroAdvanceRoomDungeon();
     }
 
     public void heroAutomaticallyMovesAfterDestroyingRoom() {
@@ -243,12 +227,8 @@ public class Game extends BaseEntity {
         for (Player p: players) p.getDungeon().revealRooms();
     }
 
-    public void checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger) {
-        for(int i = 0; i < 5; i ++) {
-            if (player.getDungeon().checkRoomCardEffectIsTriggered(trigger, i)) {
-                // TODO
-            }
-        }
+    public Boolean checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger, Integer slot) {
+        return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot);
     }
 
     ////////// MISC //////////

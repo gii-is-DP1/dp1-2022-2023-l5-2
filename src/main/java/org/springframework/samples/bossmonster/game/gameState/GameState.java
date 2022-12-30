@@ -208,6 +208,7 @@ public class GameState extends BaseEntity {
                     subPhase = GameSubPhase.REVEAL_NEW_ROOMS;
                     game.revealAllDungeonRooms();
                     updateChangeConditionClock(SHOW_ROOMS_COOLDOWN_SECONDS);
+                    currentPlayer = 0;
                 }
                 break;
             }

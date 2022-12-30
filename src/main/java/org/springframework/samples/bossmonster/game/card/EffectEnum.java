@@ -20,7 +20,7 @@ public enum EffectEnum implements EffectInterface {
     KILL_ONE_HERO_IN_THIS_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            player.getDungeon().damageRandomHeroInDungeonPosition(dungeonPosition, 99);
+            player.damageRandomHeroInDungeonPosition(dungeonPosition, 99);
         }
     },
 
@@ -51,7 +51,7 @@ public enum EffectEnum implements EffectInterface {
     DEAL_5_DAMAGE_TO_A_HERO_IN_THIS_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            player.getDungeon().damageRandomHeroInDungeonPosition(dungeonPosition, 5);
+            player.damageRandomHeroInDungeonPosition(dungeonPosition, 5);
         }
     },
 
