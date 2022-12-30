@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
@@ -23,10 +24,12 @@ public class FriendRequest extends BaseEntity{
     private Boolean accepted=false;
 
     @OneToOne
+    @NotNull(message = "A request must have a requester")
     @JoinColumn(name = "requester")
     private User requester;
 
     @OneToOne
+    @NotNull(message = "A request must have a receiver")
     @JoinColumn(name = "receiver")
     private User receiver;
 
