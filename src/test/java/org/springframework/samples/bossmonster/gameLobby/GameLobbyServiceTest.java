@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith({MockitoExtension.class})
@@ -120,6 +121,12 @@ class GameLobbyServiceTest {
         userService.saveUser(testUser);
 
         assertTrue(lobbyService.findByUser(testUser).isEmpty());
+    }
+
+    @Test
+    void shouldFindAllLobbys(){
+        List<GameLobby> lobbies= lobbyService.findAll();
+        assertNotNull(lobbies);
     }
 
 }
