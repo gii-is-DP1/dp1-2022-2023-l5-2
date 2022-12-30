@@ -177,7 +177,7 @@ public class GameState extends BaseEntity {
     }
 
     ////////////////////////////   BUILD   ////////////////////////////
-    
+
     public Boolean isBuildingRoom() {
         return (subPhase == GameSubPhase.BUILD_NEW_ROOM) &&
             (counter % 2 != 0);
@@ -208,6 +208,7 @@ public class GameState extends BaseEntity {
                     subPhase = GameSubPhase.REVEAL_NEW_ROOMS;
                     game.revealAllDungeonRooms();
                     updateChangeConditionClock(SHOW_ROOMS_COOLDOWN_SECONDS);
+                    setCurrentPlayer(0);
                 }
                 break;
             }
