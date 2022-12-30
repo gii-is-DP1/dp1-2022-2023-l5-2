@@ -64,6 +64,13 @@ public class Player extends BaseEntity {
         souls += value;
     }
 
+    public void removeHealthFromUndefeatedHero(HeroCardStateInDungeon hero) {
+        Integer value;
+        if (hero.getHeroCard().getIsEpic()) value = Game.EPIC_HERO_SOUL_VALUE;
+        else value = Game.NORMAL_HERO_SOUL_VALUE;
+        health -= value;
+    }
+
     public void heroAdvanceRoomDungeon() {
         for(int i = 4; i >= 0; i --) {
             DungeonRoomSlot roomSlot = dungeon.getRoomSlots()[i];
@@ -71,9 +78,25 @@ public class Player extends BaseEntity {
             for(HeroCardStateInDungeon hero: roomSlot.getHeroesInRoom()) {
                 hero.dealDamage(dealtDamage);
                 if (hero.isDead()) addSoulsFromKilledHero(hero);
-                else dungeon.getRoomSlots()[i-1].addHero(hero);
+                else {
+                    if (isLastRoom(i)) dungeon.getRoomSlots()[i-1].addHero(hero);
+                    else removeHealthFromUndefeatedHero(hero);
+                }
                 dungeon.getRoomSlots()[i].removeHero(hero);
             }
+        }
+    }
+
+    public Boolean isLastRoom(Integer position) {
+        return position == 0;
+    }
+
+    public void heroAutomaticallyMovesAfterDestroyingRoom(Integer position) {
+        List<HeroCardStateInDungeon> affectedHeroes = dungeon.getRoomSlots()[position].getHeroesInRoom();
+        for (HeroCardStateInDungeon hcsd: affectedHeroes) {
+            dungeon.getRoomSlots()[position].removeHero(hcsd);
+            if (isLastRoom(position)) removeHealthFromUndefeatedHero(hcsd);
+            else dungeon.getRoomSlots()[position-1].addHero(hcsd);
         }
     }
 

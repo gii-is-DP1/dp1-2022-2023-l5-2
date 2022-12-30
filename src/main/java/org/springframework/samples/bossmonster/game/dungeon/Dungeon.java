@@ -31,9 +31,6 @@ public class Dungeon extends BaseEntity {
     @OrderColumn
     DungeonRoomSlot[] roomSlots;
 
-    @OneToMany
-    List<HeroCard> entrance;
-
     public Integer getTreasureAmount(TreasureType treasure) {
 
         Integer totalAmount = 0;
@@ -46,7 +43,26 @@ public class Dungeon extends BaseEntity {
     }
 
     public void addNewHeroToDungeon(HeroCard hero) {
-        entrance.add(hero);
+        roomSlots[getFirstRoomSlot()].addHero(createStateOfHeroInDungeon(hero));
+    }
+
+    public HeroCardStateInDungeon createStateOfHeroInDungeon(HeroCard hero) {
+        HeroCardStateInDungeon heroInDungeon = new HeroCardStateInDungeon();
+        heroInDungeon.setDungeon(this);
+        heroInDungeon.setHeroCard(hero);
+        heroInDungeon.setHealthInDungeon(hero.getHealth());
+        heroInDungeon.setMinotaursMazeEffectTriggered(false);
+        return heroInDungeon;
+    }
+
+    public Integer getFirstRoomSlot() {
+        Boolean detected = false;
+        Integer currentRoom = 4;
+        while (!detected) {
+            if (roomSlots[currentRoom].getRoom() == null && currentRoom != 0) currentRoom --;
+            else detected = true;
+        }
+        return currentRoom;
     }
 
     public void setInitialRoomCardDamage() {
@@ -92,14 +108,11 @@ public class Dungeon extends BaseEntity {
         return (!(card == null) && card.getPassiveTrigger() == trigger);
     }
 
-    
-
     // Used for testing
     public Dungeon cloneDungeon() {
         Dungeon clone = new Dungeon();
         clone.bossCard = bossCard;
         clone.roomSlots = roomSlots;
-        clone.entrance = entrance;
         return clone;
     }
 
