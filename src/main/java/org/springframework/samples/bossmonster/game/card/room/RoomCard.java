@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.EffectEnum;
-import org.springframework.samples.bossmonster.game.card.EffectTarget;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 
 import javax.persistence.Column;
@@ -35,9 +34,6 @@ public class RoomCard extends Card {
     @Column(name="effect")
     private EffectEnum effect;
     
-    @Enumerated(EnumType.STRING)
-    @Column(name="effect_target")
-    private EffectTarget effectTarget;
 
     public Integer parseTreasureAmount(TreasureType targetTreasure) {
 

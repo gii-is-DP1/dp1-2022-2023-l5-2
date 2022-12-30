@@ -12,9 +12,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-public class Chat extends BaseEntity{
+public class Chat {
 
-    // @NotEmpty
-    // private List<Message> chad;
 }
