@@ -127,11 +127,13 @@ public class Game extends BaseEntity {
 
     public void lureHeroToBestDungeon() {
 
-        for (int i = 0; i < city.size(); i ++) {
+        Iterator<HeroCard> iterator = getCity().iterator();
+        while (iterator.hasNext()) {
 
+            HeroCard currentHero = iterator.next();
             List<Player> playersWithBestDungeon = new ArrayList<>();
             Integer bestValue;
-            TreasureType targetTreasure = getCity().get(i).getTreasure();
+            TreasureType targetTreasure = currentHero.getTreasure();
 
             if (targetTreasure != TreasureType.FOOL) {
                 bestValue = getPlayers().stream().max(Comparator.comparing(x -> x.getDungeon().getTreasureAmount(targetTreasure))).get().getDungeon().getTreasureAmount(targetTreasure);
@@ -141,10 +143,9 @@ public class Game extends BaseEntity {
                 bestValue = getPlayers().stream().min(Comparator.comparing(x -> x.getSouls())).get().getSouls();
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
             }
-
             if (playersWithBestDungeon.size() == 1) {
-                playersWithBestDungeon.get(0).getDungeon().addNewHeroToDungeon(city.get(i));
-                city.remove(i);
+                playersWithBestDungeon.get(0).getDungeon().addNewHeroToDungeon(currentHero);
+                iterator.remove();
              }
 
         }
