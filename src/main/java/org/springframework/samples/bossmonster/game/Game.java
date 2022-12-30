@@ -219,10 +219,6 @@ public class Game extends BaseEntity {
         player.heroAdvanceRoomDungeon();
     }
 
-    public void heroAutomaticallyMovesAfterDestroyingRoom() {
-        // TODO
-    }
-
     public void revealAllDungeonRooms() {
         for (Player p: players) p.getDungeon().revealRooms();
     }
