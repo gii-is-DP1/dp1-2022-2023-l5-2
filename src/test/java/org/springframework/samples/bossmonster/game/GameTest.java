@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
+import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
@@ -31,12 +33,10 @@ import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 
@@ -84,7 +84,6 @@ public class GameTest {
         lobby.setMaxPlayers(4);
 
         return lobby;
-
     }
 
     User setUpTestUser(Integer uniqueNumber) {
@@ -287,10 +286,10 @@ public class GameTest {
         List<HeroCard> expectedPlayer3DungeonEntrance = new ArrayList<>();
         List<HeroCard> expectedPlayer4DungeonEntrance = new ArrayList<>();
 
-        expectedPlayer1DungeonEntrance.add(game.getCity().get(0));  // Book: Player 1 has the most
-        expectedCity.add(game.getCity().get(1));                    // Sword: Tie Between Player 3 and 4
-        expectedCity.add(game.getCity().get(2));                    // Cross: No one has a cross
-        expectedPlayer3DungeonEntrance.add(game.getCity().get(3));  // Bag: Player 3 has the most
+        expectedPlayer1DungeonEntrance.add(game.getCity().get(0));  // Book: Player 1 has the most books
+        expectedCity.add(game.getCity().get(1));                    // Sword: Tie between Player 3 and 4, so it stays in the city
+        expectedCity.add(game.getCity().get(2));                    // Cross: No one has a cross, so it stays in the city
+        expectedPlayer3DungeonEntrance.add(game.getCity().get(3));  // Bag: Player 3 has the most bags
         expectedPlayer3DungeonEntrance.add(game.getCity().get(4));  // Fool: Player 3 has the least souls
 
         game.lureHeroToBestDungeon();
@@ -352,8 +351,30 @@ public class GameTest {
 
     }
 
+    @Test
     void shouldCheckPlayerRoomsEffectTrigger() {
+        RoomCard dummyCard1 = new RoomCard();
+        RoomCard dummyCard2 = new RoomCard();
+        RoomCard dummyCard3 = new RoomCard();
+        RoomCard dummyCard4 = new RoomCard();
+        dummyCard1.setPassiveTrigger(RoomPassiveTrigger.BUILD_MONSTER_ROOM);
+        dummyCard2.setPassiveTrigger(RoomPassiveTrigger.DESTROY_THIS_ROOM);
+        dummyCard3.setPassiveTrigger(RoomPassiveTrigger.DESTROY_THIS_ROOM);
+        dummyCard4.setPassiveTrigger(RoomPassiveTrigger.USE_SPELL_CARD);
+        Player player = game.getPlayers().get(0);
 
+        player.getDungeon().getRoomSlots()[0].setRoom(dummyCard1);
+        player.getDungeon().getRoomSlots()[1].setRoom(dummyCard2);
+        player.getDungeon().getRoomSlots()[2].setRoom(dummyCard3);
+        player.getDungeon().getRoomSlots()[3].setRoom(dummyCard4);
+
+        assertTrue(game.checkPlayerRoomsEffectTrigger(player, RoomPassiveTrigger.BUILD_MONSTER_ROOM, 0));
+        assertTrue(game.checkPlayerRoomsEffectTrigger(player, RoomPassiveTrigger.DESTROY_THIS_ROOM, 1));
+        assertTrue(game.checkPlayerRoomsEffectTrigger(player, RoomPassiveTrigger.DESTROY_THIS_ROOM, 2));
+        assertTrue(game.checkPlayerRoomsEffectTrigger(player, RoomPassiveTrigger.USE_SPELL_CARD, 3));
+        assertFalse(game.checkPlayerRoomsEffectTrigger(player, RoomPassiveTrigger.USE_SPELL_CARD, 4));
+        assertFalse(game.checkPlayerRoomsEffectTrigger(player, RoomPassiveTrigger.NONE, 0));
+        assertFalse(game.checkPlayerRoomsEffectTrigger(player, RoomPassiveTrigger.DESTROY_THIS_ROOM, 3));
     }
 
     @Test
@@ -387,6 +408,22 @@ public class GameTest {
             List<Card> expectedHand = game.getPlayers().get(i).getHand();
             assertEquals(expectedHand, game.getCurrentPlayerHand());
         }
+    }
+
+    @Test
+    void shouldIncrementCounter() {
+        Integer expectedCounter = game.getState().getCounter() + 1;
+        game.incrementCounter();
+        Integer trueCounter = game.getState().getCounter();
+        assertEquals(expectedCounter, trueCounter);
+    }
+
+    @Test
+    void shouldDecrementCounter() {
+        Integer expectedCounter = game.getState().getCounter() - 1;
+        game.decrementCounter();
+        Integer trueCounter = game.getState().getCounter();
+        assertEquals(expectedCounter, trueCounter);
     }
 
     static Stream<Arguments> shouldMakeChoice() {
