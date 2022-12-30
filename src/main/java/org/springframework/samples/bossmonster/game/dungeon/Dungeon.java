@@ -42,6 +42,7 @@ public class Dungeon extends BaseEntity {
         for (DungeonRoomSlot roomSlot: roomSlots) {
             totalAmount += roomSlot.getRoom().parseTreasureAmount(treasure);
         }
+        System.out.println(String.format("Amount of %s: %s", treasure, totalAmount));
         return totalAmount;
 
     }

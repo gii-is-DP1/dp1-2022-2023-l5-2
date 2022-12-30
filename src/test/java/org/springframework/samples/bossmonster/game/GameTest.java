@@ -208,9 +208,9 @@ public class GameTest {
         for (Player testPlayer: game.getPlayers()) {
             List<Card> expectedHand = testPlayer.getHand();
 
-            game.getNewRoomCard(testPlayer);
-            SpellCard newRoomCard = expectedSpellPile.remove(0);
-            expectedHand.add(newRoomCard);
+            game.getNewSpellCard(testPlayer);
+            SpellCard newSpellCard = expectedSpellPile.remove(0);
+            expectedHand.add(newSpellCard);
 
             List<Card> trueHand = testPlayer.getHand();
             List<SpellCard> trueSpellPile = game.getSpellPile();
@@ -275,11 +275,11 @@ public class GameTest {
         assertEquals(new HashSet<>(trueDiscardPile), new HashSet<>(expectedDiscardPile));
     }
 
+    @Test
     void shouldLureHeroToBestDungeon() {
         setUpAllDummyDungeons();
         setUpDummyCity();
         List<HeroCard> expectedCity = new ArrayList<>();
-
         List<HeroCard> expectedPlayer1DungeonEntrance = new ArrayList<>();
         List<HeroCard> expectedPlayer2DungeonEntrance = new ArrayList<>();
         List<HeroCard> expectedPlayer3DungeonEntrance = new ArrayList<>();
@@ -299,12 +299,13 @@ public class GameTest {
         List<HeroCard> truePlayer3DungeonEntrance = game.getPlayers().get(2).getDungeon().getEntrance();
         List<HeroCard> truePlayer4DungeonEntrance = game.getPlayers().get(3).getDungeon().getEntrance();
 
+        for(HeroCard h: trueCity) System.out.println("true ########################\n\n\n" + h.getTreasure());
+        for(HeroCard h: expectedCity) System.out.println("expected ########################\n\n\n" + h.getTreasure());
         assertEquals(expectedCity, trueCity);
         assertEquals(expectedPlayer1DungeonEntrance, truePlayer1DungeonEntrance);
         assertEquals(expectedPlayer2DungeonEntrance, truePlayer2DungeonEntrance);
         assertEquals(expectedPlayer3DungeonEntrance, truePlayer3DungeonEntrance);
         assertEquals(expectedPlayer4DungeonEntrance, truePlayer4DungeonEntrance);
-
     }
 
     void shouldPlaceHeroInCity() {

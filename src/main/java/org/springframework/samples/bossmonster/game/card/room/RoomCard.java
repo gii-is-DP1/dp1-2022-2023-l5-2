@@ -43,14 +43,13 @@ public class RoomCard extends Card {
 
         Integer targetPosition;
         switch (targetTreasure) {
-            case BOOK: { targetPosition = 0; break; }
+            case BOOK:  { targetPosition = 0; break; }
             case SWORD: { targetPosition = 1; break; }
             case CROSS: { targetPosition = 2; break; }
-            case BAG: { targetPosition = 3; break; }
+            case BAG:   { targetPosition = 3; break; }
             default: return null;
         }
-        
-        return Integer.valueOf(treasure.charAt(targetPosition));
+        return Character.getNumericValue(treasure.charAt(targetPosition));
 
     }
 
