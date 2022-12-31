@@ -1,13 +1,13 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.bossmonster.user.User;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface GameLobbyRepository extends CrudRepository<GameLobby, Integer> {
 

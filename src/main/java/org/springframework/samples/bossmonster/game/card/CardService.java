@@ -1,5 +1,8 @@
 package org.springframework.samples.bossmonster.game.card;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCardRepository;
@@ -10,9 +13,6 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCardRepository
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCardRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class CardService {

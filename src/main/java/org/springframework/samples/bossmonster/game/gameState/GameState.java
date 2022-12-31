@@ -179,7 +179,7 @@ public class GameState extends BaseEntity {
     }
 
     ////////////////////////////   BUILD   ////////////////////////////
-    
+
     public Boolean isBuildingRoom() {
         return (subPhase == GameSubPhase.BUILD_NEW_ROOM) &&
             (counter % 2 != 0);
@@ -210,7 +210,7 @@ public class GameState extends BaseEntity {
                     subPhase = GameSubPhase.REVEAL_NEW_ROOMS;
                     game.revealAllDungeonRooms();
                     updateChangeConditionClock(SHOW_ROOMS_COOLDOWN_SECONDS);
-                    currentPlayer = 0;
+                    setCurrentPlayer(0);
                 }
                 break;
             }
@@ -227,6 +227,7 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.HEROES_ENTER_DUNGEON;
+                game.lureHeroToBestDungeon();
                 break;
             }
             case HEROES_ENTER_DUNGEON: {
@@ -247,7 +248,7 @@ public class GameState extends BaseEntity {
             }
             case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.HEROES_EXPLORE_DUNGEON;
-                // TODO Ni idea de como poner esto ahora mismo
+                game.processAdventurePhase(game.getCurrentPlayer());
                 break;
             }
             case HEROES_EXPLORE_DUNGEON: {

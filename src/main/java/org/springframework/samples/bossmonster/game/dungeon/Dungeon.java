@@ -1,8 +1,11 @@
 package org.springframework.samples.bossmonster.game.dungeon;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
@@ -32,13 +35,17 @@ public class Dungeon extends BaseEntity {
     @OrderColumn
     DungeonRoomSlot[] roomSlots;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    List<HeroCardStateInDungeon> heroes = new ArrayList<>();
+
     public Integer getTreasureAmount(TreasureType treasure) {
 
         Integer totalAmount = 0;
-        for (DungeonRoomSlot roomSlot: roomSlots) {
-            totalAmount += roomSlot.getRoom().parseTreasureAmount(treasure);
+        for (int index = getBuiltRooms()-1; index >= 0; index--) {
+            Integer treasureInRoom = getRoom(index).parseTreasureAmount(treasure);
+            log.debug(String.format("%s in %s: %s, (%s)", treasure, getRoom(index).getName(),treasureInRoom,getRoom(index).getTreasure()));
+            totalAmount += treasureInRoom;
         }
-        if (bossCard.getTreasure() == treasure) totalAmount ++;
         log.debug(String.format("[getTreasureAmount] Amount of %s for card: %s", treasure, totalAmount));
         return totalAmount;
 
