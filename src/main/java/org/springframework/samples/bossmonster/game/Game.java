@@ -71,6 +71,8 @@ public class Game extends BaseEntity {
     }
 
     public Player getCurrentPlayer() {
+        log.debug("Players in game: " + getPlayers());
+        log.debug("Fetching current player: " + getState().getCurrentPlayer());
         return getPlayers().get(getState().getCurrentPlayer());
     }
 
@@ -127,7 +129,7 @@ public class Game extends BaseEntity {
     ////////// HERO RELATED //////////
 
     public void lureHeroToBestDungeon() {
-
+        log.debug("Luring heroes to best dungeons...");
         Iterator<HeroCard> iterator = getCity().iterator();
         while (iterator.hasNext()) {
 
@@ -135,9 +137,11 @@ public class Game extends BaseEntity {
             List<Player> playersWithBestDungeon = new ArrayList<>();
             Integer bestValue;
             TreasureType targetTreasure = currentHero.getTreasure();
-
+            log.debug("Luring hero: " + currentHero.getName());
             if (targetTreasure != TreasureType.FOOL) {
-                bestValue = getPlayers().stream().max(Comparator.comparing(x -> x.getDungeon().getTreasureAmount(targetTreasure))).get().getDungeon().getTreasureAmount(targetTreasure);
+                bestValue = getPlayers().stream().max(Comparator.comparing(
+                    x -> x.getDungeon().getTreasureAmount(targetTreasure)
+                )).get().getDungeon().getTreasureAmount(targetTreasure);
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getDungeon().getTreasureAmount(targetTreasure) == bestValue).collect(Collectors.toList());
             }
             else {
@@ -145,9 +149,12 @@ public class Game extends BaseEntity {
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
             }
             if (playersWithBestDungeon.size() == 1) {
+                log.debug(String.format("Hero enters %s's Dungeon",playersWithBestDungeon.get(0).getUser().getNickname()));
                 playersWithBestDungeon.get(0).getDungeon().addNewHeroToDungeon(currentHero);
                 iterator.remove();
-             }
+             } else {
+                log.debug("Tie, can't lure hero");
+            }
 
         }
 
