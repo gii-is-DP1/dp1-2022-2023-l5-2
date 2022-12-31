@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,9 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
+import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
@@ -112,23 +115,26 @@ public class GameTest {
             slots[i].setRoom(roomCard);
         }
         dungeon.setRoomSlots(slots);
+        FinalBossCard boss = new FinalBossCard();
+        boss.setTreasure(TreasureType.SWORD);
+        dungeon.setBossCard(boss);
         return dungeon;
     }
 
     void setUpAllDummyDungeons() {
         List<Player> players = game.getPlayers();
 
-        // Book: 9, Sword: 1, Cross: 0, Bag: 1
+        // Book: 9, Sword: 1+1, Cross: 0, Bag: 1
         String[] dungeon1 = {"3000", "1101", "2000", "3000", "0000"};
-        // Book: 1, Sword: 1, Cross: 0, Bag: 1
+        // Book: 1, Sword: 1+1, Cross: 0, Bag: 1
         String[] dungeon2 = {"1000", "0100", "0000", "0001", "0000"};
-        // Book: 0, Sword: 6, Cross: 0, Bag: 9
+        // Book: 0, Sword: 6+1, Cross: 0, Bag: 9
         String[] dungeon3 = {"0203", "0203", "0203", "0000", "0000"};
-        // Book: 1, Sword: 6, Cross: 0, Bag: 5
+        // Book: 1, Sword: 6+1, Cross: 0, Bag: 5
         String[] dungeon4 = {"1000", "0200", "0300", "3105", "0000"};
 
         // Book: Player 1 has the most
-        // Sword: Tie Between Player 3 and 4
+        // Sword: Tie Between Player 3 and 4 (+1 is from Final Boss)
         // Cross: No one has a cross
         // Bag: Player 3 has the most
         // Fool: Player 3 has the least souls
@@ -280,30 +286,30 @@ public class GameTest {
         setUpAllDummyDungeons();
         setUpDummyCity();
         List<HeroCard> expectedCity = new ArrayList<>();
-        List<HeroCard> expectedPlayer1DungeonEntrance = new ArrayList<>();
-        List<HeroCard> expectedPlayer2DungeonEntrance = new ArrayList<>();
-        List<HeroCard> expectedPlayer3DungeonEntrance = new ArrayList<>();
-        List<HeroCard> expectedPlayer4DungeonEntrance = new ArrayList<>();
+        List<HeroCard> expectedPlayer1DungeonFirstRoom = new ArrayList<>();
+        List<HeroCard> expectedPlayer2DungeonFirstRoom = new ArrayList<>();
+        List<HeroCard> expectedPlayer3DungeonFirstRoom = new ArrayList<>();
+        List<HeroCard> expectedPlayer4DungeonFirstRoom = new ArrayList<>();
 
-        expectedPlayer1DungeonEntrance.add(game.getCity().get(0));  // Book: Player 1 has the most books
-        expectedCity.add(game.getCity().get(1));                    // Sword: Tie between Player 3 and 4, so it stays in the city
-        expectedCity.add(game.getCity().get(2));                    // Cross: No one has a cross, so it stays in the city
-        expectedPlayer3DungeonEntrance.add(game.getCity().get(3));  // Bag: Player 3 has the most bags
-        expectedPlayer3DungeonEntrance.add(game.getCity().get(4));  // Fool: Player 3 has the least souls
+        expectedPlayer1DungeonFirstRoom.add(game.getCity().get(0));  // Book: Player 1 has the most books
+        expectedCity.add(game.getCity().get(1));                     // Sword: Tie between Player 3 and 4, so it stays in the city
+        expectedCity.add(game.getCity().get(2));                     // Cross: No one has a cross, so it stays in the city
+        expectedPlayer3DungeonFirstRoom.add(game.getCity().get(3));  // Bag: Player 3 has the most bags
+        expectedPlayer3DungeonFirstRoom.add(game.getCity().get(4));  // Fool: Player 3 has the least souls
 
         game.lureHeroToBestDungeon();
 
         List<HeroCard> trueCity = game.getCity();
-        //List<HeroCard> truePlayer1DungeonEntrance = game.getPlayers().get(0).getDungeon().getEntrance();
-        //List<HeroCard> truePlayer2DungeonEntrance = game.getPlayers().get(1).getDungeon().getEntrance();
-        //List<HeroCard> truePlayer3DungeonEntrance = game.getPlayers().get(2).getDungeon().getEntrance();
-        //List<HeroCard> truePlayer4DungeonEntrance = game.getPlayers().get(3).getDungeon().getEntrance();
+        List<HeroCard> truePlayer1DungeonFirstRoom = game.getPlayers().get(0).getDungeon().getRoomSlots()[game.getPlayers().get(0).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
+        List<HeroCard> truePlayer2DungeonFirstRoom = game.getPlayers().get(1).getDungeon().getRoomSlots()[game.getPlayers().get(1).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
+        List<HeroCard> truePlayer3DungeonFirstRoom = game.getPlayers().get(2).getDungeon().getRoomSlots()[game.getPlayers().get(2).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
+        List<HeroCard> truePlayer4DungeonFirstRoom = game.getPlayers().get(3).getDungeon().getRoomSlots()[game.getPlayers().get(3).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
 
         assertEquals(expectedCity, trueCity);
-        //assertEquals(expectedPlayer1DungeonEntrance, truePlayer1DungeonEntrance);
-        //assertEquals(expectedPlayer2DungeonEntrance, truePlayer2DungeonEntrance);
-        //assertEquals(expectedPlayer3DungeonEntrance, truePlayer3DungeonEntrance);
-        //assertEquals(expectedPlayer4DungeonEntrance, truePlayer4DungeonEntrance);
+        assertEquals(expectedPlayer1DungeonFirstRoom, truePlayer1DungeonFirstRoom);
+        assertEquals(expectedPlayer2DungeonFirstRoom, truePlayer2DungeonFirstRoom);
+        assertEquals(expectedPlayer3DungeonFirstRoom, truePlayer3DungeonFirstRoom);
+        assertEquals(expectedPlayer4DungeonFirstRoom, truePlayer4DungeonFirstRoom);
     }
 
     void shouldPlaceHeroInCity() {

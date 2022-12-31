@@ -1,8 +1,6 @@
 package org.springframework.samples.bossmonster.game.dungeon;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 import java.util.stream.Stream;
 
 import org.springframework.samples.bossmonster.game.card.TreasureType;
@@ -15,6 +13,8 @@ import org.springframework.samples.bossmonster.game.card.room.RoomType;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
 import javax.persistence.*;
@@ -22,6 +22,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@Slf4j
 public class Dungeon extends BaseEntity {
 
     @OneToOne
@@ -37,22 +38,14 @@ public class Dungeon extends BaseEntity {
         for (DungeonRoomSlot roomSlot: roomSlots) {
             totalAmount += roomSlot.getRoom().parseTreasureAmount(treasure);
         }
-        System.out.println(String.format("Amount of %s: %s", treasure, totalAmount));
+        if (bossCard.getTreasure() == treasure) totalAmount ++;
+        log.debug(String.format("[getTreasureAmount] Amount of %s for card: %s", treasure, totalAmount));
         return totalAmount;
 
     }
 
     public void addNewHeroToDungeon(HeroCard hero) {
-        roomSlots[getFirstRoomSlot()].addHero(createStateOfHeroInDungeon(hero));
-    }
-
-    public HeroCardStateInDungeon createStateOfHeroInDungeon(HeroCard hero) {
-        HeroCardStateInDungeon heroInDungeon = new HeroCardStateInDungeon();
-        heroInDungeon.setDungeon(this);
-        heroInDungeon.setHeroCard(hero);
-        heroInDungeon.setHealthInDungeon(hero.getHealth());
-        heroInDungeon.setMinotaursMazeEffectTriggered(false);
-        return heroInDungeon;
+        roomSlots[getFirstRoomSlot()].addHero(new HeroCardStateInDungeon(hero, this));
     }
 
     public Integer getFirstRoomSlot() {
