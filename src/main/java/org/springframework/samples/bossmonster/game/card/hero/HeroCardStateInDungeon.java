@@ -32,5 +32,12 @@ public class HeroCardStateInDungeon extends BaseEntity {
     public Boolean isDead() {
         return healthInDungeon <= 0;
     }
+
+    public HeroCardStateInDungeon(HeroCard hero, Dungeon dungeon) {
+        this.heroCard = hero;
+        this.dungeon = dungeon;
+        this.healthInDungeon = hero.getHealth();
+        this.minotaursMazeEffectTriggered = false;
+    }
     
 }

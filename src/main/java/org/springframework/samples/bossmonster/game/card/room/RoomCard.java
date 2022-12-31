@@ -1,16 +1,17 @@
 package org.springframework.samples.bossmonster.game.card.room;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.samples.bossmonster.game.card.Card;
-import org.springframework.samples.bossmonster.game.card.EffectEnum;
-import org.springframework.samples.bossmonster.game.card.TreasureType;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+
+import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.EffectEnum;
+import org.springframework.samples.bossmonster.game.card.TreasureType;
+
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity

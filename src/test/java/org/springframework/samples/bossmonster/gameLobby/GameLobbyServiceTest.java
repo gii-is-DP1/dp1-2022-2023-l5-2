@@ -1,5 +1,12 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,11 +20,6 @@ import org.springframework.samples.bossmonster.game.GameService;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith({MockitoExtension.class})
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class),
