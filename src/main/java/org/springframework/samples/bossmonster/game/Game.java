@@ -206,6 +206,13 @@ public class Game extends BaseEntity {
         return result;
     }
 
+    public void checkForPlayerBossLeveledUp(Player player) {
+        if (player.getDungeon().checkBossLeveledUp()) {
+            player.getDungeon().setBossCardLeveledUp(false);
+            // TODO Implementar efecto
+        }
+    }
+
     public Boolean placeDungeonRoom(Player player, Integer position, RoomCard room) {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
