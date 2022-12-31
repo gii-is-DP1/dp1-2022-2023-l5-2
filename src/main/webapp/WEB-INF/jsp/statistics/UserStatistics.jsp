@@ -5,6 +5,9 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="statistics">
+
+<spring:url value="/users/statistics/global" htmlEscape="true" var="global"/>
+
     <h1>User Statistics</h1>
     <table>
         <tr>
@@ -31,7 +34,7 @@
             <td><c:out value="${winStreak}"/></td>
             
             <th>Average Duration:</th>
-            <td><c:out value="${averageDuration}"/></td>
+            <td><c:out value="${averageDuration}"/> hours</td>
 
         </tr>
     </table>
@@ -64,13 +67,16 @@
                         <c:out value="${game.winner.username} "/>
                     </td>
                     <td>
-                        Souls Left
+                        This was a test result, doesn't have Souls Left
                     </td>
                     <td>
-                        Health Left
+                        This was a test result, doesn't have Health Left
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
     </table>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${global}">Global Statistics</a>
+    </div>
 </bossmonster:layout>

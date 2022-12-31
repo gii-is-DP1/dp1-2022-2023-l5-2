@@ -1,6 +1,9 @@
 package org.springframework.samples.bossmonster.statistics;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
@@ -19,6 +22,8 @@ public class StatisticsController {
     UserService service2;
 
     private static final String STATISTICS_VIEW="/statistics/UserStatistics";
+    private static final String GLOBAL_STATISTICS_VIEW="/statistics/GlobalStatistics";
+    private static final String RANKING_WINRATE_VIEW="/statistics/rankingWinRate";
 
     @Autowired
     public StatisticsController(StatisticsService s, UserService s2){
@@ -49,6 +54,39 @@ public class StatisticsController {
         
         return result;
 
+    }
+    @GetMapping("/users/statistics/global")
+    public ModelAndView showGlobalStatistics(){
+        ModelAndView result= new ModelAndView(GLOBAL_STATISTICS_VIEW);
+
+        Integer totalGames=service.numPartidasGlobal();
+        Integer minPartidas=service.maxMinUsuarioPartidasGlobal(false);
+        Integer maxPartidas=service.maxMinUsuarioPartidasGlobal(true);
+        Double promedioNumPartidas=service.promedioNumPartidas();
+
+        Double promedioDuracion=service.promedioDuracionGlobal();
+        Double minDuracion=service.maxMinDuracionGlobal(false);
+        Double maxDuracion=service.maxMinDuracionGlobal(true);
+
+        Double promedioJugadoresPartida=service.promedioJugadoresPartida();
+
+        result.addObject("totalGames", totalGames);
+        result.addObject("minPartidas", minPartidas);
+        result.addObject("maxPartidas", maxPartidas);
+        result.addObject("promedioNumPartidas", promedioNumPartidas);
+        result.addObject("promedioDuracion", promedioDuracion);
+        result.addObject("minDuracion", minDuracion);
+        result.addObject("maxDuracion", maxDuracion);
+        result.addObject("promedioJugadoresPartida", promedioJugadoresPartida);
+
+        return result;
+    }
+    @GetMapping("/users/statistics/rankings/winRate")
+    public ModelAndView rankingWinrate(){
+        ModelAndView result= new ModelAndView(RANKING_WINRATE_VIEW);
+        List<Map.Entry<String,Double>>ranking= service.rankingPorWinRate();
+        result.addObject("ranking", ranking);
+        return result;
     }
 
 }

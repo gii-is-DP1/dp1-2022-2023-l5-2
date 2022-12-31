@@ -46,7 +46,6 @@
             <div class="centered-view">
                 <a class="btn btn-title" href="${myAchievements}">My Achievements</a>
             </div>
-
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
                     <a class="btn btn-title" href="${achievements}">Achievements</a>
@@ -55,6 +54,11 @@
 
             <div class="centered-view">
                 <a class="btn btn-title" href="${friendModule}">Friends</a> <!-- Dirección provisional -->
+            </div>
+            <div class="float-right">
+                <a class="cuteButton" href="/users/statistics/rankings/winRate">
+                    <span class="glyphicon glyphicon-king" aria-hidden="true"> </span>
+                </a>      
             </div>
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
@@ -68,6 +72,19 @@
         .centered-view {
             margin: 25px;
             border-radius: 30px;
+        }
+        .cuteButton{
+            background-color: lawngreen;
+            color: black;
+            text-align: center;
+            font-size: xx-large;
+            padding-top: 20px;
+            width: 80px;
+            height: 80px;
+            border: 2px black;
+            border-color: black;
+            border-radius: 10px;
+            float: right;
         }
     </style>
             

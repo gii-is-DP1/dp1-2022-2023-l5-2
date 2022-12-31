@@ -7,13 +7,11 @@ import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
-import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
-import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
-import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
+import org.springframework.samples.bossmonster.game.chat.Chat;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
@@ -59,6 +57,9 @@ public class Game extends BaseEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     private GameState state;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Chat chat;
 
     private LocalDateTime startedTime;
 
