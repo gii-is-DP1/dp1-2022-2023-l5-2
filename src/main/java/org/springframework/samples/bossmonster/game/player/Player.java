@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.game.player;
 import lombok.Getter;
 import lombok.Setter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
@@ -13,12 +14,14 @@ import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 @Getter
 @Setter
 @Entity
+@Slf4j
 public class Player extends BaseEntity {
 
     @OneToOne
@@ -76,14 +79,23 @@ public class Player extends BaseEntity {
         for(int i = 4; i >= 0; i --) {
             DungeonRoomSlot roomSlot = dungeon.getRoomSlots()[i];
             Integer dealtDamage = roomSlot.getRoomTrueDamage();
-            for(HeroCardStateInDungeon hero: roomSlot.getHeroesInRoom()) {
+            Iterator<HeroCardStateInDungeon> heroes = roomSlot.getHeroesInRoom().iterator();
+            while(heroes.hasNext()) {
+                HeroCardStateInDungeon hero = heroes.next();
                 hero.dealDamage(dealtDamage);
                 if (hero.isDead()) addSoulsFromKilledHero(hero);
                 else {
-                    if (isDungeonLastRoom(i)) dungeon.getRoomSlots()[i-1].addHero(hero);
-                    else removeHealthFromUndefeatedHero(hero);
+                    if (!isDungeonLastRoom(i)) {
+                        log.debug("Moving hero...");
+                        dungeon.getRoomSlots()[i - 1].addHero(hero);
+                    }
+                    else {
+                        log.debug("Reached last room, damaging player");
+                        removeHealthFromUndefeatedHero(hero);
+                    }
                 }
-                dungeon.getRoomSlots()[i].removeHero(hero);
+                heroes.remove();
+
             }
         }
     }
