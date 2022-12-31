@@ -9,7 +9,7 @@ https://uses0-my.sharepoint.com/:w:/g/personal/ignarrman_alum_us_es/EZ8eyKLXqZ5C
 
 - Ignacio Arroyo Mantero
 - Tadeo Cabrera Gómez
-- Ignacio Gonzalez González
+- Ignacio González González
 - Francisco de Asís Rosso Ramírez
 - Jesús Solis Ortega
 - Elena Tomás Vela
