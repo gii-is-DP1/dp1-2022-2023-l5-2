@@ -60,11 +60,13 @@ public class Game extends BaseEntity {
     private LocalDateTime startedTime;
 
     private Integer roomToBuildFromHand;
+
     //@OneToOne
     //private GameResult result;
 
     public static final Integer NORMAL_HERO_SOUL_VALUE = 1;
     public static final Integer EPIC_HERO_SOUL_VALUE = 2;
+    public static final Integer SOULS_REQUIRED_TO_WIN = 10;
 
     public Player getPlayerFromUser(User user) {
         return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().orElse(null);
@@ -222,6 +224,25 @@ public class Game extends BaseEntity {
 
     public Boolean checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger, Integer slot) {
         return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot);
+    }
+
+    ////////// END GAME //////////
+
+    public Boolean checkGameEnded() {
+        Boolean anyPlayersCollectedAllSouls = players.stream().filter(x -> x.getSouls() >= SOULS_REQUIRED_TO_WIN).collect(Collectors.toList()).size() >= 1;
+        Boolean tooManyPlayersHaveNoHealth = players.stream().filter(x -> x.getHealth() > 0).collect(Collectors.toList()).size() <= 1;
+        return (anyPlayersCollectedAllSouls || tooManyPlayersHaveNoHealth);
+    }
+
+    public Player getWinningPlayer() {
+        List<Player> winningCandidates;
+        // Collecting 10 souls takes priority over running out of lives
+        winningCandidates = players.stream().filter(x -> x.getSouls() >= SOULS_REQUIRED_TO_WIN).collect(Collectors.toList());
+        // If only one player has health that player wins
+        if (winningCandidates.size() == 0) winningCandidates = players.stream().filter(x -> x.getHealth() > 0).collect(Collectors.toList());
+        // If no player is alive see which players died in the last turn
+        if (winningCandidates.size() == 0) winningCandidates = players.stream().filter(x -> x.getEliminatedRound() == state.getCurrentRound()).collect(Collectors.toList());
+        return winningCandidates.stream().min(Comparator.comparing(x -> x.getDungeon().getBossCard().getXp())).get();
     }
 
     ////////// MISC //////////

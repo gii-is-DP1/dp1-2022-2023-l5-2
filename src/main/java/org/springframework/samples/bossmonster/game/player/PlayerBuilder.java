@@ -22,6 +22,7 @@ public class PlayerBuilder {
 
     private final Integer STARTING_ROOM_CARDS = 3;
     private final Integer STARTING_SPELL_CARDS = 2;
+    private final Integer STARTING_HEALTH = 5;
 
     List<RoomCard> currentRoomPile;
     List<SpellCard> currentSpellPile;
@@ -63,7 +64,8 @@ public class PlayerBuilder {
 
     public void buildPlayerStats(Player newPlayer) {
         newPlayer.setSouls(0);
-        newPlayer.setHealth(5);
+        newPlayer.setHealth(STARTING_HEALTH);
+        newPlayer.setEliminatedRound(-1);
     }
 
     public void buildPlayerUser(Player newPlayer, User user) {

@@ -37,6 +37,8 @@ public class GameState extends BaseEntity {
     private Boolean checkClock;
     private Boolean buildingRoom;
 
+    private Integer currentRound;
+
     // These variables are used to store the current state when a card effect needs a special state
     @Enumerated(EnumType.STRING)
     private GamePhase phaseBeforeEffect;
@@ -225,7 +227,6 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.HEROES_ENTER_DUNGEON;
-//                game.lureHeroToBestDungeon();
                 break;
             }
             case HEROES_ENTER_DUNGEON: {
@@ -258,7 +259,13 @@ public class GameState extends BaseEntity {
             case USE_SPELLCARD: {
                 currentPlayer ++;
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
-                else { changePhase(GamePhase.START_ROUND); } // TODO Ver si alguien ha ganado el juego
+                else {
+                    if (game.checkGameEnded()) changePhase(GamePhase.END_GAME);
+                    else {
+                        currentRound ++;
+                        changePhase(GamePhase.START_ROUND);
+                    }
+                }
                 break;
             }
         }

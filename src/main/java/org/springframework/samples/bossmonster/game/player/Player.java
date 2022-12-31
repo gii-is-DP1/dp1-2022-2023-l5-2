@@ -34,6 +34,7 @@ public class Player extends BaseEntity {
     @OneToMany
     private List<Card> hand;
 
+    private Integer eliminatedRound;
 
     public Card removeHandCard(int cardPosition) {
         return hand.remove(cardPosition);
