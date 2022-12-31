@@ -11,10 +11,14 @@ import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.card.Card;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(properties="spring.main.lazy-initialization=true")
@@ -62,4 +66,16 @@ public class CardServiceTest {
         assertNotEquals(deck,deck2);
     }
 
+    @Test
+    @DisplayName("give a card")
+    public void shouldGetFirstCardOfDeck() {
+        List<Card> deck = new ArrayList<>();
+        deck.addAll(cardService.createBossCardDeck());
+        List<Card> deck1 = new ArrayList<Card>(deck);
+        List<Card> hand = new ArrayList<>();
+        cardService.giveCard(deck, hand, 200);
+        assertFalse(deck1.isEmpty());
+        assertEquals(hand.get(0), deck1.get(deck1.size()-1));
+        assertNotEquals(deck.get(deck.size()-1),deck1.get(deck1.size()-1));
+    }
 }
