@@ -29,14 +29,16 @@ import javax.persistence.*;
 public class Dungeon extends BaseEntity {
 
     @OneToOne
-    FinalBossCard bossCard;
+    private FinalBossCard bossCard;
 
     @OneToMany(cascade = CascadeType.ALL)
     @OrderColumn
-    DungeonRoomSlot[] roomSlots;
+    private DungeonRoomSlot[] roomSlots;
 
     @OneToMany(cascade = CascadeType.ALL)
-    List<HeroCardStateInDungeon> heroes = new ArrayList<>();
+    private List<HeroCardStateInDungeon> heroes = new ArrayList<>();
+
+    private Boolean bossCardLeveledUp;
 
     public Integer getTreasureAmount(TreasureType treasure) {
 
@@ -71,8 +73,8 @@ public class Dungeon extends BaseEntity {
             if (room != null) {
                 if (room.getId() != 4) slot.setRoomTrueDamage(room.getDamage());
                 else { // That one room card whose damage was the amount of monster rooms in the dungeon
-                    long damage = Stream.of(roomSlots).filter(x -> x.getRoom().getRoomType() == RoomType.ADVANCED_MONSTER || x.getRoom().getRoomType() == RoomType.MONSTER).count();
-                    //slot.setRoomTrueDamage(damage);
+                    long damage = Stream.of(roomSlots).filter(x -> x.getRoom() != null).filter(x -> x.getRoom().getRoomType() == RoomType.ADVANCED_MONSTER || x.getRoom().getRoomType() == RoomType.MONSTER).count();
+                    slot.setRoomTrueDamage((int) damage);
                 }
             }
             else slot.setRoomTrueDamage(0);
@@ -80,7 +82,6 @@ public class Dungeon extends BaseEntity {
     }
 
     public Integer getBuiltRooms() {
-
         return (int) Arrays.stream(getRoomSlots()).filter(slot->slot.getRoom()!=null).count();
     }
 
@@ -93,8 +94,13 @@ public class Dungeon extends BaseEntity {
     }
 
     public void moveHeroToNextRoom(HeroCardStateInDungeon hero, Integer currentRoomSlot) {
-        roomSlots[currentRoomSlot].removeHero(hero);
-        roomSlots[currentRoomSlot - 1].addHero(hero);
+        // This is an auxiliary function, which means the hero is always going to be in the dungeon room
+        // and the room is never going to be the last one, but just in case I put a failsafe in it
+        if (roomSlots[currentRoomSlot].getHeroesInRoom().contains(hero) && currentRoomSlot != 0) {
+            roomSlots[currentRoomSlot].removeHero(hero);
+            roomSlots[currentRoomSlot - 1].addHero(hero);
+        }
+
     }
 
     public void revealRooms() {
@@ -106,6 +112,10 @@ public class Dungeon extends BaseEntity {
     public Boolean checkRoomCardEffectIsTriggered(RoomPassiveTrigger trigger, Integer position) {
         RoomCard card = roomSlots[position].getRoom();
         return (!(card == null) && card.getPassiveTrigger() == trigger);
+    }
+
+    public Boolean checkBossLeveledUp() {
+        return (getBuiltRooms() == 5 && !bossCardLeveledUp);
     }
 
     // Used for testing

@@ -59,6 +59,7 @@ public class PlayerBuilder {
         dungeon.setRoomSlots(slots);
         FinalBossCard boss = currentBossPile.remove(currentBossPile.size()-1);
         dungeon.setBossCard(boss);
+        dungeon.setBossCardLeveledUp(false);
         newPlayer.setDungeon(dungeon);
     }
 

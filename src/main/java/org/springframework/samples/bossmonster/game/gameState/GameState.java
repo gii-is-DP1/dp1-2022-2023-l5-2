@@ -1,5 +1,6 @@
 package org.springframework.samples.bossmonster.game.gameState;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -105,6 +106,10 @@ public class GameState extends BaseEntity {
         phase = GamePhase.EFFECT;
         subPhase = triggeredSubPhase;
         updateChangeConditionCounter(EFFECT_STATE_COUNTER_LIMIT);
+    }
+
+    public Integer getTimeUntilNextClockUpdate() {
+        return (int) Duration.between(LocalDateTime.now(), clock).getSeconds();
     }
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
