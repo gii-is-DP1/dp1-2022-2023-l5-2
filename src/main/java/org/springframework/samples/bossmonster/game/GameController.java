@@ -76,10 +76,6 @@ public class GameController {
         result.addObject("game", game);
         result.addObject("currentPlayer", currentPlayer);
         result.addObject("players", otherPlayers);
-        result.addObject("swordHeroes", game.getSpecifiedCity(TreasureType.SWORD));
-        result.addObject("bagHeroes", game.getSpecifiedCity(TreasureType.BAG));
-        result.addObject("bookHeroes", game.getSpecifiedCity(TreasureType.BOOK));
-        result.addObject("crossHeroes", game.getSpecifiedCity(TreasureType.CROSS));
     }
 
 }

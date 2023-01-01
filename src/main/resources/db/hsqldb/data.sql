@@ -75,7 +75,7 @@ INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_pl
     (37,     'Cecil_Leoran,_Master_Factotum' ,       '/resources/images/heroes/Cecil_Leoran,_Master_Factotum.jpg',      'BAG', 13, true, 2),
     (38,     'Charles_the_Young' ,                   '/resources/images/heroes/Charles_the_Young.jpg',                  'CROSS', 6, false, 3),
     (39,     'Chia_Kang,_Mystical_Warlock_of_Yu' ,   '/resources/images/heroes/Chia_Kang,_Mystical_Warlock_of_Yu.jpg',  'BOOK', 11, true, 3),
-    (40,    'Crystol_and_A`lan_of_Gerd' ,           '/resources/images/heroes/Crystol_and_A%27lan_of_Gerd.jpg',        'SWORD', 8, false, 4),
+    (40,    'Crystol_and_Alan_of_Gerd' ,           '/resources/images/heroes/Crystol_and_A%27lan_of_Gerd.jpg',        'SWORD', 8, false, 4),
     (41,    'Dartteon,_Elf_Pyromancer' ,            '/resources/images/heroes/Dartteon,_Elf_Pyromancer.jpg',           'BOOK', 8, false, 2),
     (42,    'Delatorious,_Angel_of_Light' ,         '/resources/images/heroes/Delatorious,_Angel_of_Light.jpg',        'CROSS', 8, false, 2),
     (43,    'Fire%27s_Breath,_Heroine_of_Arcadia' , '/resources/images/heroes/Fire%27s_Breath,_Heroine_of_Arcadia.jpg','SWORD', 6, false, 2),
