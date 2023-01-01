@@ -28,10 +28,17 @@
             View Dungeon
         </bossmonster:modalButton>
     </div>
-    <div>
-        <bossmonster:card card="${player.dungeon.bossCard}"/>
+    <div class="dungeonCards">
+        <div class="slot">
+            <bossmonster:card card="${player.dungeon.bossCard}"/>
+        </div>
         <c:forEach items="${player.dungeon.roomSlots}" var="slot">
+            <div class="slot">
             <bossmonster:card card="${slot.room}" facedown="${not slot.isVisible}" type="room"/>
+            <c:forEach items="${slot.heroesInRoom}" var="hero">
+                <bossmonster:hero hero="${hero}"/>
+            </c:forEach>
+            </div>
         </c:forEach>
     </div>
 </div>

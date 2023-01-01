@@ -11,6 +11,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -170,6 +171,16 @@ public class GameTest {
         return hero;
     }
 
+    @ParameterizedTest
+    @CsvSource(
+        {"6,7",
+        "-6,2"})
+    void shouldGetWaitingTime(int seconds, int expected) {
+        game.getState().setClock(LocalDateTime.now().plusSeconds(seconds));
+        Integer time = game.getState().getWaitingTime();
+        assertThat(time).isEqualTo(expected);
+    }
+
     @Test
     void shouldGetPlayerFromUser() {
         for (Player testPlayer: game.getPlayers()) {
@@ -200,7 +211,7 @@ public class GameTest {
         List<RoomCard> expectedRoomPile = new ArrayList<>(game.getRoomPile());
         for (Player testPlayer: game.getPlayers()) {
             List<Card> expectedHand = new ArrayList<>(testPlayer.getHand());
-            
+
             game.getNewRoomCard(testPlayer);
             RoomCard newRoomCard = expectedRoomPile.remove(0);
             expectedHand.add(newRoomCard);

@@ -265,7 +265,7 @@ table td.action-column {
 }
 
 .dungeon .card{
-    width: 15%;
+
 }
 
 .expandable .card{
@@ -315,9 +315,6 @@ table td.action-column {
 
 .player-dungeon {
     background-color:lighten(orange,20);
-}
-
-.opponents-dungeons {
 }
 
 .dungeon {
@@ -373,7 +370,34 @@ table td.action-column {
     border: 1px solid red;
 }
 
+.dungeonCards {
+    display: flex;
+}
 
+.slot .card {
+    width: 100%;
+}
+
+.slot {
+    width: 15%;
+    margin: 4px;
+}
+
+.hero {
+    position: relative;
+    margin-top: -200px;
+}
+
+.heroHealth {
+    z-index: 1;
+    position: relative;
+    top: -40%;
+    left: 30%;
+}
+
+.heroSlot {
+    display: contents;
+}
 
 hr {
   border-top: 1px dotted @spring-brown;

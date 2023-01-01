@@ -229,7 +229,8 @@ public class Game extends BaseEntity {
     }
 
     public void processAdventurePhase(Player player) {
-        player.getDungeon().heroAdvanceRoomDungeon();
+        log.debug(String.format("Advancing heroes in %s's dungeon",player.getUser().getNickname()));
+        player.heroAdvanceRoomDungeon();
     }
 
     public void revealAllDungeonRooms() {

@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.game.player;
 import lombok.Getter;
 import lombok.Setter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
@@ -13,12 +14,14 @@ import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 @Getter
 @Setter
 @Entity
+@Slf4j
 public class Player extends BaseEntity {
 
     @OneToOne
