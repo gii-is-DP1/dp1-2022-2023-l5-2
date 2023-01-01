@@ -229,7 +229,7 @@ public class Game extends BaseEntity {
     }
 
     public void processAdventurePhase(Player player) {
-        player.heroAdvanceRoomDungeon();
+        player.getDungeon().heroAdvanceRoomDungeon();
     }
 
     public void revealAllDungeonRooms() {
