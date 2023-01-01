@@ -47,20 +47,6 @@ public class Player extends BaseEntity {
         hand.add(card);
     }
 
-    public void damageRandomHeroInDungeonPosition(Integer position, Integer damage) {
-        List<HeroCardStateInDungeon> heroesInSlot = getDungeon().getRoomSlots()[position].getHeroesInRoom();
-        if (!heroesInSlot.isEmpty()) {
-            Random random = new Random();
-            int index = random.nextInt(heroesInSlot.size());
-            HeroCardStateInDungeon chosenHero = heroesInSlot.get(index);
-            chosenHero.dealDamage(damage);
-            if (chosenHero.isDead()) {
-                getDungeon().getRoomSlots()[position].removeHero(chosenHero);
-                addSoulsFromKilledHero(chosenHero);
-            }
-        }
-    }
-
     public void addSoulsFromKilledHero(HeroCardStateInDungeon hero) {
         Integer value;
         if (hero.getHeroCard().getIsEpic()) value = Game.EPIC_HERO_SOUL_VALUE;
@@ -75,46 +61,8 @@ public class Player extends BaseEntity {
         health -= value;
     }
 
-    public void heroAdvanceRoomDungeon() {
-        for(int i = 4; i >= 0; i --) {
-            DungeonRoomSlot roomSlot = dungeon.getRoomSlots()[i];
-            Integer dealtDamage = roomSlot.getRoomTrueDamage();
-            Iterator<HeroCardStateInDungeon> heroes = roomSlot.getHeroesInRoom().iterator();
-            while(heroes.hasNext()) {
-                HeroCardStateInDungeon hero = heroes.next();
-                hero.dealDamage(dealtDamage);
-                if (hero.isDead()) addSoulsFromKilledHero(hero);
-                else {
-                    if (!isDungeonLastRoom(i)) {
-                        log.debug("Moving hero...");
-                        dungeon.getRoomSlots()[i - 1].addHero(hero);
-                    }
-                    else {
-                        log.debug("Reached last room, damaging player");
-                        removeHealthFromUndefeatedHero(hero);
-                    }
-                }
-                heroes.remove();
-
-            }
-        }
-    }
-
-    public Boolean isDungeonLastRoom(Integer position) {
-        return position == 0;
-    }
-
     public Boolean isDead() {
         return health <= 0;
-    }
-
-    public void heroAutomaticallyMovesAfterDestroyingRoom(Integer position) {
-        List<HeroCardStateInDungeon> affectedHeroes = dungeon.getRoomSlots()[position].getHeroesInRoom();
-        for (HeroCardStateInDungeon hcsd: affectedHeroes) {
-            dungeon.getRoomSlots()[position].removeHero(hcsd);
-            if (isDungeonLastRoom(position)) removeHealthFromUndefeatedHero(hcsd);
-            else dungeon.getRoomSlots()[position-1].addHero(hcsd);
-        }
     }
 
 }

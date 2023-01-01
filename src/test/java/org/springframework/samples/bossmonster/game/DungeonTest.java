@@ -15,7 +15,11 @@ import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
+import org.springframework.samples.bossmonster.game.player.Player;
 
+import static org.hamcrest.Matchers.*;
+
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,6 +58,16 @@ public class DungeonTest {
         DungeonRoomSlot slot = new DungeonRoomSlot();
         slot.setHeroesInRoom(new ArrayList<>());
         return slot;
+    }
+
+    HeroCardStateInDungeon setUpComplexDummyHero(Integer currentHealth, Boolean isEpic) {
+        HeroCard hero = new HeroCard();
+        hero.setIsEpic(isEpic);
+        HeroCardStateInDungeon heroInDungeon = new HeroCardStateInDungeon();
+        heroInDungeon.setDungeon(dungeon);
+        heroInDungeon.setHeroCard(hero);
+        heroInDungeon.setHealthInDungeon(currentHealth);
+        return heroInDungeon;
     }
 
     @Test
@@ -165,4 +179,34 @@ public class DungeonTest {
         dungeon.replaceDungeonRoom(null, 4);
         assertFalse(dungeon.checkBossLeveledUp());
     }
+
+    @Test
+    public void shouldHeroAdvanceRoomDungeon() {
+        Player dummyPlayer = new Player();
+        dummyPlayer.setSouls(0);
+        dummyPlayer.setHealth(5);
+        dungeon.setPlayer(dummyPlayer);
+        HeroCardStateInDungeon dummyHero1 = setUpComplexDummyHero(2, false);
+        HeroCardStateInDungeon dummyHero2 = setUpComplexDummyHero(5, true);
+        HeroCardStateInDungeon dummyHero3 = setUpComplexDummyHero(1, true);
+        HeroCardStateInDungeon dummyHero4 = setUpComplexDummyHero(5, false);
+        HeroCardStateInDungeon dummyHero5 = setUpComplexDummyHero(3, false);
+        HeroCardStateInDungeon dummyHero6 = setUpComplexDummyHero(5, true);
+        dungeon.getRoomSlots()[0].addHero(dummyHero1); // This hero will die in the last room and give 1 soul to the player
+        dungeon.getRoomSlots()[0].addHero(dummyHero2); // This hero will reach the final boss and deal 2 damage to the player
+        dungeon.getRoomSlots()[2].addHero(dummyHero3); // This player will die in a non last room give 2 soul to the player
+        dungeon.getRoomSlots()[0].addHero(dummyHero4); // This hero will reach the final boss and deal 1 damage to the player
+        dungeon.getRoomSlots()[3].addHero(dummyHero5); // This hero will travel to the next room receiving 0 damage
+        dungeon.getRoomSlots()[2].addHero(dummyHero6); // This hero will travel to the next room receiving 1 damage
+        dungeon.setInitialRoomCardDamage();
+        dungeon.heroAdvanceRoomDungeon();
+        assertThat("Heroes in last room didn't left the room", dungeon.getRoomSlots()[0].getHeroesInRoom(), is(new ArrayList<>()));
+        assertThat("Incorrect damage dealt to player", dungeon.getPlayer().getHealth(), is(2));
+        assertThat("Incorrect souls given to player", dungeon.getPlayer().getSouls(), is(3));
+        assertThat("Hero6 didn't move to next room", dungeon.getRoomSlots()[1].getHeroesInRoom(), is(List.of(dummyHero6)));
+        assertThat("Hero5 didn't move to next room", dungeon.getRoomSlots()[2].getHeroesInRoom(), is(List.of(dummyHero5)));
+        assertThat("Hero6 didn't receive damage", dummyHero6.getHealthInDungeon(), is(4));
+        assertThat("Hero5 didn't receive damage", dummyHero5.getHealthInDungeon(), is(1));
+    }
+
 }

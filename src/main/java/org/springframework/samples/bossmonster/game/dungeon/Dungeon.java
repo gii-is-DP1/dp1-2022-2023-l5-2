@@ -2,7 +2,9 @@ package org.springframework.samples.bossmonster.game.dungeon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDun
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
+import org.springframework.samples.bossmonster.game.player.Player;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +30,9 @@ import javax.persistence.*;
 @Entity
 @Slf4j
 public class Dungeon extends BaseEntity {
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Player player;
 
     @OneToOne
     private FinalBossCard bossCard;
@@ -116,6 +122,51 @@ public class Dungeon extends BaseEntity {
 
     public Boolean checkBossLeveledUp() {
         return (getBuiltRooms() == 5 && !bossCardLeveledUp);
+    }
+
+    public void heroAdvanceRoomDungeon() {
+        for(int i = 0; i < 5; i ++) {
+            DungeonRoomSlot roomSlot = roomSlots[i];
+            Integer dealtDamage = roomSlot.getRoomTrueDamage();
+            Iterator<HeroCardStateInDungeon> iterator = roomSlot.getHeroesInRoom().iterator();
+            while(iterator.hasNext()) {
+                HeroCardStateInDungeon hero = iterator.next();
+                hero.dealDamage(dealtDamage);
+                if (hero.isDead()) player.addSoulsFromKilledHero(hero);
+                else {
+                    if (!isDungeonLastRoom(i)) roomSlots[i-1].addHero(hero);
+                    else player.removeHealthFromUndefeatedHero(hero);
+                }
+                iterator.remove();
+            }
+        }
+    }
+
+    public void damageRandomHeroInDungeonPosition(Integer position, Integer damage) {
+        List<HeroCardStateInDungeon> heroesInSlot = roomSlots[position].getHeroesInRoom();
+        if (!heroesInSlot.isEmpty()) {
+            Random random = new Random();
+            int index = random.nextInt(heroesInSlot.size());
+            HeroCardStateInDungeon chosenHero = heroesInSlot.get(index);
+            chosenHero.dealDamage(damage);
+            if (chosenHero.isDead()) {
+                getRoomSlots()[position].removeHero(chosenHero);
+                player.addSoulsFromKilledHero(chosenHero);
+            }
+        }
+    }
+
+    public Boolean isDungeonLastRoom(Integer position) {
+        return position == 0;
+    }
+
+    public void heroAutomaticallyMovesAfterDestroyingRoom(Integer position) {
+        List<HeroCardStateInDungeon> affectedHeroes = roomSlots[position].getHeroesInRoom();
+        for (HeroCardStateInDungeon hcsd: affectedHeroes) {
+            roomSlots[position].removeHero(hcsd);
+            if (isDungeonLastRoom(position)) player.removeHealthFromUndefeatedHero(hcsd);
+            else roomSlots[position-1].addHero(hcsd);
+        }
     }
 
     // Used for testing
