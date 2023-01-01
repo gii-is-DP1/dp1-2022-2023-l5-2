@@ -19,6 +19,7 @@ import lombok.Setter;
 @Slf4j
 public class GameState extends BaseEntity {
 
+    public static final int DEFAULT_WAITING_TIME = 2;
     @Enumerated(EnumType.STRING)
     private GamePhase phase;
     @Enumerated(EnumType.STRING)
@@ -108,8 +109,9 @@ public class GameState extends BaseEntity {
         updateChangeConditionCounter(EFFECT_STATE_COUNTER_LIMIT);
     }
 
-    public Integer getTimeUntilNextClockUpdate() {
-        return (int) Duration.between(LocalDateTime.now(), clock).getSeconds();
+    public Integer getWaitingTime() {
+        int time = (int) Duration.between(LocalDateTime.now(), clock).getSeconds() + 1;
+        return Integer.max(time,DEFAULT_WAITING_TIME);
     }
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////

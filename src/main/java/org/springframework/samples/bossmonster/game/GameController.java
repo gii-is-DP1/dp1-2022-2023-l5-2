@@ -60,7 +60,7 @@ public class GameController {
         if(!(game.getPlayerHasToChoose(currentPlayer))) {
             game.getState().checkStateStatus();
             gameService.saveGame(game);
-            response.addHeader("Refresh","2");
+            response.addHeader("Refresh",game.getState().getWaitingTime().toString());
         } else {
             result.addObject("triggerModal", true);
         }
