@@ -3,10 +3,7 @@ package org.springframework.samples.bossmonster.game.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
@@ -24,7 +21,7 @@ public class DungeonRoomSlot extends BaseEntity {
     @OneToOne
     private RoomCard room;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<HeroCardStateInDungeon> heroesInRoom;
 
     private Boolean isVisible;

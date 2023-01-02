@@ -22,4 +22,8 @@ public class Card {
     private Integer id;
     String name;
     String cardImage;
+
+    public String toString() {
+        return this.name;
+    }
 }

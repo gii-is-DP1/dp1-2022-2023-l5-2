@@ -205,6 +205,7 @@ public class GameState extends BaseEntity {
                 break;
             }
             case BUILD_NEW_ROOM: {
+                game.getCurrentPlayer().getDungeon().setInitialRoomCardDamage();
                 subPhase = GameSubPhase.USE_SPELLCARD;
                 // There is no limit here, the current player chooses when this phase ends
                 updateChangeConditionCounter(1);

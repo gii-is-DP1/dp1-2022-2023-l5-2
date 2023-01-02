@@ -53,7 +53,7 @@ public class GameBuilder {
         Integer players = lobby.getJoinedUsers().size();
         List<HeroCard> allHeroCards = cardService.createHeroCardDeck();
         List<HeroCard> selectedHeroCards = new ArrayList<>();
-        for(HeroCard i: allHeroCards) { if (players <= i.getNecessaryPlayers()) selectedHeroCards.add(i);}
+        for(HeroCard i: allHeroCards) { if (players >= i.getNecessaryPlayers()) selectedHeroCards.add(i);}
         newGame.setHeroPile(selectedHeroCards);
     }
 

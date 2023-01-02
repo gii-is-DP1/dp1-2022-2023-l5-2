@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,6 @@ import org.springframework.samples.bossmonster.game.player.Player;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
@@ -60,7 +60,7 @@ public class Dungeon extends BaseEntity {
     }
 
     public void addNewHeroToDungeon(HeroCard hero) {
-        roomSlots[getFirstRoomSlot()].addHero(new HeroCardStateInDungeon(hero, this));
+        roomSlots[getFirstRoomSlot()].addHero(new HeroCardStateInDungeon(hero));
     }
 
     public Integer getFirstRoomSlot() {
@@ -125,21 +125,24 @@ public class Dungeon extends BaseEntity {
     }
 
     public void heroAdvanceRoomDungeon() {
+        var slots = Arrays.stream(roomSlots).map(s->s.getHeroesInRoom()).collect(Collectors.toList());
+        log.debug("Slots before: " + slots);
         for(int i = 0; i < 5; i ++) {
             DungeonRoomSlot roomSlot = roomSlots[i];
             Integer dealtDamage = roomSlot.getRoomTrueDamage();
             Iterator<HeroCardStateInDungeon> iterator = roomSlot.getHeroesInRoom().iterator();
             while(iterator.hasNext()) {
                 HeroCardStateInDungeon hero = iterator.next();
+                iterator.remove();
                 hero.dealDamage(dealtDamage);
                 if (hero.isDead()) player.addSoulsFromKilledHero(hero);
                 else {
                     if (!isDungeonLastRoom(i)) roomSlots[i-1].addHero(hero);
                     else player.removeHealthFromUndefeatedHero(hero);
                 }
-                iterator.remove();
             }
         }
+        log.debug("slots after: " + slots);
     }
 
     public void damageRandomHeroInDungeonPosition(Integer position, Integer damage) {

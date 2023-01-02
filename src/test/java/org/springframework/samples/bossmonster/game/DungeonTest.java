@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class DungeonTest {
-    
+
     protected Dungeon dungeon;
 
     @BeforeEach
@@ -39,7 +39,7 @@ public class DungeonTest {
         slots[3] = setUpFilledRoomSlot("1000", 0, RoomType.MONSTER, RoomPassiveTrigger.USE_SPELL_CARD, 4);
         slots[4] = setUpEmptyRoomSlot();
         dungeon.setRoomSlots(slots);
-    }   
+    }
 
     DungeonRoomSlot setUpFilledRoomSlot(String treasure, Integer damage, RoomType type, RoomPassiveTrigger trigger, Integer id) {
         DungeonRoomSlot slot = new DungeonRoomSlot();
@@ -64,7 +64,6 @@ public class DungeonTest {
         HeroCard hero = new HeroCard();
         hero.setIsEpic(isEpic);
         HeroCardStateInDungeon heroInDungeon = new HeroCardStateInDungeon();
-        heroInDungeon.setDungeon(dungeon);
         heroInDungeon.setHeroCard(hero);
         heroInDungeon.setHealthInDungeon(currentHealth);
         return heroInDungeon;
@@ -134,9 +133,9 @@ public class DungeonTest {
 
     @Test
     public void shouldMoveHeroToNextRoom() {
-        HeroCardStateInDungeon dummyHero1 = new HeroCardStateInDungeon(new HeroCard(), dungeon);
-        HeroCardStateInDungeon dummyHero2 = new HeroCardStateInDungeon(new HeroCard(), dungeon);
-        HeroCardStateInDungeon dummyHero3 = new HeroCardStateInDungeon(new HeroCard(), dungeon);
+        HeroCardStateInDungeon dummyHero1 = new HeroCardStateInDungeon(new HeroCard());
+        HeroCardStateInDungeon dummyHero2 = new HeroCardStateInDungeon(new HeroCard());
+        HeroCardStateInDungeon dummyHero3 = new HeroCardStateInDungeon(new HeroCard());
         dungeon.getRoomSlots()[3].getHeroesInRoom().add(dummyHero1);
         dungeon.getRoomSlots()[3].getHeroesInRoom().add(dummyHero2);
         dungeon.getRoomSlots()[1].getHeroesInRoom().add(dummyHero3);

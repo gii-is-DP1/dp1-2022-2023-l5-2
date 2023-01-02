@@ -18,9 +18,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class HeroCardStateInDungeon extends BaseEntity {
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Dungeon dungeon;
-
     @OneToOne()
     private HeroCard heroCard;
 
@@ -36,9 +33,8 @@ public class HeroCardStateInDungeon extends BaseEntity {
         return healthInDungeon <= 0;
     }
 
-    public HeroCardStateInDungeon(HeroCard hero, Dungeon dungeon) {
+    public HeroCardStateInDungeon(HeroCard hero) {
         this.heroCard = hero;
-        this.dungeon = dungeon;
         this.healthInDungeon = hero.getHealth();
         this.minotaursMazeEffectTriggered = false;
     }
