@@ -1,5 +1,6 @@
 package org.springframework.samples.bossmonster.game.gameState;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ import lombok.Setter;
 @Slf4j
 public class GameState extends BaseEntity {
 
+    public static final int DEFAULT_WAITING_TIME = 2;
     @Enumerated(EnumType.STRING)
     private GamePhase phase;
     @Enumerated(EnumType.STRING)
@@ -37,6 +39,8 @@ public class GameState extends BaseEntity {
     private Boolean checkClock;
     private Boolean buildingRoom;
 
+    private Integer currentRound;
+
     // These variables are used to store the current state when a card effect needs a special state
     @Enumerated(EnumType.STRING)
     private GamePhase phaseBeforeEffect;
@@ -52,11 +56,11 @@ public class GameState extends BaseEntity {
     private static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;   // If a card effect changes the limit, this value will update automatically
     private static final Integer EFFECT_STATE_COUNTER_LIMIT = 1;        // All special card effects have only one action
     private static final Integer BUILD_ROOM_ACTIONS = 2;                // Choosing a card + Choosing a dungeon slot
-    private static final Integer PHASE_COOLDOWN_SECONDS = 5;
-    private static final Integer PLAYER_COOLDOWN_SECONDS = 3;
-    private static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 5;
-    private static final Integer SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS = 5;
-    private static final Integer SHOW_ROOMS_COOLDOWN_SECONDS = 5;
+    private static final Integer PHASE_COOLDOWN_SECONDS = 3;
+    private static final Integer PLAYER_COOLDOWN_SECONDS = 1;
+    private static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 3;
+    private static final Integer SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS = 3;
+    private static final Integer SHOW_ROOMS_COOLDOWN_SECONDS = 3;
 
     ////////////////////////////   CHANGE STATE   ////////////////////////////
 
@@ -103,6 +107,11 @@ public class GameState extends BaseEntity {
         phase = GamePhase.EFFECT;
         subPhase = triggeredSubPhase;
         updateChangeConditionCounter(EFFECT_STATE_COUNTER_LIMIT);
+    }
+
+    public Integer getWaitingTime() {
+        int time = (int) Duration.between(LocalDateTime.now(), clock).getSeconds() + 1;
+        return Integer.max(time,DEFAULT_WAITING_TIME);
     }
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
@@ -177,7 +186,7 @@ public class GameState extends BaseEntity {
     }
 
     ////////////////////////////   BUILD   ////////////////////////////
-    
+
     public Boolean isBuildingRoom() {
         return (subPhase == GameSubPhase.BUILD_NEW_ROOM) &&
             (counter % 2 != 0);
@@ -196,6 +205,7 @@ public class GameState extends BaseEntity {
                 break;
             }
             case BUILD_NEW_ROOM: {
+                game.getCurrentPlayer().getDungeon().setInitialRoomCardDamage();
                 subPhase = GameSubPhase.USE_SPELLCARD;
                 // There is no limit here, the current player chooses when this phase ends
                 updateChangeConditionCounter(1);
@@ -208,7 +218,7 @@ public class GameState extends BaseEntity {
                     subPhase = GameSubPhase.REVEAL_NEW_ROOMS;
                     game.revealAllDungeonRooms();
                     updateChangeConditionClock(SHOW_ROOMS_COOLDOWN_SECONDS);
-                    currentPlayer = 0;
+                    setCurrentPlayer(0);
                 }
                 break;
             }
@@ -225,7 +235,7 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.HEROES_ENTER_DUNGEON;
-//                game.lureHeroToBestDungeon();
+                game.lureHeroToBestDungeon();
                 break;
             }
             case HEROES_ENTER_DUNGEON: {
@@ -246,7 +256,7 @@ public class GameState extends BaseEntity {
             }
             case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.HEROES_EXPLORE_DUNGEON;
-                // TODO Ni idea de como poner esto ahora mismo
+                game.processAdventurePhase(game.getCurrentPlayer());
                 break;
             }
             case HEROES_EXPLORE_DUNGEON: {
@@ -258,7 +268,13 @@ public class GameState extends BaseEntity {
             case USE_SPELLCARD: {
                 currentPlayer ++;
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
-                else { changePhase(GamePhase.START_ROUND); } // TODO Ver si alguien ha ganado el juego
+                else {
+                    if (game.checkGameEnded()) changePhase(GamePhase.END_GAME);
+                    else {
+                        currentRound ++;
+                        changePhase(GamePhase.START_ROUND);
+                    }
+                }
                 break;
             }
         }

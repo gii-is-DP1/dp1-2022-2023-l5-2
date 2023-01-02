@@ -1,5 +1,10 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.GameService;
@@ -13,10 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/lobby")
@@ -67,7 +68,7 @@ public class GameLobbyController {
                 if (spectate) {
                     result = new ModelAndView(currentLobbyView);
                 } else {
-                    if(lobbyService.userIsPlaying(user)) {
+                    if(lobbyService.userIsPlaying(user) && !lobby.get().getJoinedUsers().contains(user)) {
                         result.setViewName(JOIN_LOBBY_FORM);
                         result.addObject("message","You are already in a game!");
                     } else if (!presentLobby.getJoinedUsers().contains(user)) {

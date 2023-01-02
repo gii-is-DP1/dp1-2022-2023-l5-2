@@ -11,6 +11,7 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.chat.Chat;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
@@ -64,17 +65,21 @@ public class Game extends BaseEntity {
     private LocalDateTime startedTime;
 
     private Integer roomToBuildFromHand;
+
     //@OneToOne
     //private GameResult result;
 
     public static final Integer NORMAL_HERO_SOUL_VALUE = 1;
     public static final Integer EPIC_HERO_SOUL_VALUE = 2;
+    public static final Integer SOULS_REQUIRED_TO_WIN = 10;
 
     public Player getPlayerFromUser(User user) {
         return getPlayers().stream().filter(player->player.getUser().equals(user)).findAny().orElse(null);
     }
 
     public Player getCurrentPlayer() {
+        log.debug("Players in game: " + getPlayers());
+        log.debug("Fetching current player: " + getState().getCurrentPlayer());
         return getPlayers().get(getState().getCurrentPlayer());
     }
 
@@ -94,17 +99,20 @@ public class Game extends BaseEntity {
     public void getNewRoomCard(Player player) {
         RoomCard newCard = roomPile.remove(0);
         player.addHandCard(newCard);
+        if (roomPile.size() == 0) refillRoomPile();
     }
 
     public void getNewSpellCard(Player player) {
         SpellCard newCard = spellPile.remove(0);
         player.addHandCard(newCard);
+        if (spellPile.size() == 0) refillSpellPile();
     }
 
     public void getCardFromDiscardPile(Player player, int position) {
         Card newCard = discardPile.remove(position);
         player.addHandCard(newCard);
     }
+
 
     ////////// REFILL PILE RELATED //////////
 
@@ -131,7 +139,7 @@ public class Game extends BaseEntity {
     ////////// HERO RELATED //////////
 
     public void lureHeroToBestDungeon() {
-
+        log.debug("Luring heroes to best dungeons...");
         Iterator<HeroCard> iterator = getCity().iterator();
         while (iterator.hasNext()) {
 
@@ -139,9 +147,11 @@ public class Game extends BaseEntity {
             List<Player> playersWithBestDungeon = new ArrayList<>();
             Integer bestValue;
             TreasureType targetTreasure = currentHero.getTreasure();
-
+            log.debug("Luring hero: " + currentHero.getName());
             if (targetTreasure != TreasureType.FOOL) {
-                bestValue = getPlayers().stream().max(Comparator.comparing(x -> x.getDungeon().getTreasureAmount(targetTreasure))).get().getDungeon().getTreasureAmount(targetTreasure);
+                bestValue = getPlayers().stream().max(Comparator.comparing(
+                    x -> x.getDungeon().getTreasureAmount(targetTreasure)
+                )).get().getDungeon().getTreasureAmount(targetTreasure);
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getDungeon().getTreasureAmount(targetTreasure) == bestValue).collect(Collectors.toList());
             }
             else {
@@ -149,9 +159,12 @@ public class Game extends BaseEntity {
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
             }
             if (playersWithBestDungeon.size() == 1) {
+                log.debug(String.format("Hero enters %s's Dungeon",playersWithBestDungeon.get(0)));
                 playersWithBestDungeon.get(0).getDungeon().addNewHeroToDungeon(currentHero);
                 iterator.remove();
-             }
+             } else {
+                log.debug("Tie, can't lure hero");
+            }
 
         }
 
@@ -179,6 +192,9 @@ public class Game extends BaseEntity {
     public void placeFirstRoom(Player player, RoomCard room) {
         log.debug("Placing " + room.getName() + " in " + player.getUser().getNickname() + "'s Dungeon");
         player.getDungeon().replaceDungeonRoom(room, 0);
+
+        triggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,0);
+
         player.getHand().remove(room);
     }
 
@@ -186,26 +202,42 @@ public class Game extends BaseEntity {
         Boolean result;
         RoomCard oldRoom = player.getDungeon().getRoom(position);
         if (oldRoom == null) {
-            if(position == player.getDungeon().getBuiltRooms()) result = true;
+            if (position == player.getDungeon().getBuiltRooms()) result = !room.isAdvanced();
             else result = false;
         }
         else {
-            RoomType oldRoomType = player.getDungeon().getRoom(position).getRoomType();
             RoomType newRoomType = room.getRoomType();
             switch (newRoomType) {
-                case ADVANCED_MONSTER: { result = (oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER); break; }
-                case ADVANCED_TRAP: { result = (oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP); break; }
+                case ADVANCED_MONSTER: { result = oldRoom.isMonsterType(); break; }
+                case ADVANCED_TRAP: { result = oldRoom.isTrapType(); break; }
                 default: result = true;
             }
         }
         return result;
     }
 
+    public void checkForPlayerBossLeveledUp(Player player) {
+        if (player.getDungeon().checkBossLeveledUp()) {
+            player.getDungeon().setBossCardLeveledUp(false);
+            // TODO Implementar efecto
+        }
+    }
+
     public Boolean placeDungeonRoom(Player player, Integer position, RoomCard room) {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
+            triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_THIS_ROOM,player,position);
+
             player.getDungeon().replaceDungeonRoom(room, position);
             player.getHand().remove(room);
+
+            triggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
+            for(int pos = 0; pos < player.getDungeon().getBuiltRooms(); pos++) {
+                if(pos != position)
+                    triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
+                if(room.isMonsterType())
+                    triggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);
+            }
             placed = true;
         }
         else placed = false;
@@ -213,15 +245,14 @@ public class Game extends BaseEntity {
     }
 
     public void destroyDungeonRoom(Player player, Integer position) {
+        RoomCard deletedCard = player.getDungeon().getRoom(position);
         player.getDungeon().replaceDungeonRoom(null, position);
+        discardPile.add(deletedCard);
     }
 
     public void processAdventurePhase(Player player) {
-        player.heroAdvanceRoomDungeon();
-    }
-
-    public void heroAutomaticallyMovesAfterDestroyingRoom() {
-        // TODO
+        log.debug(String.format("Advancing heroes in %s's dungeon",player));
+        player.getDungeon().heroAdvanceRoomDungeon();
     }
 
     public void revealAllDungeonRooms() {
@@ -230,6 +261,40 @@ public class Game extends BaseEntity {
 
     public Boolean checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger, Integer slot) {
         return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot);
+    }
+
+    public void triggerRoomCardEffect(RoomPassiveTrigger trigger, Player player, Integer position) {
+        RoomCard room = player.getDungeon().getRoomSlots()[position].getRoom();
+        if(room != null && room.getEffect() != null && room.getPassiveTrigger() == trigger) room.getEffect().apply(player, position, this);
+    }
+
+    public void triggerSpellCardEffect(SpellCard spell) {
+        Dungeon currentPlayerDungeon = getCurrentPlayer().getDungeon();
+        if(spell.getEffect() == null) return;
+        for(int pos = 0; pos < currentPlayerDungeon.getBuiltRooms(); pos++) {
+            triggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
+        }
+
+        spell.getEffect().apply(getCurrentPlayer(),null,this);
+    }
+
+    ////////// END GAME //////////
+
+    public Boolean checkGameEnded() {
+        Boolean anyPlayersCollectedAllSouls = players.stream().filter(x -> x.getSouls() >= SOULS_REQUIRED_TO_WIN).collect(Collectors.toList()).size() >= 1;
+        Boolean tooManyPlayersHaveNoHealth = players.stream().filter(x -> x.getHealth() > 0).collect(Collectors.toList()).size() <= 1;
+        return (anyPlayersCollectedAllSouls || tooManyPlayersHaveNoHealth);
+    }
+
+    public Player getWinningPlayer() {
+        List<Player> winningCandidates;
+        // Collecting 10 souls takes priority over running out of lives
+        winningCandidates = players.stream().filter(x -> x.getSouls() >= SOULS_REQUIRED_TO_WIN).collect(Collectors.toList());
+        // If only one player has health that player wins
+        if (winningCandidates.size() == 0) winningCandidates = players.stream().filter(x -> x.getHealth() > 0).collect(Collectors.toList());
+        // If no player is alive see which players died in the last turn
+        if (winningCandidates.size() == 0) winningCandidates = players.stream().filter(x -> x.getEliminatedRound() == state.getCurrentRound()).collect(Collectors.toList());
+        return winningCandidates.stream().min(Comparator.comparing(x -> x.getDungeon().getBossCard().getXp())).get();
     }
 
     ////////// MISC //////////
@@ -266,6 +331,7 @@ public class Game extends BaseEntity {
 
     public List<Card> getChoice() {
         List<Card> result;
+        boolean noCardsToChooseFailsafe = true;
         switch (getState().getSubPhase()) {
             case USE_SPELLCARD:
             case DISCARD_2_STARTING_CARDS:
@@ -283,8 +349,10 @@ public class Game extends BaseEntity {
                 break;
             default:
                 result = List.of();
+                noCardsToChooseFailsafe = false;
                 break;
         }
+        if(result.isEmpty() && noCardsToChooseFailsafe) incrementCounter();
         return result;
     }
 
@@ -292,14 +360,24 @@ public class Game extends BaseEntity {
         if (index < 0) {
             log.info("Chose to pass");
             if(!getIsChoiceOptional()) return;
-            incrementCounter();
-            if (getState().getSubPhase() == GameSubPhase.BUILD_NEW_ROOM)
-                incrementCounter();
+            if (getState().getSubPhase() == GameSubPhase.BUILD_NEW_ROOM) {
+                if(getState().isBuildingRoom()) {
+                    decrementCounter();
+                    setRoomToBuildFromHand(null);
+                }
+                else {
+                    incrementCounter();
+                    incrementCounter();
+                }
+            } else incrementCounter();
             return;
         }
         if(getUnplayableCards().contains(index)) return;
         switch (getState().getSubPhase()) {
             case USE_SPELLCARD:
+                triggerSpellCardEffect((SpellCard) getCurrentPlayerHand().get(index));
+                discardCard(getCurrentPlayer(),index);
+                return;
             case DISCARD_2_STARTING_CARDS:
                 discardCard(getCurrentPlayer(), index);
                 break;

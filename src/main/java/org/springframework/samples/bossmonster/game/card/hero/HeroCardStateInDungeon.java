@@ -2,8 +2,10 @@ package org.springframework.samples.bossmonster.game.card.hero;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import lombok.NoArgsConstructor;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
@@ -13,10 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class HeroCardStateInDungeon extends BaseEntity {
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Dungeon dungeon;
 
     @OneToOne()
     private HeroCard heroCard;
@@ -32,5 +32,12 @@ public class HeroCardStateInDungeon extends BaseEntity {
     public Boolean isDead() {
         return healthInDungeon <= 0;
     }
-    
+
+    public HeroCardStateInDungeon(HeroCard hero) {
+        this.heroCard = hero;
+        this.healthInDungeon = hero.getHealth();
+        this.minotaursMazeEffectTriggered = false;
+    }
+
+
 }

@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.game.player;
 import lombok.Getter;
 import lombok.Setter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
@@ -13,12 +14,14 @@ import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 @Getter
 @Setter
 @Entity
+@Slf4j
 public class Player extends BaseEntity {
 
     @OneToOne
@@ -34,6 +37,7 @@ public class Player extends BaseEntity {
     @OneToMany
     private List<Card> hand;
 
+    private Integer eliminatedRound;
 
     public Card removeHandCard(int cardPosition) {
         return hand.remove(cardPosition);
@@ -43,20 +47,6 @@ public class Player extends BaseEntity {
         hand.add(card);
     }
 
-    public void damageRandomHeroInDungeonPosition(Integer position, Integer damage) {
-        List<HeroCardStateInDungeon> heroesInSlot = getDungeon().getRoomSlots()[position].getHeroesInRoom();
-        if (!heroesInSlot.isEmpty()) {
-            Random random = new Random();
-            int index = random.nextInt(heroesInSlot.size());
-            HeroCardStateInDungeon chosenHero = heroesInSlot.get(index);
-            chosenHero.dealDamage(damage);
-            if (chosenHero.isDead()) {
-                getDungeon().getRoomSlots()[position].removeHero(chosenHero);
-                addSoulsFromKilledHero(chosenHero);
-            }
-        }
-    }
-
     public void addSoulsFromKilledHero(HeroCardStateInDungeon hero) {
         Integer value;
         if (hero.getHeroCard().getIsEpic()) value = Game.EPIC_HERO_SOUL_VALUE;
@@ -64,17 +54,18 @@ public class Player extends BaseEntity {
         souls += value;
     }
 
-    public void heroAdvanceRoomDungeon() {
-        for(int i = 4; i >= 0; i --) {
-            DungeonRoomSlot roomSlot = dungeon.getRoomSlots()[i];
-            Integer dealtDamage = roomSlot.getRoomTrueDamage();
-            for(HeroCardStateInDungeon hero: roomSlot.getHeroesInRoom()) {
-                hero.dealDamage(dealtDamage);
-                if (hero.isDead()) addSoulsFromKilledHero(hero);
-                else dungeon.getRoomSlots()[i-1].addHero(hero);
-                dungeon.getRoomSlots()[i].removeHero(hero);
-            }
-        }
+    public void removeHealthFromUndefeatedHero(HeroCardStateInDungeon hero) {
+        Integer value;
+        if (hero.getHeroCard().getIsEpic()) value = Game.EPIC_HERO_SOUL_VALUE;
+        else value = Game.NORMAL_HERO_SOUL_VALUE;
+        health -= value;
     }
 
+    public Boolean isDead() {
+        return health <= 0;
+    }
+
+    public String toString() {
+        return this.getUser().getNickname();
+    }
 }
