@@ -51,4 +51,16 @@ public class RoomCard extends Card {
 
     }
 
+    public Boolean isAdvanced() {
+        return roomType == RoomType.ADVANCED_MONSTER || roomType == RoomType.ADVANCED_TRAP;
+    }
+
+    public Boolean isTrapType() {
+        return roomType == RoomType.TRAP || roomType == RoomType.ADVANCED_TRAP;
+    }
+
+    public Boolean isMonsterType() {
+        return roomType == RoomType.MONSTER || roomType == RoomType.ADVANCED_MONSTER;
+    }
+
 }

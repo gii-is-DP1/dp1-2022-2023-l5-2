@@ -554,12 +554,4 @@ public class GameTest {
         assertThat(game.getUnplayableCards()).isEqualTo(expected);
     }
 
-    void shouldTriggerBottomlessPitRoomCardEffect() {
-
-    }
-
-    void shouldTriggerTheCrushinatorRoomCardEffect() {
-
-    }
-
 }
