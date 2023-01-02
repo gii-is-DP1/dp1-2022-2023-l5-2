@@ -78,4 +78,8 @@ public class FriendRequestService {
     public void saveFriendRequest(FriendRequest fr){
         repo.save(fr);
     }
+    public void unFriendSomeone(String username){
+        User me=uService.getLoggedInUser().get();
+        repo.unFriend(username, me.getUsername());
+    }
 }
