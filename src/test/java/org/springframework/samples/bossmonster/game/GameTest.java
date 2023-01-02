@@ -1,5 +1,6 @@
 package org.springframework.samples.bossmonster.game;
 
+import static org.junit.Assert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,7 +36,6 @@ import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
-import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
@@ -48,6 +48,7 @@ import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Service;
 
+import static org.hamcrest.Matchers.*;
 
 @DataJpaTest(includeFilters = {@ComponentScan.Filter(Service.class)},
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = GameService.class))
@@ -327,8 +328,22 @@ public class GameTest {
         assertEquals(expectedPlayer4DungeonFirstRoom, truePlayer4DungeonFirstRoom);
     }
 
+    @Test
     void shouldPlaceHeroInCity() {
-
+        List<HeroCard> heroes = new ArrayList<>();
+        for (int i = 0; i < 4; i ++) {
+            heroes.add(setUpDummyHero(TreasureType.BOOK, 4, false));
+            heroes.add(setUpDummyHero(TreasureType.BOOK, 4, true));
+        }
+        game.placeHeroInCity();
+        Integer epicHeroesInCity = (int) game.getCity().stream().filter(x -> x.getIsEpic()).count();
+        // Only normal heroes should enter the dungeon
+        assertEquals(0, epicHeroesInCity);
+        game.getPlayers().remove(3);
+        game.getPlayers().remove(2);
+        game.placeHeroInCity();
+        // Only 2 more heroes should enter the dungeon, because the game has 2 players
+        assertEquals(6, game.getCity().size());
     }
 
     @Test
@@ -359,16 +374,47 @@ public class GameTest {
 
     }
 
-    void shouldHeroAdvanceRoomDungeon() {
-
-    }
-
-    void shouldHeroAutomaticallyMovesAfterDestroyingRoom() {
-
-    }
-
     void shouldRevealAllDungeonRooms() {
 
+    }
+
+    @Test
+    void shouldCheckGameEnded() {
+        for (int i = 0; i < 4; i ++) {
+            game.getPlayers().get(i).setHealth(0);
+            if (i < 2) assertFalse(game.checkGameEnded());
+            else assertTrue(game.checkGameEnded());
+        }
+
+        for (int i = 0; i < 4; i ++) game.getPlayers().get(i).setHealth(5);
+
+        for (int i = 0; i < 4; i ++) {
+            game.getPlayers().get(i).setSouls(10);
+            assertTrue(game.checkGameEnded());
+        }
+    }
+
+    @Test
+    void shouldGetWinningPlayer() {
+        game.getPlayers().get(1).setSouls(13);
+        assertThat("Solo soul limit unexpected result", game.getWinningPlayer(), is(game.getPlayers().get(1)));
+        game.getPlayers().get(3).setSouls(12);
+        game.getPlayers().get(1).getDungeon().getBossCard().setXp(800);
+        game.getPlayers().get(3).getDungeon().getBossCard().setXp(500);
+        assertThat("Soul limit tie-breaker unexpected result", game.getWinningPlayer(), is(game.getPlayers().get(3)));
+        game.getPlayers().get(1).setSouls(3);
+        game.getPlayers().get(3).setSouls(2);
+        game.getPlayers().get(0).setHealth(0);
+        game.getPlayers().get(1).setHealth(0);
+        game.getPlayers().get(3).setHealth(0);
+        assertThat("Only one player alive unexpected result", game.getWinningPlayer(), is(game.getPlayers().get(2)));
+        game.getPlayers().get(2).setHealth(0);
+        game.getPlayers().get(0).setEliminatedRound(5);
+        game.getPlayers().get(1).setEliminatedRound(7);
+        game.getPlayers().get(2).setEliminatedRound(5);
+        game.getPlayers().get(3).setEliminatedRound(7);
+        game.getState().setCurrentRound(7);
+        assertThat("No players alive tie-breaker unexpected result", game.getWinningPlayer(), is(game.getPlayers().get(3)));
     }
 
     @Test
@@ -507,4 +553,13 @@ public class GameTest {
         player.setHand(List.of(new SpellCard(), new SpellCard(), new RoomCard()));
         assertThat(game.getUnplayableCards()).isEqualTo(expected);
     }
+
+    void shouldTriggerBottomlessPitRoomCardEffect() {
+
+    }
+
+    void shouldTriggerTheCrushinatorRoomCardEffect() {
+
+    }
+
 }
