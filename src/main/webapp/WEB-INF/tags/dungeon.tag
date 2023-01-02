@@ -47,7 +47,7 @@
 <bossmonster:modal modalId="player${player.user.username}" modalName="${player.user.nickname}'s Dungeon">
     <div class="expandable">
         <c:forEach items="${player.dungeon.roomSlots}" var="slot">
-            <bossmonster:card card="${slot.room}"/>
+            <bossmonster:card card="${slot.room}" type="room" facedown="${not slot.isVisible}"/>
         </c:forEach>
         <bossmonster:card card="${player.dungeon.bossCard}"/>
     </div>

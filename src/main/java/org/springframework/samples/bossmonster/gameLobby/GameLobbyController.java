@@ -68,7 +68,7 @@ public class GameLobbyController {
                 if (spectate) {
                     result = new ModelAndView(currentLobbyView);
                 } else {
-                    if(lobbyService.userIsPlaying(user)) {
+                    if(lobbyService.userIsPlaying(user) && !lobby.get().getJoinedUsers().contains(user)) {
                         result.setViewName(JOIN_LOBBY_FORM);
                         result.addObject("message","You are already in a game!");
                     } else if (!presentLobby.getJoinedUsers().contains(user)) {

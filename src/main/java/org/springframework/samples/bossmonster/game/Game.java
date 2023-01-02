@@ -309,6 +309,7 @@ public class Game extends BaseEntity {
 
     public List<Card> getChoice() {
         List<Card> result;
+        boolean noCardsToChooseFailsafe = true;
         switch (getState().getSubPhase()) {
             case USE_SPELLCARD:
             case DISCARD_2_STARTING_CARDS:
@@ -326,8 +327,10 @@ public class Game extends BaseEntity {
                 break;
             default:
                 result = List.of();
+                noCardsToChooseFailsafe = false;
                 break;
         }
+        if(result.isEmpty() && noCardsToChooseFailsafe) incrementCounter();
         return result;
     }
 
@@ -335,14 +338,23 @@ public class Game extends BaseEntity {
         if (index < 0) {
             log.info("Chose to pass");
             if(!getIsChoiceOptional()) return;
-            incrementCounter();
-            if (getState().getSubPhase() == GameSubPhase.BUILD_NEW_ROOM)
-                incrementCounter();
+            if (getState().getSubPhase() == GameSubPhase.BUILD_NEW_ROOM) {
+                if(getState().isBuildingRoom()) {
+                    decrementCounter();
+                    setRoomToBuildFromHand(null);
+                }
+                else {
+                    incrementCounter();
+                    incrementCounter();
+                }
+            } else incrementCounter();
             return;
         }
         if(getUnplayableCards().contains(index)) return;
         switch (getState().getSubPhase()) {
             case USE_SPELLCARD:
+                discardCard(getCurrentPlayer(),index);
+                return;
             case DISCARD_2_STARTING_CARDS:
                 discardCard(getCurrentPlayer(), index);
                 break;
