@@ -6,11 +6,11 @@
 
 <bossmonster:layout pageName="statistics">
 
-<spring:url value="/users/statistics/rankings/wins" htmlEscape="true" var="rankWins"/>
+<spring:url value="/users/statistics/rankings/winRate" htmlEscape="true" var="rankWinrate"/>
 <spring:url value="/" htmlEscape="true" var="welcome"/>
 
     <table class="table table-striped">
-        <tr><h1>Ranking By Win Rate</h1></tr>
+        <tr><h1>Ranking By Total Wins</h1></tr>
         <tbody>
             <c:forEach items="${ranking}" var="rank" >
                 <tr>
@@ -22,7 +22,7 @@
             </tbody>
     </table>
     <div class="centered-view">
-        <a class="btn btn-title" href="${rankWins}">Total Wins Ranking</a>
+        <a class="btn btn-title" href="${rankWinrate}">Win Rate Ranking</a>
         <a class="btn btn-title" href="${welcome}">Back</a>
     </div>
 </bossmonster:layout>

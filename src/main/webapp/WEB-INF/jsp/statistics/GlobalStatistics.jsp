@@ -5,6 +5,10 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="global_statistics">
+
+<spring:url value="/" htmlEscape="true" var="welcome"/>
+<spring:url value="/users/statistics" htmlEscape="true" var="individual"/>
+
     <h1>Global Statistics</h1>
     <table>
     <h2>Games:</h2>
@@ -48,4 +52,8 @@
         <td> <c:out value="${promedioJugadoresPartida}"/> players</td>
     </tr>
 </table>
+<div class="centered-view">
+    <a class="btn btn-title" href="${individual}">Individual Statistics</a>
+    <a class="btn btn-title" href="${welcome}">Back</a>
+</div>
 </bossmonster:layout>

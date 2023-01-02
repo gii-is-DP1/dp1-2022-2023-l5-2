@@ -6,6 +6,7 @@
 <bossmonster:layout pageName="friendsModule">
 
 <spring:url value="/users/friends/" htmlEscape="true" var="friendList"/>
+<spring:url value="/" htmlEscape="true" var="welcome"/>
 
     <h1>Friends</h1>
     <table class="table">
@@ -15,6 +16,8 @@
                 <th>Username</th>
                 <th>Nickname</th>
                 <th>Description</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -46,5 +49,8 @@
     </table>
     <div class="centered-view">
         <a class="btn btn-title" href="${friendList}">Friend List</a>
+    </div>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${welcome}">Back</a>
     </div>
 </bossmonster:layout>

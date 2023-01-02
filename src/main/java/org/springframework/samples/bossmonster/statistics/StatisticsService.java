@@ -129,5 +129,17 @@ public class StatisticsService {
         //Una vez que haya más de 10 usuarios se pone en el return result.sublist(0,11) para que solo salgan los 10 primeros
         return result;
     }
+    List<Map.Entry<String,Integer>> rankingPorWins(){
+        List<User> users= repoU.findAll();
+        Map<String,Integer> mapa= users.stream().collect(Collectors.toMap(user->user.getUsername(), user-> findAllWinned(user.getUsername()).size()));
+        List<Map.Entry<String,Integer>> sortEntries=mapa.entrySet().stream().sorted(Comparator.comparingDouble(Map.Entry::getValue)).collect(Collectors.toList());
+        List<Map.Entry<String,Integer>> result=new ArrayList<>();
+        for(Integer i=sortEntries.size()-1;i>=0;i--){
+            result.add(sortEntries.get(i));
+        }
+        //Una vez que haya más de 10 usuarios se pone en el return result.sublist(0,11) para que solo salgan los 10 primeros
+        return result;
+    }
+    
 
 }

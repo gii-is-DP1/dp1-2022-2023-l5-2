@@ -7,12 +7,13 @@
 <bossmonster:layout pageName="statistics">
 
 <spring:url value="/users/statistics/global" htmlEscape="true" var="global"/>
+<spring:url value="/" htmlEscape="true" var="welcome"/>
 
     <h1>User Statistics</h1>
     <table>
         <tr>
             <th>Name:</th>
-            <td><c:out value="${user.username}"/></td>
+            <td><c:out value="${user.username}"/>&nbsp;</td>
 
             <th>Nickname:</th>
             <td><c:out value="${user.nickname}"/></td>
@@ -78,5 +79,6 @@
     </table>
     <div class="centered-view">
         <a class="btn btn-title" href="${global}">Global Statistics</a>
+        <a class="btn btn-title" href="${welcome}">Back</a>
     </div>
 </bossmonster:layout>

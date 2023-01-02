@@ -2,8 +2,6 @@ package org.springframework.samples.bossmonster.statistics;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
@@ -24,6 +22,7 @@ public class StatisticsController {
     private static final String STATISTICS_VIEW="/statistics/UserStatistics";
     private static final String GLOBAL_STATISTICS_VIEW="/statistics/GlobalStatistics";
     private static final String RANKING_WINRATE_VIEW="/statistics/rankingWinRate";
+    private static final String RANKING_WINS_VIEW="/statistics/rankingWins";
 
     @Autowired
     public StatisticsController(StatisticsService s, UserService s2){
@@ -85,6 +84,13 @@ public class StatisticsController {
     public ModelAndView rankingWinrate(){
         ModelAndView result= new ModelAndView(RANKING_WINRATE_VIEW);
         List<Map.Entry<String,Double>>ranking= service.rankingPorWinRate();
+        result.addObject("ranking", ranking);
+        return result;
+    }
+    @GetMapping("/users/statistics/rankings/wins")
+    public ModelAndView rankingWins(){
+        ModelAndView result= new ModelAndView(RANKING_WINS_VIEW);
+        List<Map.Entry<String,Integer>>ranking= service.rankingPorWins();
         result.addObject("ranking", ranking);
         return result;
     }
