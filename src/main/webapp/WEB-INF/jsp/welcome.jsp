@@ -46,28 +46,48 @@
             <div class="centered-view">
                 <a class="btn btn-title" href="${myAchievements}">My Achievements</a>
             </div>
-
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
                     <a class="btn btn-title" href="${achievements}">Achievements</a>
                 </div>
             </sec:authorize>
-
-            <div class="centered-view">
-                <a class="btn btn-title" href="${friendModule}">Friends</a> <!-- Dirección provisional -->
-            </div>
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
                     <a class="btn btn-title" href="${adminOptions}">Admin Options</a>
                 </div>
             </sec:authorize>
-
+            <div class="buttonview">
+                <a class="cuteButton" href="${friendModule}">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"><div class="text1">Friends</div> </span>
+                </a>
+                <a class="cuteButton" href="/users/statistics/rankings/winRate">
+                    <span class="glyphicon glyphicon-king" aria-hidden="true"><div class="text1">Rankings</div> </span>
+                </a>
+            </div>
     </body>
 
     <style>
         .centered-view {
             margin: 25px;
             border-radius: 30px;
+        }
+        .buttonview{
+            float: right;
+        }
+        .cuteButton{
+            background-color: lawngreen;
+            color: black;
+            text-align: center;
+            font-size: xx-large;
+            padding-top: 10px;
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .text1{
+            font-size: medium;
         }
     </style>
             
