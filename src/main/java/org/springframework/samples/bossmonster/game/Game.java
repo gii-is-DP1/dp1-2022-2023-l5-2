@@ -11,6 +11,7 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
@@ -108,6 +109,7 @@ public class Game extends BaseEntity {
         player.addHandCard(newCard);
     }
 
+
     ////////// REFILL PILE RELATED //////////
 
     public void refillRoomPile() {
@@ -186,6 +188,9 @@ public class Game extends BaseEntity {
     public void placeFirstRoom(Player player, RoomCard room) {
         log.debug("Placing " + room.getName() + " in " + player.getUser().getNickname() + "'s Dungeon");
         player.getDungeon().replaceDungeonRoom(room, 0);
+
+        room.getEffect().apply(player,0,this);
+
         player.getHand().remove(room);
     }
 
@@ -217,8 +222,18 @@ public class Game extends BaseEntity {
     public Boolean placeDungeonRoom(Player player, Integer position, RoomCard room) {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
+            triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_THIS_ROOM,player,position);
+
             player.getDungeon().replaceDungeonRoom(room, position);
             player.getHand().remove(room);
+
+            triggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
+            for(int pos = 0; pos < player.getDungeon().getBuiltRooms(); pos++) {
+                if(pos != position)
+                    triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
+                if(room.isMonsterType())
+                    triggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);
+            }
             placed = true;
         }
         else placed = false;
@@ -244,16 +259,18 @@ public class Game extends BaseEntity {
         return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot);
     }
 
-    public void triggerRoomCardEffect(Player player, Integer position) {
-        player.getDungeon().getRoomSlots()[position].getRoom().getEffect().apply(player, position, null);
+    public void triggerRoomCardEffect(RoomPassiveTrigger trigger, Player player, Integer position) {
+        RoomCard room = player.getDungeon().getRoomSlots()[position].getRoom();
+        if(room != null && room.getPassiveTrigger() == trigger) room.getEffect().apply(player, position, this);
     }
 
-    public Boolean checkSpellCardIsUsable() {
-        return null;
-    }
+    public void triggerSpellCardEffect(SpellCard spell) {
+        Dungeon currentPlayerDungeon = getCurrentPlayer().getDungeon();
+        for(int pos = 0; pos < currentPlayerDungeon.getBuiltRooms(); pos++) {
+            triggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
+        }
 
-    public void triggerSpellCardEffect() {
-        // TODO
+        spell.getEffect().apply(getCurrentPlayer(),null,this);
     }
 
     ////////// END GAME //////////
@@ -353,6 +370,7 @@ public class Game extends BaseEntity {
         if(getUnplayableCards().contains(index)) return;
         switch (getState().getSubPhase()) {
             case USE_SPELLCARD:
+                triggerSpellCardEffect((SpellCard) getCurrentPlayerHand().get(index));
                 discardCard(getCurrentPlayer(),index);
                 return;
             case DISCARD_2_STARTING_CARDS:
