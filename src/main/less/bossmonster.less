@@ -385,18 +385,25 @@ table td.action-column {
 
 .hero {
     position: relative;
-    margin-top: -200px;
+    margin-top: -120%;
 }
 
 .heroHealth {
     z-index: 1;
-    position: relative;
-    top: -40%;
-    left: 30%;
+    position: absolute;
+    bottom: 470%;
+    left: 60%;
+}
+
+.opponents-dungeon .heroHealth {
+    bottom: 190%;
+    left: 40%;
+    font-size: 65%;
 }
 
 .heroSlot {
-    display: contents;
+    display: block;
+    position:relative;
 }
 
 hr {

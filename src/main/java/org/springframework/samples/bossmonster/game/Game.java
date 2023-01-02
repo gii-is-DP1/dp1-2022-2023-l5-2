@@ -155,7 +155,7 @@ public class Game extends BaseEntity {
                 playersWithBestDungeon = getPlayers().stream().filter(x -> x.getSouls() == bestValue).collect(Collectors.toList());
             }
             if (playersWithBestDungeon.size() == 1) {
-                log.debug(String.format("Hero enters %s's Dungeon",playersWithBestDungeon.get(0).getUser().getNickname()));
+                log.debug(String.format("Hero enters %s's Dungeon",playersWithBestDungeon.get(0)));
                 playersWithBestDungeon.get(0).getDungeon().addNewHeroToDungeon(currentHero);
                 iterator.remove();
              } else {
@@ -189,7 +189,7 @@ public class Game extends BaseEntity {
         log.debug("Placing " + room.getName() + " in " + player.getUser().getNickname() + "'s Dungeon");
         player.getDungeon().replaceDungeonRoom(room, 0);
 
-        room.getEffect().apply(player,0,this);
+        triggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,0);
 
         player.getHand().remove(room);
     }
@@ -247,7 +247,7 @@ public class Game extends BaseEntity {
     }
 
     public void processAdventurePhase(Player player) {
-        log.debug(String.format("Advancing heroes in %s's dungeon",player.getUser().getNickname()));
+        log.debug(String.format("Advancing heroes in %s's dungeon",player));
         player.getDungeon().heroAdvanceRoomDungeon();
     }
 
@@ -261,11 +261,12 @@ public class Game extends BaseEntity {
 
     public void triggerRoomCardEffect(RoomPassiveTrigger trigger, Player player, Integer position) {
         RoomCard room = player.getDungeon().getRoomSlots()[position].getRoom();
-        if(room != null && room.getPassiveTrigger() == trigger) room.getEffect().apply(player, position, this);
+        if(room != null && room.getEffect() != null && room.getPassiveTrigger() == trigger) room.getEffect().apply(player, position, this);
     }
 
     public void triggerSpellCardEffect(SpellCard spell) {
         Dungeon currentPlayerDungeon = getCurrentPlayer().getDungeon();
+        if(spell.getEffect() == null) return;
         for(int pos = 0; pos < currentPlayerDungeon.getBuiltRooms(); pos++) {
             triggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
         }

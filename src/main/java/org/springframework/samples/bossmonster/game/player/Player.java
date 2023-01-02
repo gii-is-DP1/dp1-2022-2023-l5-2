@@ -65,4 +65,7 @@ public class Player extends BaseEntity {
         return health <= 0;
     }
 
+    public String toString() {
+        return this.getUser().getNickname();
+    }
 }
