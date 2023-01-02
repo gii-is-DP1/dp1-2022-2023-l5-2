@@ -44,4 +44,8 @@ public class GameService {
         return repo.findAll();
     }
 
+    public List<Game> findActiveGames() {
+        return repo.findActiveGames();
+    }
+
 }

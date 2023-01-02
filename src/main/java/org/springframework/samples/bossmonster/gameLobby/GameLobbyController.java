@@ -26,6 +26,8 @@ public class GameLobbyController {
     public static final String JOIN_LOBBY_FORM = "gameLobbies/joinGameLobbyForm";
     public static final String CREATE_LOBBY_FORM = "gameLobbies/createGameLobbyForm";
     public static final String LOBBY_SCREEN = "gameLobbies/waitingLobby";
+    public static final String CURRENT_GAMES = "games/currentGames";
+    
 
     @Autowired
     GameLobbyService lobbyService;
@@ -186,6 +188,13 @@ public class GameLobbyController {
             result.setViewName("redirect:/lobby/" + lobbyId);
         }
 
+        return result;
+    }
+
+    @GetMapping("/listCurrentGames")
+    public ModelAndView show(){
+        ModelAndView result= new ModelAndView(CURRENT_GAMES);
+        result.addObject("game", lobbyService.findCurrentGames());
         return result;
     }
 
