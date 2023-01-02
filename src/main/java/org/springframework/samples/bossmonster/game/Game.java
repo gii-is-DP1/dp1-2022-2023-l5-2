@@ -241,6 +241,18 @@ public class Game extends BaseEntity {
         return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot);
     }
 
+    public void triggerRoomCardEffect(Player player, Integer position) {
+        player.getDungeon().getRoomSlots()[position].getRoom().getEffect().apply(player, position, null);
+    }
+
+    public Boolean checkSpellCardIsUsable() {
+        return null;
+    }
+
+    public void triggerSpellCardEffect() {
+        // TODO
+    }
+
     ////////// END GAME //////////
 
     public Boolean checkGameEnded() {

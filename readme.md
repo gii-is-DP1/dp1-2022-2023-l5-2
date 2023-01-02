@@ -81,7 +81,7 @@ TODO
 
 ### Iniciar Sesión / Cerrar Sesión / Crear Cuenta
 
-Para iniciar sesión, cerrar sesión y crear cuenta, hemos usado el código proporcionado por la plantilla de PetClinic proporcionada por Spring.
+Para iniciar sesión, cerrar sesión y crear cuenta, hemos usado el código de la plantilla PetClinic proporcionada por Spring.
 
 ### Edición de Perfil Personal
 
