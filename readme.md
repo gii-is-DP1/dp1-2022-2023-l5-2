@@ -47,6 +47,10 @@ El juego termina cuando un jugador arrebata diez almas de héroes o cuando quede
 
 En caso de que varios jugadores alcancen diez almas o no quede ningún jugador sin eliminar en el mismo turno, la victoria se concederá al monstruo con menor experiencia.
 
+# Como Iniciar una Partida
+
+TODO
+
 # Contenido del Proyecto
 
 ## Módulo de Juego

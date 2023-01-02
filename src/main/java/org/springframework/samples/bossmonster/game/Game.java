@@ -94,11 +94,13 @@ public class Game extends BaseEntity {
     public void getNewRoomCard(Player player) {
         RoomCard newCard = roomPile.remove(0);
         player.addHandCard(newCard);
+        if (roomPile.size() == 0) refillRoomPile();
     }
 
     public void getNewSpellCard(Player player) {
         SpellCard newCard = spellPile.remove(0);
         player.addHandCard(newCard);
+        if (spellPile.size() == 0) refillSpellPile();
     }
 
     public void getCardFromDiscardPile(Player player, int position) {
@@ -191,15 +193,14 @@ public class Game extends BaseEntity {
         Boolean result;
         RoomCard oldRoom = player.getDungeon().getRoom(position);
         if (oldRoom == null) {
-            if(position == player.getDungeon().getBuiltRooms()) result = true;
+            if (position == player.getDungeon().getBuiltRooms()) result = !room.isAdvanced();
             else result = false;
         }
         else {
-            RoomType oldRoomType = player.getDungeon().getRoom(position).getRoomType();
             RoomType newRoomType = room.getRoomType();
             switch (newRoomType) {
-                case ADVANCED_MONSTER: { result = (oldRoomType == RoomType.MONSTER || oldRoomType == RoomType.ADVANCED_MONSTER); break; }
-                case ADVANCED_TRAP: { result = (oldRoomType == RoomType.TRAP || oldRoomType == RoomType.ADVANCED_TRAP); break; }
+                case ADVANCED_MONSTER: { result = oldRoom.isMonsterType(); break; }
+                case ADVANCED_TRAP: { result = oldRoom.isTrapType(); break; }
                 default: result = true;
             }
         }
@@ -225,7 +226,9 @@ public class Game extends BaseEntity {
     }
 
     public void destroyDungeonRoom(Player player, Integer position) {
+        RoomCard deletedCard = player.getDungeon().getRoom(position);
         player.getDungeon().replaceDungeonRoom(null, position);
+        discardPile.add(deletedCard);
     }
 
     public void processAdventurePhase(Player player) {

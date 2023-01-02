@@ -128,6 +128,7 @@ INSERT INTO lobby_users(lobby_id,user_id) VALUES
     (2, 'frarosram'),
     (2, 'jessolort'),
     (2, 'eletomvel'),
+    (2, 'fralarmar'),
     -- Para comprobar el juego, unirse al lobby 3 como admin1 y "espectador"
     (3, 'eletomvel'),
     (3, 'admin1');
