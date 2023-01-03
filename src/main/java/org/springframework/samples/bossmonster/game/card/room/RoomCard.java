@@ -63,4 +63,12 @@ public class RoomCard extends Card {
         return roomType == RoomType.MONSTER || roomType == RoomType.ADVANCED_MONSTER;
     }
 
+    public Boolean isMonsterBallroom() {
+        return getId() == 4;
+    }
+
+    public Boolean isNeanderthalCave() {
+        return getId() == 9;
+    }
+
 }

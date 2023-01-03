@@ -199,7 +199,7 @@ public class Game extends BaseEntity {
         else {
             RoomType newRoomType = room.getRoomType();
             switch (newRoomType) {
-                case ADVANCED_MONSTER: { result = oldRoom.isMonsterType(); break; }
+                case ADVANCED_MONSTER: { result = oldRoom.isMonsterType() && !oldRoom.isNeanderthalCave(); break; }
                 case ADVANCED_TRAP: { result = oldRoom.isTrapType(); break; }
                 default: result = true;
             }
@@ -210,7 +210,7 @@ public class Game extends BaseEntity {
     public void checkForPlayerBossLeveledUp(Player player) {
         if (player.getDungeon().checkBossLeveledUp()) {
             player.getDungeon().setBossCardLeveledUp(false);
-            // TODO Implementar efecto
+            player.getDungeon().getBossCard().getEffect().apply(player, null, this);
         }
     }
 
