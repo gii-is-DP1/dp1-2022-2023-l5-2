@@ -27,6 +27,10 @@ public class StatisticsService {
         this.repoU=repoU;
     }
 
+    List<GameResult> findAllGames(){
+        return repo.findAll();
+    }
+
     List<GameResult> findAll(String Id){
         return repo.findAllGameResultsUser(Id);
     }

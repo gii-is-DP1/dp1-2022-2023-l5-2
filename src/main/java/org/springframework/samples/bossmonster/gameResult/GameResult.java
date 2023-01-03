@@ -24,14 +24,13 @@ import lombok.Setter;
 @Table(name = "game_result")
 public class GameResult extends BaseEntity{
 
-   @NotEmpty
-   private Double duration;
-   @NotEmpty
-   @DateTimeFormat(pattern = "yyyy/MM/dd")
-   private LocalDate date;
-
-   private String souls;
-   private String healths;
+     @NotEmpty
+     private Double minutesDuration;
+     @NotEmpty
+     @DateTimeFormat(pattern = "yyyy/MM/dd")
+     private LocalDate date;
+     @NotEmpty
+     private Integer rounds;
 
    @ManyToOne( optional = true)
    @JoinColumn(name = "winner", referencedColumnName = "username")

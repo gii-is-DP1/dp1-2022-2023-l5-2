@@ -3,6 +3,9 @@ package org.springframework.samples.bossmonster.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.EffectEnum;
-import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
+import org.springframework.samples.bossmonster.game.card.TreasureType;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -19,6 +23,7 @@ import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Service;
 
+import static org.hamcrest.Matchers.*;
 
 @DataJpaTest(includeFilters = {@ComponentScan.Filter(Service.class)},
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = GameService.class))
@@ -33,14 +38,14 @@ public class GameCardEffectTest {
 
     GameBuilder gameBuilder;
 
-    Player player;
+    Player testPlayer;
 
     @BeforeEach
     void setUp() {
         gameBuilder = new GameBuilder(cardService);
         lobby = setUpGameLobby();
         game = gameBuilder.buildNewGame(lobby);
-        player = game.getCurrentPlayer();
+        testPlayer = game.getPlayers().get(0);
     }
 
     GameLobby setUpGameLobby() {
@@ -83,8 +88,25 @@ public class GameCardEffectTest {
         return room;
     }
 
+    HeroCard setUpDummyHero(TreasureType treasureType, Integer health, Boolean isEpic) {
+        HeroCard hero = new HeroCard();
+        hero.setTreasure(treasureType);
+        hero.setHealth(health);
+        hero.setIsEpic(isEpic);
+        return hero;
+    }
+
+    private void activateRoomCardEffect(RoomCard room) {
+        Player testPlayer = game.getPlayers().get(0);
+        testPlayer.getDungeon().getRoomSlots()[0].setRoom(room);
+        //game.triggerRoomCardEffect(testPlayer, 0);
+    }
+
     void shouldTriggerBottomlessPitRoomCardEffect() {
         RoomCard botommlessPit = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.KILL_ONE_HERO_IN_THIS_ROOM);
+        game.getPlayers().get(0).getDungeon().getRoomSlots()[0].setRoom(botommlessPit);
+        HeroCard dummyHero1 = setUpDummyHero(TreasureType.BAG, 10,true);
+        HeroCard dummyHero2 = setUpDummyHero(TreasureType.SWORD, 10,true);
         // TODO
     }
 
@@ -93,9 +115,17 @@ public class GameCardEffectTest {
         // TODO
     }
 
+    @Test
     void shouldTriggerVampireBurdelloRoomCardEffect() {
-        RoomCard theCrushinator = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.CONVERT_A_WOUND_INTO_A_SOUL);
-        // TODO
+        RoomCard vampireBurdello = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.CONVERT_A_WOUND_INTO_A_SOUL);
+        activateRoomCardEffect(vampireBurdello);
+        assertThat("Player converted unexisting damage", testPlayer.getSouls(), is(0));
+        assertThat("Player healed unexisting wound", testPlayer.getHealth(), is(5));
+        testPlayer.setHealth(2);
+        testPlayer.setSouls(2);
+        //game.triggerRoomCardEffect(testPlayer, 0);
+        assertThat("Player didn't get a soul", testPlayer.getSouls(), is(3));
+        assertThat("Player didn't heal a wound", testPlayer.getHealth(), is(3));
     }
 
     @Test
@@ -108,9 +138,14 @@ public class GameCardEffectTest {
         // TODO
     }
 
+    @Test
     void shouldTriggerConstructionZoneRoomCardEffect() {
         RoomCard constructionZone = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_THIS_ROOM, EffectEnum.BUILD_ANOTHER_ROOM);
-        // TODO
+        Player testPlayer = game.getPlayers().get(0);
+        testPlayer.getDungeon().getRoomSlots()[0].setRoom(constructionZone);
+        //game.triggerRoomCardEffect(testPlayer, 0);
+        Integer expectedLimit = game.getState().getActionLimit() + 2;
+        assertEquals(expectedLimit, game.getState().getActionLimit());
     }
 
     void shouldTriggerDarkAltarRoomCardEffect() {
@@ -118,6 +153,7 @@ public class GameCardEffectTest {
         // TODO
     }
 
+    @Test
     void shouldTriggerDragonHatcheryRoomCardEffect() {
         // This card doesn't have any effect
     }

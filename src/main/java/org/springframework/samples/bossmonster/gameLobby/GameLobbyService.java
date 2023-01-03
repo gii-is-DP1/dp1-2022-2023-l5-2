@@ -34,4 +34,8 @@ public class GameLobbyService {
     public List<GameLobby> findAll() {
         return lobbyRepo.findAll();
     }
+
+    public List<GameLobby> findCurrentGames() {
+        return lobbyRepo.findCurrentGames();
+    }
 }

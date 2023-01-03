@@ -38,6 +38,7 @@ import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
+import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
@@ -264,6 +265,7 @@ public class GameTest {
         for(Player p: game.getPlayers()) for(int i = 4; i >= 0; i --) game.discardCard(p, i);
         List<RoomCard> expectedRoomPile = new ArrayList<>(game.getRoomPile());
         List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
+        game.refillRoomPile();
         Iterator<Card> iterator = expectedDiscardPile.iterator();
         while (iterator.hasNext()) {
             Card c = iterator.next();
@@ -283,6 +285,7 @@ public class GameTest {
         for(Player p: game.getPlayers()) for(int i = 4; i >= 0; i --) game.discardCard(p, i);
         List<SpellCard> expectedSpellPile = new ArrayList<>(game.getSpellPile());
         List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
+        game.refillSpellPile();
         Iterator<Card> iterator = expectedDiscardPile.iterator();
         while (iterator.hasNext()) {
             Card c = iterator.next();
@@ -350,32 +353,75 @@ public class GameTest {
     void shouldPlaceFirstRoom() {
         for (Player p: game.getPlayers()) {
             RoomCard chosenCard = (RoomCard) p.getHand().stream().filter(x -> x.getClass() == RoomCard.class).findAny().get();
-            Dungeon expectedDungeon = p.getDungeon();
+            game.placeFirstRoom(p, chosenCard);
             List<Card> expectedHand = new ArrayList<>(p.getHand());
             expectedHand.remove(chosenCard);
-            expectedDungeon.getRoomSlots()[0].setRoom(chosenCard);
-
             List<Card> trueHand = p.getHand();
-            Dungeon trueDungeon = p.getDungeon();
             assertEquals(expectedHand, trueHand);
-            assertEquals(expectedDungeon, trueDungeon);
+            assertEquals(chosenCard, p.getDungeon().getRoomSlots()[0].getRoom());
         }
     }
 
+    @Test
     void shouldCheckPlaceableRoomInDungeonPosition() {
-
+        RoomCard testRoom1 = new RoomCard();
+        testRoom1.setRoomType(RoomType.ADVANCED_MONSTER);
+        RoomCard testRoom2 = new RoomCard();
+        testRoom2.setRoomType(RoomType.MONSTER);
+        testRoom2.setId(9); // The id of the Neanderthal Cave Room
+        assertThat("An advanced room shouldn't be built on an empty slot", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
+        assertThat("An normal room should be built on an empty slot", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom2), is(true));
+        game.placeDungeonRoom(player, 0, testRoom2);
+        assertThat("An advance room can't be built in Neanderthal Cave Room", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
+        testRoom2.setId(99);
+        assertThat("An advance room should be built over a normal room of the same type", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(true));
+        testRoom1.setRoomType(RoomType.ADVANCED_TRAP);
+        assertThat("An advance room shouldn't be built over a normal room of a different type", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
     }
 
+    @Test
+    void shouldCheckForPlayerBossLeveledUp() {
+        for (Player p: game.getPlayers()) {
+            game.checkForPlayerBossLeveledUp(p);
+            assertFalse(p.getDungeon().getBossCardLeveledUp());
+            for(int i = 0; i < 5; i ++) p.getDungeon().getRoomSlots()[i].setRoom(setUpDummyRoomCard("0000"));
+            game.checkForPlayerBossLeveledUp(p);
+            assertTrue(p.getDungeon().getBossCardLeveledUp());
+        }
+    }
+
+    @Test
     void shouldPlaceDungeonRoom() {
-
+        RoomCard testRoom1 = new RoomCard();
+        testRoom1.setRoomType(RoomType.TRAP);
+        RoomCard testRoom2 = new RoomCard();
+        testRoom2.setRoomType(RoomType.ADVANCED_TRAP);
+        RoomCard testRoom3 = new RoomCard();
+        testRoom3.setRoomType(RoomType.ADVANCED_MONSTER);
+        game.placeDungeonRoom(player, 0, testRoom1);
+        assertEquals(testRoom1, player.getDungeon().getRoomSlots()[0].getRoom());
+        game.placeDungeonRoom(player, 0, testRoom2);
+        assertEquals(testRoom2, player.getDungeon().getRoomSlots()[0].getRoom());
+        game.placeDungeonRoom(player, 0, testRoom3);
+        assertEquals(testRoom2, player.getDungeon().getRoomSlots()[0].getRoom());
     }
 
+    @Test
     void shouldDestroyDungeonRoom() {
-
+        RoomCard testRoom1 = new RoomCard();
+        game.placeDungeonRoom(player, 0, testRoom1);
+        game.destroyDungeonRoom(player, 0);
+        assertEquals(null, player.getDungeon().getRoomSlots()[0].getRoom());
     }
 
+    @Test
     void shouldRevealAllDungeonRooms() {
-
+        for(Player p: game.getPlayers()) for(int i = 0; i < 5; i ++) {
+            p.getDungeon().getRoomSlots()[i].setRoom(new RoomCard());
+            p.getDungeon().getRoomSlots()[i].setIsVisible(false);
+        }
+        game.revealAllDungeonRooms();
+        for(Player p: game.getPlayers()) for(int i = 0; i < 5; i ++) assertTrue(p.getDungeon().getRoomSlots()[i].getIsVisible());
     }
 
     @Test

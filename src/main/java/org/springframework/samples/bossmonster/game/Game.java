@@ -17,10 +17,13 @@ import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
+import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
+
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -117,20 +120,24 @@ public class Game extends BaseEntity {
     ////////// REFILL PILE RELATED //////////
 
     public void refillRoomPile() {
-        for(Card card: discardPile) {
+        Iterator<Card> iterator = getDiscardPile().iterator();
+        while (iterator.hasNext()) {
+            Card card = iterator.next();
             if (card.getClass() == RoomCard.class) {
                 roomPile.add((RoomCard) card);
-                discardPile.remove(card);
+                iterator.remove();
             }
         }
         Collections.shuffle(roomPile);
     }
 
     public void refillSpellPile() {
-        for(Card card: discardPile) {
+        Iterator<Card> iterator = getDiscardPile().iterator();
+        while (iterator.hasNext()) {
+            Card card = iterator.next();
             if (card.getClass() == SpellCard.class) {
                 spellPile.add((SpellCard) card);
-                discardPile.remove(card);
+                iterator.remove();
             }
         }
         Collections.shuffle(spellPile);
@@ -208,7 +215,7 @@ public class Game extends BaseEntity {
         else {
             RoomType newRoomType = room.getRoomType();
             switch (newRoomType) {
-                case ADVANCED_MONSTER: { result = oldRoom.isMonsterType(); break; }
+                case ADVANCED_MONSTER: { result = oldRoom.isMonsterType() && !oldRoom.isNeanderthalCave(); break; }
                 case ADVANCED_TRAP: { result = oldRoom.isTrapType(); break; }
                 default: result = true;
             }
@@ -218,8 +225,8 @@ public class Game extends BaseEntity {
 
     public void checkForPlayerBossLeveledUp(Player player) {
         if (player.getDungeon().checkBossLeveledUp()) {
-            player.getDungeon().setBossCardLeveledUp(false);
-            // TODO Implementar efecto
+            player.getDungeon().setBossCardLeveledUp(true);
+            player.getDungeon().getBossCard().getEffect().apply(player, null, this);
         }
     }
 
@@ -227,16 +234,14 @@ public class Game extends BaseEntity {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
             triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_THIS_ROOM,player,position);
-
+            if (player.getDungeon().getRoomSlots()[position].getRoom() != null) destroyDungeonRoom(player, position);
             player.getDungeon().replaceDungeonRoom(room, position);
             player.getHand().remove(room);
 
             triggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
             for(int pos = 0; pos < player.getDungeon().getBuiltRooms(); pos++) {
-                if(pos != position)
-                    triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
-                if(room.isMonsterType())
-                    triggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);
+                if (pos != position) triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
+                if (room.isMonsterType()) triggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);
             }
             placed = true;
         }
@@ -297,6 +302,16 @@ public class Game extends BaseEntity {
         return winningCandidates.stream().min(Comparator.comparing(x -> x.getDungeon().getBossCard().getXp())).get();
     }
 
+    public GameResult generateGameResult() {
+        GameResult result = new GameResult();
+        result.setMinutesDuration(Math.floor(Duration.between(getStartedTime(), LocalDateTime.now()).getSeconds() / 60));
+        result.setDate(getStartedTime().toLocalDate());
+        result.setRounds(getState().getCurrentRound());
+        result.setWinner(getWinningPlayer().getUser());
+        result.setParticipants(getPlayers().stream().map(x -> x.getUser()).collect(Collectors.toSet()));
+        return result;
+    }
+    
     ////////// MISC //////////
 
     public void sortPlayersByFinalBossEx() {
