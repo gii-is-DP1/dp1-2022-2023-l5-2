@@ -54,6 +54,8 @@ public class Dungeon extends BaseEntity {
             log.debug(String.format("%s in %s: %s, (%s)", treasure, getRoom(index).getName(),treasureInRoom,getRoom(index).getTreasure()));
             totalAmount += treasureInRoom;
         }
+        if (bossCard.getTreasure() == treasure) totalAmount ++;
+        if (player.isDead()) totalAmount = 0;
         log.debug(String.format("[getTreasureAmount] Amount of %s for card: %s", treasure, totalAmount));
         return totalAmount;
 
