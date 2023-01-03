@@ -5,9 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
-
 
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
@@ -30,22 +28,12 @@ public class HeroCard extends Card{
     private Boolean isEpic;
 
     @Column(name = "treasure")
-    @NotEmpty
     @Enumerated(EnumType.STRING)
+    @NotEmpty
     private TreasureType treasure;
 
     @Column(name = "necessary_players")
     @NotEmpty
     private Integer necessaryPlayers;
-
-    @Transient
-    private Integer actualHealth;
-
-    @Transient
-    private Boolean minotaursMazeEffectTriggered;
-
-    public void dealDamage(Integer amount) {
-        actualHealth -= amount;
-    }
 
 }

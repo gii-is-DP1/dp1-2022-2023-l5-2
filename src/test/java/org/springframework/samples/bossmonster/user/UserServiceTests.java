@@ -1,19 +1,23 @@
 package org.springframework.samples.bossmonster.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.samples.bossmonster.game.GameService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class),
+excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = GameService.class))
 public class UserServiceTests {
     
     @Autowired
@@ -57,6 +61,25 @@ public class UserServiceTests {
         User detectedUser = this.userService.getLoggedInUser().get();
         assertEquals(trueUser, detectedUser);
 
+    }
+
+    @Test
+    void shouldfindAll(){
+        List<User> users= userService.findAllUsers();
+        assertThat(users.size()>0).isTrue();
+    }
+
+    @WithMockUser(value = "admin1")
+    @Test
+    void shouldDeleteUser(){
+        userService.deleteUser("user1");
+        assertThat(userService.findUser("user1")).isEqualTo(Optional.empty());
+    }
+    @WithMockUser(value = "user1")
+    @Test
+    void shouldNotDeleteUser(){
+        userService.deleteUser("ignarrman");
+        assertThat(userService.findUser("ignarrman")).isNotNull();
     }
 
 }

@@ -5,11 +5,15 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="statistics">
+
+<spring:url value="/users/statistics/global" htmlEscape="true" var="global"/>
+<spring:url value="/" htmlEscape="true" var="welcome"/>
+
     <h1>User Statistics</h1>
     <table>
         <tr>
             <th>Name:</th>
-            <td><c:out value="${user.username}"/></td>
+            <td><c:out value="${user.username}"/>&nbsp;</td>
 
             <th>Nickname:</th>
             <td><c:out value="${user.nickname}"/></td>
@@ -31,7 +35,7 @@
             <td><c:out value="${winStreak}"/></td>
             
             <th>Average Duration:</th>
-            <td><c:out value="${averageDuration}"/></td>
+            <td><c:out value="${averageDuration}"/> hours</td>
 
         </tr>
     </table>
@@ -40,6 +44,7 @@
         <tr>
             <th>Date</th>
             <th>Duration</th>
+            <th>Rounds</th>
             <th>Players</th>
             <th>Winner</th>
             <th>Souls Left</th>
@@ -53,7 +58,10 @@
                         <c:out value="${game.date}"/>
                     </td>
                     <td>
-                        <c:out value="${game.duration} "/>
+                        <c:out value="${game.minutes} "/>
+                    </td>
+                    <td>
+                        <c:out value="${game.rounds}"/>
                     </td>                
                     <td>
                         <c:forEach items="${game.participants}" var="player">
@@ -64,13 +72,17 @@
                         <c:out value="${game.winner.username} "/>
                     </td>
                     <td>
-                        Souls Left
+                        <c:out value="${game.souls} "/>
                     </td>
                     <td>
-                        Health Left
+                        <c:out value="${game.healths} "/>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
     </table>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${global}">Global Statistics</a>
+        <a class="btn btn-title" href="${welcome}">Back</a>
+    </div>
 </bossmonster:layout>

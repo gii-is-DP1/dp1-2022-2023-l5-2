@@ -1,11 +1,10 @@
 package org.springframework.samples.bossmonster.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.bossmonster.game.card.CardService;
-import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +25,7 @@ public class GameService {
         this.gameBuilder=gameBuilder;
     }
 
+    @Transactional
     public Game saveGame(Game g) {
         return repo.save(g);
     }
@@ -40,6 +40,12 @@ public class GameService {
         return repo.findById(id);
     }
 
-    public List<Game> findAllGames() {return repo.findAll();}
+    public List<Game> findAllGames() {
+        return repo.findAll();
+    }
+
+    public List<Game> findActiveGames() {
+        return repo.findActiveGames();
+    }
 
 }

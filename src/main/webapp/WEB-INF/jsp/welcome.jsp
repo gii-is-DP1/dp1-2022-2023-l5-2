@@ -14,7 +14,10 @@
     <spring:url value="/users/statistics" htmlEscape="true" var="statistics"/>
     <spring:url value="/statistics/achievements" htmlEscape="true" var="achievements"/>
     <spring:url value="/statistics/achievements/me" htmlEscape="true" var="myAchievements"/>
-    <spring:url value="/users/manage" htmlEscape="true" var="adminOptions"/>
+    <spring:url value="/admin/users" htmlEscape="true" var="adminOptions"/>
+    <spring:url value="/users/friends/" htmlEscape="true" var="friendModule"/>
+    <spring:url value="/lobby/listCurrentGames" htmlEscape="true" var="currentGames"/>
+    <spring:url value="/statistics/listPlayedGames" htmlEscape="true" var="playedGames"/>
 
 
 
@@ -45,22 +48,34 @@
             <div class="centered-view">
                 <a class="btn btn-title" href="${myAchievements}">My Achievements</a>
             </div>
-
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
                     <a class="btn btn-title" href="${achievements}">Achievements</a>
                 </div>
             </sec:authorize>
-
-            <div class="centered-view">
-                <a class="btn btn-title" href="${statistics}">Friends</a> <!-- Dirección provisional -->
-            </div>
-
             <sec:authorize access="hasAuthority('admin')">
                 <div class="centered-view">
                     <a class="btn btn-title" href="${adminOptions}">Admin Options</a>
                 </div>
             </sec:authorize>
+            <sec:authorize access="hasAuthority('admin')">
+                <div class="centered-view">
+                    <a class="btn btn-title" href="${currentGames}">Current Games</a>
+                </div>
+            </sec:authorize>
+            <sec:authorize access="hasAuthority('admin')">
+                <div class="centered-view">
+                    <a class="btn btn-title" href="${playedGames}">All Played Games</a>
+                </div>
+            </sec:authorize>
+            <div class="buttonview">
+                <a class="cuteButton" href="${friendModule}">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"><div class="text1">Friends</div> </span>
+                </a>
+                <a class="cuteButton" href="/users/statistics/rankings/winRate">
+                    <span class="glyphicon glyphicon-king" aria-hidden="true"><div class="text1">Rankings</div> </span>
+                </a>
+            </div>
 
     </body>
 
@@ -69,10 +84,30 @@
             margin: 25px;
             border-radius: 30px;
         }
+<<<<<<< HEAD
         body{
             background-image: url("/resources/images/background.png");
             background-size: cover;
             background-position: center;
+=======
+        .buttonview{
+            float: right;
+        }
+        .cuteButton{
+            background-color: lawngreen;
+            color: black;
+            text-align: center;
+            font-size: xx-large;
+            padding-top: 10px;
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .text1{
+            font-size: medium;
+>>>>>>> abd7c7536d5876e8c7e8f41806388122b21e2b19
         }
     </style>
             

@@ -8,17 +8,21 @@
 
 <bossmonster:layout pageName="gameScreen">
 
-    <bossmonster:modal modalId="selectMenu" modalName="Please select an option" unclosable="true">
-        <form class="expandable" method="post">
+    <bossmonster:modal modalId="selectMenu" modalName="${game.state.subPhase.choiceMessage}" unclosable="true">
+        <form method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <c:if test="${not empty game.choice}">
-                <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
-                    <button class="invis" value="${index}" name="choice" ${game.unplayableCards.contains(index)?'disabled':''}>
+                <div class="expandable">
+                    <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
+                        <button class="invis" value="${index}" name="choice" ${game.unplayableCards.contains(index)?'disabled':''}>
                         <bossmonster:card card="${game.choice[index]}" style="${game.unplayableCards.contains(index)?'disabled':''}"/>
-                    </button>
-                </c:forEach>
+                        </button>
+                    </c:forEach>
+                </div>
                 <c:if test="${game.isChoiceOptional}">
-                    <button class="btn btn-default" name="choice" value="-1">Pass</button>
+                    <button class="btn btn-default btn-lg" name="choice" value="-1">
+                        <c:out value="${game.state.isBuildingRoom()?'Cancel':'Pass'}"/>
+                    </button>
                 </c:if>
             </c:if>
         </form>
@@ -35,9 +39,10 @@
             <b>Discard Pile</b>
         </div>
         <div class="col-md-3 alert alert-info phase-display">
-            <b><c:out value = "${game.state.phase}"/></b>
-            <b><c:out value = "${game.state.subPhase}"/></b>
-            <b><c:out value = "${game.currentPlayer.user.nickname}'s Turn"/></b>
+            <b><c:out value = "${game.state.phase.displayName}"/></b>
+            <br>
+            <c:out value = "${game.state.subPhase.contextualMessage.apply(game)}"/>
+            <br>
         </div>
         <div class="col-md-5 opponents-dungeon">
             <c:forEach begin="0" end="${fn:length(players)-1}" var="index">
@@ -78,6 +83,5 @@
     }
     </script>
 </c:if>
-
 
 </bossmonster:layout>

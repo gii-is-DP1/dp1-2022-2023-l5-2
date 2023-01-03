@@ -30,7 +30,7 @@
         <form:errors path="avatar"></form:errors>
     </div>
     <div class="form-group">
-        <button class="btn btn-default" type="submit">Create User Owner</button>
+        <button class="btn btn-default" type="submit">Create User</button>
     </div>
 </form:form>
 

@@ -1,122 +1,154 @@
-URL al video de explicación del juego: https://youtu.be/c3Xa6o98hKk
+# Enlaces Importantes
 
-Link a el informe de las horas de trabajo de cada alumno en el Sprint 1, 2 y 3: 
+- URL al video de explicación del juego: https://youtu.be/c3Xa6o98hKk
+
+- Link a el informe de las horas de trabajo de cada alumno en el proyecto: 
 https://uses0-my.sharepoint.com/:w:/g/personal/ignarrman_alum_us_es/EZ8eyKLXqZ5CtjhVFQBg0MUBSakloz3gvZRHE4L_vSj24g?e=hRxZqH
 
-# Spring PetClinic Sample Application 
+# Participantes del Proyecto
 
-This is a fork of https://github.com/spring-projects/spring-petclinic to be used for the DP1 course. The main changes that have been performed were:
-- Trimming several parts of the application to keep the example low
-- Reorganize some parts of the code according to best practices introduced in the course
+- Ignacio Arroyo Mantero
+- Tadeo Cabrera Gómez
+- Ignacio González González
+- Francisco de Asís Rosso Ramírez
+- Jesús Solis Ortega
+- Elena Tomás Vela
 
-## Understanding the Spring Petclinic application with a few diagrams
-<a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
+# Descripción del Juego
 
-## Running petclinic locally
-Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
+Boss Monster se trata de un juego estratégico de cartas de dos hasta cuatro jugadores, con partidas de una duración aproximada a 30 minutos, en el que el objetivo es construir una mazmorra que permita atraer y derrotar a la mayor cantidad de héroes posibles. 
 
+En este juego hay cuatro tipos de cartas: 
 
-```
-git clone https://github.com/gii-is-DP1/spring-petclinic.git
-cd spring-petclinic
-./mvnw package
-java -jar target/*.jar
-```
+- **Héroes**: Estas cartas representan a los héroes que entrarán en las mazmorras de los jugadores. Tienen un tesoro preferido y un número que representa su vida. Existen dos tipos de héroes, épicos y no épicos.  
 
-You can then access petclinic here: http://localhost:8080/
+- **Salas/Habitaciones**: Estas cartas representan cada una de las habitaciones de las mazmorras de cada jugador. Cada mazmorra puede tener un máximo de 5. Poseen uno o varios tesoros y dañan a los héroes que pasan por ellas, además de tener distintas habilidades pasivas. Algunas de las cartas de habitación son *avanzadas*. Estas cartas, más poderosas que las normales, solo pueden construirse sobre otra habitación construida del mismo tipo *(Monstruo o Trampa)*.
 
-<img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
+- **Hechizos**: Estas cartas causan efectos especiales que los jugadores pueden activar al usar la cartas. Sin embargo, solo se pueden usar en momentos específicos del juego.
 
-Or you can run it from Maven directly using the Spring Boot Maven plugin. If you do this it will pick up changes that you make in the project immediately (changes to Java source files require a compile as well - most people use an IDE for this):
+- **Monstruos finales**: Estas cartas  representan al personaje de cada jugador, y se colocan al final de la mazmorra de cada uno. Tienen un tesoro y cantidad de experiencia asignados, además de un efecto que se activa cuando se construyen todas las habitaciones de la mazmorra por primera vez. A diferencia de las cartas de habitación, los monstruos finales no dañan a los héroes.
 
-```
-./mvnw spring-boot:run
-```
+Al comienzo de la partida, a cada jugador se le asignará un monstruo final aleatorio y se repartirán tres cartas de habitación y dos de hechizo, de las cuales se deberán descartarán dos cualesquiera. Además, colocarán una sola carta de habitación al lado de su monstruo final boca abajo, revelándolas una vez todos hayan colocado la suya.
 
-## In case you find a bug/suggested improvement for Spring Petclinic
-Our issue tracker is available here: https://github.com/gii-is-DP1/spring-petclinic/issues
+Tras el comienzo de la partida, cada turno se divide en varias fases: 
 
+- **Comienzo de turno**: Se revelan tantos héroes como jugadores haya, y se colocan en la *Ciudad*, una pila de cartas especial donde se colocan los héroes que van a entrar en las mazmorras ese turno, donde permanecerán hasta la fase de Señuelo. Cada jugador roba una carta de Sala.  
 
-## Database configuration
+- **Construcción**: En orden de mayor a menor experiencia de su monstruo final, cada jugador tendrá la oportunidad de construir una nueva habitación en su mazmorra o sustuir una existente por otra nueva. Las cartas de las habitaciones construidas se colocarán boca abajo. Cuando todos los jugadores hayan terminado, se revelarán las habitaciones construidas.
 
-In its default configuration, Petclinic uses an in-memory database (H2) which
-gets populated at startup with data. 
+- **Señuelo**: Cada héroe que esté en la *ciudad* irá a la mazmorra que tenga más cantidad de su tesoro preferido. En caso de empate, el héroe se quedará en la ciudad. 
 
-## Working with Petclinic in your IDE
+- **Aventura**: Los héroes recorrerán una de las salas de la mazmorra que escogieron, desde la izquierda hacia la derecha, recibiendo el daño y activando el efecto de cada sala en caso de tenerlo.  
 
-### Prerequisites
-The following items should be installed in your system:
-* Java 8 or newer.
-* git command line tool (https://help.github.com/articles/set-up-git)
-* Your preferred IDE 
-  * Eclipse with the m2e plugin. Note: when m2e is available, there is an m2 icon in `Help -> About` dialog. If m2e is
-  not there, just follow the install process here: https://www.eclipse.org/m2e/
-  * [Spring Tools Suite](https://spring.io/tools) (STS)
-  * IntelliJ IDEA
-  * [VS Code](https://code.visualstudio.com)
+Si un héroe sobrevive a las salas de la mazmorra y llega al jefe final, se te aplicarán las heridas que especifique el héroe. (1 si no es épico y 2 si lo es) Los jugadores serán eliminados de la partida si llegan a tener cinco heridas. 
+Si el daño de las salas sobrepasa la vida del héroe, el dueño de la mazmorra ganará las almas que tenía (1 si no es épico y 2 si lo es). 
 
-### Steps:
+El juego termina cuando un jugador arrebata diez almas de héroes o cuando quede un solo jugador sin eliminar, en cuyo caso ganará dicho jugador. 
 
-1) On the command line
-```
-git clone https://github.com/gii-is-DP1/spring-petclinic.git
-```
-2) Inside Eclipse or STS
-```
-File -> Import -> Maven -> Existing Maven project
-```
+En caso de que varios jugadores alcancen diez almas o no quede ningún jugador sin eliminar en el mismo turno, la victoria se concederá al monstruo con menor experiencia.
 
-Then either build on the command line `./mvnw generate-resources` or using the Eclipse launcher (right click on project and `Run As -> Maven install`) to generate the css. Run the application main method by right clicking on it and choosing `Run As -> Java Application`.
+# Como Iniciar una Partida
 
-3) Inside IntelliJ IDEA
+TODO
 
-In the main menu, choose `File -> Open` and select the Petclinic [pom.xml](pom.xml). Click on the `Open` button.
+# Contenido del Proyecto
 
-CSS files are generated from the Maven build. You can either build them on the command line `./mvnw generate-resources`
-or right click on the `spring-petclinic` project then `Maven -> Generates sources and Update Folders`.
+## Módulo de Juego
 
-A run configuration named `PetClinicApplication` should have been created for you if you're using a recent Ultimate
-version. Otherwise, run the application by right clicking on the `PetClinicApplication` main class and choosing
-`Run 'PetClinicApplication'`.
+### Crear una Nueva Partida
 
-4) Navigate to Petclinic
+En nuestro proyecto, tanto los usuarios normales como los administradores pueden participar en juegos.
 
-Visit [http://localhost:8080](http://localhost:8080) in your browser.
+Para crear una partida, un usuario registrado debe pulsar el botón "Create Game" de la pantalla principal. Una vez dentro, el jugador podrá elegir el máximo de jugadores que tendrá la partida. Una vez creada, se redirigirá al usuario a un lobby donde podrá esperar a más jugadores, donde saldrá el código de juego necesario para que los demás usuarios se unan.
 
+Para que otros usuarios se unan a una partida creada deben pulsar el botón "Join Game" de la pantalla principal, donde el sistema les pedirá el código de juego y si quieren unirse a la partida como jugadores o ser solo espectadores de esta sin participar.
 
-## Looking for something in particular?
+Para empezar la partida, el jugador que creó la partida debe pulsar el botón "Start Game", y que al menos hayan dos jugadores unidos.
 
-|Spring Boot Configuration | Class or Java property files  |
-|--------------------------|---|
-|The Main Class | [PetClinicApplication](https://github.com/gii-is-DP1/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java) |
-|Properties Files | [application.properties](https://github.com/gii-is-DP1/spring-petclinic/blob/master/src/main/resources) |
-|Caching | [CacheConfiguration](https://github.com/gii-is-DP1/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/system/CacheConfiguration.java) |
+### Jugar Partida
 
-## Interesting Spring Petclinic branches and forks
+Ver sección DESCRIPCIÓN DEL JUEGO
 
-The Spring Petclinic master branch in the main [spring-projects](https://github.com/spring-projects/spring-petclinic)
-GitHub org is the "canonical" implementation, currently based on Spring Boot and Thymeleaf. There are
-[quite a few forks](https://spring-petclinic.github.io/docs/forks.html) in a special GitHub org
-[spring-petclinic](https://github.com/spring-petclinic). If you have a special interest in a different technology stack
-that could be used to implement the Pet Clinic then please join the community there.
+### Visualizar el Listado de Partidas Creadas y Jugadas
 
-# Contributing
+Para ver las partidas en la que un usuario ha participado, solo hay que pulsar el botón "Statistics" de la pantalla de inicio.
 
-The [issue tracker](https://github.com/gii-is-DP1/spring-petclinic/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
+### Visualizar Listado de Partidas en Curso [Exclusivo de Admin]
 
-For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org>. If you have not previously done so, please fill out and submit the [Contributor License Agreement](https://cla.pivotal.io/sign/spring).
+TODO
 
-# License
+### Visualizar Listado de Partidas Jugadas [Exclusivo de Admin]
 
-The Spring PetClinic sample application is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+TODO
 
-[spring-petclinic]: https://github.com/spring-projects/spring-petclinic
-[spring-framework-petclinic]: https://github.com/spring-petclinic/spring-framework-petclinic
-[spring-petclinic-angularjs]: https://github.com/spring-petclinic/spring-petclinic-angularjs 
-[javaconfig branch]: https://github.com/spring-petclinic/spring-framework-petclinic/tree/javaconfig
-[spring-petclinic-angular]: https://github.com/spring-petclinic/spring-petclinic-angular
-[spring-petclinic-microservices]: https://github.com/spring-petclinic/spring-petclinic-microservices
-[spring-petclinic-reactjs]: https://github.com/spring-petclinic/spring-petclinic-reactjs
-[spring-petclinic-graphql]: https://github.com/spring-petclinic/spring-petclinic-graphql
-[spring-petclinic-kotlin]: https://github.com/spring-petclinic/spring-petclinic-kotlin
-[spring-petclinic-rest]: https://github.com/spring-petclinic/spring-petclinic-rest
+## Módulo de Gestión de Usuarios
+
+### Iniciar Sesión / Cerrar Sesión / Crear Cuenta
+
+Para iniciar sesión, cerrar sesión y crear cuenta, hemos usado el código de la plantilla PetClinic proporcionada por Spring.
+
+### Edición de Perfil Personal
+
+Para que un usuario edite su cuenta, debe pulsar el botón "User Management" en la pantalla principal, el cuál le llevará a una pantalla donde podrá cambiar sus datos de usuario. Al intentar guardar los cambios, el sistema comprobará que los datos proporcionados son válidos (El email es uno de verdad, el nombre de usuario es único, la contraseña tiene de 6 a 20 carácteres, etc), y si no cumple los requisitos del sistema, se le informará al usuario y los datos no se guardarán.
+
+### Listado de Usuarios Registrados [Exclusivo de Admin]
+
+Para que un administrador pueda ver el listado de usuarios registrados, debe pulsar el botón "Admin Options" de la pantalla de inicio (Sólo aparece si el usuario registrado es un administrador), donde aparecerá el listado de usuarios registrados en el sistema.
+
+### CRUD de Usuarios [Exclusivo de Admin]
+
+Para que un administrador pueda realizar operaciones CRUD sobre usuarios registrados, debe pulsar el botón "Admin Options" de la pantalla de inicio (Sólo aparece si el usuario registrado es un administrador), donde aparecerá el listado de usuarios registrados en el sistema. Una vez allí puede editar o eliminar usuarios.
+
+### Auditoría de los datos [Exclusivo de Admin]
+
+TODO
+
+## Módulo de Estadística
+
+### Número de Partidas
+
+TODO
+
+### Duración de las Partidas
+
+TODO
+
+### Número de Jugadores por Partida
+
+TODO
+
+### Estadísticas del Juego
+
+TODO
+
+### Ranking de Jugadores
+
+TODO
+
+### Logros en el Perfíl de Usuario
+
+Para ver los logros de un usuario, debe pulsar el botón "My Achievements" en la pantalla inicial, que llevará a una pantalla con un listado de logros del juego, clasificados en obtenidos o no por el jugador.
+
+### Edición de Logros
+
+TODO
+
+## Módulo Social
+
+TODO
+
+### Gestión de Amistades entre Usuarios
+
+TODO
+
+### Invitaciones a Partidas
+
+TODO
+
+### Modo Espectador
+
+TODO
+
+### Chat Público
+
+TODO

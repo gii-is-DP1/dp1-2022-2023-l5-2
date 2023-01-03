@@ -19,6 +19,7 @@ import java.util.List;
 public class GameController {
 
     public static final String GAME_SCREEN = "games/gameScreen";
+    public static final String GAMES_DATA = "games/currentGames";
     CardService cardService;
     GameService gameService;
     UserService userService;
@@ -60,7 +61,7 @@ public class GameController {
         if(!(game.getPlayerHasToChoose(currentPlayer))) {
             game.getState().checkStateStatus();
             gameService.saveGame(game);
-            response.addHeader("Refresh","2");
+            response.addHeader("Refresh",game.getState().getWaitingTime().toString());
         } else {
             result.addObject("triggerModal", true);
         }
@@ -76,10 +77,13 @@ public class GameController {
         result.addObject("game", game);
         result.addObject("currentPlayer", currentPlayer);
         result.addObject("players", otherPlayers);
-        result.addObject("swordHeroes", game.getSpecifiedCity(TreasureType.SWORD));
-        result.addObject("bagHeroes", game.getSpecifiedCity(TreasureType.BAG));
-        result.addObject("bookHeroes", game.getSpecifiedCity(TreasureType.BOOK));
-        result.addObject("crossHeroes", game.getSpecifiedCity(TreasureType.CROSS));
+    }
+
+    @GetMapping("/listActiveGames")
+    public ModelAndView show(){
+        ModelAndView result= new ModelAndView(GAMES_DATA);
+        result.addObject("game", gameService.findActiveGames());
+        return result;
     }
 
 }

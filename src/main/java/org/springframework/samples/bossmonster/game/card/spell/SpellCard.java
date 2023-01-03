@@ -1,13 +1,17 @@
 package org.springframework.samples.bossmonster.game.card.spell;
 
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.EffectEnum;
-import org.springframework.samples.bossmonster.game.card.EffectTarget;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
@@ -21,19 +25,11 @@ public class SpellCard extends Card {
     @Enumerated(EnumType.STRING)
     SpellPhase phase;
 
-    @Column(name = "target")
-    @NotEmpty
-    @Enumerated(EnumType.STRING)
-    EffectTarget target;
 
     @Column(name = "effect")
     @NotEmpty
     @Enumerated(EnumType.STRING)
     EffectEnum effect;
 
-    @Column(name = "requirements")
-    @NotEmpty
-    @Enumerated(EnumType.STRING)
-    SpellRequirements requirements;
 
 }
