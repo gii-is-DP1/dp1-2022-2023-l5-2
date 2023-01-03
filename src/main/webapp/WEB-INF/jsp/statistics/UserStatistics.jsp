@@ -44,6 +44,7 @@
         <tr>
             <th>Date</th>
             <th>Duration</th>
+            <th>Rounds</th>
             <th>Players</th>
             <th>Winner</th>
             <th>Souls Left</th>
@@ -57,7 +58,10 @@
                         <c:out value="${game.date}"/>
                     </td>
                     <td>
-                        <c:out value="${game.duration} "/>
+                        <c:out value="${game.minutes} "/>
+                    </td>
+                    <td>
+                        <c:out value="${game.rounds}"/>
                     </td>                
                     <td>
                         <c:forEach items="${game.participants}" var="player">
@@ -68,10 +72,10 @@
                         <c:out value="${game.winner.username} "/>
                     </td>
                     <td>
-                        This was a test result, doesn't have Souls Left
+                        <c:out value="${game.souls} "/>
                     </td>
                     <td>
-                        This was a test result, doesn't have Health Left
+                        <c:out value="${game.healths} "/>
                     </td>
                 </tr>
             </c:forEach>
