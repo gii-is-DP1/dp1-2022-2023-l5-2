@@ -4,6 +4,7 @@ import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 
 //Enumerado actua como dummy para la base de datos.
@@ -59,7 +60,7 @@ public enum EffectEnum implements EffectInterface {
     BUILD_ANOTHER_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            game.getState().setActionLimit(game.getState().getActionLimit() + 2);
+            if (game.getState().getPhase() != GamePhase.START_GAME) game.getState().setActionLimit(game.getState().getActionLimit() + 2);
         }
     },
 
