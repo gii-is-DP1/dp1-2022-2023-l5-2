@@ -133,7 +133,7 @@ INSERT INTO lobby_users(lobby_id,user_id) VALUES
     (3, 'eletomvel'),
     (3, 'admin1');
 
-INSERT INTO game_result(id,winner,duration,date) VALUES
+INSERT INTO game_result(id,winner, minutes_duration,date) VALUES
     (1,'ignarrman', 1.26, '2018-08-12'),
     (2,'ignarrman', 3.40, '2018-08-14'),
     (3,'jessolort', 0.45, '2018-08-15'),
