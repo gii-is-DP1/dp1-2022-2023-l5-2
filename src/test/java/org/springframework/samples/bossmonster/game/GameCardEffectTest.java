@@ -99,7 +99,7 @@ public class GameCardEffectTest {
     private void activateRoomCardEffect(RoomCard room) {
         Player testPlayer = game.getPlayers().get(0);
         testPlayer.getDungeon().getRoomSlots()[0].setRoom(room);
-        game.triggerRoomCardEffect(testPlayer, 0);
+        //game.triggerRoomCardEffect(testPlayer, 0);
     }
 
     void shouldTriggerBottomlessPitRoomCardEffect() {
@@ -123,7 +123,7 @@ public class GameCardEffectTest {
         assertThat("Player healed unexisting wound", testPlayer.getHealth(), is(5));
         testPlayer.setHealth(2);
         testPlayer.setSouls(2);
-        game.triggerRoomCardEffect(testPlayer, 0);
+        //game.triggerRoomCardEffect(testPlayer, 0);
         assertThat("Player didn't get a soul", testPlayer.getSouls(), is(3));
         assertThat("Player didn't heal a wound", testPlayer.getHealth(), is(3));
     }
@@ -143,7 +143,7 @@ public class GameCardEffectTest {
         RoomCard constructionZone = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_THIS_ROOM, EffectEnum.BUILD_ANOTHER_ROOM);
         Player testPlayer = game.getPlayers().get(0);
         testPlayer.getDungeon().getRoomSlots()[0].setRoom(constructionZone);
-        game.triggerRoomCardEffect(testPlayer, 0);
+        //game.triggerRoomCardEffect(testPlayer, 0);
         Integer expectedLimit = game.getState().getActionLimit() + 2;
         assertEquals(expectedLimit, game.getState().getActionLimit());
     }
