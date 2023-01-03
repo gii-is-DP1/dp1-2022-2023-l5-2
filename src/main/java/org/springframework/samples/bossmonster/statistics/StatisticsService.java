@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
@@ -50,7 +49,7 @@ public class StatisticsService {
         if(games.size()==0){
             return 0.;
         }else{
-            Double duration= games.stream().mapToDouble(GameResult::getDuration).sum();
+            Double duration= games.stream().mapToDouble(GameResult::getMinutesDuration).sum();
             return Math.floor((duration/games.size())*100)/100;
         }
     }
@@ -101,16 +100,16 @@ public class StatisticsService {
     }
     Double promedioDuracionGlobal(){
         List<GameResult> games= repo.findAll();
-        Double duracionTotal= games.stream().mapToDouble(GameResult::getDuration).sum();
+        Double duracionTotal= games.stream().mapToDouble(GameResult::getMinutesDuration).sum();
         return duracionTotal/games.size();
     }
     Double maxMinDuracionGlobal(Boolean quieroElMaximo){
         List<GameResult> games= repo.findAll();
         if(quieroElMaximo==false){
-            Double min=games.stream().mapToDouble(GameResult::getDuration).min().getAsDouble();
+            Double min=games.stream().mapToDouble(GameResult::getMinutesDuration).min().getAsDouble();
             return min;
         }else{
-            Double max=games.stream().mapToDouble(GameResult::getDuration).max().getAsDouble();
+            Double max=games.stream().mapToDouble(GameResult::getMinutesDuration).max().getAsDouble();
             return max;
         } 
     }
