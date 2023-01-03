@@ -184,3 +184,8 @@ INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
     (3,TRUE, 'ignarrman', 'frarosram'),
     (4,TRUE, 'ignarrman', 'igngongon2'),
     (5,FALSE, 'user1', 'ignarrman');
+
+INSERT INTO chats(id) VALUES
+    (0);
+INSERT INTO messages(id,words,chat) VALUES
+    (0,'Esto es un mensaje de prueba en un chat de prueba que no pertenece a ningun juego',0);

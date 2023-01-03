@@ -31,7 +31,7 @@ public class ChatController {
     @GetMapping("/chat/{chatId}")
     public ModelAndView getChat(@PathVariable Integer chatId){
         ModelAndView result=new ModelAndView(VIEWS_CHAT);
-        List<Message> messages= service.getMessages(chatId);
+        List<String> messages= service.getMessages(chatId);
 
         result.addObject("messages", messages);
         return result;
@@ -60,4 +60,5 @@ public class ChatController {
         }
         return result;
     }
+
 }

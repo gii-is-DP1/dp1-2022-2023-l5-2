@@ -18,7 +18,7 @@ public class ChatService {
     Optional<Chat> findById(Integer id){
         return repo.findById(id);
     }
-    List<Message> getMessages(Integer id){
+    List<String> getMessages(Integer id){
         return repo.getMessages(id);
     }
     public void addMessage(Message message, Integer chatId){
