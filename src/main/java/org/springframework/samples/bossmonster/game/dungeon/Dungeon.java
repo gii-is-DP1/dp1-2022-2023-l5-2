@@ -77,7 +77,7 @@ public class Dungeon extends BaseEntity {
         for(DungeonRoomSlot slot: roomSlots) {
             RoomCard room = slot.getRoom();
             if (room != null) {
-                if (room.getId() != 4) slot.setRoomTrueDamage(room.getDamage());
+                if (!room.isMonsterBallroom()) slot.setRoomTrueDamage(room.getDamage());
                 else { // That one room card whose damage was the amount of monster rooms in the dungeon
                     long damage = Stream.of(roomSlots).filter(x -> x.getRoom() != null).filter(x -> x.getRoom().getRoomType() == RoomType.ADVANCED_MONSTER || x.getRoom().getRoomType() == RoomType.MONSTER).count();
                     slot.setRoomTrueDamage((int) damage);
