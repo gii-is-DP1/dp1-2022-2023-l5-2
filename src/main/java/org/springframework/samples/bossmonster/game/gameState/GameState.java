@@ -300,7 +300,6 @@ public class GameState extends BaseEntity {
                     else {
                         currentRound ++;
                         changePhase(GamePhase.START_ROUND);
-                        game.getPlayers().get(0).setHealth(0);
                     }
                 }
                 break;
