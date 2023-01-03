@@ -84,5 +84,4 @@
     </script>
 </c:if>
 
-
 </bossmonster:layout>

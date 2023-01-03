@@ -133,13 +133,13 @@ INSERT INTO lobby_users(lobby_id,user_id) VALUES
     (3, 'eletomvel'),
     (3, 'admin1');
 
-INSERT INTO game_result(id,winner, minutes_duration,date) VALUES
-    (1,'ignarrman', 1.26, '2018-08-12'),
-    (2,'ignarrman', 3.40, '2018-08-14'),
-    (3,'jessolort', 0.45, '2018-08-15'),
-    (4,'tadcabgom', 2.11, '2018-08-15'),
-    (5,'user1',     1.01, '2018-08-16'),
-    (6,'fralarmar', 3.57, '2018-08-20');
+INSERT INTO game_result(id,winner,minutes,date,souls,healths,rounds) VALUES
+    (1,'ignarrman', 1.26, '2018-08-12','2/3/4/10','0/2/2/1',14),
+    (2,'ignarrman', 3.40, '2018-08-14','7/5/8','0/0/2',12),
+    (3,'jessolort', 0.45, '2018-08-15','3/9/10','0/1/2',12),
+    (4,'tadcabgom', 2.11, '2018-08-15','10/7','2/1',14),
+    (5,'user1',     1.01, '2018-08-16','2/3/4/10','0/3/1/2',17),
+    (6,'fralarmar', 3.57, '2018-08-20','7/10/5/8','0/2/2/1',18);
 
 INSERT INTO results_users(game_result_id,user_id) VALUES 
     (1,'tadcabgom'),
