@@ -11,7 +11,7 @@ public interface GameResultRepository extends CrudRepository<GameResult,Integer>
 
     GameResult findById(int id);
 
-    @Query(value = "SELECT DISTINCT g.id,g.duration,g.winner,g.date,g.souls,g.healths FROM game_result g INNER JOIN results_users r ON r.user_id = ?1 AND r.game_result_id=g.id", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT g.id,g.minutes,g.winner,g.date,g.souls,g.healths,g.rounds FROM game_result g INNER JOIN results_users r ON r.user_id = ?1 AND r.game_result_id=g.id", nativeQuery = true)
     List<GameResult> findAllGameResultsUser(@Param(value = "username") String nameUser);
 
     @Query(value="SELECT r.user_id FROM results_users r WHERE r.game_result_id = ?1", nativeQuery = true)

@@ -1,6 +1,7 @@
 package org.springframework.samples.bossmonster.gameResult;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -25,12 +26,15 @@ import lombok.Setter;
 public class GameResult extends BaseEntity{
 
      @NotEmpty
-     private Double minutesDuration;
+     private Double minutes;
      @NotEmpty
      @DateTimeFormat(pattern = "yyyy/MM/dd")
      private LocalDate date;
      @NotEmpty
      private Integer rounds;
+
+     private String souls;
+     private String healths;
 
    @ManyToOne( optional = true)
    @JoinColumn(name = "winner", referencedColumnName = "username")
@@ -41,5 +45,5 @@ public class GameResult extends BaseEntity{
       name = "results_users",
       joinColumns = @JoinColumn(name="game_result_id"),
       inverseJoinColumns = @JoinColumn(name= "user_id"))
-   private Set<User> participants;
+   private List<User> participants;
 }

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
@@ -50,7 +48,7 @@ public class StatisticsService {
         if(games.size()==0){
             return 0.;
         }else{
-            Double duration= games.stream().mapToDouble(GameResult::getDuration).sum();
+            Double duration= games.stream().mapToDouble(GameResult::getMinutes).sum();
             return Math.floor((duration/games.size())*100)/100;
         }
     }
@@ -101,16 +99,16 @@ public class StatisticsService {
     }
     Double promedioDuracionGlobal(){
         List<GameResult> games= repo.findAll();
-        Double duracionTotal= games.stream().mapToDouble(GameResult::getDuration).sum();
+        Double duracionTotal= games.stream().mapToDouble(GameResult::getMinutes).sum();
         return Math.floor(duracionTotal/games.size()*100)/100;
     }
     Double maxMinDuracionGlobal(Boolean quieroElMaximo){
         List<GameResult> games= repo.findAll();
         if(quieroElMaximo==false){
-            Double min=games.stream().mapToDouble(GameResult::getDuration).min().getAsDouble();
+            Double min=games.stream().mapToDouble(GameResult::getMinutes).min().getAsDouble();
             return Math.floor(min*100)/100;
         }else{
-            Double max=games.stream().mapToDouble(GameResult::getDuration).max().getAsDouble();
+            Double max=games.stream().mapToDouble(GameResult::getMinutes).max().getAsDouble();
             return Math.floor(max*100)/100;
         } 
     }
@@ -118,7 +116,7 @@ public class StatisticsService {
         //No tiene sentido comprobar el máximo o mínimo de jugadores por partida porque ya está definido(2-4)
         //El total de jugadores por partida tampoco se calculará globalmente porque no tiene mucho sentido (Por partida si aparece)
         List<GameResult> games= repo.findAll();
-        Integer totalAcum= games.stream().map(GameResult::getParticipants).mapToInt(Set<User>::size).sum();
+        Integer totalAcum= games.stream().map(GameResult::getParticipants).mapToInt(List<User>::size).sum();
         Double result= (totalAcum/games.size())*1.0;
         return Math.floor(result);
     }
