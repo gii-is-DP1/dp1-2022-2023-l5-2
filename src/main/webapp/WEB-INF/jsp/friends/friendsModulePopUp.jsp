@@ -7,6 +7,7 @@
 
 <spring:url value="/users/friends/new" htmlEscape="true" var="newFriend"/>
 <spring:url value="/users/friends/notAccepted" htmlEscape="true" var="notAcceptedRequest"/>
+<spring:url value="/" htmlEscape="true" var="welcome"/>
 
     <h1>Friends</h1>
     <table class="table">
@@ -16,6 +17,7 @@
                 <th>Username</th>
                 <th>Nickname</th>
                 <th>Description</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -45,5 +47,8 @@
     <div class="centered-view">
         <a class="btn btn-title" href="${newFriend}">Add new Friend</a>
         <a class="btn btn-title" href="${notAcceptedRequest}">Pending Requests</a>
+    </div>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${welcome}">Back</a>
     </div>
 </bossmonster:layout>
