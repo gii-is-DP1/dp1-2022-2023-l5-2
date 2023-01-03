@@ -21,6 +21,10 @@ public class FriendRequestService {
         this.repo=r;
         this.uService=uService;
     }
+
+    public FriendRequest findFriendRequestById(int id){
+        return repo.findById(id).get();
+    }
     
     public List<FriendRequest> findAllReceived(String username){
         return repo.findAllReceived(username);
