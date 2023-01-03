@@ -27,4 +27,6 @@ public interface GameResultRepository extends CrudRepository<GameResult,Integer>
     @Modifying
     @Query(value="DELETE FROM results_users WHERE user_id=?1", nativeQuery = true)
     void deleteParticipated(@Param(value = "username") String username);
+    @Query(value = "SELECT * FROM GAME_RESULT g", nativeQuery = true)
+    List<GameResult> findAll();
 }

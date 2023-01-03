@@ -1,11 +1,9 @@
 package org.springframework.samples.bossmonster.game.chat;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
@@ -15,10 +13,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "chats")
-public class Chat extends BaseEntity{
+@Table(name = "messages")
+public class Message extends BaseEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "chat")
-    private List<Message> messages;
+    @Size(min = 0, max = 150)
+    private String words;
 
+    @ManyToOne
+    private Chat chat;
+    
 }

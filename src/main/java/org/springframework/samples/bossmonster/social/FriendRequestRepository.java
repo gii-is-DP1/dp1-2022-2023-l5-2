@@ -32,5 +32,11 @@ public interface FriendRequestRepository extends CrudRepository<FriendRequest,In
     @Modifying
     @Query(value = "DELETE FROM friend_requests fr WHERE fr.requester=?1 AND receiver=?2",nativeQuery = true)
     void declineFriendRequest(@Param(value = "usernameR") String usernameRequester, @Param(value = "username") String myUsername);
+    @Modifying
+    @Query(value = "DELETE FROM friend_requests fr WHERE fr.requester=?1 OR fr.receiver=?1",nativeQuery = true)
+    void deleteFriendRequestWhenUserDeleted(@Param(value = "username") String username);
+    @Modifying
+    @Query(value = "DELETE FROM friend_requests fr WHERE (fr.requester=?1 AND fr.receiver=?2) OR (fr.receiver=?1 AND fr.requester=?2)",nativeQuery = true)
+    void unFriend(@Param(value = "username") String noLongerFriendUsername, @Param(value = "username") String myUsername);
     
 }

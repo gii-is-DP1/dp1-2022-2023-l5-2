@@ -15,8 +15,13 @@
  */
 package org.springframework.samples.bossmonster.user;
 
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,14 +29,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.springframework.beans.BeanUtils;
-
-import org.springframework.transaction.annotation.Transactional;
-
-
-import javax.validation.Valid;
-import java.util.Map;
 
 /**
  * @author Juergen Hoeller
@@ -113,27 +110,7 @@ public class UserController {
 		return result;
 	}
 	
-	@Transactional(readOnly = true)
-	@GetMapping(value = "/users/edit/avatars")
-	public ModelAndView initAvatarSelector() {
-		ModelAndView result = new ModelAndView(VIEWS_AVATAR_PICKER);
-		User user = userService.getLoggedInUser().get();
-		result.addObject("user", user);
-		return result;
-	}
-//
-	@Transactional
-	@PostMapping(value = "/users/edit/avatars")
-	public ModelAndView processAvatarSelector(User user) {
-		ModelAndView result = new ModelAndView(VIEWS_USER_EDIT_FORM);
-		User userUpdated = userService.getLoggedInUser().get();
-		BeanUtils.copyProperties(user, userUpdated, "id");
-		userService.saveUser(userUpdated);
-		result.addObject("message", "Avatar succesfully updated.");
-		return result;
-	}
-	
-	@GetMapping("/users/manage")
+	@GetMapping("/admin/users")
     public ModelAndView show(){
         ModelAndView result= new ModelAndView(USER_LISTING_VIEW);
         result.addObject("user", userService.findAllUsers());
@@ -141,34 +118,33 @@ public class UserController {
     }
 
 	@Transactional
-	@GetMapping("/users/{username}/delete")
+	@GetMapping("admin/users/{username}/delete")
     public ModelAndView delete(@PathVariable String username){
         userService.deleteUser(username);
-        ModelAndView result= new ModelAndView("redirect:/users/manage");
+        ModelAndView result= new ModelAndView("redirect:/admin/users");
         return result;
     }
 
-	@GetMapping(value = "/users/{username}/edit")
+	@GetMapping(value = "admin/users/{username}/edit")
     public String initEditFormAdmin(Map<String, Object> model,@PathVariable String username) {
 		User loggedInUser = userService.findUser(username).get();
 		model.put("user", loggedInUser);
 		return VIEWS_USER_EDIT_FORM_ADMIN;
     }
 	@Transactional
-	@PostMapping(value = "/users/{username}/edit")
-	public ModelAndView processEditFormAdmin(@Valid User user, BindingResult br,@PathVariable String username) {
+	@PostMapping(value = "admin/users/{username}/edit")
+	public ModelAndView processEditFormAdmin(@Valid User user, BindingResult br, @PathVariable String username) {
 		ModelAndView result;
 		if (br.hasErrors()) {
 			result = new ModelAndView(VIEWS_USER_EDIT_FORM_ADMIN);
 			result.addObject("message", "Can't update user. Invalid values are present");
 		}
 		else {
-			result = new ModelAndView("redirect:/users/manage");
+			result = new ModelAndView("redirect:/admin/users");
 			userService.saveUser(user);
 			result.addObject("message", "User succesfully updated!");
 		}
 		return result;
 	}
-
 
 }

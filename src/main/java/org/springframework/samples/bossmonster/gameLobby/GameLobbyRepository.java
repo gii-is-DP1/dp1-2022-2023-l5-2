@@ -1,17 +1,15 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.bossmonster.user.User;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
-@Repository
-public interface GameLobbyRepository extends CrudRepository<GameLobby, Long> {
+public interface GameLobbyRepository extends CrudRepository<GameLobby, Integer> {
 
     List<GameLobby> findAll();
     Optional<GameLobby> findById(int id);
@@ -30,5 +28,8 @@ public interface GameLobbyRepository extends CrudRepository<GameLobby, Long> {
     @Modifying
     @Query(value="DELETE FROM LOBBIES WHERE LEADER=?1", nativeQuery = true)
     void deleteLobbyIfLeaderDeleted(@Param(value = "username") String user);
+
+    @Query("SELECT gl FROM GameLobby gl INNER JOIN gl.game g WHERE g.active=TRUE")
+    List<GameLobby> findCurrentGames();
 
 }

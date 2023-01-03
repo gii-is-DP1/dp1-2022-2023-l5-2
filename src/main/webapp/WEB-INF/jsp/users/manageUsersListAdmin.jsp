@@ -4,6 +4,9 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="manageUser">
+
+<spring:url value="/" htmlEscape="true" var="welcome"/>
+
     <h2>User Management</h2>
 
     <table id="usersListTable" class="table table-striped">
@@ -41,12 +44,12 @@
                         <c:out value="${user.password}"/>
                     </td>
                     <td>
-                        <a href="${user.username}/edit"> 
+                        <a href="users/${user.username}/edit"> 
                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </a>
                     </td>
                     <td> 
-                        <a href="${user.username}/delete"> 
+                        <a href="users/${user.username}/delete"> 
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </a>      
                     </td>
@@ -54,5 +57,7 @@
             </c:forEach>
         </tbody>
     </table>
-
+    <div class="centered-view">
+        <a class="btn btn-title" href="${welcome}">Back</a>
+    </div>
 </bossmonster:layout>

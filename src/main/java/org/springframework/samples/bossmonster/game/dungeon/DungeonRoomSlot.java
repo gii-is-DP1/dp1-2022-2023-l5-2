@@ -3,11 +3,10 @@ package org.springframework.samples.bossmonster.game.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
@@ -22,8 +21,8 @@ public class DungeonRoomSlot extends BaseEntity {
     @OneToOne
     private RoomCard room;
 
-    @OneToMany
-    private List<HeroCard> heroesInRoom;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<HeroCardStateInDungeon> heroesInRoom;
 
     private Boolean isVisible;
 
@@ -41,11 +40,11 @@ public class DungeonRoomSlot extends BaseEntity {
         isVisible = false;
     }
 
-    public void addHero(HeroCard hero) {
+    public void addHero(HeroCardStateInDungeon hero) {
         heroesInRoom.add(hero);
     }
 
-    public void removeHero(HeroCard hero) {
+    public void removeHero(HeroCardStateInDungeon hero) {
         heroesInRoom.remove(hero);
     }
 

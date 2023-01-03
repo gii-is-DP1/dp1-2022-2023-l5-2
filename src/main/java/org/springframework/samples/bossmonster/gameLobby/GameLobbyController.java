@@ -1,5 +1,10 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.GameService;
@@ -14,10 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/lobby")
 public class GameLobbyController {
@@ -25,6 +26,8 @@ public class GameLobbyController {
     public static final String JOIN_LOBBY_FORM = "gameLobbies/joinGameLobbyForm";
     public static final String CREATE_LOBBY_FORM = "gameLobbies/createGameLobbyForm";
     public static final String LOBBY_SCREEN = "gameLobbies/waitingLobby";
+    public static final String CURRENT_GAMES = "games/currentGames";
+    
 
     @Autowired
     GameLobbyService lobbyService;
@@ -35,8 +38,12 @@ public class GameLobbyController {
     @Autowired
     GameService gameService;
 
-
-
+    @GetMapping("/listCurrentGames")
+    public ModelAndView show(){
+        ModelAndView result= new ModelAndView(CURRENT_GAMES);
+        result.addObject("game", lobbyService.findCurrentGames());
+        return result;
+    }
 
     @GetMapping("/")
     public ModelAndView showJoinLobbyForm() {
@@ -67,7 +74,7 @@ public class GameLobbyController {
                 if (spectate) {
                     result = new ModelAndView(currentLobbyView);
                 } else {
-                    if(lobbyService.userIsPlaying(user)) {
+                    if(lobbyService.userIsPlaying(user) && !lobby.get().getJoinedUsers().contains(user)) {
                         result.setViewName(JOIN_LOBBY_FORM);
                         result.addObject("message","You are already in a game!");
                     } else if (!presentLobby.getJoinedUsers().contains(user)) {

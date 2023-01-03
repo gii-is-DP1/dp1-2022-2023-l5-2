@@ -15,7 +15,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,5 +42,3 @@ public class GameResult extends BaseEntity{
         inverseJoinColumns = @JoinColumn(name= "user_id"))
      private Set<User> participants;
 }
-     //@OneToOne(mappedBy = "result")
-    // private Game game;

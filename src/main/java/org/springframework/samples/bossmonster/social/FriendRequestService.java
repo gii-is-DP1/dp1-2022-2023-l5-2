@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
@@ -78,5 +77,9 @@ public class FriendRequestService {
     }
     public void saveFriendRequest(FriendRequest fr){
         repo.save(fr);
+    }
+    public void unFriendSomeone(String username){
+        User me=uService.getLoggedInUser().get();
+        repo.unFriend(username, me.getUsername());
     }
 }

@@ -82,7 +82,13 @@ public class FriendRequestController {
 		}
         return result;
     }
-
+    @Transactional
+    @GetMapping("/{username}/delete")
+    public ModelAndView deleteFriend(@PathVariable String username){
+        serviceFR.unFriendSomeone(username);
+        ModelAndView result= new ModelAndView("redirect:/users/friends/");
+        return result;
+    }
     @GetMapping("/notAccepted")
     public ModelAndView showNotAccepted(){
         ModelAndView result= new ModelAndView(NOT_ACCEPTED_REQUESTS);
