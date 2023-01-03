@@ -1,6 +1,7 @@
 package org.springframework.samples.bossmonster.game.chat;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -20,6 +21,9 @@ public class Message extends BaseEntity {
     private String words;
 
     @ManyToOne
+    @JoinColumn(name = "chat")
     private Chat chat;
+
+    
     
 }
