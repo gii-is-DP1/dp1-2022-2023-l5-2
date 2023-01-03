@@ -68,10 +68,10 @@
                         <c:out value="${game.winner.username} "/>
                     </td>
                     <td>
-                        This was a test result, doesn't have Souls Left
+                        <c:out value="${game.souls} "/>
                     </td>
                     <td>
-                        This was a test result, doesn't have Health Left
+                        <c:out value="${game.healths} "/>
                     </td>
                 </tr>
             </c:forEach>

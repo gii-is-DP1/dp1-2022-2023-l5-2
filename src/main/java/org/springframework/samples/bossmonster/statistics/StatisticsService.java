@@ -93,21 +93,21 @@ public class StatisticsService {
     Double promedioNumPartidas(){
         List<GameResult> games= repo.findAll();
         List<User> users= repoU.findAll();
-        return games.size()*1.0/users.size()*1.0;
+        return Math.floor((games.size()*1.0/users.size()*1.0)*100)/100;
     }
     Double promedioDuracionGlobal(){
         List<GameResult> games= repo.findAll();
         Double duracionTotal= games.stream().mapToDouble(GameResult::getDuration).sum();
-        return duracionTotal/games.size();
+        return Math.floor(duracionTotal/games.size()*100)/100;
     }
     Double maxMinDuracionGlobal(Boolean quieroElMaximo){
         List<GameResult> games= repo.findAll();
         if(quieroElMaximo==false){
             Double min=games.stream().mapToDouble(GameResult::getDuration).min().getAsDouble();
-            return min;
+            return Math.floor(min*100)/100;
         }else{
             Double max=games.stream().mapToDouble(GameResult::getDuration).max().getAsDouble();
-            return max;
+            return Math.floor(max*100)/100;
         } 
     }
     Double promedioJugadoresPartida(){

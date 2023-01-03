@@ -73,7 +73,4 @@ public class StatisticsServiceTests {
         winStreak=this.statisticsService.winStreakUser(games2, "admin1");
         assertThat(winStreak).isEqualTo(0);
     }
-
-
-
 }
