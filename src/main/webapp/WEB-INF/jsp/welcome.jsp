@@ -16,6 +16,7 @@
     <spring:url value="/statistics/achievements/me" htmlEscape="true" var="myAchievements"/>
     <spring:url value="/admin/users" htmlEscape="true" var="adminOptions"/>
     <spring:url value="/users/friends/" htmlEscape="true" var="friendModule"/>
+    <spring:url value="/lobby/listCurrentGames" htmlEscape="true" var="currentGames"/>
 
 
 
@@ -64,6 +65,12 @@
                     <span class="glyphicon glyphicon-king" aria-hidden="true"><div class="text1">Rankings</div> </span>
                 </a>
             </div>
+            <sec:authorize access="hasAuthority('admin')">
+                <div class="centered-view">
+                    <a class="btn btn-title" href="${currentGames}">Current Games</a>
+                </div>
+            </sec:authorize>
+
     </body>
 
     <style>

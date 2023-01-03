@@ -11,4 +11,7 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     List<Game> findAll();
     @Query(value = "SELECT c from chats c ON c.id=?1",nativeQuery = true)
     Chat findChat(@Param(value = "id") Integer gameChat);
+
+    @Query("SELECT l FROM Game l WHERE l.active=TRUE")
+    List<Game> findActiveGames();
 }

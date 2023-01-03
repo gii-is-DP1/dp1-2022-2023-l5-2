@@ -19,6 +19,7 @@ import java.util.List;
 public class GameController {
 
     public static final String GAME_SCREEN = "games/gameScreen";
+    public static final String GAMES_DATA = "games/currentGames";
     CardService cardService;
     GameService gameService;
     UserService userService;
@@ -76,6 +77,13 @@ public class GameController {
         result.addObject("game", game);
         result.addObject("currentPlayer", currentPlayer);
         result.addObject("players", otherPlayers);
+    }
+
+    @GetMapping("/listActiveGames")
+    public ModelAndView show(){
+        ModelAndView result= new ModelAndView(GAMES_DATA);
+        result.addObject("game", gameService.findActiveGames());
+        return result;
     }
 
 }
