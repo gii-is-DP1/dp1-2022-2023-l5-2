@@ -23,6 +23,7 @@ public class StatisticsController {
     private static final String GLOBAL_STATISTICS_VIEW="/statistics/GlobalStatistics";
     private static final String RANKING_WINRATE_VIEW="/statistics/rankingWinRate";
     private static final String RANKING_WINS_VIEW="/statistics/rankingWins";
+    private static final String PLAYED_GAMES="/statistics/playedGames";
 
     @Autowired
     public StatisticsController(StatisticsService s, UserService s2){
@@ -92,6 +93,13 @@ public class StatisticsController {
         ModelAndView result= new ModelAndView(RANKING_WINS_VIEW);
         List<Map.Entry<String,Integer>>ranking= service.rankingPorWins();
         result.addObject("ranking", ranking);
+        return result;
+    }
+
+    @GetMapping("/statistics/listPlayedGames")
+    public ModelAndView show(){
+        ModelAndView result= new ModelAndView(PLAYED_GAMES);
+        result.addObject("playedGames", service.findAllGames());
         return result;
     }
 
