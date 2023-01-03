@@ -1,9 +1,5 @@
 package org.springframework.samples.bossmonster.statistics;
 
-<<<<<<< HEAD
-public class AchievementServiceTests {
-    
-=======
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -102,5 +98,4 @@ public class AchievementServiceTests {
         achievementService.save(achievement);
         achievementService.getAchievementByName("Heroe");
     }
->>>>>>> abd7c7536d5876e8c7e8f41806388122b21e2b19
 }
