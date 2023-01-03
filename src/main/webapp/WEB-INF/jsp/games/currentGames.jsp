@@ -4,27 +4,27 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="currentGames">
-    <h2>User Management</h2>
+    <h2>Current Games</h2>
 
     <table id="currentGamesListTable" class="table table-striped">
         <thead>
             <tr>
                 <th>Game</th>
                 <th>Host Player</th>
-                <th>players</th>
+                <th>Joined Players</th>
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${game}" var="game">
+            <c:forEach items="${currentGames}" var="gameLobby">
                 <tr>
                     <td>
-                        <c:out value="${game.game.id}"/>
+                        <c:out value="${gameLobby.game.id}"/>
                     </td>
                     <td>
-                        <c:out value="${game.leaderUser}"/>
+                        <c:out value="${gameLobby.leaderUser}"/>
                     </td>
                     <td>
-                        <c:forEach items="${game.joinedUsers}" var="joinedUser">
+                        <c:forEach items="${gameLobby.joinedUsers}" var="joinedUser">
                             <c:out value="${joinedUser}"/>
                         </c:forEach>
                     </td>
