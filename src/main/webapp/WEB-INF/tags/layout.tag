@@ -24,8 +24,6 @@
 	</c:if>
 
         <jsp:doBody/>
-
-        <bossmonster:pivotal/>
     </div>
 </div>
 <bossmonster:footer/>

@@ -46,6 +46,7 @@ public class GameBuilder {
         buildCity(newGame);
         buildPlayers(newGame,lobby.getJoinedUsers());
         buildStats(newGame, lobby.getJoinedUsers().size());
+        newGame.setActive(true);
         return newGame;
     }
 
