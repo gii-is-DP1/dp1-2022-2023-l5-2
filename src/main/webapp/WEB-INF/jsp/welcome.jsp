@@ -16,7 +16,7 @@
     <spring:url value="/statistics/achievements/me" htmlEscape="true" var="myAchievements"/>
     <spring:url value="/admin/users" htmlEscape="true" var="adminOptions"/>
     <spring:url value="/users/friends/" htmlEscape="true" var="friendModule"/>
-    <spring:url value="/games/listCurrentGames" htmlEscape="true" var="currentGames"/>
+    <spring:url value="/lobby/listCurrentGames" htmlEscape="true" var="currentGames"/>
 
 
 

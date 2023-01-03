@@ -38,8 +38,12 @@ public class GameLobbyController {
     @Autowired
     GameService gameService;
 
-
-
+    @GetMapping("/listCurrentGames")
+    public ModelAndView show(){
+        ModelAndView result= new ModelAndView(CURRENT_GAMES);
+        result.addObject("game", lobbyService.findCurrentGames());
+        return result;
+    }
 
     @GetMapping("/")
     public ModelAndView showJoinLobbyForm() {
@@ -188,13 +192,6 @@ public class GameLobbyController {
             result.setViewName("redirect:/lobby/" + lobbyId);
         }
 
-        return result;
-    }
-
-    @GetMapping("/listCurrentGames")
-    public ModelAndView show(){
-        ModelAndView result= new ModelAndView(CURRENT_GAMES);
-        result.addObject("game", lobbyService.findCurrentGames());
         return result;
     }
 
