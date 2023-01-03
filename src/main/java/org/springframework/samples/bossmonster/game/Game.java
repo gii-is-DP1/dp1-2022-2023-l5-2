@@ -304,11 +304,11 @@ public class Game extends BaseEntity {
 
     public GameResult generateGameResult() {
         GameResult result = new GameResult();
-        result.setMinutesDuration(Math.floor(Duration.between(getStartedTime(), LocalDateTime.now()).getSeconds() / 60));
+        result.setMinutes(Math.floor(Duration.between(getStartedTime(), LocalDateTime.now()).getSeconds() / 60));
         result.setDate(getStartedTime().toLocalDate());
         result.setRounds(getState().getCurrentRound());
         result.setWinner(getWinningPlayer().getUser());
-        result.setParticipants(getPlayers().stream().map(x -> x.getUser()).collect(Collectors.toSet()));
+        result.setParticipants(getPlayers().stream().map(x -> x.getUser()).collect(Collectors.toList()));
         return result;
     }
     
