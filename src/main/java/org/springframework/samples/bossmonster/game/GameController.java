@@ -2,9 +2,7 @@ package org.springframework.samples.bossmonster.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.CardService;
-import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.player.Player;
-import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Controller;
@@ -21,15 +19,13 @@ public class GameController {
 
     public static final String GAME_SCREEN = "games/gameScreen";
     public static final String GAMES_DATA = "games/currentGames";
-    CardService cardService;
     GameService gameService;
     UserService userService;
 
     @Autowired
-    public GameController(GameService service, UserService userService, CardService cardService) {
+    public GameController(GameService service, UserService userService) {
         this.gameService = service;
         this.userService = userService;
-        this.cardService = cardService;
     }
 
     @PostMapping("/{gameId}")
