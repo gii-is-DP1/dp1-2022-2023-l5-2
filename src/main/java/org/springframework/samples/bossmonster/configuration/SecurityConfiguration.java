@@ -27,7 +27,6 @@ import javax.sql.DataSource;
 /**
  * @author japarejo
  */
-@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -70,30 +69,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		for (String pw : Arrays.asList(
-			"4dm1nrr",
-			"0wn3rrr",
-			"EleTomas2002",
-			"helloimapassword",
-			"userrr",
-			"mydoggie",
-			"jessolort",
-			"contra5ena",
-			"qwertyuiop"
-	/* 	'admin1'
-        'user1',                ''
-        'eletomvel'             ''  
-        'tadcabgom'             ''
-        'igngongon2'            ''      
-        'ignarrman'             ''      
-        'jessolort'             ''      
-        'frarosram'             '' 
-        'fralarmar'             '' */)) {
-			String encodedPassword = passwordEncoder().encode(pw);
-			log.debug("Encoded password: " + encodedPassword);
-			System.out.println("Encoded password: " + encodedPassword);
-		}
-
 		auth.jdbcAuthentication()
 	      .dataSource(dataSource)
 	      .usersByUsernameQuery(
@@ -105,8 +80,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        + "from authorities "
 	        + "where username = ?")
 	      .passwordEncoder(passwordEncoder());
-		  
-
 	}
 
 	@Bean
