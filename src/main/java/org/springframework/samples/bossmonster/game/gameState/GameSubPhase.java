@@ -1,10 +1,10 @@
 package org.springframework.samples.bossmonster.game.gameState;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
-import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 
 import java.util.Arrays;
@@ -13,6 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
+@Slf4j
 public enum GameSubPhase implements SubPhaseChoices{
 
     // COMMON

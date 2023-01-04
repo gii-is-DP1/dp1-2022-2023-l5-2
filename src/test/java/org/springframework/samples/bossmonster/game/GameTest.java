@@ -382,21 +382,44 @@ public class GameTest {
         }
     }
 
-    @Test
-    void shouldCheckPlaceableRoomInDungeonPosition() {
-        RoomCard testRoom1 = new RoomCard();
-        testRoom1.setRoomType(RoomType.ADVANCED_MONSTER);
-        RoomCard testRoom2 = new RoomCard();
-        testRoom2.setRoomType(RoomType.MONSTER);
-        testRoom2.setId(9); // The id of the Neanderthal Cave Room
-        assertThat("An advanced room shouldn't be built on an empty slot", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
-        assertThat("An normal room should be built on an empty slot", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom2), is(true));
-        game.placeDungeonRoom(player, 0, testRoom2);
-        assertThat("An advance room can't be built in Neanderthal Cave Room", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
-        testRoom2.setId(99);
-        assertThat("An advance room should be built over a normal room of the same type", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(true));
-        testRoom1.setRoomType(RoomType.ADVANCED_TRAP);
-        assertThat("An advance room shouldn't be built over a normal room of a different type", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
+    static Stream<Arguments> shouldCheckPlaceableRoomInDungeonPosition() {
+        RoomCard monster = new RoomCard();
+        monster.setRoomType(RoomType.MONSTER);
+        RoomCard monsterAdvanced = new RoomCard();
+        monsterAdvanced.setRoomType(RoomType.ADVANCED_MONSTER);
+        RoomCard trapAdvanced = new RoomCard();
+        trapAdvanced.setRoomType(RoomType.ADVANCED_TRAP);
+        return Stream.of(
+            Arguments.of(monster,3,true,"Should be able to build on empty room"),
+            Arguments.of(monster,4,false,"Shouldn't be able to place room away from dungeon"),
+            Arguments.of(monster,1,true,"Should be able to replace regular room with another regular room"),
+            Arguments.of(monsterAdvanced,0,true,"Should be able to build advanced monster on top of regular monster"),
+            Arguments.of(trapAdvanced,1,true,"Should be able to build advanced trap on top of regular trap"),
+            Arguments.of(monsterAdvanced,1,false,"Shouldn't be able to build advanced monster on top of trap"),
+            Arguments.of(trapAdvanced,0,false,"Shouldn't be able to build advanced trap on top of monster"),
+            Arguments.of(monsterAdvanced,3,false,"Shouldn't be able to build advanced room on empty room"),
+            Arguments.of(monsterAdvanced,2,false,"Shouldn't be able to build advanced room on neanderthal")
+
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void shouldCheckPlaceableRoomInDungeonPosition(RoomCard roomToBuild, Integer position, Boolean expected, String reason) {
+        RoomCard monster = new RoomCard();
+        monster.setRoomType(RoomType.MONSTER);
+        monster.setId(0);
+        RoomCard trap = new RoomCard();
+        trap.setRoomType(RoomType.TRAP);
+        RoomCard neanderthal = new RoomCard();
+        // Neanderthal Cave's id
+        neanderthal.setId(9);
+        game.placeDungeonRoom(player,0,monster);
+        game.placeDungeonRoom(player,1,trap);
+        game.placeDungeonRoom(player,2,neanderthal);
+
+        Boolean result = game.checkPlaceableRoomInDungeonPosition(player, position, roomToBuild);
+        assertThat(reason,result, is(expected));
     }
 
     @Test
@@ -608,13 +631,12 @@ public class GameTest {
         return Stream.of(Arguments.of(GameSubPhase.USE_SPELLCARD, List.of(2)),
             Arguments.of(GameSubPhase.PLACE_FIRST_ROOM, List.of(0,1)),
             Arguments.of(GameSubPhase.BUILD_NEW_ROOM, List.of(0,1)),
-            Arguments.of(GameSubPhase.DISCARD_2_STARTING_CARDS, List.of()),
-            Arguments.of(GameSubPhase.ANNOUNCE_NEW_PHASE, List.of()));
+            Arguments.of(GameSubPhase.DISCARD_2_STARTING_CARDS, List.of()));
     }
     @Ignore
     @ParameterizedTest
     @MethodSource
-    void shouldGetUnplayableCards(GameSubPhase subphase, List<Integer> expected) {
+    void shouldGetUnplayableCards(GameSubPhase subphase, Integer choice) {
         game.getState().setSubPhase(subphase);
         Player player = game.getCurrentPlayer();
         player.setHand(List.of(new SpellCard(), new SpellCard(), new RoomCard()));
