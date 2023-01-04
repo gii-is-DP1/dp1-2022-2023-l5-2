@@ -288,6 +288,13 @@ public enum EffectEnum implements EffectInterface {
         public void apply(Player player, Integer dungeonPosition, Game game) {
             // TODO
         } 
+    },
+
+    EVERY_PLAYER_RESETS_THEIR_HAND {
+        @Override
+        public void apply(Player player, Integer dungeonPosition, Game game) {
+            // TODO
+        }
     }
 
 }

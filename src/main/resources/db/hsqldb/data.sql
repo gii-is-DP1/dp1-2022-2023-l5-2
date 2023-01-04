@@ -63,7 +63,8 @@ INSERT INTO spell_card(id, name, card_image, phase,effect) VALUES
     (84,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM'),
     (85,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT'),
     (86,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'SKIP_BUILD_PHASE'),
-    (87,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'SEND_HERO_TO_FIRST_ROOM');
+    (87,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'SEND_HERO_TO_FIRST_ROOM'),
+    (88,'Jeopardy'         ,'/resources/images/spells/spell_09.jpg','adventureAndConstructionPhase','EVERY_PLAYER_RESETS_THEIR_HAND');
 
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
     (31,     'Acacia,_Warrior_of_Light',             '/resources/images/heroes/Acacia,_Warrior_of_Light.jpg',           'CROSS', 6, false, 2),
