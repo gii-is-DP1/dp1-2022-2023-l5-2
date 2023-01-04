@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.player.Player;
+import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Controller;
@@ -85,5 +86,7 @@ public class GameController {
         result.addObject("game", gameService.findActiveGames());
         return result;
     }
+
+
 
 }

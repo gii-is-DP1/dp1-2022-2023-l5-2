@@ -128,7 +128,7 @@ INSERT INTO lobby_users(lobby_id,user_id) VALUES
     (2, 'frarosram'),
     (2, 'jessolort'),
     (2, 'eletomvel'),
-    (2, 'fralarmar'),
+    (2, 'tadcabgom'),
     -- Para comprobar el juego, unirse al lobby 3 como admin1 y "espectador"
     (3, 'eletomvel'),
     (3, 'admin1');
@@ -184,3 +184,8 @@ INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
     (3,TRUE, 'ignarrman', 'frarosram'),
     (4,TRUE, 'ignarrman', 'igngongon2'),
     (5,FALSE, 'user1', 'ignarrman');
+
+INSERT INTO chats(id) VALUES
+    (0);
+INSERT INTO messages(id,words,chat) VALUES
+    (0,'Esto es un mensaje de prueba en un chat de prueba que no pertenece a ningun juego',0);

@@ -16,8 +16,6 @@ public class GameService {
     PlayerService playerService;
     GameBuilder gameBuilder;
 
-    private static final Integer PLAYER_HAND_CARD_LIMIT = 5;
-
     @Autowired
     public GameService(GameRepository repo, PlayerService playerService, GameBuilder gameBuilder) {
         this.repo=repo;

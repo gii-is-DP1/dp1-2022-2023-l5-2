@@ -62,6 +62,8 @@ public class GameState extends BaseEntity {
     private static final Integer SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS = 3;
     private static final Integer SHOW_ROOMS_COOLDOWN_SECONDS = 3;
 
+    private static final Integer PLAYER_HAND_CARD_LIMIT = 5;
+
     ////////////////////////////   CHANGE STATE   ////////////////////////////
 
     private void updateChangeConditionClock(Integer seconds) {
@@ -114,13 +116,38 @@ public class GameState extends BaseEntity {
         return Integer.max(time,DEFAULT_WAITING_TIME);
     }
 
+    public void getFirstNonEliminatedPlayer() {
+        currentPlayer = -1;
+        Boolean detected = false;
+        while (!detected) {
+            currentPlayer ++;
+            if ((currentPlayer == game.getPlayers().size()) || !game.getPlayers().get(currentPlayer).isDead()) detected = true;
+        }
+    }
+
+    public void advanceCurrentPlayer() {
+        Boolean changed = false;
+        while (!changed) {
+            currentPlayer ++;
+            Boolean allPlayersTurnDone;
+            Boolean playerIsNotEliminated;
+            allPlayersTurnDone = (currentPlayer == game.getPlayers().size());
+
+            if (allPlayersTurnDone) playerIsNotEliminated = false;
+            else playerIsNotEliminated = !game.getPlayers().get(currentPlayer).isDead();
+
+            if (!playerIsNotEliminated && !allPlayersTurnDone) log.debug(String.format("Player %s skipped", game.getPlayers().get(currentPlayer).getUser().getNickname()));
+            if (allPlayersTurnDone || playerIsNotEliminated) changed = true;
+        }
+    }
+
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
 
     private void changePhase(GamePhase newPhase) {
         phase = newPhase;
         subPhase = GameSubPhase.ANNOUNCE_NEW_PHASE;
         updateChangeConditionClock(PHASE_COOLDOWN_SECONDS);
-        currentPlayer = 0;
+        getFirstNonEliminatedPlayer();
     }
 
     private void announcePlayerTurn() {
@@ -148,7 +175,7 @@ public class GameState extends BaseEntity {
                 break;
             }
             case PLACE_FIRST_ROOM: {
-                currentPlayer ++;
+                advanceCurrentPlayer();
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
                 else {
                     changePhase(GamePhase.START_ROUND);
@@ -174,7 +201,7 @@ public class GameState extends BaseEntity {
                 subPhase = GameSubPhase.GET_ROOM_CARD;
                 updateChangeConditionClock(SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS);
                 for (Player player: game.getPlayers()) {
-                    game.getNewRoomCard(player);
+                    if (player.getHand().size() < PLAYER_HAND_CARD_LIMIT && !player.isDead()) game.getNewRoomCard(player);
                 }
                 break;
             }
@@ -212,7 +239,7 @@ public class GameState extends BaseEntity {
                 break;
             }
             case USE_SPELLCARD: {
-                currentPlayer ++;
+                advanceCurrentPlayer();
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
                 else {
                     subPhase = GameSubPhase.REVEAL_NEW_ROOMS;
@@ -266,7 +293,7 @@ public class GameState extends BaseEntity {
                 break;
             }
             case USE_SPELLCARD: {
-                currentPlayer ++;
+                advanceCurrentPlayer();
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
                 else {
                     if (game.checkGameEnded()) changePhase(GamePhase.END_GAME);

@@ -57,7 +57,7 @@
     <a class="btn btn-title" href="${welcome}">Back</a>
 </div>
 <div class="float-right">
-    <a class="buttonChat" href="${welcome}">
+    <a class="buttonChat" href="/chat/0">
         <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
     </a> 
 </div>
