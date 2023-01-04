@@ -20,10 +20,8 @@ public class Achievement extends NamedEntity{
 
     private String image;
 
-    @NotEmpty
     private Integer threshold;
 
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     private Metric metric; 
 }
