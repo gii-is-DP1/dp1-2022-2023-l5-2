@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
+import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
@@ -39,6 +40,12 @@ public class DungeonTest {
         slots[3] = setUpFilledRoomSlot("1000", 0, RoomType.MONSTER, RoomPassiveTrigger.USE_SPELL_CARD, 4);
         slots[4] = setUpEmptyRoomSlot();
         dungeon.setRoomSlots(slots);
+        FinalBossCard boss = new FinalBossCard();
+        boss.setTreasure(TreasureType.BOOK);
+        dungeon.setBossCard(boss);
+        Player player = new Player();
+        player.setHealth(5);
+        dungeon.setPlayer(player);
     }
 
     DungeonRoomSlot setUpFilledRoomSlot(String treasure, Integer damage, RoomType type, RoomPassiveTrigger trigger, Integer id) {
@@ -71,7 +78,7 @@ public class DungeonTest {
 
     @Test
     public void shouldGetTreasureAmount() {
-        assertEquals(dungeon.getTreasureAmount(TreasureType.BOOK), 4);
+        assertEquals(dungeon.getTreasureAmount(TreasureType.BOOK), 5);
         assertEquals(dungeon.getTreasureAmount(TreasureType.SWORD), 1);
         assertEquals(dungeon.getTreasureAmount(TreasureType.CROSS), 2);
         assertEquals(dungeon.getTreasureAmount(TreasureType.BAG), 0);

@@ -143,7 +143,7 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
 
-    private void changePhase(GamePhase newPhase) {
+    public void changePhase(GamePhase newPhase) {
         phase = newPhase;
         subPhase = GameSubPhase.ANNOUNCE_NEW_PHASE;
         updateChangeConditionClock(PHASE_COOLDOWN_SECONDS);
