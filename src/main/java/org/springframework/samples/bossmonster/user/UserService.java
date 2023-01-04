@@ -21,6 +21,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.bossmonster.gameLobby.GameLobbyRepository;
 import org.springframework.samples.bossmonster.gameResult.GameResultRepository;
 import org.springframework.samples.bossmonster.social.FriendRequestRepository;
@@ -60,8 +62,12 @@ public class UserService {
         return findUser(username);
     }
 
-	public List<User> findAllUsers() {
-		return userRepository.findAll();
+	// public List<User> findAllUsers() {
+	// 	return userRepository.findAll();
+	// }
+
+	public Page<User> getPageUsers(Pageable pageable){
+		return userRepository.findAll(pageable);
 	}
 
 	public void deleteUser(String username){

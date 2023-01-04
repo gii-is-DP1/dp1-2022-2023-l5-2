@@ -2,15 +2,14 @@ package org.springframework.samples.bossmonster.user;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 
-public interface UserRepository extends CrudRepository<User, String>{
-    
-    Page<User> findAllPaged(Pageable pageable);
+public interface UserRepository extends  CrudRepository<User, String>{
 
-    List<User> findAll();
+    //List<User> findAll();
+    Page<User> findAll(Pageable pageable);
 
 }
