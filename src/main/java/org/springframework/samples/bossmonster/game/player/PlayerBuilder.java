@@ -61,6 +61,7 @@ public class PlayerBuilder {
         dungeon.setBossCard(boss);
         dungeon.setBossCardLeveledUp(false);
         dungeon.setPlayer(newPlayer);
+        dungeon.setJackpotStashEffectActivated(false);
         newPlayer.setDungeon(dungeon);
     }
 

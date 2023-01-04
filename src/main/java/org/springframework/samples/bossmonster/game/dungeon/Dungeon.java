@@ -46,6 +46,8 @@ public class Dungeon extends BaseEntity {
 
     private Boolean bossCardLeveledUp;
 
+    private Boolean jackpotStashEffectActivated;
+
     public Integer getTreasureAmount(TreasureType treasure) {
 
         Integer totalAmount = 0;
@@ -56,9 +58,9 @@ public class Dungeon extends BaseEntity {
         }
         if (bossCard.getTreasure() == treasure) totalAmount ++;
         if (player.isDead()) totalAmount = 0;
+        if (jackpotStashEffectActivated) totalAmount = totalAmount * 2;
         log.debug(String.format("[getTreasureAmount] Amount of %s for card: %s", treasure, totalAmount));
         return totalAmount;
-
     }
 
     public void addNewHeroToDungeon(HeroCard hero) {

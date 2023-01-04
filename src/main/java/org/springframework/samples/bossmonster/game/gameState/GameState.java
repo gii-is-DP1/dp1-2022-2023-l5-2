@@ -299,6 +299,7 @@ public class GameState extends BaseEntity {
                     if (game.checkGameEnded()) changePhase(GamePhase.END_GAME);
                     else {
                         currentRound ++;
+                        for (Player p: game.getPlayers()) p.getDungeon().setJackpotStashEffectActivated(false);
                         changePhase(GamePhase.START_ROUND);
                     }
                 }

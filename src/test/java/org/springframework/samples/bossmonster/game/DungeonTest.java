@@ -46,6 +46,7 @@ public class DungeonTest {
         Player player = new Player();
         player.setHealth(5);
         dungeon.setPlayer(player);
+        dungeon.setJackpotStashEffectActivated(false);
     }
 
     DungeonRoomSlot setUpFilledRoomSlot(String treasure, Integer damage, RoomType type, RoomPassiveTrigger trigger, Integer id) {
@@ -86,6 +87,11 @@ public class DungeonTest {
         assertNotEquals(dungeon.getTreasureAmount(TreasureType.SWORD), 0);
         assertNotEquals(dungeon.getTreasureAmount(TreasureType.CROSS), 4);
         assertNotEquals(dungeon.getTreasureAmount(TreasureType.BAG), 1);
+        dungeon.setJackpotStashEffectActivated(true);
+        assertEquals(dungeon.getTreasureAmount(TreasureType.BOOK), 10);
+        assertEquals(dungeon.getTreasureAmount(TreasureType.SWORD), 2);
+        assertEquals(dungeon.getTreasureAmount(TreasureType.CROSS), 4);
+        assertEquals(dungeon.getTreasureAmount(TreasureType.BAG), 0);
     }
 
     @Test

@@ -20,6 +20,7 @@ import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
+import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
@@ -149,7 +150,15 @@ public class GameCardEffectTest {
     @Test
     void shouldTriggerBoulderRampRoomCardEffect() {
         RoomCard boulderRamp = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM, EffectEnum.DEAL_5_DAMAGE_TO_A_HERO_IN_THIS_ROOM);
-        // TODO
+        HeroCardStateInDungeon dummyHero1 = setUpDummyHero(TreasureType.BAG, 10,true);
+        HeroCardStateInDungeon dummyHero2 = setUpDummyHero(TreasureType.SWORD, 10,true);
+        HeroCardStateInDungeon dummyHero3 = setUpDummyHero(TreasureType.CROSS, 10,true);
+        testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero1);
+        testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero2);
+        testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero3);
+        activateRoomCardEffect(boulderRamp);
+        assertThat("No hero should be killed", testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().size(), is(3));
+        assertThat("Incorrect amount of damage dealt", (int) testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().stream().filter(x -> x.getHealthInDungeon() == 5).count(), is(1));
     }
 
     @Test
@@ -186,8 +195,82 @@ public class GameCardEffectTest {
         // TODO
     }
 
+    @Test
     void shouldTriggerRecyclingCenterRoomCardEffect() {
         RoomCard recyclingCenter = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM, EffectEnum.DRAW_2_ROOM_CARDS);
+        Integer priorAmountOfRoomCards = (int) testPlayer.getHand().stream().filter(x -> x.getClass() == RoomCard.class).count();
+        activateRoomCardEffect(recyclingCenter);
+        Integer postAmountOfRoomCards = (int) testPlayer.getHand().stream().filter(x -> x.getClass() == RoomCard.class).count();
+        assertEquals(priorAmountOfRoomCards + 2, postAmountOfRoomCards);
+    }
+
+    @Test
+    void shouldTriggerLigersDenRoomCardEffect() {
+        RoomCard ligersDen = setUpDummyRoomCard(RoomPassiveTrigger.USE_SPELL_CARD, EffectEnum.DRAW_A_SPELL_CARD);
+        Integer priorAmountOfSpellCards = (int) testPlayer.getHand().stream().filter(x -> x.getClass() == SpellCard.class).count();
+        activateRoomCardEffect(ligersDen);
+        Integer postAmountOfRoomCards = (int) testPlayer.getHand().stream().filter(x -> x.getClass() == SpellCard.class).count();
+        assertEquals(priorAmountOfSpellCards + 1, postAmountOfRoomCards);
+    }
+
+    @Ignore
+    @Test
+    void shouldTriggerGoblinArmoryRoomCardEffect() {
+
+    }
+
+    @Ignore
+    @Test
+    void shouldTriggerGolemFactoryRoomCardEffect() {
+
+    }
+    
+    @Ignore
+    @Test
+    void shouldTriggerJackpotStashRoomCardEffect() {
+
+    }
+    
+    @Ignore
+    @Test
+    void shouldTriggerDarkLaboratoryRoomCardEffect() {
+
+    }
+    
+    @Ignore
+    @Test
+    void shouldTriggerMonstrousMonumentRoomCardEffect() {
+
+    }
+    
+    @Ignore
+    @Test
+    void shouldTriggerBeastMenagerieRoomCardEffect() {
+
+    }
+    
+    @Ignore
+    @Test
+    void shouldTriggerBrainsuckerHiveRoomCardEffect() {
+
+    }
+    
+    @Ignore
+    @Test
+    void shouldTriggerDizzygasHallwayRoomCardEffect() {
+
+    }
+    
+    @Ignore
+    @Test
+    void shouldTriggerMinotaursMazeRoomCardEffect() {
+
+    }
+    
+    @Ignore
+    @Test
+    void shouldTriggerGiantSizeSpellCardEffect() {
+
     }
 
 }
