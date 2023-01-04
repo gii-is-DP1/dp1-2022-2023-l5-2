@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -33,7 +33,6 @@ import org.springframework.test.web.servlet.MockMvc;
     excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
     excludeAutoConfiguration = SecurityConfiguration.class
     )
-@Disabled
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTests {
 
@@ -63,6 +62,7 @@ public class UserControllerTests {
 
     @WithMockUser(value = "spring")
     @Test
+    @DisplayName("Creation Form")
     public void testInitCreationForm() throws Exception {
         mockMvc.perform(get("/users/new"))
             .andExpect(status().isOk())
@@ -72,6 +72,7 @@ public class UserControllerTests {
 
     @WithMockUser(value = "spring")
 	@Test
+    @DisplayName("Process the Creation Form")
 	public void testProcessCreationFormSuccess() throws Exception {
         mockMvc.perform(post("/users/new").with(csrf())
             .param("username", "Adagumo")
@@ -84,6 +85,7 @@ public class UserControllerTests {
 
     @WithMockUser(value = "spring")
     @Test
+    @DisplayName("Error in creation Form")
     public void testProcessCreationFormHasErrors() throws Exception {
         mockMvc.perform(post("/users/new").with(csrf())
         .param("username", "Adagumo")
@@ -99,6 +101,7 @@ public class UserControllerTests {
 
     @WithMockUser(value = "spring")
     @Test
+    @DisplayName("Error in creation Form")
     public void testInitUpdateUserForm() throws Exception {
         mockMvc.perform(get("/users/edit"))
         .andExpect(status().isOk())
@@ -163,6 +166,7 @@ public class UserControllerTests {
         .andExpect(model().attribute("user", hasProperty("description", is("Is a bottle opener!"))))
         .andExpect(view().name("users/editUserAsAdmin"));
     }
+    
     @WithMockUser(value = "admin1")
     @Test
     public void shouldProcessEditUserAsAdmin() throws Exception{
@@ -175,6 +179,7 @@ public class UserControllerTests {
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/admin/users"));
     }
+
     @WithMockUser(value = "admin1")
     @Test
     public void shouldNotProcessEditUserAsAdmin() throws Exception{
@@ -189,9 +194,5 @@ public class UserControllerTests {
         .andExpect(model().attributeHasFieldErrors("user", "email"))
         .andExpect(model().attributeHasFieldErrors("user", "description"));
     }
-
-
-
-
 
 }
