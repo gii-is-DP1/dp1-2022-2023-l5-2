@@ -15,11 +15,17 @@
  */
 package org.springframework.samples.bossmonster.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -28,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -48,8 +55,8 @@ public class UserController {
 	private final UserService userService;
 
 	@Autowired
-	public UserController(UserService clinicService) {
-		this.userService = clinicService;
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 
 	@InitBinder
@@ -109,13 +116,21 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	@GetMapping("/admin/users")
-    public ModelAndView show(){
-        ModelAndView result= new ModelAndView(USER_LISTING_VIEW);
-        result.addObject("user", userService.findAllUsers());
-        return result;
-    }
+	public ModelAndView getAllUsers(
+		@RequestParam(defaultValue = "0") int page,
+		@RequestParam(defaultValue = "5") int size
+	){
+		List<User> users = new ArrayList<User>();
+		Pageable paging = PageRequest.of(page, size);
+		Page<User> pageUsers;
+		pageUsers = userService.getPageUsers(paging);
+		users = pageUsers.getContent();
+		ModelAndView result= new ModelAndView(USER_LISTING_VIEW);
+		result.addObject("user", users);
+		return result;
+	}
 
 	@Transactional
 	@GetMapping("admin/users/{username}/delete")
