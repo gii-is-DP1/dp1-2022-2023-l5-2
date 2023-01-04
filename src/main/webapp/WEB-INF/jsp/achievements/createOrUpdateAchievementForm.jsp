@@ -25,14 +25,6 @@
                 <bossmonster:inputField label="Image" name="image"/>
                 <bossmonster:inputField label="Threshold" name="threshold"/>
                 <bossmonster:selectField label="Metric"  name="metric" names="${metrics}" size="1"/>
-                <!-- Metrics:  We provide also  the solution with spring form:select and classical HTML selects     -->
-                <!-- form:select path="metric" items="${metrics}"/-->
-                <!-- select  name="metric"-->
-                    <!-- c:forEach items="${metrics}" var="metric"-->
-                        <!--option value="${metric}"><c:out value="${metric}"/></option>-->
-                    <!--/c:forEach-->
-                <!-- /select-->
-
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
