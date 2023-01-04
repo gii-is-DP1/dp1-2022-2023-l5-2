@@ -1,6 +1,9 @@
 package org.springframework.samples.bossmonster.game.card;
 
+import java.util.Iterator;
+
 import org.springframework.samples.bossmonster.game.Game;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
@@ -110,7 +113,12 @@ public enum EffectEnum implements EffectInterface {
     ADD_1_DAMAGE_TO_ADYACENT_MONSTER_ROOMS {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            for(int i = dungeonPosition - 1; i <= dungeonPosition + 1; i += 2) {
+                if (i >= 0 && i <= 4) {
+                    DungeonRoomSlot slot = player.getDungeon().getRoomSlots()[i];
+                    if (slot.getRoom() != null && slot.getRoom().isMonsterType()) slot.setRoomTrueDamage(slot.getRoomTrueDamage() + 1);
+                }
+            }
         }
     },
 
@@ -127,7 +135,7 @@ public enum EffectEnum implements EffectInterface {
     DOUBLE_DUNGEON_TREASURE_VALUE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            player.getDungeon().setJackpotStashEffectActivated(true);
         }
     },
 
@@ -163,7 +171,19 @@ public enum EffectEnum implements EffectInterface {
     PUSH_HERO_TO_PREVIOUS_ROOM_ONCE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            if (player.getDungeon().getFirstRoomSlot() > dungeonPosition) {
+                DungeonRoomSlot currentSlot = player.getDungeon().getRoomSlots()[dungeonPosition];
+                DungeonRoomSlot previousSlot = player.getDungeon().getRoomSlots()[dungeonPosition + 1];
+                Iterator<HeroCardStateInDungeon> iterator = currentSlot.getHeroesInRoom().iterator();
+                while (iterator.hasNext()) {
+                    HeroCardStateInDungeon hero = iterator.next();
+                    if (!hero.getMinotaursMazeEffectTriggered()) {
+                        hero.setMinotaursMazeEffectTriggered(true);
+                        iterator.remove();
+                        previousSlot.addHero(hero);
+                    }
+                }
+            }
         }
     },
 
@@ -220,7 +240,9 @@ public enum EffectEnum implements EffectInterface {
     ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            for (DungeonRoomSlot drs: player.getDungeon().getRoomSlots()) {
+                if (drs.getRoom().isMonsterType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 3);
+            }
         }
     },
 
@@ -247,7 +269,8 @@ public enum EffectEnum implements EffectInterface {
     BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            
+            Integer playersWithMoreRooms = (int) game.getPlayers().stream().filter(x -> x.getDungeon().getFirstRoomSlot() > player.getDungeon().getFirstRoomSlot()).count();
+            if (playersWithMoreRooms > 0) game.getState().setActionLimit(game.getState().getActionLimit() + 2);
         }
     },
 
@@ -263,7 +286,9 @@ public enum EffectEnum implements EffectInterface {
     ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            for (DungeonRoomSlot drs: player.getDungeon().getRoomSlots()) {
+                if (drs.getRoom().isTrapType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 3);
+            }
         }
     },
 
@@ -271,7 +296,15 @@ public enum EffectEnum implements EffectInterface {
     DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            Integer firstRoom = player.getDungeon().getFirstRoomSlot();
+            if (firstRoom != 0) {
+                while(player.getDungeon().getRoomSlots()[firstRoom].getHeroesInRoom().size() != 0) {
+                    player.getDungeon().damageRandomHeroInDungeonPosition(firstRoom, 99);
+                }
+                RoomCard room = player.getDungeon().getRoomSlots()[firstRoom].getRoom();
+                player.getDungeon().getRoomSlots()[firstRoom].setRoom(null);
+                game.getDiscardPile().add(room);
+            }
         } 
     },
 
