@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -50,6 +51,7 @@ public class StatisticsControllerTests {
 
     @Test
     @WithMockUser(username = "ignarrman")
+    @DisplayName("Show Statistics of User")
     void testShowStatisticsUser() throws Exception{
         
         User user= new User();
@@ -73,6 +75,7 @@ public class StatisticsControllerTests {
     
     @Test
     @WithMockUser(username = "admin1")
+    @DisplayName("Show Global Statistics")
     void testShowGlobalStatistics() throws Exception{
 
         when(service1.numPartidasGlobal()).thenReturn(10);
@@ -92,6 +95,7 @@ public class StatisticsControllerTests {
 
     @Test
     @WithMockUser(username = "jessolort")
+    @DisplayName("Show the WinRate ranking")
     void testRankingWinrate() throws Exception {
         
         Map<String, Double> map = new HashMap<>();
@@ -110,6 +114,7 @@ public class StatisticsControllerTests {
 
     @Test
     @WithMockUser(username = "jessolort")
+    @DisplayName("Show the number of wins ranking")
     void testRankingWins() throws Exception {
         
         Map<String, Integer> map = new HashMap<>();
@@ -128,6 +133,7 @@ public class StatisticsControllerTests {
 
     @Test
     @WithMockUser(username = "admin1")
+    @DisplayName("Show all the games played (GameResult)")
     void testShowPlayedGames() throws Exception {
         
         GameResult game1=new GameResult();
@@ -144,6 +150,7 @@ public class StatisticsControllerTests {
 
     @Test
     @WithMockUser(username = "admin1")
+    @DisplayName("Show the result by id")
     void testShowResults() throws Exception {
         
         Integer resultId = 1;
