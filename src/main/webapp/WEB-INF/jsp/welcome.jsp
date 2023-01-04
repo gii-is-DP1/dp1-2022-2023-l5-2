@@ -84,12 +84,6 @@
             margin: 25px;
             border-radius: 30px;
         }
-<<<<<<< HEAD
-        body{
-            background-image: url("/resources/images/background.png");
-            background-size: cover;
-            background-position: center;
-=======
         .buttonview{
             float: right;
         }
@@ -107,7 +101,11 @@
         }
         .text1{
             font-size: medium;
->>>>>>> abd7c7536d5876e8c7e8f41806388122b21e2b19
+        }
+        body{
+            background-image: url("/resources/images/background.png");
+            background-size: cover;
+            background-position: center;
         }
     </style>
             
