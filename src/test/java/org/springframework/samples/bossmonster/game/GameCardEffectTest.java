@@ -6,6 +6,7 @@ import java.util.List;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,10 @@ import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.EffectEnum;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
@@ -88,31 +91,40 @@ public class GameCardEffectTest {
         return room;
     }
 
-    HeroCard setUpDummyHero(TreasureType treasureType, Integer health, Boolean isEpic) {
+    HeroCardStateInDungeon setUpDummyHero(TreasureType treasureType, Integer health, Boolean isEpic) {
         HeroCard hero = new HeroCard();
         hero.setTreasure(treasureType);
         hero.setHealth(health);
         hero.setIsEpic(isEpic);
-        return hero;
+        HeroCardStateInDungeon heroInDungeon = new HeroCardStateInDungeon(hero);
+        return heroInDungeon;
     }
 
     private void activateRoomCardEffect(RoomCard room) {
         Player testPlayer = game.getPlayers().get(0);
         testPlayer.getDungeon().getRoomSlots()[0].setRoom(room);
-        //game.triggerRoomCardEffect(testPlayer, 0);
+        game.triggerRoomCardEffect(testPlayer, 0);
     }
 
+    @Test
     void shouldTriggerBottomlessPitRoomCardEffect() {
         RoomCard botommlessPit = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.KILL_ONE_HERO_IN_THIS_ROOM);
-        game.getPlayers().get(0).getDungeon().getRoomSlots()[0].setRoom(botommlessPit);
-        HeroCard dummyHero1 = setUpDummyHero(TreasureType.BAG, 10,true);
-        HeroCard dummyHero2 = setUpDummyHero(TreasureType.SWORD, 10,true);
-        // TODO
+        HeroCardStateInDungeon dummyHero1 = setUpDummyHero(TreasureType.BAG, 10,true);
+        HeroCardStateInDungeon dummyHero2 = setUpDummyHero(TreasureType.SWORD, 10,true);
+        HeroCardStateInDungeon dummyHero3 = setUpDummyHero(TreasureType.CROSS, 10,true);
+        testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero1);
+        testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero2);
+        testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero3);
+        activateRoomCardEffect(botommlessPit);
+        assertThat("Incorrect amount of heroes killed", testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().size(), is(2));
+        assertThat("The soul of the defeated hero was not given to the player", testPlayer.getSouls(), is(2));
     }
 
+    @Ignore
+    @Test
     void shouldTriggerTheCrushinatorRoomCardEffect() {
         RoomCard theCrushinator = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM, EffectEnum.ADD_2_DAMAGE_TO_EVERY_ROOM);
-        // TODO
+        activateRoomCardEffect(theCrushinator);
     }
 
     @Test
@@ -123,7 +135,7 @@ public class GameCardEffectTest {
         assertThat("Player healed unexisting wound", testPlayer.getHealth(), is(5));
         testPlayer.setHealth(2);
         testPlayer.setSouls(2);
-        //game.triggerRoomCardEffect(testPlayer, 0);
+        game.triggerRoomCardEffect(testPlayer, 0);
         assertThat("Player didn't get a soul", testPlayer.getSouls(), is(3));
         assertThat("Player didn't heal a wound", testPlayer.getHealth(), is(3));
     }
@@ -133,6 +145,8 @@ public class GameCardEffectTest {
         // This one was tested in shouldSetInitialRoomCardDamage() in DungeonTest
     }
 
+    @Ignore
+    @Test
     void shouldTriggerBoulderRampRoomCardEffect() {
         RoomCard boulderRamp = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM, EffectEnum.DEAL_5_DAMAGE_TO_A_HERO_IN_THIS_ROOM);
         // TODO
@@ -143,11 +157,15 @@ public class GameCardEffectTest {
         RoomCard constructionZone = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_THIS_ROOM, EffectEnum.BUILD_ANOTHER_ROOM);
         Player testPlayer = game.getPlayers().get(0);
         testPlayer.getDungeon().getRoomSlots()[0].setRoom(constructionZone);
-        //game.triggerRoomCardEffect(testPlayer, 0);
-        Integer expectedLimit = game.getState().getActionLimit() + 2;
-        assertEquals(expectedLimit, game.getState().getActionLimit());
+        game.triggerRoomCardEffect(testPlayer, 0);
+        assertThat("The effect of this card shouldn't trigger when building the first room", game.getState().getActionLimit(), is(0));
+        game.getState().changePhase(GamePhase.BUILD);
+        game.triggerRoomCardEffect(testPlayer, 0);
+        assertThat("The card effect didn't trigger", game.getState().getActionLimit(), is(2));
     }
 
+    @Ignore
+    @Test
     void shouldTriggerDarkAltarRoomCardEffect() {
         RoomCard darkAltar = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.CHOOSE_CARD_FROM_DISCARD_PILE);
         // TODO
@@ -158,8 +176,9 @@ public class GameCardEffectTest {
         // This card doesn't have any effect
     }
 
+    @Test
     void shouldTriggerNeandertalCaveRoomCardEffect() {
-        // This one was tested in 
+        // This one was tested in shouldCheckPlaceableRoomInDungeonPosition()
     }
 
     void shouldTriggerOpenGraveRoomCardEffect() {

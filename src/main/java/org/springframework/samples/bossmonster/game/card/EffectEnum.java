@@ -1,6 +1,7 @@
 package org.springframework.samples.bossmonster.game.card;
 
 import org.springframework.samples.bossmonster.game.Game;
+import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
@@ -31,7 +32,7 @@ public enum EffectEnum implements EffectInterface {
         public void apply(Player player, Integer dungeonPosition, Game game) {
             Dungeon dungeon = player.getDungeon();
             for (DungeonRoomSlot drs: dungeon.getRoomSlots()) {
-                drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 2);
+                if (drs.getRoom() != null) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 2);
             }
         }
     },
@@ -278,7 +279,15 @@ public enum EffectEnum implements EffectInterface {
     SKIP_BUILD_PHASE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            for (Player p: game.getPlayers()) {
+                DungeonRoomSlot lastSlot = p.getDungeon().getRoomSlots()[p.getDungeon().getFirstRoomSlot()];
+                if (!lastSlot.getIsVisible()) {
+                    RoomCard room = lastSlot.getRoom();
+                    lastSlot.setRoom(null);
+                    player.getHand().add(room);
+                }
+            }
+            game.skipBuildPhase();
         } 
     },
 
@@ -290,10 +299,15 @@ public enum EffectEnum implements EffectInterface {
         } 
     },
 
+    // Jeopardy (Spell)
     EVERY_PLAYER_RESETS_THEIR_HAND {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            for (Player p: game.getPlayers()) {
+                game.discardAllCards(p);
+                for (int i = 0; i < 2; i ++) game.getNewRoomCard(p);
+                game.getNewSpellCard(p);
+            }
         }
     }
 
