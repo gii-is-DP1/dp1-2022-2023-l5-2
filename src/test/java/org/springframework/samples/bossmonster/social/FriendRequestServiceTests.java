@@ -2,14 +2,10 @@ package org.springframework.samples.bossmonster.social;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.bossmonster.game.GameService;
-import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
@@ -17,7 +13,6 @@ import org.springframework.context.annotation.FilterType;
 
 import java.util.*;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class),
@@ -62,10 +57,24 @@ import static org.junit.jupiter.api.Assertions.*;
         assertEquals(noHasRequested, new ArrayList<FriendRequest>());
     }
 
-    @Test //No se si está completo
+    @Test
     void shouldCalculateFriends(){
-        var a = friendRequestService.calculateFriends("admin1");
-        assertEquals(a, 0);
+        FriendRequest fr1 = new FriendRequest();
+        fr1.setReceiver(userService.findUser("user1").get());
+        fr1.setRequester(userService.findUser("igngongon2").get());
+        fr1.setAccepted(true);
+        FriendRequest fr2 = new FriendRequest();
+        fr2.setReceiver(userService.findUser("fralarmar").get());
+        fr2.setRequester(userService.findUser("user1").get());
+        fr2.setAccepted(true);
+        var first = friendRequestService.calculateFriends("user1").size();
+        assertEquals(first, 0);
+        friendRequestService.saveFriendRequest(fr1);
+        var second = friendRequestService.calculateFriends("user1").size();
+        assertEquals(second, 1);
+        friendRequestService.saveFriendRequest(fr2);
+        var third = friendRequestService.calculateFriends("user1").size();
+        assertEquals(third, 2);
     }
 
     @Test
@@ -78,7 +87,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
     @Test
     void shouldCheckAlreadySendOne(){
-        
+        var noSend = friendRequestService.checkAlreadySendOne("user1", "igngongon2");
+        assertEquals(noSend, false);
+        FriendRequest fr1 = new FriendRequest();
+        fr1.setReceiver(userService.findUser("igngongon2").get());
+        fr1.setRequester(userService.findUser("user1").get());
+        fr1.setAccepted(false);
+        friendRequestService.saveFriendRequest(fr1);
+        var sendNotAccepted = friendRequestService.checkAlreadySendOne("user1", "igngongon2");
+        assertEquals(sendNotAccepted, true);
     }
 
     @Test
@@ -106,16 +123,25 @@ import static org.junit.jupiter.api.Assertions.*;
     @Test
     void shouldSaveFriendRequest(){
         FriendRequest fr = new FriendRequest();
-        fr.setId(100);
         fr.setReceiver(userService.findUser("ignarrman").get());
         fr.setRequester(userService.findUser("igngongon2").get());
         fr.setAccepted(false);
         friendRequestService.saveFriendRequest(fr);
-        assertNotNull(friendRequestService.findFriendRequestById(100));
+        assertNotNull(friendRequestService.findFriendRequestById(6));
     }
 
+    @WithMockUser(value = "ignarrman")
     @Test
     void shouldUnFriendSomeone(){
-
+        FriendRequest fr = new FriendRequest();
+        fr.setReceiver(userService.findUser("ignarrman").get());
+        fr.setRequester(userService.findUser("igngongon2").get());
+        fr.setAccepted(true);
+        friendRequestService.saveFriendRequest(fr);
+        var friend = friendRequestService.checkAlreadyFriends("ignarrman", "igngongon2");
+        assertEquals(friend, true);
+        friendRequestService.unFriendSomeone("igngongon2");
+        var noFriend = friendRequestService.checkAlreadyFriends("ignarrman", "igngongon2");
+        assertEquals(noFriend, false);
     }
 }
