@@ -51,7 +51,7 @@ public class User{
     private String avatar;
 
     @NotEmpty
-    @Size(min = 6, max = 20)
+    @Size(min = 6, max = 120)
 	private String password;    
 
     private boolean enabled;

@@ -21,11 +21,11 @@
                         <c:out value="${gameLobby.game.id}"/>
                     </td>
                     <td>
-                        <c:out value="${gameLobby.leaderUser}"/>
+                        <c:out value="${gameLobby.leaderUser.username}"/>
                     </td>
                     <td>
                         <c:forEach items="${gameLobby.joinedUsers}" var="joinedUser">
-                            <c:out value="${joinedUser}"/>
+                            <c:out value="${joinedUser.username}"/>
                         </c:forEach>
                     </td>
                 </tr>

@@ -29,11 +29,12 @@
                         <c:out value="${gameResult.date}"/>
                     </td>
                     <td>
-                        <c:out value="${gameResult.winner}"/>
+                        <c:out value="${gameResult.winner.username}"/>
                     </td>
                     <td>
                         <c:forEach items="${gameResult.participants}" var="participant">
-                            <c:out value="${participant}"/>
+                            <c:out value="${participant.username}"/>
+                            <br>
                         </c:forEach>
                     </td>
                 </tr>
