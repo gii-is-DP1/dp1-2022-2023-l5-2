@@ -311,7 +311,7 @@ public class Game extends BaseEntity {
         result.setParticipants(getPlayers().stream().map(x -> x.getUser()).collect(Collectors.toList()));
         return result;
     }
-    
+
     ////////// MISC //////////
 
     public void sortPlayersByFinalBossEx() {
@@ -374,7 +374,8 @@ public class Game extends BaseEntity {
     public void makeChoice(Integer index) {
         if (index < 0) {
             log.info("Chose to pass");
-            if(!getIsChoiceOptional()) return;
+            if(!getState().getSubPhase().isOptional()) return;
+
             if (getState().getSubPhase() == GameSubPhase.BUILD_NEW_ROOM) {
                 if(getState().isBuildingRoom()) {
                     decrementCounter();
@@ -387,69 +388,10 @@ public class Game extends BaseEntity {
             } else incrementCounter();
             return;
         }
-        if(getUnplayableCards().contains(index)) return;
-        switch (getState().getSubPhase()) {
-            case USE_SPELLCARD:
-                triggerSpellCardEffect((SpellCard) getCurrentPlayerHand().get(index));
-                discardCard(getCurrentPlayer(),index);
-                return;
-            case DISCARD_2_STARTING_CARDS:
-                discardCard(getCurrentPlayer(), index);
-                break;
-            case PLACE_FIRST_ROOM:
-                log.debug("Placing first room...");
-                placeFirstRoom(getCurrentPlayer(), (RoomCard) getCurrentPlayerHand().get(index));
-                break;
-            case BUILD_NEW_ROOM:
-                if (!state.isBuildingRoom()) {
-                    setRoomToBuildFromHand(index);
-                } else {
-                    placeDungeonRoom(getCurrentPlayer(),
-                        index,
-                        (RoomCard) getCurrentPlayerHand().get(getRoomToBuildFromHand()));
-                    setRoomToBuildFromHand(null);
-                }
-                break;
-        }
-        incrementCounter();
-    }
-    public boolean getIsChoiceOptional() {
-        boolean result;
-        switch (getState().getSubPhase()) {
-            case USE_SPELLCARD:
-            case BUILD_NEW_ROOM:
-                result = true;
-                break;
-            default:
-                result = false;
-                break;
-        }
-        return result;
-    }
+        if(!getState().getSubPhase().isValidChoice(index,this)) return;
 
-    public List<Integer> getUnplayableCards() {
-        List<Integer> result;
-        List<Card> hand = getCurrentPlayerHand();
-        switch (getState().getSubPhase()) {
-            case USE_SPELLCARD:
-                result = IntStream.range(0, hand.size()).filter(i->!(hand.get(i) instanceof SpellCard)).boxed().collect(Collectors.toList());
-                break;
-            case PLACE_FIRST_ROOM:
-                result = IntStream.range(0, hand.size()).filter(i->!(hand.get(i) instanceof RoomCard)).boxed().collect(Collectors.toList());
-                break;
-            case BUILD_NEW_ROOM:
-                if(!state.isBuildingRoom()) {
-                    result = IntStream.range(0, hand.size()).filter(i->!(hand.get(i) instanceof RoomCard)).boxed().collect(Collectors.toList());
-                } else {
-                    Card selectedCard = hand.get(roomToBuildFromHand);
-                    result = IntStream.range(0, getCurrentPlayer().getDungeon().getRoomSlots().length).filter(i->selectedCard instanceof RoomCard &&!(checkPlaceableRoomInDungeonPosition(getCurrentPlayer(),i,(RoomCard) selectedCard))).boxed().collect(Collectors.toList());
-                }
-                break;
-            default:
-                result = List.of();
-                break;
-        }
-        return result;
+        getState().getSubPhase().makeChoice(this,index);
+        incrementCounter();
     }
 
     public Boolean getPlayerHasToChoose(Player player) {
