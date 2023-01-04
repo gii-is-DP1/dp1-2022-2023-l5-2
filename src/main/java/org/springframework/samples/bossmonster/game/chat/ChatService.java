@@ -8,21 +8,26 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ChatService {
-    
+    @Autowired
     private ChatRepository repo;
+    @Autowired
+    private MessageRepository repo2;
 
     @Autowired
     public ChatService(ChatRepository chatRepository){
         this.repo = chatRepository;
     }
-    Optional<Chat> findById(Integer id){
+    public Optional<Chat> findById(Integer id){
         return repo.findById(id);
     }
-    List<String> getMessages(Integer id){
-        return repo.getMessages(id);
+    public List<Message> getMessages(Integer id){
+        return repo2.getMessages(id);
     }
-    public void addMessage(Message message, Integer chatId){
-        repo.addMessage(message, chatId);
+    public Message findMessageById(Integer id){
+        return repo.findMessageId(id);
+    }
+    public void addMessage(Message message){
+        repo2.save(message);
     }
 }
 

@@ -78,6 +78,8 @@ public class StatisticsController {
         result.addObject("minDuracion", minDuracion);
         result.addObject("maxDuracion", maxDuracion);
         result.addObject("promedioJugadoresPartida", promedioJugadoresPartida);
+        
+        
 
         return result;
     }
