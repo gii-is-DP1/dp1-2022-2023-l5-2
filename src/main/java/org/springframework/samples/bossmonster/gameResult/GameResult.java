@@ -4,12 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,10 +31,10 @@ public class GameResult extends BaseEntity{
      private String souls;
      private String healths;
 
-   @ManyToOne( optional = true)
+   @OneToOne( optional = true)
    @JoinColumn(name = "winner", referencedColumnName = "username")
    private User winner;
-      
+
    @ManyToMany
    @JoinTable(
       name = "results_users",

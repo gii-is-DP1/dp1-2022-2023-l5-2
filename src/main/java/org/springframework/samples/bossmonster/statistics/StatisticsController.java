@@ -9,13 +9,14 @@ import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/")
 public class StatisticsController {
-    
+
     StatisticsService service;
     UserService service2;
 
@@ -24,13 +25,14 @@ public class StatisticsController {
     private static final String RANKING_WINRATE_VIEW="/statistics/rankingWinRate";
     private static final String RANKING_WINS_VIEW="/statistics/rankingWins";
     private static final String PLAYED_GAMES="/statistics/playedGames";
+    public static final String GAME_RESULTS_SCREEN = "statistics/resultsScreen";
 
     @Autowired
     public StatisticsController(StatisticsService s, UserService s2){
         this.service=s;
         this.service2=s2;
     }
-    
+
     @GetMapping("/users/statistics")
     public ModelAndView showUserStatistics(){
         ModelAndView result= new ModelAndView(STATISTICS_VIEW);
@@ -51,7 +53,7 @@ public class StatisticsController {
         result.addObject("averageDuration", averageDuration);
         result.addObject("winStreak", winStreak);
         result.addObject("gamesResult", games);
-        
+
         return result;
 
     }
@@ -103,4 +105,13 @@ public class StatisticsController {
         return result;
     }
 
+    @GetMapping("/statistics/results/{resultId}")
+    public ModelAndView showResults(@PathVariable Integer resultId) {
+        ModelAndView result = new ModelAndView(GAME_RESULTS_SCREEN);
+        GameResult gameResult = service.findById(resultId).get();
+
+        result.addObject("result",gameResult);
+
+        return result;
+    }
 }
