@@ -10,7 +10,7 @@
 
 <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
     <div class="form-group has-feedback">
-        <form:hidden path = "username" value = "${user.username}" />
+        <form:hidden path = "username" value = "${user.username}"/>
         <bossmonster:inputField label="Password" name="password"/>
         <bossmonster:inputField label="Nickname" name="nickname"/>
         <bossmonster:inputField label="Email" name="email"/>

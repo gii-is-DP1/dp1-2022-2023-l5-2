@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends  CrudRepository<User, String>{
 
-    //List<User> findAll();
+    List<User> findAll();
     Page<User> findAll(Pageable pageable);
 
 }
