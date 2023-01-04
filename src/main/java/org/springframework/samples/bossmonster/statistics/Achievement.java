@@ -16,16 +16,12 @@ import lombok.Setter;
 @Entity
 public class Achievement extends NamedEntity{
 
-    @NotEmpty
     private String description;
 
-    @NotEmpty
     private String image;
 
-    @NotNull
     private Integer threshold;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Metric metric; 
 }

@@ -2,9 +2,6 @@ package org.springframework.samples.bossmonster.statistics;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +11,8 @@ import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.FilterType;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,19 +33,15 @@ public class AchievementServiceTests {
 
     @Test
     void shouldGetAchievements(){
-        var a = achievementService.getAchievements();
-        assertNotNull(a);
+        var achievement = achievementService.getAchievements();
+        assertNotNull(achievement);
     }
-
-    /*
 
     @Test
     void shouldGetAchievementById(){
         var achievement = achievementService.getById(1);
-        assertTrue(achievement.isPresent());
+        assertNotNull(achievement);
     }
-
-    */
 
     @Test
     void shouldDeleteAchievementById(){
@@ -71,21 +65,24 @@ public class AchievementServiceTests {
         assertEquals(previousAchievements + 1, newAchievements);
     }
 
-/*
-
     @Test
     void shouldGetAchievementByUser(){
         Achievement achievement = new Achievement();
         User testUser = userService.findAllUsers().get(0);
+        String nameUser = testUser.getUsername();
         achievement.setName("Heroe");
         achievement.setDescription("Win five games");
         achievement.setImage("image.png");
         achievement.setMetric(Metric.VICTORIES);
         achievement.setThreshold(5);
-        achievement
+        achievementService.save(achievement);
+        var first = achievementService.getAchievementsByUser(nameUser).size();
+        Set<Achievement> setAchievements = new HashSet<>();
+        setAchievements.add(achievement);
+        testUser.setAchievements(setAchievements);
+        var second = achievementService.getAchievementsByUser(nameUser).size();
+        assertEquals(first + 1, second);
     }
-
-*/
 
     @Test
     void shouldGetAchievementByName(){
@@ -95,7 +92,8 @@ public class AchievementServiceTests {
         achievement.setImage("image.png");
         achievement.setMetric(Metric.VICTORIES);
         achievement.setThreshold(5);
+        assertEquals(achievementService.getAchievementByName("Heroe"), null);
         achievementService.save(achievement);
-        achievementService.getAchievementByName("Heroe");
+        assertEquals(achievementService.getAchievementByName("Heroe"), achievement);
     }
 }
