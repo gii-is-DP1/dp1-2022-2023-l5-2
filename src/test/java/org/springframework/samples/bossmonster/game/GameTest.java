@@ -262,6 +262,25 @@ public class GameTest {
     }
 
     @Test
+    void shouldDiscardAllCards() {
+        for (Player p: game.getPlayers()) {
+            List<Card> expectedHand = new ArrayList<>(p.getHand());
+            List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
+            game.discardAllCards(p);
+            Iterator<Card> iterator = expectedHand.iterator();
+            while (iterator.hasNext()) {
+                Card c = iterator.next();
+                iterator.remove();
+                expectedDiscardPile.add(c);
+            }
+            List<Card> trueHand = p.getHand();
+            List<Card> trueDiscardPile = game.getDiscardPile();
+            assertEquals(expectedHand, trueHand);
+            assertEquals(expectedDiscardPile, trueDiscardPile);
+        }
+    }
+
+    @Test
     void shouldRefillRoomPile() {
         for(Player p: game.getPlayers()) for(int i = 4; i >= 0; i --) game.discardCard(p, i);
         List<RoomCard> expectedRoomPile = new ArrayList<>(game.getRoomPile());

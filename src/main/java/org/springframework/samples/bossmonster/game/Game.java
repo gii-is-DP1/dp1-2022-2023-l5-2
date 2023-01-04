@@ -116,6 +116,11 @@ public class Game extends BaseEntity {
         player.addHandCard(newCard);
     }
 
+    public void discardAllCards(Player player) {
+        Integer handSize = player.getHand().size();
+        for (int i = 0; i < handSize; i ++) discardCard(player, 0);
+    }
+
 
     ////////// REFILL PILE RELATED //////////
 
@@ -199,9 +204,7 @@ public class Game extends BaseEntity {
     public void placeFirstRoom(Player player, RoomCard room) {
         log.debug("Placing " + room.getName() + " in " + player.getUser().getNickname() + "'s Dungeon");
         player.getDungeon().replaceDungeonRoom(room, 0);
-
-        triggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,0);
-
+        tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,0);
         player.getHand().remove(room);
     }
 
@@ -233,15 +236,15 @@ public class Game extends BaseEntity {
     public Boolean placeDungeonRoom(Player player, Integer position, RoomCard room) {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
-            triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_THIS_ROOM,player,position);
+            tryTriggerRoomCardEffect(RoomPassiveTrigger.DESTROY_THIS_ROOM,player,position);
             if (player.getDungeon().getRoomSlots()[position].getRoom() != null) destroyDungeonRoom(player, position);
             player.getDungeon().replaceDungeonRoom(room, position);
             player.getHand().remove(room);
 
-            triggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
+            tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
             for(int pos = 0; pos < player.getDungeon().getBuiltRooms(); pos++) {
-                if (pos != position) triggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
-                if (room.isMonsterType()) triggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);
+                if (pos != position) tryTriggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
+                if (room.isMonsterType()) tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);
             }
             placed = true;
         }
@@ -264,20 +267,24 @@ public class Game extends BaseEntity {
         for (Player p: players) p.getDungeon().revealRooms();
     }
 
+    public void tryTriggerRoomCardEffect(RoomPassiveTrigger trigger, Player player,  Integer slot) {
+        if (checkPlayerRoomsEffectTrigger(player, trigger, slot)) triggerRoomCardEffect(player, slot);
+    }
+
     public Boolean checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger, Integer slot) {
         return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot);
     }
 
-    public void triggerRoomCardEffect(RoomPassiveTrigger trigger, Player player, Integer position) {
+    public void triggerRoomCardEffect(Player player, Integer position) {
         RoomCard room = player.getDungeon().getRoomSlots()[position].getRoom();
-        if(room != null && room.getEffect() != null && room.getPassiveTrigger() == trigger) room.getEffect().apply(player, position, this);
+        room.getEffect().apply(player, position, this);
     }
 
     public void triggerSpellCardEffect(SpellCard spell) {
         Dungeon currentPlayerDungeon = getCurrentPlayer().getDungeon();
         if(spell.getEffect() == null) return;
         for(int pos = 0; pos < currentPlayerDungeon.getBuiltRooms(); pos++) {
-            triggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
+            tryTriggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
         }
 
         spell.getEffect().apply(getCurrentPlayer(),null,this);
@@ -332,7 +339,7 @@ public class Game extends BaseEntity {
         state.checkStateStatus();
     }
 
-    public void forceStateForTesting(GamePhase phase, GameSubPhase subPhase, Integer currentPlayer, Integer counter, Integer actionLimit, Integer seconds, Boolean checkClock) {
+    public void forceState(GamePhase phase, GameSubPhase subPhase, Integer currentPlayer, Integer counter, Integer actionLimit, Integer seconds, Boolean checkClock) {
         getState().setPhase(phase);
         getState().setSubPhase(subPhase);
         getState().setCurrentPlayer(currentPlayer);
@@ -340,6 +347,10 @@ public class Game extends BaseEntity {
         getState().setActionLimit(actionLimit);
         getState().setClock(LocalDateTime.now().plusSeconds(seconds));
         getState().setCheckClock(checkClock);
+    }
+
+    public void skipBuildPhase() {
+        getState().changePhase(GamePhase.LURE);
     }
 
     ////////// PROCESS STATE //////////
