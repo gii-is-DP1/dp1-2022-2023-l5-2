@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.bossmonster.model.NamedEntity;
 
@@ -21,10 +22,10 @@ public class Achievement extends NamedEntity{
     @NotEmpty
     private String image;
 
-    @NotEmpty
+    @NotNull
     private Integer threshold;
 
-    @NotEmpty
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Metric metric; 
 }

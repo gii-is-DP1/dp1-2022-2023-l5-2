@@ -108,6 +108,5 @@
             background-position: center;
         }
     </style>
-            
 </bossmonster:layout>
 

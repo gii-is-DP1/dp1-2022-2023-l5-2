@@ -187,5 +187,8 @@ INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
 
 INSERT INTO chats(id) VALUES
     (0);
-INSERT INTO messages(id,words,chat) VALUES
-    (0,'Esto es un mensaje de prueba en un chat de prueba que no pertenece a ningun juego',0);
+INSERT INTO messages(id,words,chat,sender) VALUES
+    (0,'Esto es un mensaje de prueba en un chat de prueba que no pertenece a ningun juego',0,'jessolort'),
+    (1,'2',0,'ignarrman'),
+    (2,'3',0,'jessolort'),
+    (3,'4',0,'ignarrman');
