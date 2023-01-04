@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.gameLobby;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class GameLobbyController {
     public static final String CREATE_LOBBY_FORM = "gameLobbies/createGameLobbyForm";
     public static final String LOBBY_SCREEN = "gameLobbies/waitingLobby";
     public static final String CURRENT_GAMES = "games/currentGames";
-    
+
 
     @Autowired
     GameLobbyService lobbyService;
@@ -102,7 +103,7 @@ public class GameLobbyController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView joinLobby(@PathVariable Integer id) {
+    public ModelAndView joinLobby(@PathVariable Integer id, HttpServletResponse response) {
 
         GameLobby lobby = lobbyService.getLobbyById(id).get();
         User user = userService.getLoggedInUser().get();
@@ -114,6 +115,7 @@ public class GameLobbyController {
             result.setViewName(LOBBY_SCREEN);
             result.addObject("currentUser", user);
             result.addObject("lobby", lobby);
+            response.addHeader("Refresh","2");
         }
 
         return result;

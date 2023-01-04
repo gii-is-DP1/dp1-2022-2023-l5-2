@@ -23,34 +23,53 @@
 			<ul class="nav navbar-nav">
 
 				<bossmonster:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
+					title="Home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
 				</bossmonster:menuItem>
 
 				<bossmonster:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
-				</bossmonster:menuItem>
-
-				<bossmonster:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
-				</bossmonster:menuItem>
+					title="Games" dropdown="${true}">
+					<ul class="dropdown-menu">
+                        <li>
+                            <a href="<c:url value="/lobby/new" />">
+                                <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
+                                Create a game
+                            </a>
+                        </li>
+                        <li class="divider"/>
+                        <li>
+                            <a href="<c:url value="/lobby/" />">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                Join a game
+                            </a>
+                        </li>
+                        <li class="divider"/>
+                        <li>
+                            <a href="<c:url value="/lobby/listCurrentGames" />">
+                                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                View active games
+                            </a>
+                        </li>
+                    </ul>
+                </bossmonster:menuItem>
 
 				<bossmonster:menuItem active="${name eq 'achievements'}" url="/statistics/achievements/"
 					title="Achievements" dropdown="${true}">										
 						<ul class="dropdown-menu">
 							<li>
-								<a href="<c:url value="/statistics/achievements/" />">Achievements listing</a>		
+								<a href="<c:url value="/statistics/achievements/" />">
+                                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                    Achievements listing
+                                </a>
 							</li>
 							<li class="divider"></li>
-							<li>								
-								<a href="<c:url value="/statistics/achievements/" />">My Achievements <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>		
-
-							</li>
+							<li>
+                                <a href="<c:url value="/statistics/achievements/" />">
+                                    <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>
+                                    My Achievements
+                                </a>
+                            </li>
 						</ul>					
 				</bossmonster:menuItem>
 
@@ -85,28 +104,28 @@
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Logout</a>
+													class="btn btn-primary btn-block">Logout</a>
 											</p>
 										</div>
 									</div>
 								</div>
 							</li>
 							<li class="divider"></li>
-<!-- 							
-                            <li> 
+
+                            <li>
 								<div class="navbar-login navbar-login-session">
 									<div class="row">
 										<div class="col-lg-12">
 											<p>
-												<a href="#" class="btn btn-primary btn-block">My Profile</a>
-												<a href="#" class="btn btn-danger btn-block">Change
-													Password</a>
-											</p>
+												<a href="/users/edit" class="btn btn-primary btn-block">My Profile</a>
+												<a href="/users/friends" class="btn btn-success btn-block">My Friends</a>
+                                                <a href="/users/statistics" class="btn btn-danger btn-block">My Statistics</a>
+                                            </p>
 										</div>
 									</div>
 								</div>
 							</li>
--->
+
 						</ul></li>
 				</sec:authorize>
 			</ul>

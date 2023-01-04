@@ -10,7 +10,7 @@
         <thead>
             <tr>
                 <th>Game</th>
-                <th>Duration</th>
+                <th>Rounds</th>
                 <th>Date</th>
                 <th>Winner</th>
                 <th>Participants</th>
@@ -23,7 +23,7 @@
                         <c:out value="${gameResult.id}"/>
                     </td>
                     <td>
-                        <c:out value="${gameResult.duration}"/>
+                        <c:out value="${gameResult.rounds}"/>
                     </td>
                     <td>
                         <c:out value="${gameResult.date}"/>

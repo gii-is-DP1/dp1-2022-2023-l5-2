@@ -1,9 +1,6 @@
 package org.springframework.samples.bossmonster.statistics;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StatisticsService {
-    
+
     private GameResultRepository repo;
     private UserRepository repoU;
 
@@ -25,6 +22,7 @@ public class StatisticsService {
         this.repoU=repoU;
     }
 
+    Optional<GameResult> findById(Integer id) {return repo.findById(id);}
     List<GameResult> findAllGames(){
         return repo.findAll();
     }
@@ -63,9 +61,9 @@ public class StatisticsService {
                 }
             }else{
                 acumValue=0;
-            } 
+            }
         }
-        
+
         return winStreak;
     }
     Integer numPartidasGlobal(){
@@ -110,7 +108,7 @@ public class StatisticsService {
         }else{
             Double max=games.stream().mapToDouble(GameResult::getMinutes).max().getAsDouble();
             return Math.floor(max*100)/100;
-        } 
+        }
     }
     Double promedioJugadoresPartida(){
         //No tiene sentido comprobar el máximo o mínimo de jugadores por partida porque ya está definido(2-4)
@@ -142,6 +140,6 @@ public class StatisticsService {
         //Una vez que haya más de 10 usuarios se pone en el return result.sublist(0,11) para que solo salgan los 10 primeros
         return result;
     }
-    
+
 
 }
