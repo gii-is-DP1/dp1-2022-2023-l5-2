@@ -21,7 +21,7 @@
 
 
 
-    <body class="inicio" background="/resources/images/background6.png">
+    <body class="inicio">
 
             <!-- <img src="${homeScreen}"/> -->
 
@@ -102,7 +102,11 @@
         .text1{
             font-size: medium;
         }
+        body{
+            background-image: url("/resources/images/background.png");
+            background-size: cover;
+            background-position: center;
+        }
     </style>
-            
 </bossmonster:layout>
 

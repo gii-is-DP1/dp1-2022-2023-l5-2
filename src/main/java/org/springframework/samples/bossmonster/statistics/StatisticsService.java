@@ -1,12 +1,7 @@
 package org.springframework.samples.bossmonster.statistics;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
@@ -17,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StatisticsService {
-    
+
     private GameResultRepository repo;
     private UserRepository repoU;
 
@@ -27,6 +22,7 @@ public class StatisticsService {
         this.repoU=repoU;
     }
 
+    Optional<GameResult> findById(Integer id) {return repo.findById(id);}
     List<GameResult> findAllGames(){
         return repo.findAll();
     }
@@ -50,7 +46,7 @@ public class StatisticsService {
         if(games.size()==0){
             return 0.;
         }else{
-            Double duration= games.stream().mapToDouble(GameResult::getDuration).sum();
+            Double duration= games.stream().mapToDouble(GameResult::getMinutes).sum();
             return Math.floor((duration/games.size())*100)/100;
         }
     }
@@ -65,9 +61,9 @@ public class StatisticsService {
                 }
             }else{
                 acumValue=0;
-            } 
+            }
         }
-        
+
         return winStreak;
     }
     Integer numPartidasGlobal(){
@@ -97,28 +93,28 @@ public class StatisticsService {
     Double promedioNumPartidas(){
         List<GameResult> games= repo.findAll();
         List<User> users= repoU.findAll();
-        return games.size()*1.0/users.size()*1.0;
+        return Math.floor((games.size()*1.0/users.size()*1.0)*100)/100;
     }
     Double promedioDuracionGlobal(){
         List<GameResult> games= repo.findAll();
-        Double duracionTotal= games.stream().mapToDouble(GameResult::getDuration).sum();
-        return duracionTotal/games.size();
+        Double duracionTotal= games.stream().mapToDouble(GameResult::getMinutes).sum();
+        return Math.floor(duracionTotal/games.size()*100)/100;
     }
     Double maxMinDuracionGlobal(Boolean quieroElMaximo){
         List<GameResult> games= repo.findAll();
         if(quieroElMaximo==false){
-            Double min=games.stream().mapToDouble(GameResult::getDuration).min().getAsDouble();
-            return min;
+            Double min=games.stream().mapToDouble(GameResult::getMinutes).min().getAsDouble();
+            return Math.floor(min*100)/100;
         }else{
-            Double max=games.stream().mapToDouble(GameResult::getDuration).max().getAsDouble();
-            return max;
-        } 
+            Double max=games.stream().mapToDouble(GameResult::getMinutes).max().getAsDouble();
+            return Math.floor(max*100)/100;
+        }
     }
     Double promedioJugadoresPartida(){
         //No tiene sentido comprobar el máximo o mínimo de jugadores por partida porque ya está definido(2-4)
         //El total de jugadores por partida tampoco se calculará globalmente porque no tiene mucho sentido (Por partida si aparece)
         List<GameResult> games= repo.findAll();
-        Integer totalAcum= games.stream().map(GameResult::getParticipants).mapToInt(Set<User>::size).sum();
+        Integer totalAcum= games.stream().map(GameResult::getParticipants).mapToInt(List<User>::size).sum();
         Double result= (totalAcum/games.size())*1.0;
         return Math.floor(result);
     }
@@ -144,6 +140,6 @@ public class StatisticsService {
         //Una vez que haya más de 10 usuarios se pone en el return result.sublist(0,11) para que solo salgan los 10 primeros
         return result;
     }
-    
+
 
 }

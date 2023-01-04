@@ -46,6 +46,8 @@ public class Dungeon extends BaseEntity {
 
     private Boolean bossCardLeveledUp;
 
+    private Boolean jackpotStashEffectActivated;
+
     public Integer getTreasureAmount(TreasureType treasure) {
 
         Integer totalAmount = 0;
@@ -54,9 +56,11 @@ public class Dungeon extends BaseEntity {
             log.debug(String.format("%s in %s: %s, (%s)", treasure, getRoom(index).getName(),treasureInRoom,getRoom(index).getTreasure()));
             totalAmount += treasureInRoom;
         }
+        if (bossCard.getTreasure() == treasure) totalAmount ++;
+        if (player.isDead()) totalAmount = 0;
+        if (jackpotStashEffectActivated) totalAmount = totalAmount * 2;
         log.debug(String.format("[getTreasureAmount] Amount of %s for card: %s", treasure, totalAmount));
         return totalAmount;
-
     }
 
     public void addNewHeroToDungeon(HeroCard hero) {
@@ -77,7 +81,7 @@ public class Dungeon extends BaseEntity {
         for(DungeonRoomSlot slot: roomSlots) {
             RoomCard room = slot.getRoom();
             if (room != null) {
-                if (room.getId() != 4) slot.setRoomTrueDamage(room.getDamage());
+                if (!room.isMonsterBallroom()) slot.setRoomTrueDamage(room.getDamage());
                 else { // That one room card whose damage was the amount of monster rooms in the dungeon
                     long damage = Stream.of(roomSlots).filter(x -> x.getRoom() != null).filter(x -> x.getRoom().getRoomType() == RoomType.ADVANCED_MONSTER || x.getRoom().getRoomType() == RoomType.MONSTER).count();
                     slot.setRoomTrueDamage((int) damage);

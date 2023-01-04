@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
     excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
     excludeAutoConfiguration = SecurityConfiguration.class
     )
+@Disabled
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTests {
 

@@ -5,8 +5,10 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="achievements">
-    <h2>My Achievements</h2>
+    <spring:url value="/users/statistics" htmlEscape="true" var="global"/>
+    <spring:url value="/" htmlEscape="true" var="welcome"/>
 
+    <h2>My Achievements</h2>
     <ul>
         <c:forEach items="${achievements}" var="achievement">
             <li>               
@@ -56,5 +58,9 @@
             </tr>
         </c:forEach>
         </tbody>
-    </table>    
+    </table>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${global}">My Statistics</a>
+        <a class="btn btn-title" href="${welcome}">Back</a>
+    </div>
 </bossmonster:layout>

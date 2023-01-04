@@ -1,13 +1,24 @@
+/*      Usuario        //       Passwords
+        'admin1'                '4dm1nrr'
+        'user1',                '0wn3rrr'
+        'eletomvel'             'EleTomas2002'  
+        'tadcabgom'             'helloimapassword'
+        'igngongon2'            'userrr'      
+        'ignarrman'             'mydoggie'      
+        'jessolort'             'jessolort'      
+        'frarosram'             'contra5ena' 
+        'fralarmar'             'qwertyuiop'
+*/
 INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
-    ('admin1',     '4dm1nrr',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://localhost:8080/resources/images/avatars/avatar_00.png'),
-    ('user1',      '0wn3rrr',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://localhost:8080/resources/images/avatars/avatar_01.png'),
-    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://localhost:8080/resources/images/avatars/avatar_02.png'),
-    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://localhost:8080/resources/images/avatars/avatar_03.png'),
-    ('igngongon2', 'userrr',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://localhost:8080/resources/images/avatars/avatar_04.png'),
-    ('ignarrman',  'mydoggie',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://localhost:8080/resources/images/avatars/avatar_05.png'),
-    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://localhost:8080/resources/images/avatars/avatar_06.png'),
-    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://localhost:8080/resources/images/avatars/avatar_00.png'),
-    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://localhost:8080/resources/images/avatars/avatar_01.png');
+    ('admin1',     '$2a$10$13lTS09EGbjGdINpgAP5kOmzOgJROhL/NoQeFH7nrK0VnHCOoA.Jm',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://localhost:8080/resources/images/avatars/avatar_00.png'),
+    ('user1',      '$2a$10$9U8JtIwMD53xR7ehAYcx.OBKxmwJQXPVXEQYBNeK6YHaHtEpIMhPa',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://localhost:8080/resources/images/avatars/avatar_01.png'),
+    ('eletomvel',  '$2a$10$3Bpea0yG4CR/uA/NBTHFmeZ.92BiyVh7I9zNYXbo3wmwc8FNumj2e',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://localhost:8080/resources/images/avatars/avatar_02.png'),
+    ('tadcabgom',  '$2a$10$b2gaBr6egp2ohlrvzFXGsu73g/d8jZ03pg4qPVN2dAvQEUAj2ah1e', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://localhost:8080/resources/images/avatars/avatar_03.png'),
+    ('igngongon2', '$2a$10$wxicoASFzl0uWd/cVWlMi.rlL6CEQfVq4RaepISwUzG8Z5Y8dYZ0.',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://localhost:8080/resources/images/avatars/avatar_04.png'),
+    ('ignarrman',  '$2a$10$BNhD0LI5MUMV6tyae5cAKOShRT4EUD3qJzTrMjJ0F9RcuolpKTVAa',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://localhost:8080/resources/images/avatars/avatar_05.png'),
+    ('jessolort',  '$2a$10$2L.x15N9ZQRw2pckKJRcOOkYyEV9/pjwsLzCBo4oxnO21rvGGLITu',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://localhost:8080/resources/images/avatars/avatar_06.png'),
+    ('frarosram',  '$2a$10$juzQUREZaBuYU6Uqx/Zvievu4B29zbCwh82Eg06yzHefeW86t1UFy',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://localhost:8080/resources/images/avatars/avatar_00.png'),
+    ('fralarmar',  '$2a$10$jjemtc1bmCYD0XfAXzwUUufbeHzRRhfL0EDJgOjE5hjBwhqnw7Ux2',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://localhost:8080/resources/images/avatars/avatar_01.png');
 
 INSERT INTO authorities(id,username,authority) VALUES 
     (1,'admin1',     'admin'),
@@ -43,7 +54,12 @@ INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_tri
     (18, 'Beast Menagerie',    '/resources/images/rooms/room_17.jpg', 'ADVANCED_MONSTER', '0100', 4, 'BUILD_MONSTER_ROOM','DRAW_A_ROOM_CARD'),
     (19, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_SPELL_CARD'),
     (20, 'Dizzygas Hallway',   '/resources/images/rooms/room_19.png', 'TRAP', '0001', 1, 'NONE','ADD_2_DAMAGE_TO_NEXT_ROOM_IF_IT_IS_A_TRAP_ROOM'),
-    (21, 'Minotaurs Maze',     '/resources/images/rooms/room_20.png', 'MONSTER', '0100', 0, 'NONE','PUSH_HERO_TO_PREVIOUS_ROOM_ONCE');
+    (21, 'Minotaurs Maze',     '/resources/images/rooms/room_20.png', 'MONSTER', '0100', 0, 'NONE','PUSH_HERO_TO_PREVIOUS_ROOM_ONCE'),
+
+    (89, 'Dragon Hatchery',    '/resources/images/rooms/room_07.jpg', 'MONSTER', '1111', 0, 'NONE','NOTHING'),
+    (90, 'Golem Factory',      '/resources/images/rooms/room_13.jpg', 'MONSTER', '0100', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_ROOM_CARD'),
+    (91, 'Bottomless Pit',     '/resources/images/rooms/room_00.jpg', 'TRAP', '0001', 1, 'DESTROY_THIS_ROOM','KILL_ONE_HERO_IN_THIS_ROOM'),
+    (92, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_SPELL_CARD');
 
 INSERT INTO spell_card(id, name, card_image, phase,effect) VALUES
     (22,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM'),
@@ -63,7 +79,8 @@ INSERT INTO spell_card(id, name, card_image, phase,effect) VALUES
     (84,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM'),
     (85,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT'),
     (86,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'SKIP_BUILD_PHASE'),
-    (87,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'SEND_HERO_TO_FIRST_ROOM');
+    (87,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'SEND_HERO_TO_FIRST_ROOM'),
+    (88,'Jeopardy'         ,'/resources/images/spells/spell_09.jpg','adventureAndConstructionPhase','EVERY_PLAYER_RESETS_THEIR_HAND');
 
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 
     (31,     'Acacia,_Warrior_of_Light',             '/resources/images/heroes/Acacia,_Warrior_of_Light.jpg',           'CROSS', 6, false, 2),
@@ -128,18 +145,18 @@ INSERT INTO lobby_users(lobby_id,user_id) VALUES
     (2, 'frarosram'),
     (2, 'jessolort'),
     (2, 'eletomvel'),
-    (2, 'fralarmar'),
+    (2, 'tadcabgom'),
     -- Para comprobar el juego, unirse al lobby 3 como admin1 y "espectador"
     (3, 'eletomvel'),
     (3, 'admin1');
 
-INSERT INTO game_result(id,winner,duration,date) VALUES
-    (1,'ignarrman', 1.26, '2018-08-12'),
-    (2,'ignarrman', 3.40, '2018-08-14'),
-    (3,'jessolort', 0.45, '2018-08-15'),
-    (4,'tadcabgom', 2.11, '2018-08-15'),
-    (5,'user1',     1.01, '2018-08-16'),
-    (6,'fralarmar', 3.57, '2018-08-20');
+INSERT INTO game_result(id,winner,minutes,date,souls,healths,rounds) VALUES
+    (1,'ignarrman', 26, '2018-08-12','2/3/4/10','0/2/2/1',14),
+    (2,'ignarrman', 40, '2018-08-14','7/5/8','0/0/2',12),
+    (3,'jessolort', 45, '2018-08-15','3/9/10','0/1/2',12),
+    (4,'tadcabgom', 21, '2018-08-15','10/7','2/1',14),
+    (5,'user1',     101, '2018-08-16','2/3/4/10','0/3/1/2',17),
+    (6,'fralarmar', 57, '2018-08-20','7/10/5/8','0/2/2/1',18);
 
 INSERT INTO results_users(game_result_id,user_id) VALUES 
     (1,'tadcabgom'),
@@ -184,3 +201,11 @@ INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
     (3,TRUE, 'ignarrman', 'frarosram'),
     (4,TRUE, 'ignarrman', 'igngongon2'),
     (5,FALSE, 'user1', 'ignarrman');
+
+INSERT INTO chats(id) VALUES
+    (0);
+INSERT INTO messages(id,words,chat,sender) VALUES
+    (0,'Esto es un mensaje de prueba en un chat de prueba que no pertenece a ningun juego',0,'jessolort'),
+    (1,'2',0,'ignarrman'),
+    (2,'3',0,'jessolort'),
+    (3,'4',0,'ignarrman');

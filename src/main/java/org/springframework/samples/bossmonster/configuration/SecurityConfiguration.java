@@ -8,8 +8,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
 
 import javax.sql.DataSource;
 
@@ -22,6 +27,7 @@ import javax.sql.DataSource;
 /**
  * @author japarejo
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -44,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/games/**").authenticated()
 				.antMatchers("/users/statistics").authenticated()
 				.antMatchers("/users/friends/**").authenticated()
+				.antMatchers("/chat/**").authenticated()
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
@@ -58,10 +65,35 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // se sirve desde esta misma página.
                 http.csrf().ignoringAntMatchers("/h2-console/**");
                 http.headers().frameOptions().sameOrigin();
+
 	}
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		for (String pw : Arrays.asList(
+			"4dm1nrr",
+			"0wn3rrr",
+			"EleTomas2002",
+			"helloimapassword",
+			"userrr",
+			"mydoggie",
+			"jessolort",
+			"contra5ena",
+			"qwertyuiop"
+	/* 	'admin1'
+        'user1',                ''
+        'eletomvel'             ''  
+        'tadcabgom'             ''
+        'igngongon2'            ''      
+        'ignarrman'             ''      
+        'jessolort'             ''      
+        'frarosram'             '' 
+        'fralarmar'             '' */)) {
+			String encodedPassword = passwordEncoder().encode(pw);
+			log.debug("Encoded password: " + encodedPassword);
+			System.out.println("Encoded password: " + encodedPassword);
+		}
+
 		auth.jdbcAuthentication()
 	      .dataSource(dataSource)
 	      .usersByUsernameQuery(
@@ -73,14 +105,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        + "from authorities "
 	        + "where username = ?")
 	      .passwordEncoder(passwordEncoder());
+		  
+
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
 	    return encoder;
 	}
-
 }
 
 
