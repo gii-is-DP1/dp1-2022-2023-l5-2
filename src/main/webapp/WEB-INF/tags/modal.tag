@@ -12,7 +12,7 @@
     <div class="gameModal ${style}">
         <c:out value="${modalName}"/>
         <c:if test="${not unclosable eq 'true'}">
-            <a class="btn btn-default" data-dismiss="modal">x</a>
+            <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
         </c:if>
         <br/>
         <jsp:doBody/>

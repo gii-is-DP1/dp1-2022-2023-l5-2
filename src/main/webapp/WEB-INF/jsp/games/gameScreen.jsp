@@ -14,12 +14,12 @@
             <c:if test="${not empty game.choice}">
                 <div class="expandable">
                     <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
-                        <button class="invis" value="${index}" name="choice" ${game.unplayableCards.contains(index)?'disabled':''}>
-                        <bossmonster:card card="${game.choice[index]}" style="${game.unplayableCards.contains(index)?'disabled':''}"/>
+                        <button class="invis" value="${index}" name="choice" ${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}>
+                        <bossmonster:card card="${game.choice[index]}" style="${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}"/>
                         </button>
                     </c:forEach>
                 </div>
-                <c:if test="${game.isChoiceOptional}">
+                <c:if test="${game.state.subPhase.isOptional()}">
                     <button class="btn btn-default btn-lg" name="choice" value="-1">
                         <c:out value="${game.state.isBuildingRoom()?'Cancel':'Pass'}"/>
                     </button>
@@ -29,6 +29,13 @@
     </bossmonster:modal>
 
 <div class="gameContainer">
+    <spring:url value="/games/{gameId}/chat" var="chatUrl">
+        <spring:param name="gameId" value="${game.id}"/>
+    </spring:url>
+    <a href="${chatUrl}" class="buttonChat btn btn-primary">
+        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+    </a>
+
     <div class="row">
         <div class="col-md-2">
             <bossmonster:cardPile cards="${game.city}" pileId="cityPile" pileName="Heroes in City" />
@@ -61,13 +68,6 @@
         <div class="player-dungeon dungeon col-md-8">
             <bossmonster:dungeon player="${currentPlayer}"/>
         </div>
-    </div>
-    <div class="decks">
-        Decks
-        <br />
-        <bossmonster:cardPile cards="${game.roomPile}" type="room" facedown="true" pileId="roomDeck" pileName="Rooms Deck"/>
-        <bossmonster:cardPile cards="${game.spellPile}" type="spell" facedown="true" pileId="spellDeck" pileName="Spells Deck"/>
-        <bossmonster:cardPile cards="${game.heroPile}" type="hero" facedown="true" pileId="heroDeck" pileName="Hero Deck"/>
     </div>
 </div>
 <script type="text/javascript">

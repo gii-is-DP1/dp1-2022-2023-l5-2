@@ -4,11 +4,9 @@
 <%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ attribute name="cards" required="true" rtexprvalue="true" type="java.util.List"%>
-<%@ attribute name="type" required="false" rtexprvalue="true"%>
 <%@ attribute name="pileId" required="true" rtexprvalue="true"%>
 <%@ attribute name="pileName" required="true" rtexprvalue="true"%>
 <%@ attribute name="cardStyle" required="false" rtexprvalue="true"%>
-<%@ attribute name="facedown" required="false" rtexprvalue="true"%>
 
 <spring:url value="/resources/images/blank_card.png" var="blank"/>
 
@@ -18,7 +16,7 @@
         <c:set var="displayedCard" value="${cards[fn:length(cards)-1]}"/>
 
         <bossmonster:modalButton modalId="${pileId}" style="${facedown == true? 'disabled':''}">
-            <bossmonster:card card="${displayedCard}" style="clickable" facedown="${facedown == true}" type="${type}"/>
+            <bossmonster:card card="${displayedCard}" style="clickable" />
         </bossmonster:modalButton>
 
         <bossmonster:modal modalId="${pileId}" modalName="${pileName}">
