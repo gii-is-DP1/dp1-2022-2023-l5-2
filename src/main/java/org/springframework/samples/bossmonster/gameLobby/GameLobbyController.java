@@ -1,11 +1,5 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.GameService;
@@ -19,6 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/lobby")
@@ -57,48 +56,36 @@ public class GameLobbyController {
     @Transactional
     public ModelAndView processJoinLobby(Integer roomCode, boolean spectate ) {
 
-        ModelAndView result = new ModelAndView();
+        ModelAndView result = new ModelAndView(JOIN_LOBBY_FORM);
         User user = userService.getLoggedInUser().get();
 
         if(roomCode == null) {
-
-            result.setViewName(JOIN_LOBBY_FORM);
             result.addObject("message", "You must specify a game to join");
-
-        } else {
-
-            Optional<GameLobby> lobby = lobbyService.getLobbyById(roomCode);
-
-            if(lobby.isPresent()) {
-                GameLobby presentLobby = lobby.get();
-                String currentLobbyView = "redirect:/lobby/" + roomCode;
-                if (spectate) {
-                    result = new ModelAndView(currentLobbyView);
-                } else {
-                    if(lobbyService.userIsPlaying(user) && !lobby.get().getJoinedUsers().contains(user)) {
-                        result.setViewName(JOIN_LOBBY_FORM);
-                        result.addObject("message","You are already in a game!");
-                    } else if (!presentLobby.getJoinedUsers().contains(user)) {
-                        if(presentLobby.isAcceptingNewPlayers()) {
-                            presentLobby.addUser(user);
-                            lobbyService.saveLobby(presentLobby);
-                            result.setViewName(currentLobbyView);
-                        } else {
-                            result.setViewName(JOIN_LOBBY_FORM);
-                            result.addObject("message", "Game is full!");
-                        }
-                    } else {
-                        result.setViewName(currentLobbyView);
-                    }
-                }
-            } else {
-                result.setViewName(JOIN_LOBBY_FORM);
-                result.addObject("message", "No room exists with id " + roomCode);
-            }
-
+            return result;
+        }
+        Optional<GameLobby> lobby = lobbyService.getLobbyById(roomCode);
+        if (lobby.isEmpty()) {
+            result.addObject("message", "No room exists with id " + roomCode);
+            return result;
         }
 
-
+        GameLobby presentLobby = lobby.get();
+        String lobbyView = "redirect:/lobby/" + roomCode;
+        if(presentLobby.getJoinedUsers().contains(user) || spectate) {
+            result.setViewName(lobbyView);
+            return result;
+        }
+        if(lobbyService.userIsPlaying(user)) {
+            result.addObject("message","You are already in a game!");
+            return result;
+        }
+        if (!presentLobby.isAcceptingNewPlayers()) {
+            result.addObject("message", "Game is full!");
+            return result;
+        }
+        presentLobby.addUser(user);
+        lobbyService.saveLobby(presentLobby);
+        result.setViewName(lobbyView);
         return result;
     }
 
@@ -111,13 +98,13 @@ public class GameLobbyController {
 
         if(lobby.gameStarted()) {
             result.setViewName("redirect:/games/" + lobby.getGame().getId());
-        } else {
-            result.setViewName(LOBBY_SCREEN);
-            result.addObject("currentUser", user);
-            result.addObject("lobby", lobby);
-            response.addHeader("Refresh","2");
+            return result;
         }
 
+        result.setViewName(LOBBY_SCREEN);
+        result.addObject("currentUser", user);
+        result.addObject("lobby", lobby);
+        response.addHeader("Refresh","2");
         return result;
     }
 
@@ -160,16 +147,17 @@ public class GameLobbyController {
         if(lobbyService.userIsPlaying(user)) {
             result.setViewName(CREATE_LOBBY_FORM);
             result.addObject("message","You are already in a game!");
+            return result;
+        }
+
+        if(br.hasErrors()) {
+            result.setViewName(CREATE_LOBBY_FORM);
         } else {
-            if(br.hasErrors()) {
-                result.setViewName(CREATE_LOBBY_FORM);
-            } else {
-                lobby.setLeaderUser(user);
-                lobby.setJoinedUsers(new ArrayList<>());
-                lobby.addUser(user);
-                lobbyService.saveLobby(lobby);
-                result.setViewName("redirect:/lobby/"+lobby.getId());
-            }
+            lobby.setLeaderUser(user);
+            lobby.setJoinedUsers(new ArrayList<>());
+            lobby.addUser(user);
+            lobbyService.saveLobby(lobby);
+            result.setViewName("redirect:/lobby/"+lobby.getId());
         }
 
         return result;
