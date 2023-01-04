@@ -356,29 +356,11 @@ public class Game extends BaseEntity {
     ////////// PROCESS STATE //////////
 
     public List<Card> getChoice() {
-        List<Card> result;
-        boolean noCardsToChooseFailsafe = true;
-        switch (getState().getSubPhase()) {
-            case USE_SPELLCARD:
-            case DISCARD_2_STARTING_CARDS:
-                result = getCurrentPlayerHand();
-                break;
-            case PLACE_FIRST_ROOM:
-            case BUILD_NEW_ROOM:
-                if(!state.isBuildingRoom()) {
-                    result = getCurrentPlayerHand();
-                } else {
-                    result = Arrays.stream(getCurrentPlayer().getDungeon().getRoomSlots())
-                        .map(slot->slot.getRoom())
-                        .collect(Collectors.toList());
-                }
-                break;
-            default:
-                result = List.of();
-                noCardsToChooseFailsafe = false;
-                break;
-        }
-        if(result.isEmpty() && noCardsToChooseFailsafe) incrementCounter();
+        List<Card> result = getState().getSubPhase().getChoice(this);
+        if(result == null) return List.of();
+        Boolean validChoicesExist = IntStream.range(0, result.size())
+            .anyMatch(index->getState().getSubPhase().isValidChoice(index,this));
+        if(!validChoicesExist) incrementCounter();
         return result;
     }
 

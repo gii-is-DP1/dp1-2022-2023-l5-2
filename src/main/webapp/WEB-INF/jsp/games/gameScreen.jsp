@@ -14,12 +14,12 @@
             <c:if test="${not empty game.choice}">
                 <div class="expandable">
                     <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
-                        <button class="invis" value="${index}" name="choice" ${game.unplayableCards.contains(index)?'disabled':''}>
-                        <bossmonster:card card="${game.choice[index]}" style="${game.unplayableCards.contains(index)?'disabled':''}"/>
+                        <button class="invis" value="${index}" name="choice" ${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}>
+                        <bossmonster:card card="${game.choice[index]}" style="${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}"/>
                         </button>
                     </c:forEach>
                 </div>
-                <c:if test="${game.isChoiceOptional}">
+                <c:if test="${game.state.subPhase.isOptional()}">
                     <button class="btn btn-default btn-lg" name="choice" value="-1">
                         <c:out value="${game.state.isBuildingRoom()?'Cancel':'Pass'}"/>
                     </button>
