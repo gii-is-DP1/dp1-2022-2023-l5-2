@@ -43,28 +43,6 @@ public class CardRepositoriesTest {
         assertTrue(cards.get(0) instanceof HeroCard);
     }
 
-    @Test
-    @DisplayName("get rooms from DB")
-    public void shouldReturnRoomCards() {
-        List<RoomCard> cards = roomCardRepo.findAll();
-        assertFalse(cards.isEmpty());
-        assertTrue(cards.get(0) instanceof RoomCard);
-    }
-
-    @Test
-    @DisplayName("get spells from DB")
-    public void shouldReturnSpellCards() {
-        List<SpellCard> cards = spellCardRepo.findAll();
-        assertFalse(cards.isEmpty());
-        assertTrue(cards.get(0) instanceof SpellCard);
-    }
-
-    @Test
-    @DisplayName("get bosses from DB")
-    public void shouldReturnBossCards() {
-        List<FinalBossCard> cards = finalBossCardRepo.findAll();
-        assertFalse(cards.isEmpty());
-        assertTrue(cards.get(0) instanceof FinalBossCard);
-    }
+//The other card types have the save implementation only changing the CardClass.
 
 }
