@@ -581,6 +581,39 @@ public class GameTest {
         assertEquals(expectedCounter, trueCounter);
     }
 
+    static Stream<Arguments> shouldGetChoices() {
+        return Stream.of(
+          Arguments.of()
+        );
+    }
+
+    @Test
+    void shouldPreventSoftlock() {
+        game.getState().setCheckClock(false);
+        game.getState().setSubPhase(GameSubPhase.PLACE_FIRST_ROOM);
+        game.getState().setActionLimit(1);
+        Player oldPlayer = game.getCurrentPlayer();
+        oldPlayer.setHand(List.of(new SpellCard()));
+        List<Card> cards = game.getChoice();
+        assertThat("Choice should not be empty",cards,not(empty()));
+        System.out.println(game.getState().getSubPhase());
+        assertNotEquals(GameSubPhase.PLACE_FIRST_ROOM,game.getState().getSubPhase());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "ANNOUNCE_NEW_PLAYER,false,Should not have to choose when announcing",
+        "PLACE_FIRST_ROOM,true,Should have to choose a room to build",
+
+    })
+    void shouldCheckPlayerHasToChoose(GameSubPhase subPhase, Boolean expected, String reason) {
+        game.getState().setSubPhase(subPhase);
+        Player currentPlayer = game.getCurrentPlayer();
+        Boolean hasToChoose = game.getPlayerHasToChoose(currentPlayer);
+        System.out.println(game.getState().getSubPhase().getChoice(game));
+        assertThat(reason,hasToChoose,is(expected));
+    }
+
     static Stream<Arguments> shouldMakeChoice() {
         RoomCard someRoom = new RoomCard();
         someRoom.setName("Some Room");

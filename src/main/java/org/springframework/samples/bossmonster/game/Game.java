@@ -81,8 +81,6 @@ public class Game extends BaseEntity {
     }
 
     public Player getCurrentPlayer() {
-        log.debug("Players in game: " + getPlayers());
-        log.debug("Fetching current player: " + getState().getCurrentPlayer());
         return getPlayers().get(getState().getCurrentPlayer());
     }
 
@@ -357,11 +355,13 @@ public class Game extends BaseEntity {
 
     public List<Card> getChoice() {
         List<Card> result = getState().getSubPhase().getChoice(this);
-        if(result == null) return List.of();
+        if(result == null) return result;
         Boolean validChoicesExist = IntStream.range(0, result.size())
             .anyMatch(index->getState().getSubPhase().isValidChoice(index,this));
-        if(!validChoicesExist && !getState().getSubPhase().equals(GameSubPhase.BUILD_NEW_ROOM))
+        if(!validChoicesExist && !getState().getSubPhase().equals(GameSubPhase.BUILD_NEW_ROOM)) {
+            log.debug("Player can't choose, triggering failsafe");
             incrementCounter();
+        }
         return result;
     }
 
@@ -389,6 +389,7 @@ public class Game extends BaseEntity {
     }
 
     public Boolean getPlayerHasToChoose(Player player) {
-        return player == getCurrentPlayer() && !getChoice().isEmpty();
+        List<Card> choice = getChoice();
+        return player == getCurrentPlayer() && choice != null && !choice.isEmpty();
     }
 }

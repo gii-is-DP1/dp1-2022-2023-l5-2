@@ -74,7 +74,7 @@ public enum GameSubPhase implements SubPhaseChoices{
         @Override
         public Boolean isValidChoice(Integer choice, Game game) {
             Card card = getChoice(game).get(choice);
-            return card instanceof RoomCard;
+            return card instanceof RoomCard && !((RoomCard) card).isAdvanced();
         }
 
         @Override

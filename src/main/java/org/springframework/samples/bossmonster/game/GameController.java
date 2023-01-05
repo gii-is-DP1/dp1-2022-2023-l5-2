@@ -1,11 +1,13 @@
 package org.springframework.samples.bossmonster.game;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/games")
 public class GameController {
 
@@ -48,6 +51,7 @@ public class GameController {
     }
 
     @GetMapping("/{gameId}")
+    @Transactional
     public ModelAndView showGame(@PathVariable Integer gameId, HttpServletResponse response) {
 
         ModelAndView result=new ModelAndView(GAME_SCREEN);
@@ -60,6 +64,8 @@ public class GameController {
             gameService.saveGame(game);
             response.addHeader("Refresh",game.getState().getWaitingTime().toString());
         } else {
+            log.debug(String.format("%s has to choose, triggering model", currentPlayer.getUser().getNickname()));
+            log.debug("Choice: "+game.getChoice());
             result.addObject("triggerModal", true);
         }
         setUpGameScreen(result, game, currentPlayer);

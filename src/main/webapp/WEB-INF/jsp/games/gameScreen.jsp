@@ -11,11 +11,12 @@
     <bossmonster:modal modalId="selectMenu" modalName="${game.state.subPhase.choiceMessage}" unclosable="true">
         <form method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <c:if test="${not empty game.choice}">
+            <c:set value="${game.choice}" var="choice"/>
+            <c:if test="${not empty choice}">
                 <div class="expandable">
-                    <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
+                    <c:forEach begin="0" end="${fn:length(choice)-1}" var="index">
                         <button class="invis" value="${index}" name="choice" ${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}>
-                        <bossmonster:card card="${game.choice[index]}" style="${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}"/>
+                        <bossmonster:card card="${choice[index]}" style="${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}"/>
                         </button>
                     </c:forEach>
                 </div>

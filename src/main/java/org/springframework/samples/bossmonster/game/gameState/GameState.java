@@ -83,7 +83,9 @@ public class GameState extends BaseEntity {
         if ( (checkClock == false && counter >= actionLimit) ||
              (checkClock == true && clock.isBefore(LocalDateTime.now())) )
         { log.debug("Game update condition met, updating...");
-            updateGameState(); }
+            updateGameState();
+            log.debug("Subphase is now "+ getSubPhase());
+        }
     }
 
     private void updateGameState() {
