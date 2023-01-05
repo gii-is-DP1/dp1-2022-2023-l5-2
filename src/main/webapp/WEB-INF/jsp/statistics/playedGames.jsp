@@ -4,6 +4,7 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="playedGames">
+    <spring:url value="/" htmlEscape="true" var="welcome"/>
     <h2>Played Games</h2>
 
     <table id="playedGamesListTable" class="table table-striped">
@@ -41,4 +42,8 @@
             </c:forEach>
         </tbody>
     </table>
+    <div class="centered-view">
+
+        <a class="btn btn-title" href="${welcome}">Back</a>
+    </div>
 </bossmonster:layout>
