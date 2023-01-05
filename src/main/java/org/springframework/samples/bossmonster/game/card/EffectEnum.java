@@ -1,14 +1,18 @@
 package org.springframework.samples.bossmonster.game.card;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Random;
 
 import org.springframework.samples.bossmonster.game.Game;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
+import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 
 //Enumerado actua como dummy para la base de datos.
@@ -72,7 +76,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_CARD_FROM_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_A_CARD_FROM_DISCARD_PILE);
         }
     },
 
@@ -88,7 +92,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_ROOM_CARD_FROM_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_A_ROOM_CARD_FROM_DISCARD_PILE);
         }
     },
 
@@ -144,7 +148,7 @@ public enum EffectEnum implements EffectInterface {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
             for (int i = 0; i < 2; i ++) game.getNewSpellCard(player);
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.DISCARD_A_SPELL_CARD);
         }
     },
 
@@ -152,7 +156,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_MONSTER_ROOM_CARD_FROM_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_A_MONSTER_ROOM_CARD_FROM_DISCARD_PILE);
         }
     },
 
@@ -191,7 +195,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_SPELL_CARD_FROM_SPELL_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            //game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_A_SPELL_CARD_FROM_SPELL_PILE);
         }
     },
 
@@ -199,7 +203,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_2_CARDS_FROM_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            //game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_2_CARDS_FROM_DISCARD_PILE);
         }
     },
 
@@ -208,7 +212,7 @@ public enum EffectEnum implements EffectInterface {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
             for (int i = 0; i < 3; i ++) game.getNewSpellCard(player);
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.DISCARD_A_SPELL_CARD);
         }
     },
 
@@ -241,7 +245,7 @@ public enum EffectEnum implements EffectInterface {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
             for (DungeonRoomSlot drs: player.getDungeon().getRoomSlots()) {
-                if (drs.getRoom().isMonsterType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 3);
+                if (drs.getRoom() != null && drs.getRoom().isMonsterType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 3);
             }
         }
     },
@@ -261,7 +265,10 @@ public enum EffectEnum implements EffectInterface {
     LURE_A_CHOSEN_HERO_FROM_CITY_TO_DUNGEON {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            Collections.shuffle(game.getCity(), new Random());
+            HeroCard chosenHero = game.getCity().get(0);
+            player.getDungeon().addNewHeroToDungeon(chosenHero);
+            game.getCity().remove(chosenHero);
         }
     },
 
@@ -269,7 +276,7 @@ public enum EffectEnum implements EffectInterface {
     BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            Integer playersWithMoreRooms = (int) game.getPlayers().stream().filter(x -> x.getDungeon().getFirstRoomSlot() > player.getDungeon().getFirstRoomSlot()).count();
+            Integer playersWithMoreRooms = (int) game.getPlayers().stream().filter(x -> x.getDungeon().getBuiltRooms() > player.getDungeon().getBuiltRooms()).count();
             if (playersWithMoreRooms > 0) game.getState().setActionLimit(game.getState().getActionLimit() + 2);
         }
     },
@@ -287,7 +294,7 @@ public enum EffectEnum implements EffectInterface {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
             for (DungeonRoomSlot drs: player.getDungeon().getRoomSlots()) {
-                if (drs.getRoom().isTrapType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 3);
+                if (drs.getRoom() != null && drs.getRoom().isTrapType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 3);
             }
         }
     },
