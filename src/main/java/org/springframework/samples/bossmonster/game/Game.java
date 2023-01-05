@@ -212,7 +212,7 @@ public class Game extends BaseEntity {
         Boolean result;
         RoomCard oldRoom = player.getDungeon().getRoom(position);
         if (oldRoom == null) {
-            if (position == player.getDungeon().getBuiltRooms()) result = !room.isAdvanced();
+            if (position.equals(player.getDungeon().getBuiltRooms())) result = !room.isAdvanced();
             else result = false;
         }
         else {
@@ -360,7 +360,8 @@ public class Game extends BaseEntity {
         if(result == null) return List.of();
         Boolean validChoicesExist = IntStream.range(0, result.size())
             .anyMatch(index->getState().getSubPhase().isValidChoice(index,this));
-        if(!validChoicesExist) incrementCounter();
+        if(!validChoicesExist && !getState().getSubPhase().equals(GameSubPhase.BUILD_NEW_ROOM))
+            incrementCounter();
         return result;
     }
 
