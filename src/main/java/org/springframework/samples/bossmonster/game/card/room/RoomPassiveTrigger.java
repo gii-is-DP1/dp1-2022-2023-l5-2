@@ -11,5 +11,7 @@ public enum RoomPassiveTrigger{
     BUILD_THIS_ROOM,
     NONE,
     USE_SPELL_CARD,
-    BUILD_MONSTER_ROOM;
+    BUILD_MONSTER_ROOM,
+    ADD_EXTRA_ROOM_DAMAGE,
+    HERO_ENTERS_ROOM;
 }
