@@ -1,5 +1,7 @@
 package org.springframework.samples.bossmonster.configuration;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,10 +10,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.sql.DataSource;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,6 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/statistics/achievements/me").authenticated()
 				.antMatchers("/statistics/**").hasAnyAuthority("admin")
 				.antMatchers("/admin/**").hasAuthority("admin")
+				.antMatchers("/adminOptions").hasAuthority("admin")
 				.antMatchers("/lobby/**").authenticated()
 				.antMatchers("/users/**").authenticated()
                 .antMatchers("/games/**").authenticated()
@@ -59,6 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // se sirve desde esta misma página.
                 http.csrf().ignoringAntMatchers("/h2-console/**");
                 http.headers().frameOptions().sameOrigin();
+
 	}
 
 	@Override
@@ -78,10 +80,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
 	    return encoder;
 	}
-
 }
 
 

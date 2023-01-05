@@ -4,6 +4,7 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="currentGames">
+    <spring:url value="/" htmlEscape="true" var="welcome"/>
     <h2>Current Games</h2>
 
     <table id="currentGamesListTable" class="table table-striped">
@@ -21,15 +22,19 @@
                         <c:out value="${gameLobby.game.id}"/>
                     </td>
                     <td>
-                        <c:out value="${gameLobby.leaderUser}"/>
+                        <c:out value="${gameLobby.leaderUser.username}"/>
                     </td>
                     <td>
                         <c:forEach items="${gameLobby.joinedUsers}" var="joinedUser">
-                            <c:out value="${joinedUser}"/>
+                            <c:out value="${joinedUser.username}"/>
                         </c:forEach>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
+    <div class="centered-view">
+            
+        <a class="btn btn-title" href="${welcome}">Back</a>
+    </div>
 </bossmonster:layout>

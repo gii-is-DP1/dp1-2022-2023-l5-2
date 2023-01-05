@@ -1,13 +1,25 @@
+/*      
+        Usuario        //       Passwords
+        'admin1'                '4dm1nrr'
+        'user1',                '0wn3rrr'
+        'eletomvel'             'EleTomas2002'  
+        'tadcabgom'             'helloimapassword'
+        'igngongon2'            'userrr'      
+        'ignarrman'             'mydoggie'      
+        'jessolort'             'jessolort'      
+        'frarosram'             'contra5ena' 
+        'fralarmar'             'qwertyuiop'
+*/
 INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
-    ('admin1',     '4dm1nrr',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://localhost:8080/resources/images/avatars/avatar_00.png'),
-    ('user1',      '0wn3rrr',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://localhost:8080/resources/images/avatars/avatar_01.png'),
-    ('eletomvel',  'EleTomas2002',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://localhost:8080/resources/images/avatars/avatar_02.png'),
-    ('tadcabgom',  'helloimapassword', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://localhost:8080/resources/images/avatars/avatar_03.png'),
-    ('igngongon2', 'userrr',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://localhost:8080/resources/images/avatars/avatar_04.png'),
-    ('ignarrman',  'mydoggie',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://localhost:8080/resources/images/avatars/avatar_05.png'),
-    ('jessolort',  'jessolort',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://localhost:8080/resources/images/avatars/avatar_06.png'),
-    ('frarosram',  'contra5ena',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://localhost:8080/resources/images/avatars/avatar_00.png'),
-    ('fralarmar',  'qwertyuiop',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://localhost:8080/resources/images/avatars/avatar_01.png');
+    ('admin1',     '$2a$10$13lTS09EGbjGdINpgAP5kOmzOgJROhL/NoQeFH7nrK0VnHCOoA.Jm',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://localhost:8080/resources/images/avatars/avatar_00.png'),
+    ('user1',      '$2a$10$9U8JtIwMD53xR7ehAYcx.OBKxmwJQXPVXEQYBNeK6YHaHtEpIMhPa',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://localhost:8080/resources/images/avatars/avatar_01.png'),
+    ('eletomvel',  '$2a$10$3Bpea0yG4CR/uA/NBTHFmeZ.92BiyVh7I9zNYXbo3wmwc8FNumj2e',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://localhost:8080/resources/images/avatars/avatar_02.png'),
+    ('tadcabgom',  '$2a$10$b2gaBr6egp2ohlrvzFXGsu73g/d8jZ03pg4qPVN2dAvQEUAj2ah1e', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://localhost:8080/resources/images/avatars/avatar_03.png'),
+    ('igngongon2', '$2a$10$wxicoASFzl0uWd/cVWlMi.rlL6CEQfVq4RaepISwUzG8Z5Y8dYZ0.',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://localhost:8080/resources/images/avatars/avatar_04.png'),
+    ('ignarrman',  '$2a$10$BNhD0LI5MUMV6tyae5cAKOShRT4EUD3qJzTrMjJ0F9RcuolpKTVAa',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://localhost:8080/resources/images/avatars/avatar_05.png'),
+    ('jessolort',  '$2a$10$2L.x15N9ZQRw2pckKJRcOOkYyEV9/pjwsLzCBo4oxnO21rvGGLITu',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://localhost:8080/resources/images/avatars/avatar_06.png'),
+    ('frarosram',  '$2a$10$juzQUREZaBuYU6Uqx/Zvievu4B29zbCwh82Eg06yzHefeW86t1UFy',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://localhost:8080/resources/images/avatars/avatar_00.png'),
+    ('fralarmar',  '$2a$10$jjemtc1bmCYD0XfAXzwUUufbeHzRRhfL0EDJgOjE5hjBwhqnw7Ux2',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://localhost:8080/resources/images/avatars/avatar_01.png');
 
 INSERT INTO authorities(id,username,authority) VALUES 
     (1,'admin1',     'admin'),
@@ -35,20 +47,21 @@ INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_tri
     (10, 'Open Grave',         '/resources/images/rooms/room_09.jpg', 'TRAP', '0010', 2, 'HERO_DIES_IN_THIS_ROOM','CHOOSE_ROOM_CARD_FROM_DISCARD_PILE'),
     (11, 'Recycling Center',   '/resources/images/rooms/room_10.jpg', 'ADVANCED_TRAP', '0001', 3, 'DESTROY_ANOTHER_ROOM','DRAW_2_ROOM_CARDS'),
     (12, 'Ligers Den',         '/resources/images/rooms/room_11.jpg', 'ADVANCED_MONSTER', '1000', 2, 'USE_SPELL_CARD','DRAW_A_SPELL_CARD'),
-    (13, 'Goblin Armory',      '/resources/images/rooms/room_12.jpg', 'MONSTER', '0200', 1, 'NONE','ADD_1_DAMAGE_TO_ADYACENT_MONSTER_ROOMS'),
+    (13, 'Goblin Armory',      '/resources/images/rooms/room_12.jpg', 'MONSTER', '0200', 1, 'ADD_EXTRA_ROOM_DAMAGE','ADD_1_DAMAGE_TO_ADYACENT_MONSTER_ROOMS'),
     (14, 'Golem Factory',      '/resources/images/rooms/room_13.jpg', 'MONSTER', '0100', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_ROOM_CARD'),
     (15, 'Jackpot Stash',      '/resources/images/rooms/room_14.jpg', 'TRAP', '0002', 1, 'DESTROY_THIS_ROOM','DOUBLE_DUNGEON_TREASURE_VALUE'),
     (16, 'Dark Laboratory',    '/resources/images/rooms/room_15.jpg', 'TRAP', '2000', 1, 'BUILD_THIS_ROOM','DRAW_2_SPELL_CARDS_AND_DISCARD_1_SPELL_CARD'),
     (17, 'Monstrous Monument', '/resources/images/rooms/room_16.jpg', 'TRAP', '0110', 1, 'BUILD_THIS_ROOM','CHOOSE_MONSTER_ROOM_CARD_FROM_DISCARD_PILE'),
     (18, 'Beast Menagerie',    '/resources/images/rooms/room_17.jpg', 'ADVANCED_MONSTER', '0100', 4, 'BUILD_MONSTER_ROOM','DRAW_A_ROOM_CARD'),
     (19, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_SPELL_CARD'),
-    (20, 'Dizzygas Hallway',   '/resources/images/rooms/room_19.png', 'TRAP', '0001', 1, 'NONE','ADD_2_DAMAGE_TO_NEXT_ROOM_IF_IT_IS_A_TRAP_ROOM'),
-    (21, 'Minotaurs Maze',     '/resources/images/rooms/room_20.png', 'MONSTER', '0100', 0, 'NONE','PUSH_HERO_TO_PREVIOUS_ROOM_ONCE'),
+    (20, 'Dizzygas Hallway',   '/resources/images/rooms/room_19.png', 'TRAP', '0001', 1, 'ADD_EXTRA_ROOM_DAMAGE','ADD_2_DAMAGE_TO_NEXT_ROOM_IF_IT_IS_A_TRAP_ROOM'),
+    (21, 'Minotaurs Maze',     '/resources/images/rooms/room_20.png', 'MONSTER', '0100', 0, 'HERO_ENTERS_ROOM','PUSH_HERO_TO_PREVIOUS_ROOM_ONCE'),
 
     (89, 'Dragon Hatchery',    '/resources/images/rooms/room_07.jpg', 'MONSTER', '1111', 0, 'NONE','NOTHING'),
     (90, 'Golem Factory',      '/resources/images/rooms/room_13.jpg', 'MONSTER', '0100', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_ROOM_CARD'),
     (91, 'Bottomless Pit',     '/resources/images/rooms/room_00.jpg', 'TRAP', '0001', 1, 'DESTROY_THIS_ROOM','KILL_ONE_HERO_IN_THIS_ROOM'),
-    (92, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_SPELL_CARD');
+    (92, 'Dark Laboratory',    '/resources/images/rooms/room_15.jpg', 'TRAP', '2000', 1, 'BUILD_THIS_ROOM','DRAW_2_SPELL_CARDS_AND_DISCARD_1_SPELL_CARD'),
+    (93, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_SPELL_CARD');
 
 INSERT INTO spell_card(id, name, card_image, phase,effect) VALUES
     (22,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM'),
@@ -60,6 +73,7 @@ INSERT INTO spell_card(id, name, card_image, phase,effect) VALUES
     (28,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT'),
     (29,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'SKIP_BUILD_PHASE'),
     (30,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'SEND_HERO_TO_FIRST_ROOM'),
+    
     (79,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM') ,
     (80,'Soul Harvest'     ,'/resources/images/spells/spell_01.jpg','adventureAndConstructionPhase','TRADE_A_SOUL_FOR_2_SPELL_CARDS'),
     (81,'Princess in Peril','/resources/images/spells/spell_02.jpg','constructionPhase'            ,'LURE_A_CHOSEN_HERO_FROM_CITY_TO_DUNGEON'),
@@ -69,6 +83,7 @@ INSERT INTO spell_card(id, name, card_image, phase,effect) VALUES
     (85,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT'),
     (86,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'SKIP_BUILD_PHASE'),
     (87,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'SEND_HERO_TO_FIRST_ROOM'),
+    
     (88,'Jeopardy'         ,'/resources/images/spells/spell_09.jpg','adventureAndConstructionPhase','EVERY_PLAYER_RESETS_THEIR_HAND');
 
 INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_players) VALUES 

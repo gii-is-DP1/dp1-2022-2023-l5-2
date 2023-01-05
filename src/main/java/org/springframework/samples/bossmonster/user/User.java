@@ -16,6 +16,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.statistics.Achievement;
@@ -26,6 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Audited
 @Table(name = "users")
 public class User{
 
@@ -51,21 +54,25 @@ public class User{
     private String avatar;
 
     @NotEmpty
-    @Size(min = 6, max = 20)
+    @Size(min = 6, max = 120)
 	private String password;    
 
     private boolean enabled;
     
     @ManyToMany(mappedBy = "participants",cascade = CascadeType.ALL)
+    @NotAudited
     private Set<GameResult> results;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<Authorities> authorities;
+	@NotAudited
+    private Set<Authorities> authorities;
 
     @OneToMany(mappedBy = "winner")
+    @NotAudited
     private List<GameResult> wins;
 
     @ManyToMany(mappedBy = "joinedUsers")
+    @NotAudited
     private List<GameLobby> lobbies;
 
     @ManyToMany
@@ -73,7 +80,8 @@ public class User{
         name = "achievement_users",
         joinColumns = @JoinColumn(name="username"),
         inverseJoinColumns = @JoinColumn(name= "achievement_id"))
-	private Set<Achievement> achievements;
+	@NotAudited
+    private Set<Achievement> achievements;
 
     public Set<Achievement> getAchievements() {
 		return achievements;

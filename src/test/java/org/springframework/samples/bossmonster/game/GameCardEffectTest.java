@@ -16,6 +16,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.EffectEnum;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
+import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
@@ -92,6 +93,18 @@ public class GameCardEffectTest {
         return room;
     }
 
+    private SpellCard setUpDummySpellCard(EffectEnum effect) {
+        SpellCard spell = new SpellCard();
+        spell.setEffect(effect);
+        return spell;
+    }
+
+    private FinalBossCard setUpFinalBossCard(EffectEnum effect) {
+        FinalBossCard boss = new FinalBossCard();
+        boss.setEffect(effect);
+        return boss;
+    }
+
     HeroCardStateInDungeon setUpDummyHero(TreasureType treasureType, Integer health, Boolean isEpic) {
         HeroCard hero = new HeroCard();
         hero.setTreasure(treasureType);
@@ -101,10 +114,23 @@ public class GameCardEffectTest {
         return heroInDungeon;
     }
 
+    private void levelUpDungeonFinalBoss(FinalBossCard boss) {
+        testPlayer.getDungeon().setBossCard(boss);
+        testPlayer.getDungeon().getBossCard().getEffect().apply(testPlayer, null, game);
+    }
+
     private void activateRoomCardEffect(RoomCard room) {
         Player testPlayer = game.getPlayers().get(0);
         testPlayer.getDungeon().getRoomSlots()[0].setRoom(room);
         game.triggerRoomCardEffect(testPlayer, 0);
+    }
+
+    private Integer getAmountOfSpellCards() {
+        return (int) testPlayer.getHand().stream().filter(x -> x.getClass() == SpellCard.class).count();
+    }
+
+    private Integer getAmountOfRoomCards() {
+        return (int) testPlayer.getHand().stream().filter(x -> x.getClass() == RoomCard.class).count();
     }
 
     @Test
@@ -198,37 +224,42 @@ public class GameCardEffectTest {
     @Test
     void shouldTriggerRecyclingCenterRoomCardEffect() {
         RoomCard recyclingCenter = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM, EffectEnum.DRAW_2_ROOM_CARDS);
-        Integer priorAmountOfRoomCards = (int) testPlayer.getHand().stream().filter(x -> x.getClass() == RoomCard.class).count();
+        Integer priorAmountOfRoomCards = getAmountOfRoomCards();
         activateRoomCardEffect(recyclingCenter);
-        Integer postAmountOfRoomCards = (int) testPlayer.getHand().stream().filter(x -> x.getClass() == RoomCard.class).count();
+        Integer postAmountOfRoomCards = getAmountOfRoomCards();
         assertEquals(priorAmountOfRoomCards + 2, postAmountOfRoomCards);
     }
 
     @Test
     void shouldTriggerLigersDenRoomCardEffect() {
         RoomCard ligersDen = setUpDummyRoomCard(RoomPassiveTrigger.USE_SPELL_CARD, EffectEnum.DRAW_A_SPELL_CARD);
-        Integer priorAmountOfSpellCards = (int) testPlayer.getHand().stream().filter(x -> x.getClass() == SpellCard.class).count();
+        Integer priorAmountOfSpellCards = getAmountOfSpellCards();
         activateRoomCardEffect(ligersDen);
-        Integer postAmountOfRoomCards = (int) testPlayer.getHand().stream().filter(x -> x.getClass() == SpellCard.class).count();
+        Integer postAmountOfRoomCards = getAmountOfSpellCards();
         assertEquals(priorAmountOfSpellCards + 1, postAmountOfRoomCards);
     }
 
     @Ignore
     @Test
     void shouldTriggerGoblinArmoryRoomCardEffect() {
-
+        RoomCard goblinArmory = setUpDummyRoomCard(RoomPassiveTrigger.ADD_EXTRA_ROOM_DAMAGE, EffectEnum.ADD_1_DAMAGE_TO_ADYACENT_MONSTER_ROOMS);
+        activateRoomCardEffect(goblinArmory);
     }
 
-    @Ignore
     @Test
     void shouldTriggerGolemFactoryRoomCardEffect() {
-
+        RoomCard golemFactory = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.DRAW_A_ROOM_CARD);
+        Integer priorAmountOfRoomCards = getAmountOfRoomCards();
+        activateRoomCardEffect(golemFactory);
+        Integer postAmountOfRoomCards = getAmountOfRoomCards();
+        assertEquals(priorAmountOfRoomCards + 1, postAmountOfRoomCards);
     }
     
     @Ignore
     @Test
     void shouldTriggerJackpotStashRoomCardEffect() {
-
+        RoomCard jackpotStash = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.DOUBLE_DUNGEON_TREASURE_VALUE);
+        activateRoomCardEffect(jackpotStash);
     }
     
     @Ignore
@@ -243,16 +274,22 @@ public class GameCardEffectTest {
 
     }
     
-    @Ignore
     @Test
     void shouldTriggerBeastMenagerieRoomCardEffect() {
-
+        RoomCard beastMenagerie = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_MONSTER_ROOM, EffectEnum.DRAW_A_ROOM_CARD);
+        Integer priorAmountOfRoomCards = getAmountOfRoomCards();
+        activateRoomCardEffect(beastMenagerie);
+        Integer postAmountOfRoomCards = getAmountOfRoomCards();
+        assertEquals(priorAmountOfRoomCards + 1, postAmountOfRoomCards);
     }
     
-    @Ignore
     @Test
     void shouldTriggerBrainsuckerHiveRoomCardEffect() {
-
+        RoomCard brainsuckerHive = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.DRAW_A_SPELL_CARD);
+        Integer priorAmountOfSpellCards = getAmountOfSpellCards();
+        activateRoomCardEffect(brainsuckerHive);
+        Integer postAmountOfRoomCards = getAmountOfSpellCards();
+        assertEquals(priorAmountOfSpellCards + 1, postAmountOfRoomCards);
     }
     
     @Ignore
@@ -270,7 +307,73 @@ public class GameCardEffectTest {
     @Ignore
     @Test
     void shouldTriggerGiantSizeSpellCardEffect() {
+        SpellCard giantSize = setUpDummySpellCard(EffectEnum.ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM);
+        game.triggerSpellCardEffect(giantSize);
+    }
 
+    @Test
+    void shouldTriggerSoulHarvestSpellCardEffect() {
+        SpellCard soulHarvest = setUpDummySpellCard(EffectEnum.TRADE_A_SOUL_FOR_2_SPELL_CARDS);
+        Integer priorAmountOfSpellCards = getAmountOfSpellCards();
+        game.triggerSpellCardEffect(soulHarvest);
+        Integer postAmountOfSpellCards = getAmountOfSpellCards();
+        assertThat("The player amount of souls was incorrectly tampered", testPlayer.getSouls(), is(0));
+        assertThat("A player without souls received spellcards", postAmountOfSpellCards, is(priorAmountOfSpellCards));
+        testPlayer.setSouls(4);
+        game.triggerSpellCardEffect(soulHarvest);
+        postAmountOfSpellCards = getAmountOfSpellCards();
+        assertThat("The player didn't sacrifice a soul", testPlayer.getSouls(), is(3));
+        assertThat("The player didn't receive new spellcards", postAmountOfSpellCards, is(priorAmountOfSpellCards + 2));
+    }
+
+    @Ignore
+    @Test
+    void shouldTriggerPrincessInPerilSpellCardEffect() {
+        SpellCard princessInPeril = setUpDummySpellCard(EffectEnum.LURE_A_CHOSEN_HERO_FROM_CITY_TO_DUNGEON);
+        game.triggerSpellCardEffect(princessInPeril);
+    }
+
+    @Ignore
+    @Test
+    void shouldTriggerMotivationSpellCardEffect() {
+        SpellCard motivation = setUpDummySpellCard(EffectEnum.BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS);
+        game.triggerSpellCardEffect(motivation);
+    }
+
+    @Ignore
+    @Test
+    void shouldTriggerExhaustionSpellCardEffect() {
+        SpellCard exhaustion = setUpDummySpellCard(EffectEnum.DEAL_ROOM_AMOUNT_DAMAGE_TO_HERO);
+        game.triggerSpellCardEffect(exhaustion);
+    }
+    
+    @Test
+    void shouldTriggerJeopardySpellCardEffect() {
+        SpellCard jeopardy = setUpDummySpellCard(EffectEnum.EVERY_PLAYER_RESETS_THEIR_HAND);
+        for (int i = 0; i < 2; i ++) {
+            game.discardCard(game.getPlayers().get(0), 0);
+            game.getNewRoomCard(game.getPlayers().get(1));
+            game.getNewSpellCard(game.getPlayers().get(2));
+        }
+        game.triggerSpellCardEffect(jeopardy);
+        for (Player p: game.getPlayers()) {
+            testPlayer = p;
+            assertThat("A player has an incorrect amount of room cards", getAmountOfRoomCards(), is(2));
+            assertThat("A player has an incorrect amount of spell cards", getAmountOfSpellCards(), is(1));
+        }
+    }
+
+    @Test
+    void shouldTriggerBelladonaLevelUpBossCardEffect() {
+        FinalBossCard belladona = setUpFinalBossCard(EffectEnum.CONVERT_A_WOUND_INTO_A_SOUL);
+        levelUpDungeonFinalBoss(belladona);
+        assertThat("Player converted unexisting damage", testPlayer.getSouls(), is(0));
+        assertThat("Player healed unexisting wound", testPlayer.getHealth(), is(5));
+        testPlayer.setHealth(2);
+        testPlayer.setSouls(2);
+        levelUpDungeonFinalBoss(belladona);
+        assertThat("Player didn't get a soul", testPlayer.getSouls(), is(3));
+        assertThat("Player didn't heal a wound", testPlayer.getHealth(), is(3));
     }
 
 }
