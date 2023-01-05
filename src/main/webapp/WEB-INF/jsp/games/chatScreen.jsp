@@ -4,7 +4,38 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
-<div class="float-right">
+<bossmonster:layout pageName="chatScreen">
+  <h1>Chat</h1>
+  <table class="table table-striped">
+    <tbody>
+      <c:forEach items="${messages}" var="message">
+        
+        <b>
+          <c:out value="${message.sender.nickname}: "/>
+      </b>
+      <c:out value="${message.words}"/>
+      <br>
+      </c:forEach>
+      <form class="form-horizontal" method="post" accept-charset="UTF-8">
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <input type="hidden" name="chatId" value="${chatActual}"/>
+                <input name="words"/>
+                <input class="btn btn-default" type="submit" value="Send">
+                </div>
+            </div>
+        </form>
+    </tbody>
+  </table>
+</bossmonster:layout>
+
+
+
+
+
+
+<!--<div class="float-right">
     <button class="buttonChat" type="button" class="btn btn-primary" data-toggle="modal" data-target="#chatModal">
         <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
       </button>
@@ -40,7 +71,6 @@
                         <input type="hidden" name="chatId" value="${chatActual}"/>
                         <input name="words"/>
                         <input class="btn btn-default" type="submit" value="Send">
-                            <!--<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>-->
                         </div>
                     </div>
                 </form>
@@ -49,7 +79,7 @@
           </div>
         </div>
       </div>
-</div>
+</div>-->
 
 <style>
     .modal-lg {
@@ -72,6 +102,9 @@
         margin-top: 10px;
         float: right;
         text-align: center;
+    }
+    .textoGordo{
+      
     }
 </style>
   

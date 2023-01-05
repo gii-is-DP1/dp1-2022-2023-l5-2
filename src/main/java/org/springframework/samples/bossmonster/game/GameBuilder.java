@@ -9,6 +9,8 @@ import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.chat.Chat;
+import org.springframework.samples.bossmonster.game.chat.ChatService;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
@@ -28,6 +30,8 @@ import java.util.List;
 public class GameBuilder {
 
     CardService cardService;
+    @Autowired
+    ChatService chatService;
 
     @Autowired
     public GameBuilder(CardService cardService) {
@@ -46,6 +50,7 @@ public class GameBuilder {
         buildCity(newGame);
         buildPlayers(newGame,lobby.getJoinedUsers());
         buildStats(newGame, lobby.getJoinedUsers().size());
+        buildChat(newGame);
         newGame.setActive(true);
         return newGame;
     }
@@ -81,6 +86,12 @@ public class GameBuilder {
     public void buildCity(Game newGame) {
         List<HeroCard> city = new ArrayList<>();
         newGame.setCity(city);
+    }
+
+    public void buildChat(Game newGame){
+        Chat chat= new Chat();
+        newGame.setChat(chat);
+        chatService.createChat(chat);
     }
 
     public void buildPlayers(Game newGame, List<User> users) {
