@@ -78,8 +78,6 @@ public class GameState extends BaseEntity {
     }
 
     public void checkStateStatus() {
-        log.debug("Checking game status..." );
-        log.debug("Clock time until update: " + clock.compareTo(LocalDateTime.now()));
         if ( (checkClock == false && counter >= actionLimit) ||
              (checkClock == true && clock.isBefore(LocalDateTime.now())) )
         { log.debug("Game update condition met, updating...");
@@ -238,6 +236,7 @@ public class GameState extends BaseEntity {
                 subPhase = GameSubPhase.USE_SPELLCARD;
                 // There is no limit here, the current player chooses when this phase ends
                 updateChangeConditionCounter(1);
+
                 break;
             }
             case USE_SPELLCARD: {

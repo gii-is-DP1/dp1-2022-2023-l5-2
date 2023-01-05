@@ -8,7 +8,7 @@ import java.util.List;
 public interface SubPhaseChoices {
     default List<Card> getChoice(Game game) {
         return null;
-    };
+    }
 
     default void makeChoice(Game game, Integer choice) {}
 
@@ -16,5 +16,7 @@ public interface SubPhaseChoices {
         return false;
     }
 
-    default Boolean isOptional() {return true;};
+    default Boolean isOptional() {return true;}
+
+    default Integer getActionLimit() {return 1;}
 }

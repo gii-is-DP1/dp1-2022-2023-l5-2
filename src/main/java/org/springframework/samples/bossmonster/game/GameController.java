@@ -1,6 +1,7 @@
 package org.springframework.samples.bossmonster.game;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -51,7 +52,6 @@ public class GameController {
     }
 
     @GetMapping("/{gameId}")
-    @Transactional
     public ModelAndView showGame(@PathVariable Integer gameId, HttpServletResponse response) {
 
         ModelAndView result=new ModelAndView(GAME_SCREEN);
@@ -59,9 +59,14 @@ public class GameController {
         User currentUser = userService.getLoggedInUser().get();
         Player currentPlayer = game.getPlayerFromUser(currentUser);
 
-        if(!(game.getPlayerHasToChoose(currentPlayer))) {
+        if(!(game.getPlayerHasToChoose(currentPlayer) && game.getChoice() != null)) {
             game.getState().checkStateStatus();
-            gameService.saveGame(game);
+            try {
+                gameService.saveGame(game);
+            } catch (StaleObjectStateException e) {
+                log.debug("Game has a newer version, update prevented");
+                result.setViewName("redirect:/"+gameId);
+            }
             response.addHeader("Refresh",game.getState().getWaitingTime().toString());
         } else {
             log.debug(String.format("%s has to choose, triggering model", currentPlayer.getUser().getNickname()));

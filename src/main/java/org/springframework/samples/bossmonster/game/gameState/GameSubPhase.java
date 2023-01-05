@@ -30,7 +30,9 @@ public enum GameSubPhase implements SubPhaseChoices{
         @Override
         public Boolean isValidChoice(Integer choice, Game game) {
             Card card = getChoice(game).get(choice);
-            return card instanceof SpellCard;
+            GamePhase currentPhase = game.getState().getPhase();
+            return card instanceof SpellCard &&
+                ((SpellCard) card).getPhase().getTriggerPhases().contains(currentPhase) ;
         }
 
         @Override
@@ -38,6 +40,7 @@ public enum GameSubPhase implements SubPhaseChoices{
             Card spell = game.getCurrentPlayerHand().get(choice);
             game.triggerSpellCardEffect((SpellCard) spell);
             game.discardCard(game.getCurrentPlayer(), choice);
+            game.decrementCounter();
         }
     },
 
@@ -62,6 +65,11 @@ public enum GameSubPhase implements SubPhaseChoices{
         @Override
         public void makeChoice(Game game, Integer choice) {
             game.discardCard(game.getCurrentPlayer(),choice);
+        }
+
+        @Override
+        public Integer getActionLimit() {
+            return 2;
         }
     },
     PLACE_FIRST_ROOM(g->String.format("%s is building their first room...",g.getCurrentPlayer()),
@@ -125,6 +133,11 @@ public enum GameSubPhase implements SubPhaseChoices{
                 game.setRoomToBuildFromHand(null);
             }
 
+        }
+
+        @Override
+        public Integer getActionLimit() {
+            return 2;
         }
     },
     REVEAL_NEW_ROOMS(g->"The newly built rooms get revealed!"),

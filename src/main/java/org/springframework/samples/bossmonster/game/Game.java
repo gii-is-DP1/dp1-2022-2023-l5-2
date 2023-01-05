@@ -71,7 +71,8 @@ public class Game extends BaseEntity {
 
     //@OneToOne
     //private GameResult result;
-
+    @Version
+    private Integer version;
     public static final Integer NORMAL_HERO_SOUL_VALUE = 1;
     public static final Integer EPIC_HERO_SOUL_VALUE = 2;
     public static final Integer SOULS_REQUIRED_TO_WIN = 10;
@@ -359,7 +360,7 @@ public class Game extends BaseEntity {
         Boolean validChoicesExist = IntStream.range(0, result.size())
             .anyMatch(index->getState().getSubPhase().isValidChoice(index,this));
         if(!validChoicesExist && !getState().getSubPhase().equals(GameSubPhase.BUILD_NEW_ROOM)) {
-            log.debug("Player can't choose, triggering failsafe");
+            log.debug("Player can't choose, triggering failsafe. Choice: "+result);
             incrementCounter();
         }
         return result;
