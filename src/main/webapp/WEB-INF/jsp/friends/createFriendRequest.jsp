@@ -9,8 +9,8 @@
 <h1>Add New Friend</h1>
 
 <form:form modelAttribute="friendRequest" class="form-horizontal">
-        <bossmonster:inputField label="Your username" name="requester"/>
-        <bossmonster:inputField label="Friend username" name="receiver"/>
+        <input  type="hidden"name="requester" value="${friendRequest.requester.username}"/>
+        <bossmonster:inputField label="Friend username" name="receiver"/> 
     <div class="form-group">
         <button class="btn btn-default" type="submit">Send Friend Request</button>
     </div>
