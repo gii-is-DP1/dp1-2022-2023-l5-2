@@ -14,11 +14,11 @@ public class ChatService {
     private MessageRepository repo2;
 
     private static List<String> palabrasCensuradas=List.of(
-        "No me gusta DP", 
-        "No me toca nada bueno",
-        "Leche antes de los cereales",
-        "Palabrota",
-        "Twitter");
+        "no me gusta dp", 
+        "no me toca nada bueno",
+        "leche antes de los cereales",
+        "palabrota",
+        "twitter");
 
     @Autowired
     public ChatService(ChatRepository chatRepository, MessageRepository repo2){
@@ -54,7 +54,7 @@ public class ChatService {
     public String cambiarPalabrasCensuradas(String words){
         String result=words;
         for(Integer i=0; i<palabrasCensuradas.size();i++){
-            String palabraCensurada= palabrasCensuradas.get(i);
+            String palabraCensurada= palabrasCensuradas.get(i).toLowerCase();
             if(words.contains(palabraCensurada)){
                 result=result.replaceAll(palabraCensurada, "*******");
             }
