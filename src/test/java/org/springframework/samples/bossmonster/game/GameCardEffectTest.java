@@ -5,6 +5,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
+import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -105,6 +107,14 @@ public class GameCardEffectTest {
         return boss;
     }
 
+    private void setUpDummyRoomCardInDungeon(RoomType type, Integer damage, Integer slot) {
+        RoomCard room = new RoomCard();
+        room.setRoomType(type);
+        room.setDamage(damage);
+        testPlayer.getDungeon().getRoomSlots()[slot].setRoom(room);
+        testPlayer.getDungeon().getRoomSlots()[slot].setRoomTrueDamage(damage);
+    }
+
     HeroCardStateInDungeon setUpDummyHero(TreasureType treasureType, Integer health, Boolean isEpic) {
         HeroCard hero = new HeroCard();
         hero.setTreasure(treasureType);
@@ -147,11 +157,18 @@ public class GameCardEffectTest {
         assertThat("The soul of the defeated hero was not given to the player", testPlayer.getSouls(), is(2));
     }
 
-    @Ignore
     @Test
     void shouldTriggerTheCrushinatorRoomCardEffect() {
         RoomCard theCrushinator = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM, EffectEnum.ADD_2_DAMAGE_TO_EVERY_ROOM);
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER, 1, 1);
+        setUpDummyRoomCardInDungeon(RoomType.TRAP, 2, 2);
+        setUpDummyRoomCardInDungeon(RoomType.ADVANCED_MONSTER, 3, 3);
+        setUpDummyRoomCardInDungeon(RoomType.ADVANCED_TRAP, 4, 4);
         activateRoomCardEffect(theCrushinator);
+        assertEquals(3, testPlayer.getDungeon().getRoomSlots()[1].getRoomTrueDamage());
+        assertEquals(4, testPlayer.getDungeon().getRoomSlots()[2].getRoomTrueDamage());
+        assertEquals(5, testPlayer.getDungeon().getRoomSlots()[3].getRoomTrueDamage());
+        assertEquals(6, testPlayer.getDungeon().getRoomSlots()[4].getRoomTrueDamage());
     }
 
     @Test
@@ -239,11 +256,19 @@ public class GameCardEffectTest {
         assertEquals(priorAmountOfSpellCards + 1, postAmountOfRoomCards);
     }
 
-    @Ignore
     @Test
     void shouldTriggerGoblinArmoryRoomCardEffect() {
         RoomCard goblinArmory = setUpDummyRoomCard(RoomPassiveTrigger.ADD_EXTRA_ROOM_DAMAGE, EffectEnum.ADD_1_DAMAGE_TO_ADYACENT_MONSTER_ROOMS);
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER, 1, 1);
+        setUpDummyRoomCardInDungeon(RoomType.TRAP, 2, 2);
         activateRoomCardEffect(goblinArmory);
+        assertEquals(2, testPlayer.getDungeon().getRoomSlots()[1].getRoomTrueDamage());
+        assertEquals(2, testPlayer.getDungeon().getRoomSlots()[2].getRoomTrueDamage());
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER, 1, 2);
+        setUpDummyRoomCardInDungeon(RoomType.TRAP, 2, 1);
+        activateRoomCardEffect(goblinArmory);
+        assertEquals(2, testPlayer.getDungeon().getRoomSlots()[1].getRoomTrueDamage());
+        assertEquals(1, testPlayer.getDungeon().getRoomSlots()[2].getRoomTrueDamage());
     }
 
     @Test
@@ -255,11 +280,12 @@ public class GameCardEffectTest {
         assertEquals(priorAmountOfRoomCards + 1, postAmountOfRoomCards);
     }
     
-    @Ignore
     @Test
     void shouldTriggerJackpotStashRoomCardEffect() {
         RoomCard jackpotStash = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.DOUBLE_DUNGEON_TREASURE_VALUE);
         activateRoomCardEffect(jackpotStash);
+        // The modified amount of treasure is already tested in shouldGetTreasureAmount() in DungeonTest
+        assertTrue(testPlayer.getDungeon().getJackpotStashEffectActivated());
     }
     
     @Ignore
@@ -309,6 +335,7 @@ public class GameCardEffectTest {
     void shouldTriggerGiantSizeSpellCardEffect() {
         SpellCard giantSize = setUpDummySpellCard(EffectEnum.ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM);
         game.triggerSpellCardEffect(giantSize);
+        
     }
 
     @Test
@@ -346,6 +373,22 @@ public class GameCardEffectTest {
         SpellCard exhaustion = setUpDummySpellCard(EffectEnum.DEAL_ROOM_AMOUNT_DAMAGE_TO_HERO);
         game.triggerSpellCardEffect(exhaustion);
     }
+
+    void shouldTriggerAnnihilatorSpellCardEffect() {
+
+    }
+
+    void shouldTrigggerCaveInSpellCardEffect() {
+
+    }
+
+    void shouldTriggerKoboldStrikeSpellCardEffect() {
+
+    }
+
+    void shouldTriggerTeleportationSpellCardEffect() {
+
+    }
     
     @Test
     void shouldTriggerJeopardySpellCardEffect() {
@@ -374,6 +417,30 @@ public class GameCardEffectTest {
         levelUpDungeonFinalBoss(belladona);
         assertThat("Player didn't get a soul", testPlayer.getSouls(), is(3));
         assertThat("Player didn't heal a wound", testPlayer.getHealth(), is(3));
+    }
+
+    void shouldTriggerTheBrothersWiseLevelUpBossCardEffect() {
+
+    }
+
+    void shouldTriggerXyzaxLevelUpBossCardEffect() {
+
+    }
+
+    void shouldTriggerCerebellusLevelUpBossCardEffect() {
+
+    }
+
+    void shouldTriggerKingCroakLevelUpBossCardEffect() {
+
+    }
+
+    void shouldTriggerSeduciaLevelUpBossCardEffect() {
+
+    }
+
+    void shouldTriggerCleopatraLevelUpBossCardEffect() {
+        
     }
 
 }

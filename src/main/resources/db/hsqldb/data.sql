@@ -10,6 +10,7 @@
         'frarosram'             'contra5ena' 
         'fralarmar'             'qwertyuiop'
 */
+
 INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
     ('admin1',     '$2a$10$13lTS09EGbjGdINpgAP5kOmzOgJROhL/NoQeFH7nrK0VnHCOoA.Jm',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://localhost:8080/resources/images/avatars/avatar_00.png'),
     ('user1',      '$2a$10$9U8JtIwMD53xR7ehAYcx.OBKxmwJQXPVXEQYBNeK6YHaHtEpIMhPa',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://localhost:8080/resources/images/avatars/avatar_01.png'),

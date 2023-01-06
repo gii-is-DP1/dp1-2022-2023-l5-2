@@ -12,6 +12,7 @@ import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
+import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 
@@ -277,7 +278,10 @@ public enum EffectEnum implements EffectInterface {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
             Integer playersWithMoreRooms = (int) game.getPlayers().stream().filter(x -> x.getDungeon().getBuiltRooms() > player.getDungeon().getBuiltRooms()).count();
-            if (playersWithMoreRooms > 0) game.getState().setActionLimit(game.getState().getActionLimit() + 2);
+            if (playersWithMoreRooms > 0) {
+                game.getState().setSubPhase(GameSubPhase.BUILD_NEW_ROOM);
+                game.getState().updateChangeConditionCounter(2);
+            }
         }
     },
 
@@ -320,11 +324,13 @@ public enum EffectEnum implements EffectInterface {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
             for (Player p: game.getPlayers()) {
-                DungeonRoomSlot lastSlot = p.getDungeon().getRoomSlots()[p.getDungeon().getFirstRoomSlot()];
-                if (!lastSlot.getIsVisible()) {
-                    RoomCard room = lastSlot.getRoom();
-                    lastSlot.setRoom(null);
-                    player.getHand().add(room);
+                DungeonRoomSlot firstSlot = p.getDungeon().getRoomSlots()[p.getDungeon().getFirstRoomSlot()];
+                if (!firstSlot.getIsVisible()) {
+                    RoomCard room = firstSlot.getRoom();
+                    if (p.getDungeon().getFirstRoomSlot() != 0) {
+                        firstSlot.setRoom(null);
+                        player.getHand().add(room);
+                    }
                 }
             }
             game.skipBuildPhase();

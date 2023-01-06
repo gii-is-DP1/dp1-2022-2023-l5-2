@@ -85,7 +85,7 @@ TODO
 
 ### Iniciar Sesión / Cerrar Sesión / Crear Cuenta
 
-Para iniciar sesión, cerrar sesión y crear cuenta, hemos usado el código de la plantilla PetClinic proporcionada por Spring.
+Para iniciar sesión, cerrar sesión y crear cuenta, hemos usado el código de la plantilla PetClinic proporcionada por Spring. Hemos implementado encriptado de contraseñas en la base de datos, pero para facilitar el testeo de la aplicación en el archivo data.sql hemos incluido al principio las contraseñas de los usuarios creados para testear en un comentario.
 
 ### Edición de Perfil Personal
 
