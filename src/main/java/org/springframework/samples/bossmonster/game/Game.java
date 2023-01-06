@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.game;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.samples.bossmonster.converters.StringIntStackConverter;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
@@ -67,7 +68,8 @@ public class Game extends BaseEntity {
 
     private LocalDateTime startedTime;
 
-    private Integer roomToBuildFromHand;
+    @Convert(converter = StringIntStackConverter.class)
+    private Stack<Integer> previousChoices;
 
     //@OneToOne
     //private GameResult result;
@@ -361,7 +363,7 @@ public class Game extends BaseEntity {
         if(result == null) return result;
         Boolean validChoicesExist = IntStream.range(0, result.size())
             .anyMatch(index->getState().getSubPhase().isValidChoice(index,this));
-        if(!validChoicesExist && !getState().getSubPhase().equals(GameSubPhase.BUILD_NEW_ROOM)) {
+        if(!validChoicesExist && !getState().getSubPhase().canDecrementCounter()) {
             log.debug("Player can't choose, triggering failsafe. Choice: "+result);
             incrementCounter();
         }
@@ -374,14 +376,14 @@ public class Game extends BaseEntity {
             log.info("Chose to pass");
             if(!getState().getSubPhase().isOptional()) return;
 
-            if (getState().getSubPhase() == GameSubPhase.BUILD_NEW_ROOM) {
-                if(getState().isBuildingRoom()) {
+            if (getState().getSubPhase().canDecrementCounter()) {
+                if(!getPreviousChoices().empty()) {
                     decrementCounter();
-                    setRoomToBuildFromHand(null);
+                    previousChoices.pop();
                 }
                 else {
-                    incrementCounter();
-                    incrementCounter();
+                    getState().setCounter(getState().getSubPhase().getActionLimit());
+                    getState().checkStateStatus();
                 }
             } else incrementCounter();
             return;
@@ -392,7 +394,7 @@ public class Game extends BaseEntity {
         if (getState().getEffectIsBeingTriggered()) getState().setCounterBeforeEffect(getState().getCounterBeforeEffect() + 1);
         else incrementCounter();
     }
- 
+
     public Boolean getPlayerHasToChoose(Player player) {
         List<Card> choice = getChoice();
         return player == getCurrentPlayer() && choice != null && !choice.isEmpty();

@@ -1,7 +1,9 @@
 package org.springframework.samples.bossmonster.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.EffectEnum;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
@@ -442,19 +445,105 @@ public class GameCardEffectTest {
         assertThat("Player didn't heal a wound", testPlayer.getHealth(), is(3));
     }
 
+    @Test
     void shouldTriggerTheBrothersWiseLevelUpBossCardEffect() {
+        FinalBossCard brothersWise = setUpFinalBossCard(EffectEnum.CHOOSE_SPELL_CARD_FROM_SPELL_PILE);
 
+        levelUpDungeonFinalBoss(brothersWise);
+        assertThat("Phase did not change",game.getState().getPhase(),is(GamePhase.EFFECT));
+
+        List<SpellCard> spellPile = game.getSpellPile();
+        assertThat("Not offering spell pile as choice",game.getChoice(),is(spellPile));
+
+        Card spell = spellPile.get(0);
+        int cardsInHand = game.getCurrentPlayerHand().size();
+        game.makeChoice(0);
+        assertThat("Did not give a card to the player",game.getCurrentPlayerHand().size(),is(cardsInHand+1));
+        assertThat("Card given is not the specified one",game.getCurrentPlayerHand().get(cardsInHand),is(spell));
     }
 
+    @Test
     void shouldTriggerXyzaxLevelUpBossCardEffect() {
+        FinalBossCard xyzax = setUpFinalBossCard(EffectEnum.CHOOSE_2_CARDS_FROM_DISCARD_PILE);
 
+        levelUpDungeonFinalBoss(xyzax);
+        assertThat("Phase did not change",game.getState().getPhase(),is(GamePhase.EFFECT));
+
+        Card card = new RoomCard();
+        game.getDiscardPile().add(0,card);
+        List<Card> discardPile = game.getDiscardPile();
+        assertThat("Not offering discard pile as choice",game.getChoice(),is(discardPile));
+
+        int cardsInHand = game.getCurrentPlayerHand().size();
+        game.makeChoice(0);
+        assertThat("Did not give a card to the player",game.getCurrentPlayerHand().size(),is(cardsInHand+1));
+        assertThat("Card given is not the specified one",game.getCurrentPlayerHand().get(cardsInHand),sameInstance(card));
     }
 
+    @Test
     void shouldTriggerCerebellusLevelUpBossCardEffect() {
+        FinalBossCard cerebellus = setUpFinalBossCard(EffectEnum.DRAW_3_SPELL_CARDS_AND_DISCARD_1_SPELL_CARD);
 
+        levelUpDungeonFinalBoss(cerebellus);
+        assertThat("Phase did not change",game.getState().getPhase(),is(GamePhase.EFFECT));
+
+        List<Card> discardPile = game.getCurrentPlayerHand();
+        assertThat("Not offering player hand as choice",game.getChoice(),is(discardPile));
+
+        int cardsInHand = game.getCurrentPlayerHand().size();
+        int cardsInDiscardPile = game.getDiscardPile().size();
+        Card card = game.getCurrentPlayerHand().get(cardsInHand-1);
+        game.makeChoice(cardsInHand-1);
+        assertThat("Did not remove a card from the player",game.getCurrentPlayerHand().size(),is(cardsInHand-1));
+        assertThat("Did not add card to discard pile", game.getDiscardPile().size(),is(cardsInDiscardPile+1));
+        assertThat("Card discarded is not the specified one",game.getDiscardPile().get(cardsInDiscardPile),sameInstance(card));
     }
 
+    @Test
     void shouldTriggerKingCroakLevelUpBossCardEffect() {
+        FinalBossCard kingCroak = setUpFinalBossCard(EffectEnum.BUILD_AN_ADVANCED_MONSTER_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE);
+
+        levelUpDungeonFinalBoss(kingCroak);
+        assertThat("Phase did not change",game.getState().getPhase(),is(GamePhase.EFFECT));
+        List<Card> expectedChoice = List.of(Card.DISCARD_PILE_CARD,Card.ROOM_PILE_CARD);
+        assertThat("Not offering choice between piles", game.getChoice(), is(expectedChoice));
+
+        RoomCard advancedMonster = new RoomCard();
+        advancedMonster.setRoomType(RoomType.ADVANCED_MONSTER);
+        advancedMonster.setTreasure("1000");
+        advancedMonster.setName("An advanced monster");
+        RoomCard notAdvancedMonster = new RoomCard();
+        notAdvancedMonster.setRoomType(RoomType.MONSTER);
+        notAdvancedMonster.setTreasure("0100");
+        notAdvancedMonster.setName("A not advanced monster");
+        RoomCard matchingTreasureCard = new RoomCard();
+        matchingTreasureCard.setName("A room with matching treasure");
+        matchingTreasureCard.setTreasure("1000");
+        game.getDiscardPile().add(advancedMonster);
+        game.getDiscardPile().add(notAdvancedMonster);
+        game.getRoomPile().add(advancedMonster);
+        game.getRoomPile().add(notAdvancedMonster);
+        game.getCurrentPlayer().getDungeon().replaceDungeonRoom(matchingTreasureCard,0);
+        game.getCurrentPlayer().getDungeon().replaceDungeonRoom(notAdvancedMonster,1);
+        game.makeChoice(0);
+        assertThat("Did not store choice",game.getPreviousChoices(),not(empty()));
+        assertThat("Not offering discard pile", game.getChoice(),is(game.getDiscardPile()));
+        assertThat("Shouldn't be able to choose a not advanced card",
+            game.getState().getSubPhase().isValidChoice(game.getDiscardPile().size()-1,game),is(false));
+        assertThat("Should be able to choose an advanced card",
+            game.getState().getSubPhase().isValidChoice(game.getDiscardPile().size()-2,game),is(true));
+        game.makeChoice(-1);
+        assertThat("Not rollbacking choice correctly",game.getChoice(),is(expectedChoice));
+        game.makeChoice(1);
+        assertThat("Not offering room pile", game.getChoice(),is(game.getRoomPile()));
+        game.makeChoice(game.getRoomPile().size()-2);
+        expectedChoice = Arrays.stream(game.getCurrentPlayer().getDungeon().getRoomSlots()).map(slot->slot.getRoom())
+                .collect(Collectors.toList());
+        assertThat("Not showing dungeon",game.getChoice(),is(expectedChoice));
+        assertThat("Should not be able to build on a room with mismatching treasure",
+            game.getState().getSubPhase().isValidChoice(1,game),is(false));
+        assertThat("Should be able to build on a room with matching treasure",
+            game.getState().getSubPhase().isValidChoice(0,game),is(true));
 
     }
 

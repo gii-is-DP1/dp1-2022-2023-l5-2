@@ -22,7 +22,7 @@
                 </div>
                 <c:if test="${game.state.subPhase.isOptional()}">
                     <button class="btn btn-default btn-lg" name="choice" value="-1">
-                        <c:out value="${game.state.isBuildingRoom()?'Cancel':'Pass'}"/>
+                        <c:out value="${not empty game.previousChoices?'Cancel':'Pass'}"/>
                     </button>
                 </c:if>
             </c:if>

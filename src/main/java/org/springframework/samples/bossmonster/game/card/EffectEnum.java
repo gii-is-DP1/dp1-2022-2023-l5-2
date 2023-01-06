@@ -18,7 +18,7 @@ import org.springframework.samples.bossmonster.game.player.Player;
 
 //Enumerado actua como dummy para la base de datos.
 public enum EffectEnum implements EffectInterface {
-    
+
     ENUMERADO {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
@@ -196,7 +196,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_SPELL_CARD_FROM_SPELL_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            //game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_A_SPELL_CARD_FROM_SPELL_PILE);
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_SPELL_FROM_SPELL_PILE);
         }
     },
 
@@ -204,7 +204,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_2_CARDS_FROM_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            //game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_2_CARDS_FROM_DISCARD_PILE);
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_2_CARDS_FROM_DISCARD_PILE);
         }
     },
 
@@ -216,12 +216,12 @@ public enum EffectEnum implements EffectInterface {
             game.getState().triggerSpecialCardEffectState(GameSubPhase.DISCARD_A_SPELL_CARD);
         }
     },
- 
+
     // King Croak (Boss)
     BUILD_AN_ADVANCED_MONSTER_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.BUILD_ADVANCED_CARD_FROM_DISCARD_OR_ROOM_PILE);
         }
     },
 
@@ -316,7 +316,7 @@ public enum EffectEnum implements EffectInterface {
                 player.getDungeon().getRoomSlots()[firstRoom].setRoom(null);
                 game.getDiscardPile().add(room);
             }
-        } 
+        }
     },
 
     // Kobold Strike (Spell)
@@ -334,7 +334,7 @@ public enum EffectEnum implements EffectInterface {
                 }
             }
             game.skipBuildPhase();
-        } 
+        }
     },
 
     // Teleportation (Spell)
@@ -342,7 +342,7 @@ public enum EffectEnum implements EffectInterface {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
             // TODO
-        } 
+        }
     },
 
     // Jeopardy (Spell)

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 @Getter
 @Setter
@@ -52,6 +53,7 @@ public class GameBuilder {
         buildStats(newGame, lobby.getJoinedUsers().size());
         buildChat(newGame);
         newGame.setActive(true);
+        newGame.setPreviousChoices(new Stack<>());
         return newGame;
     }
 
