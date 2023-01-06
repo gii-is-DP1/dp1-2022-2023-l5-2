@@ -24,6 +24,7 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.chat.ChatService;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
@@ -42,6 +43,8 @@ public class GameCardEffectTest {
 
     @Autowired
     protected CardService cardService;
+    @Autowired
+    protected ChatService chatService;
 
     GameBuilder gameBuilder;
 
@@ -49,7 +52,7 @@ public class GameCardEffectTest {
 
     @BeforeEach
     void setUp() {
-        gameBuilder = new GameBuilder(cardService);
+        gameBuilder = new GameBuilder(cardService,chatService);
         lobby = setUpGameLobby();
         game = gameBuilder.buildNewGame(lobby);
         testPlayer = game.getPlayers().get(0);
@@ -279,7 +282,7 @@ public class GameCardEffectTest {
         Integer postAmountOfRoomCards = getAmountOfRoomCards();
         assertEquals(priorAmountOfRoomCards + 1, postAmountOfRoomCards);
     }
-    
+
     @Test
     void shouldTriggerJackpotStashRoomCardEffect() {
         RoomCard jackpotStash = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.DOUBLE_DUNGEON_TREASURE_VALUE);
@@ -287,19 +290,19 @@ public class GameCardEffectTest {
         // The modified amount of treasure is already tested in shouldGetTreasureAmount() in DungeonTest
         assertTrue(testPlayer.getDungeon().getJackpotStashEffectActivated());
     }
-    
+
     @Ignore
     @Test
     void shouldTriggerDarkLaboratoryRoomCardEffect() {
 
     }
-    
+
     @Ignore
     @Test
     void shouldTriggerMonstrousMonumentRoomCardEffect() {
 
     }
-    
+
     @Test
     void shouldTriggerBeastMenagerieRoomCardEffect() {
         RoomCard beastMenagerie = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_MONSTER_ROOM, EffectEnum.DRAW_A_ROOM_CARD);
@@ -308,7 +311,7 @@ public class GameCardEffectTest {
         Integer postAmountOfRoomCards = getAmountOfRoomCards();
         assertEquals(priorAmountOfRoomCards + 1, postAmountOfRoomCards);
     }
-    
+
     @Test
     void shouldTriggerBrainsuckerHiveRoomCardEffect() {
         RoomCard brainsuckerHive = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.DRAW_A_SPELL_CARD);
@@ -317,25 +320,25 @@ public class GameCardEffectTest {
         Integer postAmountOfRoomCards = getAmountOfSpellCards();
         assertEquals(priorAmountOfSpellCards + 1, postAmountOfRoomCards);
     }
-    
+
     @Ignore
     @Test
     void shouldTriggerDizzygasHallwayRoomCardEffect() {
 
     }
-    
+
     @Ignore
     @Test
     void shouldTriggerMinotaursMazeRoomCardEffect() {
 
     }
-    
+
     @Ignore
     @Test
     void shouldTriggerGiantSizeSpellCardEffect() {
         SpellCard giantSize = setUpDummySpellCard(EffectEnum.ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM);
         game.triggerSpellCardEffect(giantSize);
-        
+
     }
 
     @Test
@@ -389,7 +392,7 @@ public class GameCardEffectTest {
     void shouldTriggerTeleportationSpellCardEffect() {
 
     }
-    
+
     @Test
     void shouldTriggerJeopardySpellCardEffect() {
         SpellCard jeopardy = setUpDummySpellCard(EffectEnum.EVERY_PLAYER_RESETS_THEIR_HAND);
@@ -440,7 +443,7 @@ public class GameCardEffectTest {
     }
 
     void shouldTriggerCleopatraLevelUpBossCardEffect() {
-        
+
     }
 
 }
