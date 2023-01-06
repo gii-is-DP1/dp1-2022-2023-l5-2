@@ -41,8 +41,10 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.card.spell.SpellPhase;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -66,13 +68,26 @@ public class GameTest {
     GameBuilder gameBuilder;
 
     Player player;
+
+    static RoomCard monster = new RoomCard();
+    static RoomCard monsterAdvanced = new RoomCard();
+    static RoomCard trapAdvanced = new RoomCard();
+    static SpellCard adventureCard = new SpellCard();
+    static SpellCard buildCard = new SpellCard();
+
     @BeforeEach
     void setUp() {
+
         gameBuilder = new GameBuilder(cardService);
         lobby = setUpGameLobby();
         game = gameBuilder.buildNewGame(lobby);
         player=game.getCurrentPlayer();
 
+        monster.setRoomType(RoomType.MONSTER);
+        monsterAdvanced.setRoomType(RoomType.ADVANCED_MONSTER);
+        trapAdvanced.setRoomType(RoomType.ADVANCED_TRAP);
+        adventureCard.setPhase(SpellPhase.adventurePhase);
+        buildCard.setPhase(SpellPhase.constructionPhase);
     }
 
     GameLobby setUpGameLobby() {
@@ -383,12 +398,7 @@ public class GameTest {
     }
 
     static Stream<Arguments> shouldCheckPlaceableRoomInDungeonPosition() {
-        RoomCard monster = new RoomCard();
-        monster.setRoomType(RoomType.MONSTER);
-        RoomCard monsterAdvanced = new RoomCard();
-        monsterAdvanced.setRoomType(RoomType.ADVANCED_MONSTER);
-        RoomCard trapAdvanced = new RoomCard();
-        trapAdvanced.setRoomType(RoomType.ADVANCED_TRAP);
+
         return Stream.of(
             Arguments.of(monster,3,true,"Should be able to build on empty room"),
             Arguments.of(monster,4,false,"Shouldn't be able to place room away from dungeon"),
@@ -406,8 +416,6 @@ public class GameTest {
     @ParameterizedTest
     @MethodSource
     void shouldCheckPlaceableRoomInDungeonPosition(RoomCard roomToBuild, Integer position, Boolean expected, String reason) {
-        RoomCard monster = new RoomCard();
-        monster.setRoomType(RoomType.MONSTER);
         monster.setId(0);
         RoomCard trap = new RoomCard();
         trap.setRoomType(RoomType.TRAP);
@@ -660,20 +668,32 @@ public class GameTest {
     }
 
 
-    static Stream<Arguments> shouldGetUnplayableCards() {
-        return Stream.of(Arguments.of(GameSubPhase.USE_SPELLCARD, List.of(2)),
-            Arguments.of(GameSubPhase.PLACE_FIRST_ROOM, List.of(0,1)),
-            Arguments.of(GameSubPhase.BUILD_NEW_ROOM, List.of(0,1)),
-            Arguments.of(GameSubPhase.DISCARD_2_STARTING_CARDS, List.of()));
+    static Stream<Arguments> shouldGetPlayableCards() {
+        return Stream.of(Arguments.of(GameSubPhase.USE_SPELLCARD, 0, false),
+            Arguments.of(GameSubPhase.USE_SPELLCARD, 2, true),
+            Arguments.of(GameSubPhase.USE_SPELLCARD, 3, false),
+            Arguments.of(GameSubPhase.PLACE_FIRST_ROOM, 0, true),
+            Arguments.of(GameSubPhase.PLACE_FIRST_ROOM, 1, false),
+            Arguments.of(GameSubPhase.DISCARD_A_SPELL_CARD, 1, false),
+            Arguments.of(GameSubPhase.DISCARD_A_SPELL_CARD, 2, true),
+            Arguments.of(GameSubPhase.ANNOUNCE_NEW_PHASE, 2, false),
+            Arguments.of(GameSubPhase.CHOOSE_A_CARD_FROM_DISCARD_PILE, 2, true),
+            Arguments.of(GameSubPhase.CHOOSE_A_MONSTER_ROOM_CARD_FROM_DISCARD_PILE, 1, true),
+            Arguments.of(GameSubPhase.CHOOSE_A_MONSTER_ROOM_CARD_FROM_DISCARD_PILE, 2, false),
+            Arguments.of(GameSubPhase.BUILD_NEW_ROOM, 0, true),
+            Arguments.of(GameSubPhase.DISCARD_2_STARTING_CARDS, 1, true)
+        );
     }
     @Ignore
     @ParameterizedTest
     @MethodSource
-    void shouldGetUnplayableCards(GameSubPhase subphase, Integer choice) {
+    void shouldGetPlayableCards(GameSubPhase subphase, Integer choice, Boolean expected) {
+        List<Card> cards = List.of(monster, monsterAdvanced, buildCard, adventureCard);
+        player.setHand(cards);
+        game.setDiscardPile(cards);
+        game.getState().setPhase(GamePhase.BUILD);
         game.getState().setSubPhase(subphase);
-        Player player = game.getCurrentPlayer();
-        player.setHand(List.of(new SpellCard(), new SpellCard(), new RoomCard()));
-//        assertThat(game.getUnplayableCards()).isEqualTo(expected);
+        assertThat(game.getState().getSubPhase().isValidChoice(choice,game),is(expected));
     }
 
 }
