@@ -54,7 +54,7 @@ public class ChatController {
         message.setSender(user);
 
         if(service.estaCensurada(words)){
-            message.setWords("*******");
+            message.setWords(service.cambiarPalabrasCensuradas(words));
             service.addMessage(message);
             result.setViewName("redirect:/games/"+gameId+"/chat");
         }else if(message.getWords().length()==0){

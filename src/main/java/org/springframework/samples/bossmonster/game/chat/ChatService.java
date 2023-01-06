@@ -46,5 +46,15 @@ public class ChatService {
         }
         return false;
     }
+    public String cambiarPalabrasCensuradas(String words){
+        String result=words;
+        for(Integer i=0; i<palabrasCensuradas.size();i++){
+            String palabraCensurada= palabrasCensuradas.get(i);
+            if(words.contains(palabraCensurada)){
+                result=result.replaceAll(palabraCensurada, "*******");
+            }
+        }
+        return result;
+    }
 }
 
