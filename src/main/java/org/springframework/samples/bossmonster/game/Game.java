@@ -387,9 +387,10 @@ public class Game extends BaseEntity {
         if(!getState().getSubPhase().isValidChoice(index,this)) return;
 
         getState().getSubPhase().makeChoice(this,index);
-        incrementCounter();
+        if (!getState().getPhase().equals(GamePhase.EFFECT) || getState().getPhase().equals(null)) incrementCounter();
+        else getState().setCounterBeforeEffect(getState().getCounterBeforeEffect() + 1);
     }
-
+ 
     public Boolean getPlayerHasToChoose(Player player) {
         List<Card> choice = getChoice();
         return player == getCurrentPlayer() && choice != null && !choice.isEmpty();
