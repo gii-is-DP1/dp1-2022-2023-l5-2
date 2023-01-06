@@ -26,6 +26,7 @@ import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.chat.ChatService;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
+import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
@@ -255,8 +256,8 @@ public class GameCardEffectTest {
         RoomCard ligersDen = setUpDummyRoomCard(RoomPassiveTrigger.USE_SPELL_CARD, EffectEnum.DRAW_A_SPELL_CARD);
         Integer priorAmountOfSpellCards = getAmountOfSpellCards();
         activateRoomCardEffect(ligersDen);
-        Integer postAmountOfRoomCards = getAmountOfSpellCards();
-        assertEquals(priorAmountOfSpellCards + 1, postAmountOfRoomCards);
+        Integer postAmountOfSpellCards = getAmountOfSpellCards();
+        assertEquals(priorAmountOfSpellCards + 1, postAmountOfSpellCards);
     }
 
     @Test
@@ -291,10 +292,29 @@ public class GameCardEffectTest {
         assertTrue(testPlayer.getDungeon().getJackpotStashEffectActivated());
     }
 
-    @Ignore
     @Test
     void shouldTriggerDarkLaboratoryRoomCardEffect() {
-
+        game.getState().setPhase(GamePhase.START_GAME);
+        game.getState().setSubPhase(GameSubPhase.PLACE_FIRST_ROOM);
+        game.getState().setActionLimit(1);
+        game.getState().setCounter(0);
+        RoomCard darkLaboratory = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_THIS_ROOM, EffectEnum.DRAW_2_SPELL_CARDS_AND_DISCARD_1_SPELL_CARD);
+        Integer priorAmountOfSpellCards = getAmountOfSpellCards();
+        activateRoomCardEffect(darkLaboratory);
+        Integer postAmountOfSpellCardsBeforeDiscard = getAmountOfSpellCards();
+        assertEquals(priorAmountOfSpellCards + 2, postAmountOfSpellCardsBeforeDiscard);
+        assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.EFFECT));
+        assertThat("The substate didn't change", game.getState().getSubPhase(), is(GameSubPhase.DISCARD_A_SPELL_CARD));
+        assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
+        assertThat("The limit wasn't correctly updated", game.getState().getActionLimit(), is(1));
+        Integer randomSpellCard = testPlayer.getHand().size() - 1;
+        game.makeChoice(randomSpellCard);
+        Integer postAmountOfSpellCardsAfterDiscard = getAmountOfSpellCards();
+        assertEquals(postAmountOfSpellCardsBeforeDiscard - 1, postAmountOfSpellCardsAfterDiscard);
+        assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.START_GAME));
+        assertThat("The substate didn't change", game.getState().getSubPhase(), is(GameSubPhase.PLACE_FIRST_ROOM));
+        assertThat("The limit wasn't correctly updated", game.getState().getActionLimit(), is(1));
+        assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
     }
 
     @Ignore

@@ -123,7 +123,7 @@ public class GameState extends BaseEntity {
         int time = (int) Duration.between(LocalDateTime.now(), clock).getSeconds() + 1;
         return Integer.max(time,DEFAULT_WAITING_TIME);
     }
-
+ 
     public void getFirstNonEliminatedPlayer() {
         currentPlayer = -1;
         Boolean detected = false;
@@ -323,6 +323,7 @@ public class GameState extends BaseEntity {
         actionLimit = actionLimitBeforeEffect;
         clock = clockBeforeEffect;
         checkClock = checkClockBeforeEffect;
+        phaseBeforeEffect = null;
     }
 
 }

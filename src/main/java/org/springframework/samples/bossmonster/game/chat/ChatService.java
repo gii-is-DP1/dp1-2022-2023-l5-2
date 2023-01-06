@@ -9,14 +9,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ChatService {
-    @Autowired
+
     private ChatRepository repo;
-    @Autowired
     private MessageRepository repo2;
 
+    private static List<String> palabrasCensuradas=List.of(
+        "No me gusta DP", 
+        "No me toca nada bueno",
+        "Leche antes de los cereales",
+        "Palabrota",
+        "Twitter");
+
     @Autowired
-    public ChatService(ChatRepository chatRepository){
+    public ChatService(ChatRepository chatRepository, MessageRepository repo2){
         this.repo = chatRepository;
+        this.repo2=repo2;
+
     }
     public Optional<Chat> findById(Integer id){
         return repo.findById(id);
@@ -33,6 +41,25 @@ public class ChatService {
     @Transactional
     public void createChat(Chat chat){
         repo.save(chat);
+    }
+    public Boolean estaCensurada(String words){
+        for(Integer i=0; i<palabrasCensuradas.size();i++){
+            String palabraCensurada= palabrasCensuradas.get(i);
+            if(words.contains(palabraCensurada)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public String cambiarPalabrasCensuradas(String words){
+        String result=words;
+        for(Integer i=0; i<palabrasCensuradas.size();i++){
+            String palabraCensurada= palabrasCensuradas.get(i);
+            if(words.contains(palabraCensurada)){
+                result=result.replaceAll(palabraCensurada, "*******");
+            }
+        }
+        return result;
     }
 }
 

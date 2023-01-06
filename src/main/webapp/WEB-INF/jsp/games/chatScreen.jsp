@@ -5,6 +5,9 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="chatScreen">
+
+<spring:url value="/games/${gameId}" htmlEscape="true" var="game"/>
+
   <h1>Chat</h1>
   <table class="table table-striped">
     <tbody>
@@ -28,6 +31,9 @@
         </form>
     </tbody>
   </table>
+  <div>
+  <a class="btn btn-title" href="${game}">Back</a>
+</div>
 </bossmonster:layout>
 
 <style>
