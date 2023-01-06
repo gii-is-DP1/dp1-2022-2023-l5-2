@@ -52,6 +52,8 @@ public class GameState extends BaseEntity {
     private LocalDateTime clockBeforeEffect;
     private Boolean checkClockBeforeEffect;
 
+    private Boolean effectIsBeingTriggered;
+
     private static final Integer START_GAME_DISCARDED_CARDS = 2;
     private static final Integer START_GAME_ROOMS_PLACED = 1;
     private static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;   // If a card effect changes the limit, this value will update automatically
@@ -87,7 +89,7 @@ public class GameState extends BaseEntity {
             log.debug("Subphase is now "+ getSubPhase());
         }
     }
-
+ 
     private void updateGameState() {
         switch (phase) {
             case START_GAME:  updateStartGameState(); break;
@@ -321,7 +323,7 @@ public class GameState extends BaseEntity {
         actionLimit = actionLimitBeforeEffect;
         clock = clockBeforeEffect;
         checkClock = checkClockBeforeEffect;
-        phaseBeforeEffect = null;
+        checkStateStatus();
     }
 
 }

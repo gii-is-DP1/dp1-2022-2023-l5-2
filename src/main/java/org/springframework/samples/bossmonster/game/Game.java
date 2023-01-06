@@ -276,6 +276,7 @@ public class Game extends BaseEntity {
 
     public void triggerRoomCardEffect(Player player, Integer position) {
         RoomCard room = player.getDungeon().getRoomSlots()[position].getRoom();
+        getState().setEffectIsBeingTriggered(true);
         room.getEffect().apply(player, position, this);
     }
 
@@ -368,6 +369,7 @@ public class Game extends BaseEntity {
     }
 
     public void makeChoice(Integer index) {
+        getState().setEffectIsBeingTriggered(false);
         if (index < 0) {
             log.info("Chose to pass");
             if(!getState().getSubPhase().isOptional()) return;
@@ -387,8 +389,8 @@ public class Game extends BaseEntity {
         if(!getState().getSubPhase().isValidChoice(index,this)) return;
 
         getState().getSubPhase().makeChoice(this,index);
-        if (!getState().getPhase().equals(GamePhase.EFFECT) || getState().getPhase().equals(null)) incrementCounter();
-        else getState().setCounterBeforeEffect(getState().getCounterBeforeEffect() + 1);
+        if (getState().getEffectIsBeingTriggered()) getState().setCounterBeforeEffect(getState().getCounterBeforeEffect() + 1);
+        else incrementCounter();
     }
  
     public Boolean getPlayerHasToChoose(Player player) {
