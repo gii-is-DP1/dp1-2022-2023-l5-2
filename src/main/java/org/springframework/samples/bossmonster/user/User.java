@@ -75,7 +75,7 @@ public class User{
     @NotAudited
     private List<GameLobby> lobbies;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "achievement_users",
         joinColumns = @JoinColumn(name="username"),
