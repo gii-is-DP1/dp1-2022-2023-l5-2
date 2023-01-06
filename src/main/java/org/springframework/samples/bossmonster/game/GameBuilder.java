@@ -128,7 +128,7 @@ public class GameBuilder {
         newGame.setState(state);
         state.setCurrentRound(1);
         state.setGame(newGame);
-        state.setPhaseBeforeEffect(null);
+        state.setEffectIsBeingTriggered(false);
     }
 
 }
