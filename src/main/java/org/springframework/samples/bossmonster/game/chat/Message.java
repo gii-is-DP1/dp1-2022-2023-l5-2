@@ -5,6 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.springframework.samples.bossmonster.model.BaseEntity;
@@ -20,6 +21,7 @@ import lombok.Setter;
 public class Message extends BaseEntity {
 
     @Size(min = 0, max = 150)
+    @NotEmpty
     private String words;
 
     @ManyToOne
