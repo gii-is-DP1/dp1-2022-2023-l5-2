@@ -30,12 +30,12 @@ import java.util.List;
 public class GameBuilder {
 
     CardService cardService;
-    @Autowired
     ChatService chatService;
 
     @Autowired
-    public GameBuilder(CardService cardService) {
+    public GameBuilder(CardService cardService,ChatService chatService) {
         this.cardService = cardService;
+        this.chatService = chatService;
     }
 
     //////////////////////////   TRUE GAME   //////////////////////////

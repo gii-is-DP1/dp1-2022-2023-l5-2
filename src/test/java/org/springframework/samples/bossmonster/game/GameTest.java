@@ -42,6 +42,7 @@ import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellPhase;
+import org.springframework.samples.bossmonster.game.chat.ChatService;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
@@ -64,6 +65,8 @@ public class GameTest {
 
     @Autowired
     protected CardService cardService;
+    @Autowired
+    protected ChatService chatService;
 
     GameBuilder gameBuilder;
 
@@ -78,7 +81,7 @@ public class GameTest {
     @BeforeEach
     void setUp() {
 
-        gameBuilder = new GameBuilder(cardService);
+        gameBuilder = new GameBuilder(cardService,chatService);
         lobby = setUpGameLobby();
         game = gameBuilder.buildNewGame(lobby);
         player=game.getCurrentPlayer();
@@ -398,7 +401,11 @@ public class GameTest {
     }
 
     static Stream<Arguments> shouldCheckPlaceableRoomInDungeonPosition() {
-
+        monster.setRoomType(RoomType.MONSTER);
+        monsterAdvanced.setRoomType(RoomType.ADVANCED_MONSTER);
+        trapAdvanced.setRoomType(RoomType.ADVANCED_TRAP);
+        adventureCard.setPhase(SpellPhase.adventurePhase);
+        buildCard.setPhase(SpellPhase.constructionPhase);
         return Stream.of(
             Arguments.of(monster,3,true,"Should be able to build on empty room"),
             Arguments.of(monster,4,false,"Shouldn't be able to place room away from dungeon"),
@@ -644,10 +651,10 @@ public class GameTest {
     })
     void shouldMakeChoice(GameSubPhase subPhase, Integer choice, Integer expectedBuiltRooms, Integer expectedCardsInHand) {
         player.setHand(new ArrayList<>(List.of(
-                new RoomCard(), new RoomCard(), new SpellCard()
+                monster, monsterAdvanced, buildCard
             )));
         game.getState().setSubPhase(subPhase);
-
+        game.getState().setPhase(GamePhase.BUILD);
         game.makeChoice(choice);
 
         assertThat(player.getHand()).hasSize(expectedCardsInHand);
@@ -684,7 +691,6 @@ public class GameTest {
             Arguments.of(GameSubPhase.DISCARD_2_STARTING_CARDS, 1, true)
         );
     }
-    @Ignore
     @ParameterizedTest
     @MethodSource
     void shouldGetPlayableCards(GameSubPhase subphase, Integer choice, Boolean expected) {
