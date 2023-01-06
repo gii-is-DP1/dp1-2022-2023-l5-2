@@ -43,7 +43,6 @@
         </tbody>
     </table>
     <div class="centered-view">
-
         <a class="btn btn-title" href="${welcome}">Back</a>
     </div>
 </bossmonster:layout>

@@ -1,4 +1,4 @@
-package org.springframework.samples.bossmonster.user;
+package org.springframework.samples.bossmonster.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
