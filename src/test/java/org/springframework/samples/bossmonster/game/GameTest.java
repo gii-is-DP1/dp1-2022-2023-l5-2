@@ -42,6 +42,7 @@ import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellPhase;
+import org.springframework.samples.bossmonster.game.chat.ChatService;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
@@ -64,6 +65,8 @@ public class GameTest {
 
     @Autowired
     protected CardService cardService;
+    @Autowired
+    protected ChatService chatService;
 
     GameBuilder gameBuilder;
 
@@ -78,7 +81,7 @@ public class GameTest {
     @BeforeEach
     void setUp() {
 
-        gameBuilder = new GameBuilder(cardService);
+        gameBuilder = new GameBuilder(cardService,chatService);
         lobby = setUpGameLobby();
         game = gameBuilder.buildNewGame(lobby);
         player=game.getCurrentPlayer();
@@ -688,7 +691,6 @@ public class GameTest {
             Arguments.of(GameSubPhase.DISCARD_2_STARTING_CARDS, 1, true)
         );
     }
-    @Ignore
     @ParameterizedTest
     @MethodSource
     void shouldGetPlayableCards(GameSubPhase subphase, Integer choice, Boolean expected) {
