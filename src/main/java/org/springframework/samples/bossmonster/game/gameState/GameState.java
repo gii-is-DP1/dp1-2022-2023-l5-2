@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jpatterns.gof.StrategyPattern;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -18,6 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Slf4j
+@StrategyPattern.Context
 public class GameState extends BaseEntity {
 
     public static final int DEFAULT_WAITING_TIME = 2;

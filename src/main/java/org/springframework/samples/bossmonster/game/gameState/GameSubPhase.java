@@ -2,6 +2,7 @@ package org.springframework.samples.bossmonster.game.gameState;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jpatterns.gof.StrategyPattern;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Slf4j
+@StrategyPattern.ConcreteStrategy
 public enum GameSubPhase implements SubPhaseChoices{
 
     // COMMON

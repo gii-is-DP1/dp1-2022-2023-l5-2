@@ -1,10 +1,12 @@
 package org.springframework.samples.bossmonster.game.gameState;
 
+import org.jpatterns.gof.StrategyPattern;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
 
 import java.util.List;
 
+@StrategyPattern.Strategy
 public interface SubPhaseChoices {
     default List<Card> getChoice(Game game) {
         return null;
