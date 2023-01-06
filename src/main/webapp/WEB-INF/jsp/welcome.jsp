@@ -20,7 +20,7 @@
 
 
 
-    <body class="inicio">
+    <body class="body">
 
             <div class="centered-view">
                 <a class="btn btn-title" href="${newLobby}">Create Game</a>
@@ -51,10 +51,10 @@
                 </div>
             </sec:authorize>
             <div class="buttonview">
-                <a class="cuteButton" href="${friendModule}">
+                <a class="btn btn-title" href="${friendModule}">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"><div class="text1">Friends</div> </span>
                 </a>
-                <a class="cuteButton" href="/users/statistics/rankings/winRate">
+                <a class="btn btn-title" href="/users/statistics/rankings/winRate">
                     <span class="glyphicon glyphicon-king" aria-hidden="true"><div class="text1">Rankings</div> </span>
                 </a>
             </div>
