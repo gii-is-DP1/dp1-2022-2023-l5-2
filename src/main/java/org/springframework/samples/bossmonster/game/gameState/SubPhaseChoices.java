@@ -19,4 +19,6 @@ public interface SubPhaseChoices {
     default Boolean isOptional() {return true;}
 
     default Integer getActionLimit() {return 1;}
+
+    default Integer getClockLimit() {return null;};
 }
