@@ -13,7 +13,12 @@ public class ChatService {
     private ChatRepository repo;
     private MessageRepository repo2;
 
-    private static List<String> palabrasCensuradas=List.of("No me gusta DP", "No me toca nada bueno","Leche antes de los cereales");
+    private static List<String> palabrasCensuradas=List.of(
+        "No me gusta DP", 
+        "No me toca nada bueno",
+        "Leche antes de los cereales",
+        "Palabrota",
+        "Twitter");
 
     @Autowired
     public ChatService(ChatRepository chatRepository, MessageRepository repo2){
@@ -45,6 +50,16 @@ public class ChatService {
             }
         }
         return false;
+    }
+    public String cambiarPalabrasCensuradas(String words){
+        String result=words;
+        for(Integer i=0; i<palabrasCensuradas.size();i++){
+            String palabraCensurada= palabrasCensuradas.get(i);
+            if(words.contains(palabraCensurada)){
+                result=result.replaceAll(palabraCensurada, "*******");
+            }
+        }
+        return result;
     }
 }
 
