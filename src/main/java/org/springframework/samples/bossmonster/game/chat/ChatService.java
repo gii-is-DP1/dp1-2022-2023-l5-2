@@ -13,7 +13,12 @@ public class ChatService {
     private ChatRepository repo;
     private MessageRepository repo2;
 
-    private static List<String> palabrasCensuradas=List.of("No me gusta DP", "No me toca nada bueno","Leche antes de los cereales");
+    private static List<String> palabrasCensuradas=List.of(
+        "No me gusta DP", 
+        "No me toca nada bueno",
+        "Leche antes de los cereales",
+        "Palabrota",
+        "Twitter");
 
     @Autowired
     public ChatService(ChatRepository chatRepository, MessageRepository repo2){
