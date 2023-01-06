@@ -285,7 +285,8 @@ public class Game extends BaseEntity {
         for(int pos = 0; pos < currentPlayerDungeon.getBuiltRooms(); pos++) {
             tryTriggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
         }
-
+        Integer cardPosition = getCurrentPlayer().getHand().indexOf(spell);
+        if (cardPosition >= 0 && cardPosition < getCurrentPlayer().getHand().size()) discardCard(getCurrentPlayer(), cardPosition);
         spell.getEffect().apply(getCurrentPlayer(),null,this);
     }
 
@@ -386,9 +387,10 @@ public class Game extends BaseEntity {
         if(!getState().getSubPhase().isValidChoice(index,this)) return;
 
         getState().getSubPhase().makeChoice(this,index);
-        incrementCounter();
+        if (!getState().getPhase().equals(GamePhase.EFFECT) || getState().getPhase().equals(null)) incrementCounter();
+        else getState().setCounterBeforeEffect(getState().getCounterBeforeEffect() + 1);
     }
-
+ 
     public Boolean getPlayerHasToChoose(Player player) {
         List<Card> choice = getChoice();
         return player == getCurrentPlayer() && choice != null && !choice.isEmpty();

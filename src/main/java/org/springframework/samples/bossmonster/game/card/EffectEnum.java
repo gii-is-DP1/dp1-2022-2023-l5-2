@@ -216,7 +216,7 @@ public enum EffectEnum implements EffectInterface {
             game.getState().triggerSpecialCardEffectState(GameSubPhase.DISCARD_A_SPELL_CARD);
         }
     },
-
+ 
     // King Croak (Boss)
     BUILD_AN_ADVANCED_MONSTER_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE {
         @Override
