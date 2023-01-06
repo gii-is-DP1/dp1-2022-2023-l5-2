@@ -18,8 +18,17 @@ public enum GameSubPhase implements SubPhaseChoices{
 
     // COMMON
     ANNOUNCE_NEW_PHASE(g->g.getState().getPhase().getStartPhaseMessage()) {
+        @Override
+        public Integer getClockLimit() {
+            return 3;
+        }
     },
-    ANNOUNCE_NEW_PLAYER(g->String.format("It is now %s's turn!",g.getCurrentPlayer())),
+    ANNOUNCE_NEW_PLAYER(g->String.format("It is now %s's turn!",g.getCurrentPlayer())){
+        @Override
+        public Integer getClockLimit() {
+            return 1;
+        }
+    },
     USE_SPELLCARD(g->String.format("%s considers their spells...",g.getCurrentPlayer()),
         "Choose a spell to activate") {
         @Override
@@ -98,8 +107,18 @@ public enum GameSubPhase implements SubPhaseChoices{
     },
 
     // START_ROUND
-    REVEAL_HEROES(g->"New heroes arrived at the city!"),
-    GET_ROOM_CARD(g->"The Bosses get a new room to build..."),
+    REVEAL_HEROES(g->"New heroes arrived at the city!") {
+        @Override
+        public Integer getClockLimit() {
+            return 3;
+        }
+    },
+    GET_ROOM_CARD(g->"The Bosses get a new room to build...") {
+        @Override
+        public Integer getClockLimit() {
+            return 3;
+        }
+    },
 
     // BUILD
     BUILD_NEW_ROOM(g->String.format("%s is considering building a room...",g.getCurrentPlayer()),
@@ -140,13 +159,28 @@ public enum GameSubPhase implements SubPhaseChoices{
             return 2;
         }
     },
-    REVEAL_NEW_ROOMS(g->"The newly built rooms get revealed!"),
+    REVEAL_NEW_ROOMS(g->"The newly built rooms get revealed!") {
+        @Override
+        public Integer getClockLimit() {
+            return 3;
+        }
+    },
 
     // LURE
-    HEROES_ENTER_DUNGEON(g->"The heroes enter the dungeons!"),
+    HEROES_ENTER_DUNGEON(g->"The heroes enter the dungeons!") {
+        @Override
+        public Integer getClockLimit() {
+            return 3;
+        }
+    },
 
     // ADVENTURE
-    HEROES_EXPLORE_DUNGEON(g->String.format("The heroes advance through %s's Dungeon!",g.getCurrentPlayer())),
+    HEROES_EXPLORE_DUNGEON(g->String.format("The heroes advance through %s's Dungeon!",g.getCurrentPlayer())) {
+        @Override
+        public Integer getClockLimit() {
+            return 3;
+        }
+    },
 
     // EFFECT
     CHOOSE_A_CARD_FROM_DISCARD_PILE(g->String.format("%s is getting a card from the discard pile...",g.getCurrentPlayer()),
@@ -243,6 +277,10 @@ public enum GameSubPhase implements SubPhaseChoices{
 
     Function<Game, String> contextualMessage;
     String choiceMessage;
+
+    public Boolean hasToCheckClock() {
+        return this.getClockLimit() != null;
+    }
 
     GameSubPhase(Function<Game, String> contextualMessage, String choiceMessage) {
         this.contextualMessage = contextualMessage;
