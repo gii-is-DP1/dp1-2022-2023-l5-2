@@ -285,7 +285,8 @@ public class Game extends BaseEntity {
         for(int pos = 0; pos < currentPlayerDungeon.getBuiltRooms(); pos++) {
             tryTriggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
         }
-
+        Integer cardPosition = getCurrentPlayer().getHand().indexOf(spell);
+        if (cardPosition >= 0 && cardPosition < getCurrentPlayer().getHand().size()) discardCard(getCurrentPlayer(), cardPosition);
         spell.getEffect().apply(getCurrentPlayer(),null,this);
     }
 
