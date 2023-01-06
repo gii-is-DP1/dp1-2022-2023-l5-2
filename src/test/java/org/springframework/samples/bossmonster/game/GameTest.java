@@ -398,7 +398,11 @@ public class GameTest {
     }
 
     static Stream<Arguments> shouldCheckPlaceableRoomInDungeonPosition() {
-
+        monster.setRoomType(RoomType.MONSTER);
+        monsterAdvanced.setRoomType(RoomType.ADVANCED_MONSTER);
+        trapAdvanced.setRoomType(RoomType.ADVANCED_TRAP);
+        adventureCard.setPhase(SpellPhase.adventurePhase);
+        buildCard.setPhase(SpellPhase.constructionPhase);
         return Stream.of(
             Arguments.of(monster,3,true,"Should be able to build on empty room"),
             Arguments.of(monster,4,false,"Shouldn't be able to place room away from dungeon"),
@@ -644,10 +648,10 @@ public class GameTest {
     })
     void shouldMakeChoice(GameSubPhase subPhase, Integer choice, Integer expectedBuiltRooms, Integer expectedCardsInHand) {
         player.setHand(new ArrayList<>(List.of(
-                new RoomCard(), new RoomCard(), new SpellCard()
+                monster, monsterAdvanced, buildCard
             )));
         game.getState().setSubPhase(subPhase);
-
+        game.getState().setPhase(GamePhase.BUILD);
         game.makeChoice(choice);
 
         assertThat(player.getHand()).hasSize(expectedCardsInHand);
