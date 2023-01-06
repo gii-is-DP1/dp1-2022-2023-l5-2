@@ -53,10 +53,14 @@ public class ChatController {
         message.setChat(chat);
         message.setSender(user);
 
-        if(message.getWords().contains("Leche antes de cereales")){
-            result.addObject("message", "Opinión incorrecta");
+        if(service.estaCensurada(words)){
+            message.setWords("*******");
+            service.addMessage(message);
             result.setViewName("redirect:/games/"+gameId+"/chat");
-        }else{
+        }else if(message.getWords().length()==0){
+            result.setViewName("redirect:/games/"+gameId+"/chat");
+        }
+        else{
             service.addMessage(message);
             result.setViewName("redirect:/games/"+gameId+"/chat");
         }
