@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FriendRequestService {
 
-    private FriendRequestRepository repo;
-    private UserService uService;
+    FriendRequestRepository repo;
+    UserService uService;
 
     @Autowired
     public FriendRequestService(FriendRequestRepository r,UserService uService){

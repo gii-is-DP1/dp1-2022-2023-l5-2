@@ -40,7 +40,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 public class FriendRequestControllerTest {
     
     @MockBean
-    private FriendRequestServiceTests friendRequestService;
+    private FriendRequestService friendRequestService;
 
     @MockBean
     private UserService userService;
