@@ -72,7 +72,7 @@ public class GameState extends BaseEntity {
         clock = LocalDateTime.now().plusSeconds(seconds);
     }
 
-    private void updateChangeConditionCounter(Integer newLimit) {
+    public void updateChangeConditionCounter(Integer newLimit) {
         checkClock = false;
         counter = 0;
         actionLimit = newLimit;
