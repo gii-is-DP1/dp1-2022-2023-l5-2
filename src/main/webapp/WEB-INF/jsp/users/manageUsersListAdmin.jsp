@@ -8,16 +8,6 @@
 <spring:url value="/" htmlEscape="true" var="welcome"/>
 
     <h2>User Management</h2>
-    <c:choose>
-        <c:when test="${param.page=='2'}">
-            AAAAAAAAAAAAAAA 
-            <br />
-        </c:when>    
-        <c:otherwise>
-            No. 
-            <br />
-        </c:otherwise>
-    </c:choose>
 
     <table id="usersListTable" class="table table-striped">
         <thead>
