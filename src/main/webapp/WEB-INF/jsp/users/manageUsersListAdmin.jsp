@@ -83,4 +83,10 @@
     <div class="centered-view">
         <a class="btn btn-title" href="${welcome}">Back</a>
     </div>
+    <style>
+        table{
+            margin-right: auto;
+            margin-left: auto;
+        }
+    </style>
 </bossmonster:layout>
