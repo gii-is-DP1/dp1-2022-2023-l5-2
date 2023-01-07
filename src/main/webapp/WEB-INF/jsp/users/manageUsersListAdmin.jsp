@@ -8,6 +8,16 @@
 <spring:url value="/" htmlEscape="true" var="welcome"/>
 
     <h2>User Management</h2>
+    <c:choose>
+        <c:when test="${param.page=='2'}">
+            AAAAAAAAAAAAAAA 
+            <br />
+        </c:when>    
+        <c:otherwise>
+            No. 
+            <br />
+        </c:otherwise>
+    </c:choose>
 
     <table id="usersListTable" class="table table-striped">
         <thead>
@@ -56,6 +66,29 @@
                 </tr>
             </c:forEach>
         </tbody>
+    </table>
+    <table>
+        <tr>
+            <td>
+                <c:choose>
+                    <c:when test="${param.page=='0'}">
+                        <a href="users?page=0"> 
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </a>
+                    </c:when>    
+                    <c:otherwise>
+                        <a href="users?page=${param.page - 1}"> 
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </a>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+            <td>
+                <a href="users?page=${param.page + 1}"> 
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                </a>
+            </td>
+        </tr>
     </table>
     <div class="centered-view">
         <a class="btn btn-title" href="${welcome}">Back</a>
