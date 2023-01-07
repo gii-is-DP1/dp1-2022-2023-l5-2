@@ -40,8 +40,11 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.card.spell.SpellPhase;
+import org.springframework.samples.bossmonster.game.chat.ChatService;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
+import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -61,17 +64,32 @@ public class GameTest {
 
     @Autowired
     protected CardService cardService;
+    @Autowired
+    protected ChatService chatService;
 
     GameBuilder gameBuilder;
 
     Player player;
+
+    static RoomCard monster = new RoomCard();
+    static RoomCard monsterAdvanced = new RoomCard();
+    static RoomCard trapAdvanced = new RoomCard();
+    static SpellCard adventureCard = new SpellCard();
+    static SpellCard buildCard = new SpellCard();
+
     @BeforeEach
     void setUp() {
-        gameBuilder = new GameBuilder(cardService);
+
+        gameBuilder = new GameBuilder(cardService,chatService);
         lobby = setUpGameLobby();
         game = gameBuilder.buildNewGame(lobby);
         player=game.getCurrentPlayer();
 
+        monster.setRoomType(RoomType.MONSTER);
+        monsterAdvanced.setRoomType(RoomType.ADVANCED_MONSTER);
+        trapAdvanced.setRoomType(RoomType.ADVANCED_TRAP);
+        adventureCard.setPhase(SpellPhase.adventurePhase);
+        buildCard.setPhase(SpellPhase.constructionPhase);
     }
 
     GameLobby setUpGameLobby() {
@@ -261,6 +279,25 @@ public class GameTest {
     }
 
     @Test
+    void shouldDiscardAllCards() {
+        for (Player p: game.getPlayers()) {
+            List<Card> expectedHand = new ArrayList<>(p.getHand());
+            List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
+            game.discardAllCards(p);
+            Iterator<Card> iterator = expectedHand.iterator();
+            while (iterator.hasNext()) {
+                Card c = iterator.next();
+                iterator.remove();
+                expectedDiscardPile.add(c);
+            }
+            List<Card> trueHand = p.getHand();
+            List<Card> trueDiscardPile = game.getDiscardPile();
+            assertEquals(expectedHand, trueHand);
+            assertEquals(expectedDiscardPile, trueDiscardPile);
+        }
+    }
+
+    @Test
     void shouldRefillRoomPile() {
         for(Player p: game.getPlayers()) for(int i = 4; i >= 0; i --) game.discardCard(p, i);
         List<RoomCard> expectedRoomPile = new ArrayList<>(game.getRoomPile());
@@ -362,21 +399,41 @@ public class GameTest {
         }
     }
 
-    @Test
-    void shouldCheckPlaceableRoomInDungeonPosition() {
-        RoomCard testRoom1 = new RoomCard();
-        testRoom1.setRoomType(RoomType.ADVANCED_MONSTER);
-        RoomCard testRoom2 = new RoomCard();
-        testRoom2.setRoomType(RoomType.MONSTER);
-        testRoom2.setId(9); // The id of the Neanderthal Cave Room
-        assertThat("An advanced room shouldn't be built on an empty slot", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
-        assertThat("An normal room should be built on an empty slot", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom2), is(true));
-        game.placeDungeonRoom(player, 0, testRoom2);
-        assertThat("An advance room can't be built in Neanderthal Cave Room", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
-        testRoom2.setId(99);
-        assertThat("An advance room should be built over a normal room of the same type", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(true));
-        testRoom1.setRoomType(RoomType.ADVANCED_TRAP);
-        assertThat("An advance room shouldn't be built over a normal room of a different type", game.checkPlaceableRoomInDungeonPosition(player, 0, testRoom1), is(false));
+    static Stream<Arguments> shouldCheckPlaceableRoomInDungeonPosition() {
+        monster.setRoomType(RoomType.MONSTER);
+        monsterAdvanced.setRoomType(RoomType.ADVANCED_MONSTER);
+        trapAdvanced.setRoomType(RoomType.ADVANCED_TRAP);
+        adventureCard.setPhase(SpellPhase.adventurePhase);
+        buildCard.setPhase(SpellPhase.constructionPhase);
+        return Stream.of(
+            Arguments.of(monster,3,true,"Should be able to build on empty room"),
+            Arguments.of(monster,4,false,"Shouldn't be able to place room away from dungeon"),
+            Arguments.of(monster,1,true,"Should be able to replace regular room with another regular room"),
+            Arguments.of(monsterAdvanced,0,true,"Should be able to build advanced monster on top of regular monster"),
+            Arguments.of(trapAdvanced,1,true,"Should be able to build advanced trap on top of regular trap"),
+            Arguments.of(monsterAdvanced,1,false,"Shouldn't be able to build advanced monster on top of trap"),
+            Arguments.of(trapAdvanced,0,false,"Shouldn't be able to build advanced trap on top of monster"),
+            Arguments.of(monsterAdvanced,3,false,"Shouldn't be able to build advanced room on empty room"),
+            Arguments.of(monsterAdvanced,2,false,"Shouldn't be able to build advanced room on neanderthal")
+
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void shouldCheckPlaceableRoomInDungeonPosition(RoomCard roomToBuild, Integer position, Boolean expected, String reason) {
+        monster.setId(0);
+        RoomCard trap = new RoomCard();
+        trap.setRoomType(RoomType.TRAP);
+        RoomCard neanderthal = new RoomCard();
+        // Neanderthal Cave's id
+        neanderthal.setId(9);
+        game.placeDungeonRoom(player,0,monster, false);
+        game.placeDungeonRoom(player,1,trap, false);
+        game.placeDungeonRoom(player,2,neanderthal, false);
+
+        Boolean result = game.checkPlaceableRoomInDungeonPosition(player, position, roomToBuild);
+        assertThat(reason,result, is(expected));
     }
 
     @Test
@@ -398,18 +455,18 @@ public class GameTest {
         testRoom2.setRoomType(RoomType.ADVANCED_TRAP);
         RoomCard testRoom3 = new RoomCard();
         testRoom3.setRoomType(RoomType.ADVANCED_MONSTER);
-        game.placeDungeonRoom(player, 0, testRoom1);
+        game.placeDungeonRoom(player, 0, testRoom1, false);
         assertEquals(testRoom1, player.getDungeon().getRoomSlots()[0].getRoom());
-        game.placeDungeonRoom(player, 0, testRoom2);
+        game.placeDungeonRoom(player, 0, testRoom2, false);
         assertEquals(testRoom2, player.getDungeon().getRoomSlots()[0].getRoom());
-        game.placeDungeonRoom(player, 0, testRoom3);
+        game.placeDungeonRoom(player, 0, testRoom3, false);
         assertEquals(testRoom2, player.getDungeon().getRoomSlots()[0].getRoom());
     }
 
     @Test
     void shouldDestroyDungeonRoom() {
         RoomCard testRoom1 = new RoomCard();
-        game.placeDungeonRoom(player, 0, testRoom1);
+        game.placeDungeonRoom(player, 0, testRoom1, false);
         game.destroyDungeonRoom(player, 0);
         assertEquals(null, player.getDungeon().getRoomSlots()[0].getRoom());
     }
@@ -538,6 +595,39 @@ public class GameTest {
         assertEquals(expectedCounter, trueCounter);
     }
 
+    static Stream<Arguments> shouldGetChoices() {
+        return Stream.of(
+          Arguments.of()
+        );
+    }
+
+    @Test
+    void shouldPreventSoftlock() {
+        game.getState().setCheckClock(false);
+        game.getState().setSubPhase(GameSubPhase.PLACE_FIRST_ROOM);
+        game.getState().setActionLimit(1);
+        Player oldPlayer = game.getCurrentPlayer();
+        oldPlayer.setHand(List.of(new SpellCard()));
+        List<Card> cards = game.getChoice();
+        assertThat("Choice should not be empty",cards,not(empty()));
+        System.out.println(game.getState().getSubPhase());
+        assertNotEquals(GameSubPhase.PLACE_FIRST_ROOM,game.getState().getSubPhase());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "ANNOUNCE_NEW_PLAYER,false,Should not have to choose when announcing",
+        "PLACE_FIRST_ROOM,true,Should have to choose a room to build",
+
+    })
+    void shouldCheckPlayerHasToChoose(GameSubPhase subPhase, Boolean expected, String reason) {
+        game.getState().setSubPhase(subPhase);
+        Player currentPlayer = game.getCurrentPlayer();
+        Boolean hasToChoose = game.getPlayerHasToChoose(currentPlayer);
+        System.out.println(game.getState().getSubPhase().getChoice(game));
+        assertThat(reason,hasToChoose,is(expected));
+    }
+
     static Stream<Arguments> shouldMakeChoice() {
         RoomCard someRoom = new RoomCard();
         someRoom.setName("Some Room");
@@ -560,10 +650,10 @@ public class GameTest {
     })
     void shouldMakeChoice(GameSubPhase subPhase, Integer choice, Integer expectedBuiltRooms, Integer expectedCardsInHand) {
         player.setHand(new ArrayList<>(List.of(
-                new RoomCard(), new RoomCard(), new SpellCard()
+                monster, monsterAdvanced, buildCard
             )));
         game.getState().setSubPhase(subPhase);
-
+        game.getState().setPhase(GamePhase.BUILD);
         game.makeChoice(choice);
 
         assertThat(player.getHand()).hasSize(expectedCardsInHand);
@@ -584,20 +674,31 @@ public class GameTest {
     }
 
 
-    static Stream<Arguments> shouldGetUnplayableCards() {
-        return Stream.of(Arguments.of(GameSubPhase.USE_SPELLCARD, List.of(2)),
-            Arguments.of(GameSubPhase.PLACE_FIRST_ROOM, List.of(0,1)),
-            Arguments.of(GameSubPhase.BUILD_NEW_ROOM, List.of(0,1)),
-            Arguments.of(GameSubPhase.DISCARD_2_STARTING_CARDS, List.of()),
-            Arguments.of(GameSubPhase.ANNOUNCE_NEW_PHASE, List.of()));
+    static Stream<Arguments> shouldGetPlayableCards() {
+        return Stream.of(Arguments.of(GameSubPhase.USE_SPELLCARD, 0, false),
+            Arguments.of(GameSubPhase.USE_SPELLCARD, 2, true),
+            Arguments.of(GameSubPhase.USE_SPELLCARD, 3, false),
+            Arguments.of(GameSubPhase.PLACE_FIRST_ROOM, 0, true),
+            Arguments.of(GameSubPhase.PLACE_FIRST_ROOM, 1, false),
+            Arguments.of(GameSubPhase.DISCARD_A_SPELL_CARD, 1, false),
+            Arguments.of(GameSubPhase.DISCARD_A_SPELL_CARD, 2, true),
+            Arguments.of(GameSubPhase.ANNOUNCE_NEW_PHASE, 2, false),
+            Arguments.of(GameSubPhase.CHOOSE_A_CARD_FROM_DISCARD_PILE, 2, true),
+            Arguments.of(GameSubPhase.CHOOSE_A_MONSTER_ROOM_CARD_FROM_DISCARD_PILE, 1, true),
+            Arguments.of(GameSubPhase.CHOOSE_A_MONSTER_ROOM_CARD_FROM_DISCARD_PILE, 2, false),
+            Arguments.of(GameSubPhase.BUILD_NEW_ROOM, 0, true),
+            Arguments.of(GameSubPhase.DISCARD_2_STARTING_CARDS, 1, true)
+        );
     }
     @ParameterizedTest
     @MethodSource
-    void shouldGetUnplayableCards(GameSubPhase subphase, List<Integer> expected) {
+    void shouldGetPlayableCards(GameSubPhase subphase, Integer choice, Boolean expected) {
+        List<Card> cards = List.of(monster, monsterAdvanced, buildCard, adventureCard);
+        player.setHand(cards);
+        game.setDiscardPile(cards);
+        game.getState().setPhase(GamePhase.BUILD);
         game.getState().setSubPhase(subphase);
-        Player player = game.getCurrentPlayer();
-        player.setHand(List.of(new SpellCard(), new SpellCard(), new RoomCard()));
-        assertThat(game.getUnplayableCards()).isEqualTo(expected);
+        assertThat(game.getState().getSubPhase().isValidChoice(choice,game),is(expected));
     }
 
 }

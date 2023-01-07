@@ -4,13 +4,14 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="playedGames">
+    <spring:url value="/" htmlEscape="true" var="welcome"/>
     <h2>Played Games</h2>
 
     <table id="playedGamesListTable" class="table table-striped">
         <thead>
             <tr>
                 <th>Game</th>
-                <th>Duration</th>
+                <th>Rounds</th>
                 <th>Date</th>
                 <th>Winner</th>
                 <th>Participants</th>
@@ -23,21 +24,25 @@
                         <c:out value="${gameResult.id}"/>
                     </td>
                     <td>
-                        <c:out value="${gameResult.duration}"/>
+                        <c:out value="${gameResult.rounds}"/>
                     </td>
                     <td>
                         <c:out value="${gameResult.date}"/>
                     </td>
                     <td>
-                        <c:out value="${gameResult.winner}"/>
+                        <c:out value="${gameResult.winner.username}"/>
                     </td>
                     <td>
                         <c:forEach items="${gameResult.participants}" var="participant">
-                            <c:out value="${participant}"/>
+                            <c:out value="${participant.username}"/>
+                            <br>
                         </c:forEach>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${welcome}">Back</a>
+    </div>
 </bossmonster:layout>

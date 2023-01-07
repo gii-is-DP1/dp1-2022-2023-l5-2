@@ -1,64 +1,69 @@
 package org.springframework.samples.bossmonster.game.chat;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.bossmonster.game.GameService;
+import org.springframework.samples.bossmonster.user.User;
+import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
 @Controller
 public class ChatController {
     
     private static final String VIEWS_CHAT = "/games/chatScreen";
-    private static final String ADD_MESSAGE_VIEW ="___";
-
-
-    private final ChatService service;
 
     @Autowired
-    public ChatController(ChatService chatService){
+    ChatService service;
+    @Autowired
+    GameService gameService;
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    public ChatController(ChatService chatService, GameService gameService, UserService userService){
         this.service = chatService;
     }
-    @GetMapping("/chat/{chatId}")
-    public ModelAndView getChat(@PathVariable Integer chatId){
+    @GetMapping("games/{gameId}/chat")
+    public ModelAndView getChat(@PathVariable Integer gameId, HttpServletResponse response){
         ModelAndView result=new ModelAndView(VIEWS_CHAT);
-        List<String> messages= service.getMessages(chatId);
-
+        Chat chat=gameService.findGame(gameId).get().getChat();
+        List<Message> messages= service.getMessages(chat.getId());
+        response.addHeader("Refresh", "60");
         result.addObject("messages", messages);
+        result.addObject("gameId", gameId);
         return result;
     }
-    @GetMapping("/chat/{chatId}/new")
-    public String showAddMessageForm(@PathVariable Integer chatId, Map<String, Object> model){
-        Message message= new Message();
-        Chat chat= service.findById(chatId).get();
-        message.setChat(chat);
-        model.put("message",message);
-        return ADD_MESSAGE_VIEW;
-    }
     @Transactional
-    @PostMapping("/chat/{chatId}/new")
-    public ModelAndView proccessNewMessage(@PathVariable Integer chatId, @Valid Message message, BindingResult br){
-        ModelAndView result=new ModelAndView();
-        if(br.hasErrors()){
-            result = new ModelAndView(ADD_MESSAGE_VIEW);
-			result.addObject("message", "Can't send message. Invalid values are present");
-        }else if(2==chatId){
-            result = new ModelAndView(ADD_MESSAGE_VIEW);
-            result.addObject("message", "¡Esa lengua chiquillo! ¿Besas a tu madre con esa boca?");
-        }else{
-                service.addMessage(message, chatId);
-                result.setViewName("redirect:/chat/"+chatId);
+    @PostMapping("games/{gameId}/chat")
+    public ModelAndView sendMessage(@PathVariable Integer gameId, String words){
+        ModelAndView result= new ModelAndView();
+        Message message=new Message();
+        User user=userService.getLoggedInUser().get();
+        Chat chat=gameService.findGame(gameId).get().getChat();
+        
+        message.setWords(words);
+        message.setChat(chat);
+        message.setSender(user);
+
+        if(service.estaCensurada(words)){
+            message.setWords(service.cambiarPalabrasCensuradas(words));
+            service.addMessage(message);
+            result.setViewName("redirect:/games/"+gameId+"/chat");
+        }else if(message.getWords().length()==0){
+            result.setViewName("redirect:/games/"+gameId+"/chat");
+        }
+        else{
+            service.addMessage(message);
+            result.setViewName("redirect:/games/"+gameId+"/chat");
         }
         return result;
     }
-
 }

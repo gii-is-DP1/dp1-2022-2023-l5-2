@@ -1,13 +1,14 @@
 package org.springframework.samples.bossmonster.game;
 
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.card.CardService;
-import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.player.Player;
-import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,20 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/games")
 public class GameController {
 
     public static final String GAME_SCREEN = "games/gameScreen";
     public static final String GAMES_DATA = "games/currentGames";
-    CardService cardService;
     GameService gameService;
     UserService userService;
 
     @Autowired
-    public GameController(GameService service, UserService userService, CardService cardService) {
+    public GameController(GameService service, UserService userService) {
         this.gameService = service;
         this.userService = userService;
-        this.cardService = cardService;
     }
 
     @PostMapping("/{gameId}")
@@ -59,11 +59,18 @@ public class GameController {
         User currentUser = userService.getLoggedInUser().get();
         Player currentPlayer = game.getPlayerFromUser(currentUser);
 
-        if(!(game.getPlayerHasToChoose(currentPlayer))) {
+        if(!(game.getPlayerHasToChoose(currentPlayer) && game.getChoice() != null)) {
             game.getState().checkStateStatus();
-            gameService.saveGame(game);
+            try {
+                gameService.saveGame(game);
+            } catch (StaleObjectStateException e) {
+                log.debug("Game has a newer version, update prevented");
+                result.setViewName("redirect:/"+gameId);
+            }
             response.addHeader("Refresh",game.getState().getWaitingTime().toString());
         } else {
+            log.debug(String.format("%s has to choose, triggering model", currentPlayer.getUser().getNickname()));
+            log.debug("Choice: "+game.getChoice());
             result.addObject("triggerModal", true);
         }
         setUpGameScreen(result, game, currentPlayer);

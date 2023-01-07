@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jpatterns.gof.StrategyPattern;
 import org.springframework.samples.bossmonster.game.Game;
+import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
@@ -17,6 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Slf4j
+@StrategyPattern.Context
 public class GameState extends BaseEntity {
 
     public static final int DEFAULT_WAITING_TIME = 2;
@@ -37,7 +40,6 @@ public class GameState extends BaseEntity {
     private LocalDateTime clock;
     // If true, game updates when clock matches current time. If false, when counter matches limit
     private Boolean checkClock;
-    private Boolean buildingRoom;
 
     private Integer currentRound;
 
@@ -50,6 +52,8 @@ public class GameState extends BaseEntity {
     private Integer actionLimitBeforeEffect;
     private LocalDateTime clockBeforeEffect;
     private Boolean checkClockBeforeEffect;
+
+    private Boolean effectIsBeingTriggered;
 
     private static final Integer START_GAME_DISCARDED_CARDS = 2;
     private static final Integer START_GAME_ROOMS_PLACED = 1;
@@ -71,19 +75,20 @@ public class GameState extends BaseEntity {
         clock = LocalDateTime.now().plusSeconds(seconds);
     }
 
-    private void updateChangeConditionCounter(Integer newLimit) {
+    public void updateChangeConditionCounter(Integer newLimit) {
         checkClock = false;
         counter = 0;
         actionLimit = newLimit;
     }
 
+
     public void checkStateStatus() {
-        log.debug("Checking game status..." );
-        log.debug("Clock time until update: " + clock.compareTo(LocalDateTime.now()));
         if ( (checkClock == false && counter >= actionLimit) ||
              (checkClock == true && clock.isBefore(LocalDateTime.now())) )
         { log.debug("Game update condition met, updating...");
-            updateGameState(); }
+            updateGameState();
+            log.debug("Subphase is now "+ getSubPhase());
+        }
     }
 
     private void updateGameState() {
@@ -96,6 +101,10 @@ public class GameState extends BaseEntity {
             case END_GAME:    break;
             case EFFECT:      rollbackPreEffectState(); break;
         }
+        if(getSubPhase().hasToCheckClock())
+            updateChangeConditionClock(getSubPhase().getClockLimit());
+        else
+            updateChangeConditionCounter(getSubPhase().getActionLimit());
     }
 
     public void triggerSpecialCardEffectState(GameSubPhase triggeredSubPhase) {
@@ -108,7 +117,7 @@ public class GameState extends BaseEntity {
         checkClockBeforeEffect = checkClock;
         phase = GamePhase.EFFECT;
         subPhase = triggeredSubPhase;
-        updateChangeConditionCounter(EFFECT_STATE_COUNTER_LIMIT);
+        updateChangeConditionCounter(triggeredSubPhase.getActionLimit());
     }
 
     public Integer getWaitingTime() {
@@ -143,7 +152,7 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   COMMON STATE CHANGES   ////////////////////////////
 
-    private void changePhase(GamePhase newPhase) {
+    public void changePhase(GamePhase newPhase) {
         phase = newPhase;
         subPhase = GameSubPhase.ANNOUNCE_NEW_PHASE;
         updateChangeConditionClock(PHASE_COOLDOWN_SECONDS);
@@ -161,17 +170,14 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
-                updateChangeConditionClock(PLAYER_COOLDOWN_SECONDS);
                 break;
             }
             case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.DISCARD_2_STARTING_CARDS;
-                updateChangeConditionCounter(START_GAME_DISCARDED_CARDS);
                 break;
             }
             case DISCARD_2_STARTING_CARDS: {
                 subPhase = GameSubPhase.PLACE_FIRST_ROOM;
-                updateChangeConditionCounter(START_GAME_ROOMS_PLACED);
                 break;
             }
             case PLACE_FIRST_ROOM: {
@@ -193,13 +199,11 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.REVEAL_HEROES;
-                updateChangeConditionClock(SHOW_HEROES_COOLDOWN_SECONDS);
                 game.placeHeroInCity();
                 break;
             }
             case REVEAL_HEROES: {
                 subPhase = GameSubPhase.GET_ROOM_CARD;
-                updateChangeConditionClock(SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS);
                 for (Player player: game.getPlayers()) {
                     if (player.getHand().size() < PLAYER_HAND_CARD_LIMIT && !player.isDead()) game.getNewRoomCard(player);
                 }
@@ -214,28 +218,19 @@ public class GameState extends BaseEntity {
 
     ////////////////////////////   BUILD   ////////////////////////////
 
-    public Boolean isBuildingRoom() {
-        return (subPhase == GameSubPhase.BUILD_NEW_ROOM) &&
-            (counter % 2 != 0);
-    }
-
     private void updateBuildState() {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
-                updateChangeConditionClock(PLAYER_COOLDOWN_SECONDS);
                 break;
             }
             case ANNOUNCE_NEW_PLAYER: {
                 subPhase = GameSubPhase.BUILD_NEW_ROOM;
-                updateChangeConditionCounter(BUILD_PHASE_BUILDED_ROOMS_LIMIT * BUILD_ROOM_ACTIONS);
                 break;
             }
             case BUILD_NEW_ROOM: {
                 game.getCurrentPlayer().getDungeon().setInitialRoomCardDamage();
                 subPhase = GameSubPhase.USE_SPELLCARD;
-                // There is no limit here, the current player chooses when this phase ends
-                updateChangeConditionCounter(1);
                 break;
             }
             case USE_SPELLCARD: {
@@ -244,13 +239,17 @@ public class GameState extends BaseEntity {
                 else {
                     subPhase = GameSubPhase.REVEAL_NEW_ROOMS;
                     game.revealAllDungeonRooms();
-                    updateChangeConditionClock(SHOW_ROOMS_COOLDOWN_SECONDS);
                     setCurrentPlayer(0);
                 }
                 break;
             }
             case REVEAL_NEW_ROOMS: {
                 changePhase(GamePhase.LURE);
+                for(Player player: game.getPlayers()) {
+                    for(int index = 0; index<player.getDungeon().getBuiltRooms();index++) {
+                        game.tryTriggerRoomCardEffect(RoomPassiveTrigger.ADD_EXTRA_ROOM_DAMAGE,player,index);
+                    }
+                }
                 break;
             }
         }
@@ -278,7 +277,6 @@ public class GameState extends BaseEntity {
         switch (subPhase) {
             case ANNOUNCE_NEW_PHASE: {
                 subPhase = GameSubPhase.ANNOUNCE_NEW_PLAYER;
-                updateChangeConditionClock(PLAYER_COOLDOWN_SECONDS);
                 break;
             }
             case ANNOUNCE_NEW_PLAYER: {
@@ -289,7 +287,6 @@ public class GameState extends BaseEntity {
             case HEROES_EXPLORE_DUNGEON: {
                 subPhase = GameSubPhase.USE_SPELLCARD;
                 // There is no limit here, the current player chooses when this phase ends
-                updateChangeConditionCounter(1);
                 break;
             }
             case USE_SPELLCARD: {
@@ -299,6 +296,7 @@ public class GameState extends BaseEntity {
                     if (game.checkGameEnded()) changePhase(GamePhase.END_GAME);
                     else {
                         currentRound ++;
+                        for (Player p: game.getPlayers()) p.getDungeon().setJackpotStashEffectActivated(false);
                         changePhase(GamePhase.START_ROUND);
                     }
                 }
@@ -321,6 +319,7 @@ public class GameState extends BaseEntity {
         actionLimit = actionLimitBeforeEffect;
         clock = clockBeforeEffect;
         checkClock = checkClockBeforeEffect;
+        checkStateStatus();
     }
 
 }

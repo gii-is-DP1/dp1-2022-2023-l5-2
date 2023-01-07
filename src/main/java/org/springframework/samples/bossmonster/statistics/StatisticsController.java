@@ -55,8 +55,8 @@ public class StatisticsController {
         result.addObject("gamesResult", games);
 
         return result;
-
     }
+
     @GetMapping("/users/statistics/global")
     public ModelAndView showGlobalStatistics(){
         ModelAndView result= new ModelAndView(GLOBAL_STATISTICS_VIEW);
@@ -80,9 +80,12 @@ public class StatisticsController {
         result.addObject("minDuracion", minDuracion);
         result.addObject("maxDuracion", maxDuracion);
         result.addObject("promedioJugadoresPartida", promedioJugadoresPartida);
+        
+        
 
         return result;
     }
+
     @GetMapping("/users/statistics/rankings/winRate")
     public ModelAndView rankingWinrate(){
         ModelAndView result= new ModelAndView(RANKING_WINRATE_VIEW);
@@ -90,6 +93,7 @@ public class StatisticsController {
         result.addObject("ranking", ranking);
         return result;
     }
+
     @GetMapping("/users/statistics/rankings/wins")
     public ModelAndView rankingWins(){
         ModelAndView result= new ModelAndView(RANKING_WINS_VIEW);
@@ -99,7 +103,7 @@ public class StatisticsController {
     }
 
     @GetMapping("/statistics/listPlayedGames")
-    public ModelAndView show(){
+    public ModelAndView showPlayedGames(){
         ModelAndView result= new ModelAndView(PLAYED_GAMES);
         result.addObject("playedGames", service.findAllGames());
         return result;
@@ -114,4 +118,5 @@ public class StatisticsController {
 
         return result;
     }
+
 }

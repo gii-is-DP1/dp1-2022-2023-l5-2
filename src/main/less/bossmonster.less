@@ -251,6 +251,23 @@ table td.action-column {
     background: none;
 }
 
+.buttonChat{
+    width: 50px;
+    height: 50px;
+    background-color: gray;
+    font-size: x-large;
+    padding-top: 12px;
+    border-radius: 30px;
+    color: lightgray;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    float: right;
+    text-align: center;
+    position:fixed;
+    left:5%;
+    bottom:10%;
+}
+
 .card {
     width: 150px;
     border-radius: 8px;
@@ -321,15 +338,15 @@ table td.action-column {
     padding:10px;
     border-radius:10px;
     margin-left:15px;
+    &0 {
+        background-color:lighten(slateblue,10);
+    }
+    &1 {
+        background-color:lighten(orangered,20);
+    }
+    &2 {
+    }
 }
-
-.dungeon0 {
-    background-color:lighten(slateblue,10);
-}
-
-.dungeon1 {
-    background-color:lighten(orangered,20);
- }
 
 .dungeon2 {
     background-color:palegreen;
@@ -409,6 +426,40 @@ table td.action-column {
 hr {
   border-top: 1px dotted @spring-brown;
 }
+
+.centered-view {
+  margin: 25px;
+  border-radius: 30px;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+.cuteButton{
+  &1{
+    background-color: rgba(209, 159, 143, 0.952);
+  }
+  &2{
+    background-color: rgba(166, 212, 151, 0.966);
+  }
+  &3{
+    background-color: rgb(156, 177, 204);
+  }
+  &4{
+    background-color: rgb(192, 146, 190);
+  }
+  color: black;
+  text-align: center;
+  font-size: xx-large;
+  padding-top: 10px;
+  width: 100px;
+  height: 80px;
+  border-radius: 10px;
+  display: block;
+  margin-bottom: 10px;
+  padding: 10em;
+}
+
+
+
 
 
 

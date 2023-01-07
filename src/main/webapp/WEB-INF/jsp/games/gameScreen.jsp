@@ -11,17 +11,18 @@
     <bossmonster:modal modalId="selectMenu" modalName="${game.state.subPhase.choiceMessage}" unclosable="true">
         <form method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <c:if test="${not empty game.choice}">
+            <c:set value="${game.choice}" var="choice"/>
+            <c:if test="${not empty choice}">
                 <div class="expandable">
-                    <c:forEach begin="0" end="${fn:length(game.choice)-1}" var="index">
-                        <button class="invis" value="${index}" name="choice" ${game.unplayableCards.contains(index)?'disabled':''}>
-                        <bossmonster:card card="${game.choice[index]}" style="${game.unplayableCards.contains(index)?'disabled':''}"/>
+                    <c:forEach begin="0" end="${fn:length(choice)-1}" var="index">
+                        <button class="invis" value="${index}" name="choice" ${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}>
+                        <bossmonster:card card="${choice[index]}" style="${!game.state.subPhase.isValidChoice(index,game)?'disabled':''}"/>
                         </button>
                     </c:forEach>
                 </div>
-                <c:if test="${game.isChoiceOptional}">
+                <c:if test="${game.state.subPhase.isOptional()}">
                     <button class="btn btn-default btn-lg" name="choice" value="-1">
-                        <c:out value="${game.state.isBuildingRoom()?'Cancel':'Pass'}"/>
+                        <c:out value="${not empty game.previousChoices?'Cancel':'Pass'}"/>
                     </button>
                 </c:if>
             </c:if>
@@ -29,6 +30,13 @@
     </bossmonster:modal>
 
 <div class="gameContainer">
+    <spring:url value="/games/{gameId}/chat" var="chatUrl">
+        <spring:param name="gameId" value="${game.id}"/>
+    </spring:url>
+    <a href="${chatUrl}" class="buttonChat btn btn-primary">
+        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+    </a>
+
     <div class="row">
         <div class="col-md-2">
             <bossmonster:cardPile cards="${game.city}" pileId="cityPile" pileName="Heroes in City" />
@@ -52,23 +60,18 @@
             </c:forEach>
         </div>
     </div>
-    <div class="row">
-        <div class="hand col-md-2 col-md-offset-1">
-            <bossmonster:cardPile cards="${currentPlayer.hand}" pileId="hand" pileName="Your Hand" />
-            <br />
-            <b>Your Hand</b>
+    <c:if test="${not empty currentPlayer}">
+        <div class="row">
+            <div class="hand col-md-2 col-md-offset-1">
+                <bossmonster:cardPile cards="${currentPlayer.hand}" pileId="hand" pileName="Your Hand" />
+                <br />
+                <b>Your Hand</b>
+            </div>
+            <div class="player-dungeon dungeon col-md-8">
+                <bossmonster:dungeon player="${currentPlayer}"/>
+            </div>
         </div>
-        <div class="player-dungeon dungeon col-md-8">
-            <bossmonster:dungeon player="${currentPlayer}"/>
-        </div>
-    </div>
-    <div class="decks">
-        Decks
-        <br />
-        <bossmonster:cardPile cards="${game.roomPile}" type="room" facedown="true" pileId="roomDeck" pileName="Rooms Deck"/>
-        <bossmonster:cardPile cards="${game.spellPile}" type="spell" facedown="true" pileId="spellDeck" pileName="Spells Deck"/>
-        <bossmonster:cardPile cards="${game.heroPile}" type="hero" facedown="true" pileId="heroDeck" pileName="Hero Deck"/>
-    </div>
+    </c:if>
 </div>
 <script type="text/javascript">
     $("#modalTrigger").trigger("click");

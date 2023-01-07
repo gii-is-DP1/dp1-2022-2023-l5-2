@@ -9,6 +9,8 @@ import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
+import org.springframework.samples.bossmonster.game.chat.Chat;
+import org.springframework.samples.bossmonster.game.chat.ChatService;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 @Getter
 @Setter
@@ -28,10 +31,12 @@ import java.util.List;
 public class GameBuilder {
 
     CardService cardService;
+    ChatService chatService;
 
     @Autowired
-    public GameBuilder(CardService cardService) {
+    public GameBuilder(CardService cardService,ChatService chatService) {
         this.cardService = cardService;
+        this.chatService = chatService;
     }
 
     //////////////////////////   TRUE GAME   //////////////////////////
@@ -46,7 +51,9 @@ public class GameBuilder {
         buildCity(newGame);
         buildPlayers(newGame,lobby.getJoinedUsers());
         buildStats(newGame, lobby.getJoinedUsers().size());
+        buildChat(newGame);
         newGame.setActive(true);
+        newGame.setPreviousChoices(new Stack<>());
         return newGame;
     }
 
@@ -83,6 +90,12 @@ public class GameBuilder {
         newGame.setCity(city);
     }
 
+    public void buildChat(Game newGame){
+        Chat chat= new Chat();
+        newGame.setChat(chat);
+        chatService.createChat(chat);
+    }
+
     public void buildPlayers(Game newGame, List<User> users) {
         List<Player> players = new ArrayList<>();
         PlayerBuilder playerBuilder = new PlayerBuilder();
@@ -117,6 +130,7 @@ public class GameBuilder {
         newGame.setState(state);
         state.setCurrentRound(1);
         state.setGame(newGame);
+        state.setEffectIsBeingTriggered(false);
     }
 
 }

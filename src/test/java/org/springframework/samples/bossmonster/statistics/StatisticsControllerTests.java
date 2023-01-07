@@ -8,9 +8,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -47,6 +51,7 @@ public class StatisticsControllerTests {
 
     @Test
     @WithMockUser(username = "ignarrman")
+    @DisplayName("Show Statistics of User")
     void testShowStatisticsUser() throws Exception{
         
         User user= new User();
@@ -68,4 +73,93 @@ public class StatisticsControllerTests {
         .andExpect(model().attribute("total",2));
     }
     
+    @Test
+    @WithMockUser(username = "admin1")
+    @DisplayName("Show Global Statistics")
+    void testShowGlobalStatistics() throws Exception{
+
+        when(service1.numPartidasGlobal()).thenReturn(10);
+        when(service1.maxMinUsuarioPartidasGlobal(false)).thenReturn(1);
+        when(service1.maxMinUsuarioPartidasGlobal(true)).thenReturn(5);
+        when(service1.promedioNumPartidas()).thenReturn(2.);
+        when(service1.promedioDuracionGlobal()).thenReturn(30.33);
+        when(service1.maxMinDuracionGlobal(false)).thenReturn(3.);
+        when(service1.maxMinDuracionGlobal(true)).thenReturn(100.);
+        when(service1.promedioJugadoresPartida()).thenReturn(2.4);
+
+
+        mock.perform(get("/users/statistics/global")).andExpect(status().isOk())
+        .andExpect(view().name("/statistics/GlobalStatistics"))
+        .andExpect(model().attribute("minDuracion",3.));
+    }
+
+    @Test
+    @WithMockUser(username = "jessolort")
+    @DisplayName("Show the WinRate ranking")
+    void testRankingWinrate() throws Exception {
+        
+        Map<String, Double> map = new HashMap<>();
+        map.put("juan", 2.3);
+        map.put("pepe", 1.2);
+        map.put("antonio", 3.0);
+        List<Map.Entry<String,Double>>ranking= new ArrayList<>();
+        ranking.addAll(map.entrySet());
+
+        when(service1.rankingPorWinRate()).thenReturn(ranking);
+
+        mock.perform(get("/users/statistics/rankings/winRate")).andExpect(status().isOk())
+        .andExpect(view().name("/statistics/rankingWinRate"))
+        .andExpect(model().attribute("ranking", ranking));
+    }
+
+    @Test
+    @WithMockUser(username = "jessolort")
+    @DisplayName("Show the number of wins ranking")
+    void testRankingWins() throws Exception {
+        
+        Map<String, Integer> map = new HashMap<>();
+        map.put("juan", 2);
+        map.put("pepe", 1);
+        map.put("antonio", 3);
+        List<Map.Entry<String,Integer>>ranking= new ArrayList<>();
+        ranking.addAll(map.entrySet());
+
+        when(service1.rankingPorWins()).thenReturn(ranking);
+
+        mock.perform(get("/users/statistics/rankings/wins")).andExpect(status().isOk())
+        .andExpect(view().name("/statistics/rankingWins"))
+        .andExpect(model().attribute("ranking", ranking));
+    }
+
+    @Test
+    @WithMockUser(username = "admin1")
+    @DisplayName("Show all the games played (GameResult)")
+    void testShowPlayedGames() throws Exception {
+        
+        GameResult game1=new GameResult();
+        GameResult game2= new GameResult();
+        GameResult game3= new GameResult();
+        List<GameResult> games= List.of(game1,game2,game3);
+
+        when(service1.findAllGames()).thenReturn(games);
+
+        mock.perform(get("/statistics/listPlayedGames")).andExpect(status().isOk())
+        .andExpect(view().name("/statistics/playedGames"))
+        .andExpect(model().attribute("playedGames", games));
+    }
+
+    @Test
+    @WithMockUser(username = "admin1")
+    @DisplayName("Show the result by id")
+    void testShowResults() throws Exception {
+        
+        Integer resultId = 1;
+        Optional<GameResult> gameResult= Optional.ofNullable(new GameResult());
+        when(service1.findById(resultId)).thenReturn(gameResult);
+
+        mock.perform(get("/statistics/results/1")).andExpect(status().isOk())
+        .andExpect(view().name("statistics/resultsScreen"))
+        .andExpect(model().attribute("result", gameResult.get()));
+    }
+
 }

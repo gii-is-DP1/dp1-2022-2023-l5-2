@@ -5,24 +5,61 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ChatService {
-    
+
     private ChatRepository repo;
+    private MessageRepository repo2;
+
+    private static List<String> palabrasCensuradas=List.of(
+        "no me gusta dp", 
+        "no me toca nada bueno",
+        "leche antes de los cereales",
+        "palabrota",
+        "twitter");
 
     @Autowired
-    public ChatService(ChatRepository chatRepository){
+    public ChatService(ChatRepository chatRepository, MessageRepository repo2){
         this.repo = chatRepository;
+        this.repo2=repo2;
+
     }
-    Optional<Chat> findById(Integer id){
+    public Optional<Chat> findById(Integer id){
         return repo.findById(id);
     }
-    List<String> getMessages(Integer id){
-        return repo.getMessages(id);
+    public List<Message> getMessages(Integer id){
+        return repo2.getMessages(id);
     }
-    public void addMessage(Message message, Integer chatId){
-        repo.addMessage(message, chatId);
+    public Message findMessageById(Integer id){
+        return repo.findMessageId(id);
+    }
+    public void addMessage(Message message){
+        repo2.save(message);
+    }
+    @Transactional
+    public void createChat(Chat chat){
+        repo.save(chat);
+    }
+    public Boolean estaCensurada(String words){
+        for(Integer i=0; i<palabrasCensuradas.size();i++){
+            String palabraCensurada= palabrasCensuradas.get(i);
+            if(words.contains(palabraCensurada)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public String cambiarPalabrasCensuradas(String words){
+        String result=words;
+        for(Integer i=0; i<palabrasCensuradas.size();i++){
+            String palabraCensurada= palabrasCensuradas.get(i).toLowerCase();
+            if(words.contains(palabraCensurada)){
+                result=result.replaceAll(palabraCensurada, "*******");
+            }
+        }
+        return result;
     }
 }
 
