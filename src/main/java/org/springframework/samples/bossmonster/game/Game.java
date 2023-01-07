@@ -234,9 +234,9 @@ public class Game extends BaseEntity {
         }
     }
 
-    public Boolean placeDungeonRoom(Player player, Integer position, RoomCard room) {
+    public Boolean placeDungeonRoom(Player player, Integer position, RoomCard room, Boolean force) {
         Boolean placed;
-        if (checkPlaceableRoomInDungeonPosition(player, position, room)) {
+        if (checkPlaceableRoomInDungeonPosition(player, position, room) || force) {
             tryTriggerRoomCardEffect(RoomPassiveTrigger.DESTROY_THIS_ROOM,player,position);
             if (player.getDungeon().getRoomSlots()[position].getRoom() != null) destroyDungeonRoom(player, position);
             player.getDungeon().replaceDungeonRoom(room, position);

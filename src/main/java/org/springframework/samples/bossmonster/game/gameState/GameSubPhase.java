@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.jpatterns.gof.StrategyPattern;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.Card;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
+import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
+import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -131,9 +134,7 @@ public enum GameSubPhase implements SubPhaseChoices{
         @Override
         public List<Card> getChoice(Game game) {
             if(game.getPreviousChoices().empty()) return game.getCurrentPlayerHand();
-            return Arrays.stream(game.getCurrentPlayer().getDungeon().getRoomSlots())
-                .map(slot->slot.getRoom())
-                .collect(Collectors.toList());
+            return new ArrayList<>(game.getCurrentPlayer().getDungeon().getRooms());
         }
 
         @Override
@@ -153,7 +154,7 @@ public enum GameSubPhase implements SubPhaseChoices{
                 game.getPreviousChoices().add(choice);
             } else {
                 RoomCard card = (RoomCard) game.getCurrentPlayerHand().get(game.getPreviousChoices().peek());
-                game.placeDungeonRoom(game.getCurrentPlayer(), choice,card);
+                game.placeDungeonRoom(game.getCurrentPlayer(), choice,card, false);
                 game.getPreviousChoices().removeAllElements();
             }
 
@@ -328,8 +329,8 @@ public enum GameSubPhase implements SubPhaseChoices{
             return 2;
         }
     },
-    BUILD_ADVANCED_CARD_FROM_DISCARD_OR_ROOM_PILE(g->String.format("%s is building an advanced room from a pile of their choosing...",g.getCurrentPlayer()),
-        "Choose a pile and build an advanced room card from it") {
+    BUILD_ADVANCED_MONSTER_FROM_DISCARD_OR_ROOM_PILE(g->String.format("%s is building an advanced room from a pile of their choosing...",g.getCurrentPlayer()),
+        "Choose a pile and build an advanced monster from it") {
         @Override
         public List<Card> getChoice(Game game) {
 
@@ -340,9 +341,7 @@ public enum GameSubPhase implements SubPhaseChoices{
                         return game.getDiscardPile();
                     return new ArrayList<>(game.getRoomPile());
                 }
-                case 2: return Arrays.stream(game.getCurrentPlayer().getDungeon().getRoomSlots())
-                    .map(slot->slot.getRoom())
-                    .collect(Collectors.toList());
+                case 2: return new ArrayList<>(game.getCurrentPlayer().getDungeon().getRooms());
                 default: return List.of();
             }
         }
@@ -360,7 +359,7 @@ public enum GameSubPhase implements SubPhaseChoices{
                     RoomCard cardToBuild = chosenPile.equals(0)?
                         (RoomCard) game.getDiscardPile().get(game.getPreviousChoices().peek()) :
                         game.getRoomPile().get(game.getPreviousChoices().peek());
-                    game.placeDungeonRoom(game.getCurrentPlayer(),choice,cardToBuild);
+                    game.placeDungeonRoom(game.getCurrentPlayer(),choice,cardToBuild, true);
                     game.getPreviousChoices().removeAllElements();
                     break;
                 }
@@ -405,6 +404,276 @@ public enum GameSubPhase implements SubPhaseChoices{
         @Override
         public Boolean isOptional() {
             return true;
+        }
+    }, LURE_HERO_FROM_HERO_OR_CITY_PILE(g->String.format("%s is choosing a hero to lure to their dungeon...",g.getCurrentPlayer()),
+        "Choose a pile and a hero from it to lure to your dungeon") {
+        @Override
+        public List<Card> getChoice(Game game) {
+            if(game.getPreviousChoices().empty())
+                return List.of(Card.CITY_PILE_CARD,Card.HERO_PILE_CARD);
+            Integer chosenPile = game.getPreviousChoices().peek();
+            if(chosenPile.equals(0))
+                return new ArrayList<>(game.getCity());
+            return new ArrayList<>(game.getHeroPile());
+        }
+
+        @Override
+        public void makeChoice(Game game, int choice) {
+            if(game.getPreviousChoices().empty()) {
+                game.getPreviousChoices().add(choice);
+                return;
+            }
+            Integer chosenPile = game.getPreviousChoices().peek();
+            HeroCard chosenHero = chosenPile.equals(0)?
+                game.getCity().get(choice) :
+                game.getHeroPile().remove(choice);
+            game.getCurrentPlayer().getDungeon().addNewHeroToDungeon(chosenHero);
+            game.getPreviousChoices().removeAllElements();
+        }
+
+        @Override
+        public Boolean isValidChoice(int choice, Game game) {
+            return true;
+        }
+
+        @Override
+        public Boolean isOptional() {
+            return true;
+        }
+
+        @Override
+        public Integer getActionLimit() {
+            return 2;
+        }
+
+        @Override
+        public boolean canDecrementCounter() {
+            return true;
+        }
+    }, BUILD_ADVANCED_TRAP_FROM_DISCARD_OR_ROOM_PILE(g->String.format("%s is building an advanced room from a pile of their choosing...",g.getCurrentPlayer()),
+        "Choose a pile and build an advanced trap from it") {
+        @Override
+        public List<Card> getChoice(Game game) {
+
+            switch(game.getState().getCounter()) {
+                case 0: return List.of(Card.DISCARD_PILE_CARD, Card.ROOM_PILE_CARD);
+                case 1: {
+                    if(game.getPreviousChoices().peek().equals(0))
+                        return game.getDiscardPile();
+                    return new ArrayList<>(game.getRoomPile());
+                }
+                case 2: return new ArrayList<>(game.getCurrentPlayer().getDungeon().getRooms());
+                default: return List.of();
+            }
+        }
+
+        @Override
+        public void makeChoice(Game game, int choice) {
+            switch (game.getState().getCounter()) {
+                case 0:
+                case 1: {
+                    game.getPreviousChoices().add(choice);
+                    break;
+                }
+                case 2: {
+                    Integer chosenPile = game.getPreviousChoices().firstElement();
+                    RoomCard cardToBuild = chosenPile.equals(0)?
+                        (RoomCard) game.getDiscardPile().get(game.getPreviousChoices().peek()) :
+                        game.getRoomPile().get(game.getPreviousChoices().peek());
+                    game.placeDungeonRoom(game.getCurrentPlayer(),choice,cardToBuild, true);
+                    game.getPreviousChoices().removeAllElements();
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public Boolean isValidChoice(int choice, Game game) {
+            switch (game.getState().getCounter()) {
+                case 0: return true;
+                case 1: {
+                    Integer chosenPile = game.getPreviousChoices().peek();
+                    RoomCard chosenCard = chosenPile.equals(0)?
+                        (RoomCard) game.getDiscardPile().get(choice) :
+                        game.getRoomPile().get(choice);
+                    return chosenCard.getRoomType().equals(RoomType.ADVANCED_TRAP);
+                }
+                case 2: {
+                    Integer chosenPile = game.getPreviousChoices().firstElement();
+                    RoomCard cardToBuild = chosenPile.equals(0)?
+                        (RoomCard) game.getDiscardPile().get(game.getPreviousChoices().peek()) :
+                        game.getRoomPile().get(game.getPreviousChoices().peek());
+                    RoomCard oldRoom = game.getCurrentPlayer().getDungeon().getRoom(choice);
+                    return oldRoom != null && oldRoom.parseHasTreasureType().equals(cardToBuild.parseHasTreasureType());
+                }
+                default: return false;
+            }
+        }
+
+        @Override
+        public Integer getActionLimit() {
+            return 3;
+        }
+
+        @Override
+        public boolean canDecrementCounter() {
+            return true;
+        }
+
+        @Override
+        public Boolean isOptional() {
+            return true;
+        }
+
+    }, ADD_3_DAMAGE_TO_CHOSEN_MONSTER_ROOM(g->String.format("%s is choosing a room to strengthen...",g.getCurrentPlayer()),
+        "Choose a monster room to add 3 points of damage to") {
+        @Override
+        public List<Card> getChoice(Game game) {
+            return new ArrayList<>(game.getCurrentPlayer().getDungeon().getRooms());
+        }
+
+        @Override
+        public void makeChoice(Game game, int choice) {
+            DungeonRoomSlot chosenSlot = game.getCurrentPlayer().getDungeon().getRoomSlots()[choice];
+            chosenSlot  .setRoomTrueDamage(chosenSlot.getRoomTrueDamage()+3);
+        }
+
+        @Override
+        public Boolean isValidChoice(int choice, Game game) {
+            RoomCard chosenRoom = game.getCurrentPlayer().getDungeon().getRoom(choice);
+            return chosenRoom != null && chosenRoom.isMonsterType();
+        }
+    }, LURE_HERO_FROM_CITY(g->String.format("%s is choosing a hero to lure to their dungeon..."),
+        "Choose a hero to lure to your dungeon") {
+        @Override
+        public List<Card> getChoice(Game game) {
+            return new ArrayList<>(game.getCity());
+        }
+
+        @Override
+        public void makeChoice(Game game, int choice) {
+            HeroCard selected = game.getCity().remove(choice);
+            game.getCurrentPlayer().getDungeon().addNewHeroToDungeon(selected);
+        }
+
+        @Override
+        public Boolean isValidChoice(int choice, Game game) {
+            return true;
+        }
+    }, SEND_HERO_TO_FIRST_ROOM(g->String.format("%s is choosing a hero to send to the first room..."),
+        "Choose a room and a hero to send back to the first room") {
+        @Override
+        public List<Card> getChoice(Game game) {
+            if(game.getPreviousChoices().empty())
+                return new ArrayList<>(game.getCurrentPlayer().getDungeon().getRooms());
+            Integer chosenSlot = game.getPreviousChoices().peek();
+            return game.getCurrentPlayer().getDungeon().getRoomSlots()[chosenSlot]
+                .getHeroesInRoom().stream()
+                .map(h->h.getHeroCard())
+                .collect(Collectors.toList());
+        }
+
+        @Override
+        public void makeChoice(Game game, int choice) {
+            if(game.getPreviousChoices().empty()) {
+                game.getPreviousChoices().add(choice);
+                return;
+            }
+            Integer chosenSlot = game.getPreviousChoices().peek();
+            Dungeon dungeon = game.getCurrentPlayer().getDungeon();
+            DungeonRoomSlot slot = dungeon.getRoomSlots()[chosenSlot];
+            DungeonRoomSlot slotToSendHeroTo = dungeon.getRoomSlots()[dungeon.getBuiltRooms()-1];
+            HeroCardStateInDungeon hero = slot.getHeroesInRoom().remove(choice);
+            slotToSendHeroTo.getHeroesInRoom().add(hero);
+        }
+
+        @Override
+        public Boolean isValidChoice(int choice, Game game) {
+            return game.getPreviousChoices().empty()?
+                game.getCurrentPlayer().getDungeon().getRoom(choice) != null:
+                true;
+        }
+
+        @Override
+        public Boolean isOptional() {
+            return true;
+        }
+
+        @Override
+        public Integer getActionLimit() {
+            return 2;
+        }
+
+        @Override
+        public boolean canDecrementCounter() {
+            return true;
+        }
+    }, DEAL_X_DAMAGE_TO_HERO_IN_DUNGEON(g->String.format("%s is choosing a hero to damage in their dungeon...",g.getCurrentPlayer()),
+        "Choose a room and a hero to damage in it") {
+        @Override
+        public List<Card> getChoice(Game game) {
+            if(game.getPreviousChoices().empty())
+                return new ArrayList<>(game.getCurrentPlayer().getDungeon().getRooms());
+            Integer chosenSlot = game.getPreviousChoices().peek();
+            return game.getCurrentPlayer().getDungeon().getRoomSlots()[chosenSlot]
+                .getHeroesInRoom().stream()
+                .map(h->h.getHeroCard())
+                .collect(Collectors.toList());
+        }
+
+        @Override
+        public void makeChoice(Game game, int choice) {
+            if(game.getPreviousChoices().empty()) {
+                game.getPreviousChoices().add(choice);
+                return;
+            }
+            Integer chosenSlot = game.getPreviousChoices().peek();
+            Dungeon dungeon = game.getCurrentPlayer().getDungeon();
+            DungeonRoomSlot slot = dungeon.getRoomSlots()[chosenSlot];
+            HeroCardStateInDungeon hero = slot.getHeroesInRoom().get(choice);
+            hero.dealDamage(dungeon.getBuiltRooms());
+        }
+
+        @Override
+        public Boolean isValidChoice(int choice, Game game) {
+            return game.getPreviousChoices().empty()?
+                game.getCurrentPlayer().getDungeon().getRoom(choice) != null:
+                true;
+        }
+
+        @Override
+        public Boolean isOptional() {
+            return true;
+        }
+
+        @Override
+        public Integer getActionLimit() {
+            return 2;
+        }
+
+        @Override
+        public boolean canDecrementCounter() {
+            return true;
+        }
+    }, ADD_3_DAMAGE_TO_CHOSEN_TRAP_ROOM(g->String.format("%s is choosing a room to strengthen...",g.getCurrentPlayer()),
+        "Choose a trap room to add 3 points of damage to") {
+        @Override
+        public List<Card> getChoice(Game game) {
+            return new ArrayList<>(game.getCurrentPlayer().getDungeon().getRooms());
+        }
+
+        @Override
+        public void makeChoice(Game game, int choice) {
+            DungeonRoomSlot chosenSlot = game.getCurrentPlayer().getDungeon().getRoomSlots()[choice];
+            chosenSlot.setRoomTrueDamage(chosenSlot.getRoomTrueDamage()+3);
+        }
+
+        @Override
+        public Boolean isValidChoice(int choice, Game game) {
+            RoomCard chosenRoom = game.getCurrentPlayer().getDungeon().getRoom(choice);
+            return chosenRoom != null && chosenRoom.isTrapType();
         }
     };
 

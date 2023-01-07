@@ -28,6 +28,8 @@ import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.chat.ChatService;
+import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
+import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -136,10 +138,10 @@ public class GameCardEffectTest {
         testPlayer.getDungeon().getBossCard().getEffect().apply(testPlayer, null, game);
     }
 
-    private void activateRoomCardEffect(RoomCard room) {
+    private void activateRoomCardEffect(RoomCard room, Integer position) {
         Player testPlayer = game.getPlayers().get(0);
-        testPlayer.getDungeon().getRoomSlots()[0].setRoom(room);
-        game.triggerRoomCardEffect(testPlayer, 0);
+        testPlayer.getDungeon().getRoomSlots()[position].setRoom(room);
+        game.triggerRoomCardEffect(testPlayer, position);
     }
 
     private Integer getAmountOfSpellCards() {
@@ -159,7 +161,7 @@ public class GameCardEffectTest {
         testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero1);
         testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero2);
         testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero3);
-        activateRoomCardEffect(botommlessPit);
+        activateRoomCardEffect(botommlessPit, 0);
         assertThat("Incorrect amount of heroes killed", testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().size(), is(2));
         assertThat("The soul of the defeated hero was not given to the player", testPlayer.getSouls(), is(2));
     }
@@ -171,7 +173,7 @@ public class GameCardEffectTest {
         setUpDummyRoomCardInDungeon(RoomType.TRAP, 2, 2);
         setUpDummyRoomCardInDungeon(RoomType.ADVANCED_MONSTER, 3, 3);
         setUpDummyRoomCardInDungeon(RoomType.ADVANCED_TRAP, 4, 4);
-        activateRoomCardEffect(theCrushinator);
+        activateRoomCardEffect(theCrushinator, 0);
         assertEquals(3, testPlayer.getDungeon().getRoomSlots()[1].getRoomTrueDamage());
         assertEquals(4, testPlayer.getDungeon().getRoomSlots()[2].getRoomTrueDamage());
         assertEquals(5, testPlayer.getDungeon().getRoomSlots()[3].getRoomTrueDamage());
@@ -181,7 +183,7 @@ public class GameCardEffectTest {
     @Test
     void shouldTriggerVampireBurdelloRoomCardEffect() {
         RoomCard vampireBurdello = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.CONVERT_A_WOUND_INTO_A_SOUL);
-        activateRoomCardEffect(vampireBurdello);
+        activateRoomCardEffect(vampireBurdello, 0);
         assertThat("Player converted unexisting damage", testPlayer.getSouls(), is(0));
         assertThat("Player healed unexisting wound", testPlayer.getHealth(), is(5));
         testPlayer.setHealth(2);
@@ -206,7 +208,7 @@ public class GameCardEffectTest {
         testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero1);
         testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero2);
         testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().add(dummyHero3);
-        activateRoomCardEffect(boulderRamp);
+        activateRoomCardEffect(boulderRamp, 0);
         assertThat("No hero should be killed", testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().size(), is(3));
         assertThat("Incorrect amount of damage dealt", (int) testPlayer.getDungeon().getRoomSlots()[0].getHeroesInRoom().stream().filter(x -> x.getHealthInDungeon() == 5).count(), is(1));
     }
@@ -249,7 +251,7 @@ public class GameCardEffectTest {
     void shouldTriggerRecyclingCenterRoomCardEffect() {
         RoomCard recyclingCenter = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM, EffectEnum.DRAW_2_ROOM_CARDS);
         Integer priorAmountOfRoomCards = getAmountOfRoomCards();
-        activateRoomCardEffect(recyclingCenter);
+        activateRoomCardEffect(recyclingCenter, 0);
         Integer postAmountOfRoomCards = getAmountOfRoomCards();
         assertEquals(priorAmountOfRoomCards + 2, postAmountOfRoomCards);
     }
@@ -258,7 +260,7 @@ public class GameCardEffectTest {
     void shouldTriggerLigersDenRoomCardEffect() {
         RoomCard ligersDen = setUpDummyRoomCard(RoomPassiveTrigger.USE_SPELL_CARD, EffectEnum.DRAW_A_SPELL_CARD);
         Integer priorAmountOfSpellCards = getAmountOfSpellCards();
-        activateRoomCardEffect(ligersDen);
+        activateRoomCardEffect(ligersDen, 0);
         Integer postAmountOfSpellCards = getAmountOfSpellCards();
         assertEquals(priorAmountOfSpellCards + 1, postAmountOfSpellCards);
     }
@@ -268,12 +270,12 @@ public class GameCardEffectTest {
         RoomCard goblinArmory = setUpDummyRoomCard(RoomPassiveTrigger.ADD_EXTRA_ROOM_DAMAGE, EffectEnum.ADD_1_DAMAGE_TO_ADYACENT_MONSTER_ROOMS);
         setUpDummyRoomCardInDungeon(RoomType.MONSTER, 1, 1);
         setUpDummyRoomCardInDungeon(RoomType.TRAP, 2, 2);
-        activateRoomCardEffect(goblinArmory);
+        activateRoomCardEffect(goblinArmory, 0);
         assertEquals(2, testPlayer.getDungeon().getRoomSlots()[1].getRoomTrueDamage());
         assertEquals(2, testPlayer.getDungeon().getRoomSlots()[2].getRoomTrueDamage());
         setUpDummyRoomCardInDungeon(RoomType.MONSTER, 1, 2);
         setUpDummyRoomCardInDungeon(RoomType.TRAP, 2, 1);
-        activateRoomCardEffect(goblinArmory);
+        activateRoomCardEffect(goblinArmory, 0);
         assertEquals(2, testPlayer.getDungeon().getRoomSlots()[1].getRoomTrueDamage());
         assertEquals(1, testPlayer.getDungeon().getRoomSlots()[2].getRoomTrueDamage());
     }
@@ -282,7 +284,7 @@ public class GameCardEffectTest {
     void shouldTriggerGolemFactoryRoomCardEffect() {
         RoomCard golemFactory = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.DRAW_A_ROOM_CARD);
         Integer priorAmountOfRoomCards = getAmountOfRoomCards();
-        activateRoomCardEffect(golemFactory);
+        activateRoomCardEffect(golemFactory, 0);
         Integer postAmountOfRoomCards = getAmountOfRoomCards();
         assertEquals(priorAmountOfRoomCards + 1, postAmountOfRoomCards);
     }
@@ -290,7 +292,7 @@ public class GameCardEffectTest {
     @Test
     void shouldTriggerJackpotStashRoomCardEffect() {
         RoomCard jackpotStash = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.DOUBLE_DUNGEON_TREASURE_VALUE);
-        activateRoomCardEffect(jackpotStash);
+        activateRoomCardEffect(jackpotStash, 0);
         // The modified amount of treasure is already tested in shouldGetTreasureAmount() in DungeonTest
         assertTrue(testPlayer.getDungeon().getJackpotStashEffectActivated());
     }
@@ -303,7 +305,7 @@ public class GameCardEffectTest {
         game.getState().setCounter(0);
         RoomCard darkLaboratory = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_THIS_ROOM, EffectEnum.DRAW_2_SPELL_CARDS_AND_DISCARD_1_SPELL_CARD);
         Integer priorAmountOfSpellCards = getAmountOfSpellCards();
-        activateRoomCardEffect(darkLaboratory);
+        activateRoomCardEffect(darkLaboratory, 0);
         Integer postAmountOfSpellCardsBeforeDiscard = getAmountOfSpellCards();
         assertEquals(priorAmountOfSpellCards + 2, postAmountOfSpellCardsBeforeDiscard);
         assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.EFFECT));
@@ -330,7 +332,7 @@ public class GameCardEffectTest {
     void shouldTriggerBeastMenagerieRoomCardEffect() {
         RoomCard beastMenagerie = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_MONSTER_ROOM, EffectEnum.DRAW_A_ROOM_CARD);
         Integer priorAmountOfRoomCards = getAmountOfRoomCards();
-        activateRoomCardEffect(beastMenagerie);
+        activateRoomCardEffect(beastMenagerie, 0);
         Integer postAmountOfRoomCards = getAmountOfRoomCards();
         assertEquals(priorAmountOfRoomCards + 1, postAmountOfRoomCards);
     }
@@ -339,15 +341,29 @@ public class GameCardEffectTest {
     void shouldTriggerBrainsuckerHiveRoomCardEffect() {
         RoomCard brainsuckerHive = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.DRAW_A_SPELL_CARD);
         Integer priorAmountOfSpellCards = getAmountOfSpellCards();
-        activateRoomCardEffect(brainsuckerHive);
+        activateRoomCardEffect(brainsuckerHive, 0);
         Integer postAmountOfRoomCards = getAmountOfSpellCards();
         assertEquals(priorAmountOfSpellCards + 1, postAmountOfRoomCards);
     }
 
-    @Ignore
     @Test
     void shouldTriggerDizzygasHallwayRoomCardEffect() {
+        RoomCard dizzygasHallway = setUpDummyRoomCard(RoomPassiveTrigger.ADD_EXTRA_ROOM_DAMAGE,EffectEnum.ADD_2_DAMAGE_TO_NEXT_ROOM_IF_IT_IS_A_TRAP_ROOM);
 
+        DungeonRoomSlot roomSlot = game.getCurrentPlayer().getDungeon().getRoomSlots()[0];
+
+        setUpDummyRoomCardInDungeon(RoomType.TRAP,1,0);
+        Integer previousDamage = roomSlot.getRoomTrueDamage();
+
+        activateRoomCardEffect(dizzygasHallway, 1);
+        assertThat("Did not add damage to trap card",
+            roomSlot.getRoomTrueDamage(),is(previousDamage+2));
+
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER,1,0);
+        previousDamage = roomSlot.getRoomTrueDamage();
+        activateRoomCardEffect(dizzygasHallway, 0);
+        assertThat("Should not add damage to monster card",
+            roomSlot.getRoomTrueDamage(),is(previousDamage));
     }
 
     @Ignore
@@ -361,7 +377,17 @@ public class GameCardEffectTest {
     void shouldTriggerGiantSizeSpellCardEffect() {
         SpellCard giantSize = setUpDummySpellCard(EffectEnum.ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM);
         game.triggerSpellCardEffect(giantSize);
+        assertThat("Phase did not change",game.getState().getPhase(),is(GamePhase.EFFECT));
+        assertThat("Not offering dungeon as choice",game.getState().getSubPhase().getChoice(game),
+            is(game.getCurrentPlayer().getDungeon().getRooms()));
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER,0,0);
 
+        Dungeon dungeon = game.getCurrentPlayer().getDungeon();
+        Integer previousDamageSlot1 = dungeon.getRoomSlots()[0].getRoomTrueDamage();
+
+        game.makeChoice(0);
+        assertThat("Did not add damage to specified room",
+            dungeon.getRoomSlots()[0].getRoomTrueDamage(),is(previousDamageSlot1+3));
     }
 
     @Test
@@ -379,11 +405,26 @@ public class GameCardEffectTest {
         assertThat("The player didn't receive new spellcards", postAmountOfSpellCards, is(priorAmountOfSpellCards + 2));
     }
 
-    @Ignore
     @Test
     void shouldTriggerPrincessInPerilSpellCardEffect() {
         SpellCard princessInPeril = setUpDummySpellCard(EffectEnum.LURE_A_CHOSEN_HERO_FROM_CITY_TO_DUNGEON);
         game.triggerSpellCardEffect(princessInPeril);
+
+        HeroCard hero = new HeroCard();
+        hero.setName("Bobby Tables");
+        game.getCity().add(hero);
+
+        assertThat("Phase did not change",game.getState().getPhase(),is(GamePhase.EFFECT));
+        assertThat("Not offering city pile",game.getChoice(),is(game.getCity()));
+
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER,0,0);
+        DungeonRoomSlot slot = game.getCurrentPlayer().getDungeon().getRoomSlots()[0];
+        Integer previousHeroesInDungeon = slot.getHeroesInRoom().size();
+        Integer previousHeroesInCity = game.getCity().size();
+
+        game.makeChoice(game.getCity().size()-1);
+        assertThat("Did not remove hero from city", game.getCity().size(),is(previousHeroesInCity-1));
+        assertThat("Did not add hero to dungeon",slot.getHeroesInRoom().size(),is(previousHeroesInDungeon+1));
     }
 
     @Ignore
@@ -391,6 +432,7 @@ public class GameCardEffectTest {
     void shouldTriggerMotivationSpellCardEffect() {
         SpellCard motivation = setUpDummySpellCard(EffectEnum.BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS);
         game.triggerSpellCardEffect(motivation);
+        //TODO
     }
 
     @Ignore
@@ -401,19 +443,19 @@ public class GameCardEffectTest {
     }
 
     void shouldTriggerAnnihilatorSpellCardEffect() {
-
+        //TODO
     }
 
     void shouldTrigggerCaveInSpellCardEffect() {
-
+        //TODO
     }
 
     void shouldTriggerKoboldStrikeSpellCardEffect() {
-
+        //TODO
     }
 
     void shouldTriggerTeleportationSpellCardEffect() {
-
+        //TODO
     }
 
     @Test
@@ -545,14 +587,92 @@ public class GameCardEffectTest {
         assertThat("Should be able to build on a room with matching treasure",
             game.getState().getSubPhase().isValidChoice(0,game),is(true));
 
+        game.makeChoice(0);
+        assertThat("Should have built specified room",
+            game.getCurrentPlayer().getDungeon().getRoomSlots()[0].getRoom(),is(advancedMonster));
     }
 
+    @Test
     void shouldTriggerSeduciaLevelUpBossCardEffect() {
+        FinalBossCard seducia = setUpFinalBossCard(EffectEnum.LURE_A_CHOSEN_HERO_FROM_CITY_OR_HERO_PILE_TO_DUNGEON);
+
+        levelUpDungeonFinalBoss(seducia);
+        assertThat("Phase did not change",game.getState().getPhase(),is(GamePhase.EFFECT));
+        List<Card> expectedChoice = List.of(Card.CITY_PILE_CARD,Card.HERO_PILE_CARD);
+        assertThat("Not offering choice between piles", game.getChoice(), is(expectedChoice));
+
+        game.makeChoice(0);
+        assertThat("Not offering city pile",game.getChoice(),is(game.getCity()));
+        game.makeChoice(-1);
+        assertThat("Not rollbacking choice correctly",game.getChoice(),is(expectedChoice));
+        game.makeChoice(1);
+        assertThat("Not offering hero pile",game.getChoice(),is(game.getHeroPile()));
+
+        HeroCard dummy = new HeroCard();
+        dummy.setName("Dummy");
+        game.getHeroPile().add(dummy);
+        Integer cardsInPile = game.getHeroPile().size();
+        RoomCard card = new RoomCard();
+        Dungeon dungeon = game.getCurrentPlayer().getDungeon();
+        dungeon.replaceDungeonRoom(card,0);
+        Integer heroesBefore = dungeon.getRoomSlots()[0].getHeroesInRoom().size();
+
+        game.makeChoice(cardsInPile-1);
+        assertThat("Did not remove card from the pile",game.getHeroPile().size(),is(cardsInPile-1));
+        assertThat("Did not move hero to dungeon",
+            dungeon.getRoomSlots()[0].getHeroesInRoom().size(),is(heroesBefore+1));
 
     }
 
+    @Test
     void shouldTriggerCleopatraLevelUpBossCardEffect() {
+        FinalBossCard cleopatra = setUpFinalBossCard(EffectEnum.BUILD_AN_ADVANCED_TRAP_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE);
 
+        levelUpDungeonFinalBoss(cleopatra);
+        assertThat("Phase did not change",game.getState().getPhase(),is(GamePhase.EFFECT));
+        List<Card> expectedChoice = List.of(Card.DISCARD_PILE_CARD,Card.ROOM_PILE_CARD);
+        assertThat("Not offering choice between piles", game.getChoice(), is(expectedChoice));
+
+        RoomCard advancedTrap = new RoomCard();
+        advancedTrap.setRoomType(RoomType.ADVANCED_TRAP);
+        advancedTrap.setTreasure("1000");
+        advancedTrap.setName("An advanced trap");
+        RoomCard notAdvancedTrap = new RoomCard();
+        notAdvancedTrap.setRoomType(RoomType.TRAP);
+        notAdvancedTrap.setTreasure("0100");
+        notAdvancedTrap.setName("A not advanced monster");
+        RoomCard matchingTreasureCard = new RoomCard();
+        matchingTreasureCard.setName("A room with matching treasure");
+        matchingTreasureCard.setTreasure("1000");
+        game.getDiscardPile().add(advancedTrap);
+        game.getDiscardPile().add(notAdvancedTrap);
+        game.getRoomPile().add(advancedTrap);
+        game.getRoomPile().add(notAdvancedTrap);
+        game.getCurrentPlayer().getDungeon().replaceDungeonRoom(matchingTreasureCard,0);
+        game.getCurrentPlayer().getDungeon().replaceDungeonRoom(notAdvancedTrap,1);
+        game.makeChoice(0);
+        assertThat("Did not store choice",game.getPreviousChoices(),not(empty()));
+        assertThat("Not offering discard pile", game.getChoice(),is(game.getDiscardPile()));
+        assertThat("Shouldn't be able to choose a not advanced card",
+            game.getState().getSubPhase().isValidChoice(game.getDiscardPile().size()-1,game),is(false));
+        assertThat("Should be able to choose an advanced card",
+            game.getState().getSubPhase().isValidChoice(game.getDiscardPile().size()-2,game),is(true));
+        game.makeChoice(-1);
+        assertThat("Not rollbacking choice correctly",game.getChoice(),is(expectedChoice));
+        game.makeChoice(1);
+        assertThat("Not offering room pile", game.getChoice(),is(game.getRoomPile()));
+        game.makeChoice(game.getRoomPile().size()-2);
+        expectedChoice = Arrays.stream(game.getCurrentPlayer().getDungeon().getRoomSlots()).map(slot->slot.getRoom())
+            .collect(Collectors.toList());
+        assertThat("Not showing dungeon",game.getChoice(),is(expectedChoice));
+        assertThat("Should not be able to build on a room with mismatching treasure",
+            game.getState().getSubPhase().isValidChoice(1,game),is(false));
+        assertThat("Should be able to build on a room with matching treasure",
+            game.getState().getSubPhase().isValidChoice(0,game),is(true));
+
+        game.makeChoice(0);
+        assertThat("Should have built specified room",
+            game.getCurrentPlayer().getDungeon().getRoomSlots()[0].getRoom(),is(advancedTrap));
     }
 
 }
