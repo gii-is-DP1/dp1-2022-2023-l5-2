@@ -62,9 +62,9 @@ public class UserService {
         return findUser(username);
     }
 
-	// public List<User> findAllUsers() {
-	// 	return userRepository.findAll();
-	// }
+	public List<User> findAllUsers() {
+		return userRepository.findAll();
+	}
 
 	public Page<User> getPageUsers(Pageable pageable){
 		return userRepository.findAll(pageable);
