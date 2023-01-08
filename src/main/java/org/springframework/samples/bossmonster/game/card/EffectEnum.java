@@ -8,17 +8,15 @@ import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
-import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
-import org.springframework.samples.bossmonster.game.gameState.GameState;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 
 //Enumerado actua como dummy para la base de datos.
 public enum EffectEnum implements EffectInterface {
-    
+
     ENUMERADO {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
@@ -167,7 +165,7 @@ public enum EffectEnum implements EffectInterface {
         public void apply(Player player, Integer dungeonPosition, Game game) {
             if (dungeonPosition > 0) {
                 DungeonRoomSlot drs = player.getDungeon().getRoomSlots()[dungeonPosition - 1];
-                if (drs.getRoom() != null && (drs.getRoom().getRoomType() == RoomType.TRAP || drs.getRoom().getRoomType() == RoomType.ADVANCED_TRAP)) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 2);
+                if (drs.getRoom() != null && drs.getRoom().isTrapType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 2);
             }
         }
     },
@@ -196,7 +194,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_SPELL_CARD_FROM_SPELL_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            //game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_A_SPELL_CARD_FROM_SPELL_PILE);
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_SPELL_FROM_SPELL_PILE);
         }
     },
 
@@ -204,7 +202,7 @@ public enum EffectEnum implements EffectInterface {
     CHOOSE_2_CARDS_FROM_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            //game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_2_CARDS_FROM_DISCARD_PILE);
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.CHOOSE_2_CARDS_FROM_DISCARD_PILE);
         }
     },
 
@@ -216,12 +214,12 @@ public enum EffectEnum implements EffectInterface {
             game.getState().triggerSpecialCardEffectState(GameSubPhase.DISCARD_A_SPELL_CARD);
         }
     },
- 
+
     // King Croak (Boss)
     BUILD_AN_ADVANCED_MONSTER_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.BUILD_ADVANCED_MONSTER_FROM_DISCARD_OR_ROOM_PILE);
         }
     },
 
@@ -229,7 +227,7 @@ public enum EffectEnum implements EffectInterface {
     LURE_A_CHOSEN_HERO_FROM_CITY_OR_HERO_PILE_TO_DUNGEON {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.LURE_HERO_FROM_HERO_OR_CITY_PILE);
         }
     },
 
@@ -237,7 +235,7 @@ public enum EffectEnum implements EffectInterface {
     BUILD_AN_ADVANCED_TRAP_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.BUILD_ADVANCED_TRAP_FROM_DISCARD_OR_ROOM_PILE);
         }
     },
 
@@ -245,9 +243,7 @@ public enum EffectEnum implements EffectInterface {
     ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            for (DungeonRoomSlot drs: player.getDungeon().getRoomSlots()) {
-                if (drs.getRoom() != null && drs.getRoom().isMonsterType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 3);
-            }
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.ADD_3_DAMAGE_TO_CHOSEN_MONSTER_ROOM);
         }
     },
 
@@ -266,10 +262,7 @@ public enum EffectEnum implements EffectInterface {
     LURE_A_CHOSEN_HERO_FROM_CITY_TO_DUNGEON {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            Collections.shuffle(game.getCity(), new Random());
-            HeroCard chosenHero = game.getCity().get(0);
-            player.getDungeon().addNewHeroToDungeon(chosenHero);
-            game.getCity().remove(chosenHero);
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.LURE_HERO_FROM_CITY);
         }
     },
 
@@ -279,8 +272,7 @@ public enum EffectEnum implements EffectInterface {
         public void apply(Player player, Integer dungeonPosition, Game game) {
             Integer playersWithMoreRooms = (int) game.getPlayers().stream().filter(x -> x.getDungeon().getBuiltRooms() > player.getDungeon().getBuiltRooms()).count();
             if (playersWithMoreRooms > 0) {
-                game.getState().setSubPhase(GameSubPhase.BUILD_NEW_ROOM);
-                game.getState().updateChangeConditionCounter(2);
+                game.getState().triggerSpecialCardEffectState(GameSubPhase.BUILD_NEW_ROOM);
             }
         }
     },
@@ -289,7 +281,7 @@ public enum EffectEnum implements EffectInterface {
     DEAL_ROOM_AMOUNT_DAMAGE_TO_HERO {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.DEAL_X_DAMAGE_TO_HERO_IN_DUNGEON);
         }
     },
 
@@ -297,9 +289,7 @@ public enum EffectEnum implements EffectInterface {
     ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            for (DungeonRoomSlot drs: player.getDungeon().getRoomSlots()) {
-                if (drs.getRoom() != null && drs.getRoom().isTrapType()) drs.setRoomTrueDamage(drs.getRoomTrueDamage() + 3);
-            }
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.ADD_3_DAMAGE_TO_CHOSEN_TRAP_ROOM);
         }
     },
 
@@ -316,7 +306,7 @@ public enum EffectEnum implements EffectInterface {
                 player.getDungeon().getRoomSlots()[firstRoom].setRoom(null);
                 game.getDiscardPile().add(room);
             }
-        } 
+        }
     },
 
     // Kobold Strike (Spell)
@@ -334,15 +324,15 @@ public enum EffectEnum implements EffectInterface {
                 }
             }
             game.skipBuildPhase();
-        } 
+        }
     },
 
     // Teleportation (Spell)
     SEND_HERO_TO_FIRST_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            // TODO
-        } 
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.SEND_HERO_TO_FIRST_ROOM);
+        }
     },
 
     // Jeopardy (Spell)

@@ -22,7 +22,7 @@
                 </div>
                 <c:if test="${game.state.subPhase.isOptional()}">
                     <button class="btn btn-default btn-lg" name="choice" value="-1">
-                        <c:out value="${game.state.isBuildingRoom()?'Cancel':'Pass'}"/>
+                        <c:out value="${not empty game.previousChoices?'Cancel':'Pass'}"/>
                     </button>
                 </c:if>
             </c:if>
@@ -60,16 +60,18 @@
             </c:forEach>
         </div>
     </div>
-    <div class="row">
-        <div class="hand col-md-2 col-md-offset-1">
-            <bossmonster:cardPile cards="${currentPlayer.hand}" pileId="hand" pileName="Your Hand" />
-            <br />
-            <b>Your Hand</b>
+    <c:if test="${not empty currentPlayer}">
+        <div class="row">
+            <div class="hand col-md-2 col-md-offset-1">
+                <bossmonster:cardPile cards="${currentPlayer.hand}" pileId="hand" pileName="Your Hand" />
+                <br />
+                <b>Your Hand</b>
+            </div>
+            <div class="player-dungeon dungeon col-md-8">
+                <bossmonster:dungeon player="${currentPlayer}"/>
+            </div>
         </div>
-        <div class="player-dungeon dungeon col-md-8">
-            <bossmonster:dungeon player="${currentPlayer}"/>
-        </div>
-    </div>
+    </c:if>
 </div>
 <script type="text/javascript">
     $("#modalTrigger").trigger("click");

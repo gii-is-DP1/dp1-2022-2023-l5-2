@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -429,9 +428,9 @@ public class GameTest {
         RoomCard neanderthal = new RoomCard();
         // Neanderthal Cave's id
         neanderthal.setId(9);
-        game.placeDungeonRoom(player,0,monster);
-        game.placeDungeonRoom(player,1,trap);
-        game.placeDungeonRoom(player,2,neanderthal);
+        game.placeDungeonRoom(player,0,monster, false);
+        game.placeDungeonRoom(player,1,trap, false);
+        game.placeDungeonRoom(player,2,neanderthal, false);
 
         Boolean result = game.checkPlaceableRoomInDungeonPosition(player, position, roomToBuild);
         assertThat(reason,result, is(expected));
@@ -456,18 +455,18 @@ public class GameTest {
         testRoom2.setRoomType(RoomType.ADVANCED_TRAP);
         RoomCard testRoom3 = new RoomCard();
         testRoom3.setRoomType(RoomType.ADVANCED_MONSTER);
-        game.placeDungeonRoom(player, 0, testRoom1);
+        game.placeDungeonRoom(player, 0, testRoom1, false);
         assertEquals(testRoom1, player.getDungeon().getRoomSlots()[0].getRoom());
-        game.placeDungeonRoom(player, 0, testRoom2);
+        game.placeDungeonRoom(player, 0, testRoom2, false);
         assertEquals(testRoom2, player.getDungeon().getRoomSlots()[0].getRoom());
-        game.placeDungeonRoom(player, 0, testRoom3);
+        game.placeDungeonRoom(player, 0, testRoom3, false);
         assertEquals(testRoom2, player.getDungeon().getRoomSlots()[0].getRoom());
     }
 
     @Test
     void shouldDestroyDungeonRoom() {
         RoomCard testRoom1 = new RoomCard();
-        game.placeDungeonRoom(player, 0, testRoom1);
+        game.placeDungeonRoom(player, 0, testRoom1, false);
         game.destroyDungeonRoom(player, 0);
         assertEquals(null, player.getDungeon().getRoomSlots()[0].getRoom());
     }
