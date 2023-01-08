@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jpatterns.gof.StrategyPattern;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.player.Player;
@@ -18,6 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Slf4j
+@StrategyPattern.Context
 public class GameState extends BaseEntity {
 
     public static final int DEFAULT_WAITING_TIME = 2;
@@ -38,7 +40,6 @@ public class GameState extends BaseEntity {
     private LocalDateTime clock;
     // If true, game updates when clock matches current time. If false, when counter matches limit
     private Boolean checkClock;
-    private Boolean buildingRoom;
 
     private Integer currentRound;
 
@@ -89,7 +90,7 @@ public class GameState extends BaseEntity {
             log.debug("Subphase is now "+ getSubPhase());
         }
     }
- 
+
     private void updateGameState() {
         switch (phase) {
             case START_GAME:  updateStartGameState(); break;
@@ -116,14 +117,14 @@ public class GameState extends BaseEntity {
         checkClockBeforeEffect = checkClock;
         phase = GamePhase.EFFECT;
         subPhase = triggeredSubPhase;
-        updateChangeConditionCounter(EFFECT_STATE_COUNTER_LIMIT);
+        updateChangeConditionCounter(triggeredSubPhase.getActionLimit());
     }
 
     public Integer getWaitingTime() {
         int time = (int) Duration.between(LocalDateTime.now(), clock).getSeconds() + 1;
         return Integer.max(time,DEFAULT_WAITING_TIME);
     }
- 
+
     public void getFirstNonEliminatedPlayer() {
         currentPlayer = -1;
         Boolean detected = false;
@@ -216,11 +217,6 @@ public class GameState extends BaseEntity {
     }
 
     ////////////////////////////   BUILD   ////////////////////////////
-
-    public Boolean isBuildingRoom() {
-        return (subPhase == GameSubPhase.BUILD_NEW_ROOM) &&
-            (counter % 2 != 0);
-    }
 
     private void updateBuildState() {
         switch (subPhase) {

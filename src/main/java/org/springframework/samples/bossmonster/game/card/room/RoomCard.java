@@ -12,6 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -36,7 +40,17 @@ public class RoomCard extends Card {
     @Column(name="effect")
     private EffectEnum effect;
 
+    public Map<TreasureType, Boolean> parseHasTreasureType() {
+        Map<TreasureType, Integer> result = Map.of(TreasureType.BOOK,0,
+            TreasureType.SWORD,1,
+            TreasureType.CROSS,2,
+            TreasureType.BAG,3);
 
+        return result.entrySet().stream().collect(Collectors.toMap(
+            e->e.getKey(),
+            e->treasure.charAt(e.getValue()) == '0'
+        ));
+    }
     public Integer parseTreasureAmount(TreasureType targetTreasure) {
         Integer targetPosition;
         switch (targetTreasure) {

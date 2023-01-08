@@ -21,44 +21,42 @@
 
 
     <body class="body">
+        <div class="centered-view">
+            <a class="btn btn-title" href="${newLobby}">Create Game</a>
+        </div>
 
+        <div class="centered-view">
+            <a class="btn btn-title" href="${joinLobby}">Join Game</a>
+        </div>
+
+        <div class="centered-view">
+            <a class="btn btn-title" href="${editUser}">User Management</a>
+        </div>
+
+        <div class="centered-view">
+            <a class="btn btn-title" href="${newUser}">Create New User</a>
+        </div>
+
+        <div class="centered-view">
+            <a class="btn btn-title" href="${statistics}">Statistics</a>
+        </div>
+
+        <div class="centered-view">
+            <a class="btn btn-title" href="${myAchievements}">My Achievements</a>
+        </div>
+        <sec:authorize access="hasAuthority('admin')">
             <div class="centered-view">
-                <a class="btn btn-title" href="${newLobby}">Create Game</a>
+                <a class="btn btn-title" href="${adminOptions}">Admin Options</a>
             </div>
-
-            <div class="centered-view">
-                <a class="btn btn-title" href="${joinLobby}">Join Game</a>
-            </div>
-
-            <div class="centered-view">
-                <a class="btn btn-title" href="${editUser}">User Management</a>
-            </div>
-
-            <div class="centered-view">
-                <a class="btn btn-title" href="${newUser}">Create New User</a>
-            </div>
-
-            <div class="centered-view">
-                <a class="btn btn-title" href="${statistics}">Statistics</a>
-            </div>
-
-            <div class="centered-view">
-                <a class="btn btn-title" href="${myAchievements}">My Achievements</a>
-            </div>
-            <sec:authorize access="hasAuthority('admin')">
-                <div class="centered-view">
-                    <a class="btn btn-title" href="${adminOptions}">Admin Options</a>
-                </div>
-            </sec:authorize>
-            <div class="buttonview">
-                <a class="btn btn-title" href="${friendModule}">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"><div class="text1">Friends</div> </span>
-                </a>
-                <a class="btn btn-title" href="/users/statistics/rankings/winRate">
-                    <span class="glyphicon glyphicon-king" aria-hidden="true"><div class="text1">Rankings</div> </span>
-                </a>
-            </div>
-
+        </sec:authorize>
+        <div class="buttonview">
+            <a class="btn btn-title" href="${friendModule}">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"><div class="text1">Friends</div> </span>
+            </a>
+            <a class="btn btn-title" href="/users/statistics/rankings/winRate">
+                <span class="glyphicon glyphicon-king" aria-hidden="true"><div class="text1">Rankings</div> </span>
+            </a>
+        </div>
     </body>
 
     <style>
