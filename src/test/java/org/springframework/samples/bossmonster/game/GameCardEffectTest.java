@@ -2,6 +2,7 @@ package org.springframework.samples.bossmonster.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.EffectEnum;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
@@ -193,7 +195,6 @@ public class GameCardEffectTest {
         // This one was tested in shouldSetInitialRoomCardDamage() in DungeonTest
     }
 
-    @Ignore
     @Test
     void shouldTriggerBoulderRampRoomCardEffect() {
         RoomCard boulderRamp = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM, EffectEnum.DEAL_5_DAMAGE_TO_A_HERO_IN_THIS_ROOM);
@@ -220,11 +221,28 @@ public class GameCardEffectTest {
         assertThat("The card effect didn't trigger", game.getState().getActionLimit(), is(2));
     }
 
-    @Ignore
     @Test
     void shouldTriggerDarkAltarRoomCardEffect() {
+        for (Player p: game.getPlayers()) game.discardCard(p, 0);
         RoomCard darkAltar = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.CHOOSE_CARD_FROM_DISCARD_PILE);
-        // TODO
+        game.getState().setPhase(GamePhase.START_GAME);
+        game.getState().setSubPhase(GameSubPhase.PLACE_FIRST_ROOM);
+        game.getState().setActionLimit(1);
+        game.getState().setCounter(0);
+        activateRoomCardEffect(darkAltar);
+        assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.EFFECT));
+        assertThat("The substate didn't change", game.getState().getSubPhase(), is(GameSubPhase.CHOOSE_A_CARD_FROM_DISCARD_PILE));
+        assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
+        assertThat("The limit wasn't correctly updated", game.getState().getActionLimit(), is(1));
+        List<Card> expectedHand = new ArrayList<>(testPlayer.getHand());
+        Card chosenCard = game.getDiscardPile().get(0);
+        game.makeChoice(0);
+        expectedHand.add(chosenCard);
+        assertEquals(expectedHand, testPlayer.getHand());
+        assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.START_GAME));
+        assertThat("The substate didn't change", game.getState().getSubPhase(), is(GameSubPhase.PLACE_FIRST_ROOM));
+        assertThat("The limit wasn't correctly updated", game.getState().getActionLimit(), is(1));
+        assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
     }
 
     @Test
@@ -237,9 +255,28 @@ public class GameCardEffectTest {
         // This one was tested in shouldCheckPlaceableRoomInDungeonPosition()
     }
 
+    @Test
     void shouldTriggerOpenGraveRoomCardEffect() {
         RoomCard openGrave = setUpDummyRoomCard(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM, EffectEnum.CHOOSE_ROOM_CARD_FROM_DISCARD_PILE);
-        // TODO
+        game.discardAllCards(game.getPlayers().get(2));
+        game.getState().setPhase(GamePhase.START_GAME);
+        game.getState().setSubPhase(GameSubPhase.PLACE_FIRST_ROOM);
+        game.getState().setActionLimit(1);
+        game.getState().setCounter(0);
+        activateRoomCardEffect(openGrave);
+        assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.EFFECT));
+        assertThat("The substate didn't change", game.getState().getSubPhase(), is(GameSubPhase.CHOOSE_A_ROOM_CARD_FROM_DISCARD_PILE));
+        assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
+        assertThat("The limit wasn't correctly updated", game.getState().getActionLimit(), is(1));
+        List<Card> expectedHand = new ArrayList<>(testPlayer.getHand());
+        RoomCard chosenRoomCard = (RoomCard) game.getDiscardPile().stream().filter(x -> x.getClass() == RoomCard.class).findFirst().orElse(null);
+        game.makeChoice(game.getDiscardPile().indexOf(chosenRoomCard));
+        expectedHand.add(chosenRoomCard);
+        assertEquals(expectedHand, testPlayer.getHand());
+        assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.START_GAME));
+        assertThat("The substate didn't change", game.getState().getSubPhase(), is(GameSubPhase.PLACE_FIRST_ROOM));
+        assertThat("The limit wasn't correctly updated", game.getState().getActionLimit(), is(1));
+        assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
     }
 
     @Test
@@ -317,12 +354,30 @@ public class GameCardEffectTest {
         assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
     }
 
-    @Ignore
     @Test
     void shouldTriggerMonstrousMonumentRoomCardEffect() {
-
+        for (Player p: game.getPlayers()) game.discardAllCards(p);
+        game.getState().setPhase(GamePhase.START_GAME);
+        game.getState().setSubPhase(GameSubPhase.PLACE_FIRST_ROOM);
+        game.getState().setActionLimit(1);
+        game.getState().setCounter(0);
+        RoomCard monstrousMonument = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_THIS_ROOM, EffectEnum.CHOOSE_MONSTER_ROOM_CARD_FROM_DISCARD_PILE);
+        activateRoomCardEffect(monstrousMonument);
+        assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.EFFECT));
+        assertThat("The substate didn't change", game.getState().getSubPhase(), is(GameSubPhase.CHOOSE_A_MONSTER_ROOM_CARD_FROM_DISCARD_PILE));
+        assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
+        assertThat("The limit wasn't correctly updated", game.getState().getActionLimit(), is(1));
+        List<Card> expectedHand = new ArrayList<>(testPlayer.getHand());
+        RoomCard chosenMonsterCard = game.getDiscardPile().stream().filter(x -> x.getClass() == RoomCard.class).map(x -> (RoomCard) x).filter(x -> x.isMonsterType()).findFirst().orElse(null);
+        expectedHand.add(chosenMonsterCard);
+        game.makeChoice(game.getDiscardPile().indexOf(chosenMonsterCard));
+        assertEquals(expectedHand, testPlayer.getHand());
+        assertThat("The state didn't change", game.getState().getPhase(), is(GamePhase.START_GAME));
+        assertThat("The substate didn't change", game.getState().getSubPhase(), is(GameSubPhase.PLACE_FIRST_ROOM));
+        assertThat("The limit wasn't correctly updated", game.getState().getActionLimit(), is(1));
+        assertThat("The action counter wasn't correctly updated", game.getState().getCounter(), is(0));
     }
-
+ 
     @Test
     void shouldTriggerBeastMenagerieRoomCardEffect() {
         RoomCard beastMenagerie = setUpDummyRoomCard(RoomPassiveTrigger.BUILD_MONSTER_ROOM, EffectEnum.DRAW_A_ROOM_CARD);

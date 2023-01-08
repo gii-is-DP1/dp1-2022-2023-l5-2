@@ -188,15 +188,19 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
 
 INSERT INTO achievement(id, name, description, image, threshold, metric) VALUES
     (1, 'Tutorial Monster', 'Win 1 game.', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
-    (2, 'Room Monster', 'Win 5 game.', '/resources/images/bosses/boss_00.jpg', 5, 'VICTORIES'),
-    (3, 'Midboss Monster', 'Win 25 games.', '/resources/images/bosses/boss_00.jpg', 10, 'VICTORIES');
+    (2, 'Room Monster', 'Win 5 game.', '/resources/images/bosses/boss_01.jpg', 5, 'VICTORIES'),
+    (3, 'Midboss Monster', 'Win 10 games.', '/resources/images/bosses/boss_02.jpg', 10, 'VICTORIES'),
+    (4, 'Boss Monster', 'Win 25 games.', '/resources/images/bosses/boss_03.jpg', 25, 'VICTORIES');
 
 INSERT INTO achievement_users(username, achievement_id) VALUES
     ('igngongon2', 1),
     ('jessolort', 2),
     ('fralarmar', 1),
+    ('tadcabgom', 1),
+    ('tadcabgom', 2),
     ('tadcabgom', 3),
     ('eletomvel', 3),
+    ('eletomvel', 4),
     ('ignarrman', 1);
 
 INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
