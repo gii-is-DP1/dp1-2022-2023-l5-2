@@ -112,7 +112,7 @@ public class CardServiceTest {
 
     @Test
     @DisplayName("give a card")
-    public void shouldGetFirstCardOfDeck() {
+    public void shouldGetFirstCardFromDeck() {
 
         FinalBossCard card1 = new FinalBossCard(); 
         FinalBossCard card2 = new FinalBossCard();
@@ -128,7 +128,6 @@ public class CardServiceTest {
 
         assertFalse(deck1.isEmpty());
         assertEquals(hand.get(0), deck1.get(deck1.size()-1));
-
         assertNotEquals(deck.get(deck.size()-1),deck1.get(deck1.size()-1));
     }
 }
