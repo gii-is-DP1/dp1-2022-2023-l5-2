@@ -38,7 +38,7 @@
                         <c:out value="${user.description}"/>
                     </td>
                     <td>
-                        <c:out value="${user.avatar}"/>
+                        <img src="${user.avatar}" height ="80" width="100"/>
                     </td>
                     <td>
                         <c:out value="${user.password}"/>
@@ -62,9 +62,7 @@
             <td>
                 <c:choose>
                     <c:when test="${param.page=='0'}">
-                        <a href="users?page=0"> 
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        </a>
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="color:gray"></span>
                     </c:when>    
                     <c:otherwise>
                         <a href="users?page=${param.page - 1}"> 
