@@ -32,30 +32,35 @@ public class ChatService {
     public List<Message> getMessages(Integer id){
         return repo2.getMessages(id);
     }
-    public Message findMessageById(Integer id){
-        return repo.findMessageId(id);
-    }
+
     public void addMessage(Message message){
         repo2.save(message);
     }
+
     @Transactional
     public void createChat(Chat chat){
         repo.save(chat);
     }
+
     public Boolean estaCensurada(String words){
-        for(Integer i=0; i<palabrasCensuradas.size();i++){
-            String palabraCensurada= palabrasCensuradas.get(i);
-            if(words.contains(palabraCensurada)){
-                return true;
+        if (words != null){
+            for(Integer i=0; i<palabrasCensuradas.size();i++){
+                String palabraCensurada= palabrasCensuradas.get(i).toLowerCase();
+                words = words.toLowerCase();
+                if(words.contains(palabraCensurada)){
+                    return true;
+                }
             }
         }
+
         return false;
     }
+
     public String cambiarPalabrasCensuradas(String words){
-        String result=words;
+        String result=words.toLowerCase();
         for(Integer i=0; i<palabrasCensuradas.size();i++){
-            String palabraCensurada= palabrasCensuradas.get(i);
-            if(words.contains(palabraCensurada)){
+            String palabraCensurada= palabrasCensuradas.get(i).toLowerCase();
+            if(result.contains(palabraCensurada)){
                 result=result.replaceAll(palabraCensurada, "*******");
             }
         }
