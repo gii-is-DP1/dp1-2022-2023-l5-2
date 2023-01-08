@@ -120,7 +120,7 @@ public class UserController {
 	@GetMapping("/admin/users")
 	public ModelAndView getAllUsers(
 		@RequestParam(defaultValue = "0") int page,
-		@RequestParam(defaultValue = "5") int size
+		@RequestParam(defaultValue = "3") int size
 	){
 		List<User> users = new ArrayList<User>();
 		Pageable paging = PageRequest.of(page, size);
