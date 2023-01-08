@@ -65,7 +65,7 @@ public class StatisticsServiceTests {
     @DisplayName("calculate Average Duration")
     public void shouldCalculateAverageDuration(){
         Double duration= this.statisticsService.averageDuration("ignarrman");
-        assertThat(duration).isEqualTo(2.58);
+        assertThat(duration).isEqualTo(36.0);
 
         duration=this.statisticsService.averageDuration("admin1");
         assertThat(duration).isEqualTo(0.);

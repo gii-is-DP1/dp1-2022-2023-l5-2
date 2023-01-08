@@ -95,6 +95,10 @@ public class Dungeon extends BaseEntity {
         return (int) Arrays.stream(getRoomSlots()).filter(slot->slot.getRoom()!=null).count();
     }
 
+    public List<RoomCard> getRooms() {
+        return Arrays.stream(getRoomSlots()).map(slot->slot.getRoom()).collect(Collectors.toList());
+    }
+
     public void replaceDungeonRoom(RoomCard room, Integer position) {
         roomSlots[position].replaceRoom(room);
     }
