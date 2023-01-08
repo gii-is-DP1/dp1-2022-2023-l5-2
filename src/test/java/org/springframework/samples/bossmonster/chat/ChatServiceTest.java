@@ -97,6 +97,7 @@ public class ChatServiceTest {
     assertFalse(result);
     }
 
+    //Test the censorship
     @Test
     public void shouldCensorTheWord(){
     String prueba1 = "Eres un Palabrota";

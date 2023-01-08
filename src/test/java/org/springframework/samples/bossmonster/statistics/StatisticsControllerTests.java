@@ -34,8 +34,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 @WebMvcTest(controllers = StatisticsController.class,
-excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-excludeAutoConfiguration = SecurityConfiguration.class)
+                        excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
+                        excludeAutoConfiguration = SecurityConfiguration.class)
 @ExtendWith(MockitoExtension.class)
 
 public class StatisticsControllerTests {
