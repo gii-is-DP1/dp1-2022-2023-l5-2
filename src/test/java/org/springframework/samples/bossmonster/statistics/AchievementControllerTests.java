@@ -60,7 +60,7 @@ public class AchievementControllerTests {
     public void testShowAchievements() throws Exception{
         mockMvc.perform(get("/statistics/achievements"))
             .andExpect(status().isOk())
-            .andExpect(view().name("/achievements/AchievementsListing"));
+            .andExpect(view().name("/achievements/achievementsListing"));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class AchievementControllerTests {
             .param("metric", "VICTORIES")
             .param("threshold", "10"))
             .andExpect(status().isOk())
-            .andExpect(view().name("/achievements/AchievementsListing"));
+            .andExpect(view().name("/achievements/achievementsListing"));
     }
 
     @Test

@@ -35,6 +35,18 @@
     <div class="form-group">
         <button class="btn btn-default" type="reset">Reset Changes</button>
     </div>
+    <div class="form-group">
+        <a class="btn btn-default" href="/">Cancel</a>
+    </div>
 </form:form>
+
+<style>
+    .btn{
+        width:150px;
+    }
+    td{
+        width:300px;
+    }
+</style>
 
 </bossmonster:layout>
