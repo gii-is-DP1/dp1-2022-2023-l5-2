@@ -3,7 +3,6 @@ package org.springframework.samples.bossmonster.game.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
