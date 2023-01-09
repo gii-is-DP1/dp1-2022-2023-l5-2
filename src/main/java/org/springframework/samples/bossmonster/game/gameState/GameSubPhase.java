@@ -28,13 +28,13 @@ public enum GameSubPhase implements SubPhaseChoices{
     ANNOUNCE_NEW_PHASE(g->g.getState().getPhase().getStartPhaseMessage()) {
         @Override
         public Integer getClockLimit() {
-            return 3;
+            return GameState.PHASE_COOLDOWN_SECONDS;
         }
     },
     ANNOUNCE_NEW_PLAYER(g->String.format("It is now %s's turn!",g.getCurrentPlayer())){
         @Override
         public Integer getClockLimit() {
-            return 1;
+            return GameState.PLAYER_COOLDOWN_SECONDS;
         }
     },
     USE_SPELLCARD(g->String.format("%s considers their spells...",g.getCurrentPlayer()),
@@ -86,7 +86,7 @@ public enum GameSubPhase implements SubPhaseChoices{
 
         @Override
         public Integer getActionLimit() {
-            return 2;
+            return GameState.START_GAME_DISCARDED_CARDS;
         }
     },
     PLACE_FIRST_ROOM(g->String.format("%s is building their first room...",g.getCurrentPlayer()),
@@ -112,19 +112,24 @@ public enum GameSubPhase implements SubPhaseChoices{
             Card room = game.getCurrentPlayerHand().get(choice);
             game.placeFirstRoom(game.getCurrentPlayer(), (RoomCard) room);
         }
+
+        @Override
+        public Integer getActionLimit() {
+            return GameState.START_GAME_ROOMS_PLACED;
+        }
     },
 
     // START_ROUND
     REVEAL_HEROES(g->"New heroes arrived at the city!") {
         @Override
         public Integer getClockLimit() {
-            return 3;
+            return GameState.SHOW_HEROES_COOLDOWN_SECONDS;
         }
     },
     GET_ROOM_CARD(g->"The Bosses get a new room to build...") {
         @Override
         public Integer getClockLimit() {
-            return 3;
+            return GameState.SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS;
         }
     },
 
@@ -162,7 +167,7 @@ public enum GameSubPhase implements SubPhaseChoices{
 
         @Override
         public Integer getActionLimit() {
-            return 2;
+            return GameState.BUILD_ROOM_ACTIONS;
         }
 
         @Override
@@ -173,7 +178,7 @@ public enum GameSubPhase implements SubPhaseChoices{
     REVEAL_NEW_ROOMS(g->"The newly built rooms get revealed!") {
         @Override
         public Integer getClockLimit() {
-            return 3;
+            return GameState.SHOW_ROOMS_COOLDOWN_SECONDS;
         }
     },
 
@@ -181,7 +186,7 @@ public enum GameSubPhase implements SubPhaseChoices{
     HEROES_ENTER_DUNGEON(g->"The heroes enter the dungeons!") {
         @Override
         public Integer getClockLimit() {
-            return 3;
+            return GameState.SHOW_HEROES_COOLDOWN_SECONDS;
         }
     },
 
@@ -189,7 +194,7 @@ public enum GameSubPhase implements SubPhaseChoices{
     HEROES_EXPLORE_DUNGEON(g->String.format("The heroes advance through %s's Dungeon!",g.getCurrentPlayer())) {
         @Override
         public Integer getClockLimit() {
-            return 3;
+            return GameState.SHOW_HEROES_COOLDOWN_SECONDS;
         }
     },
 

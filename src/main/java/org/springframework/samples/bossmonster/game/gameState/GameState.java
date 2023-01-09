@@ -55,16 +55,15 @@ public class GameState extends BaseEntity {
 
     private Boolean effectIsBeingTriggered;
 
-    private static final Integer START_GAME_DISCARDED_CARDS = 2;
-    private static final Integer START_GAME_ROOMS_PLACED = 1;
-    private static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;   // If a card effect changes the limit, this value will update automatically
-    private static final Integer EFFECT_STATE_COUNTER_LIMIT = 1;        // All special card effects have only one action
-    private static final Integer BUILD_ROOM_ACTIONS = 2;                // Choosing a card + Choosing a dungeon slot
-    private static final Integer PHASE_COOLDOWN_SECONDS = 3;
-    private static final Integer PLAYER_COOLDOWN_SECONDS = 1;
-    private static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 3;
-    private static final Integer SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS = 3;
-    private static final Integer SHOW_ROOMS_COOLDOWN_SECONDS = 3;
+    public static final Integer START_GAME_DISCARDED_CARDS = 2;
+    public static final Integer START_GAME_ROOMS_PLACED = 1;
+    public static final Integer BUILD_PHASE_BUILDED_ROOMS_LIMIT = 1;   // If a card effect changes the limit, this value will update automatically
+    public static final Integer BUILD_ROOM_ACTIONS = 2;                // Choosing a card + Choosing a dungeon slot
+    public static final Integer PHASE_COOLDOWN_SECONDS = 3;
+    public static final Integer PLAYER_COOLDOWN_SECONDS = 1;
+    public static final Integer SHOW_HEROES_COOLDOWN_SECONDS = 3;
+    public static final Integer SHOW_NEW_ROOMCARD_COOLDOWN_SECONDS = 3;
+    public static final Integer SHOW_ROOMS_COOLDOWN_SECONDS = 3;
 
     private static final Integer PLAYER_HAND_CARD_LIMIT = 5;
 
