@@ -273,7 +273,7 @@ public class Game extends BaseEntity {
     }
 
     public Boolean checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger, Integer slot) {
-        return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot);
+        return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot) && getState().getPhase() != GamePhase.EFFECT;
     }
 
     public void triggerRoomCardEffect(Player player, Integer position) {
