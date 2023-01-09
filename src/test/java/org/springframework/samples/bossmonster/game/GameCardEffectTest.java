@@ -420,10 +420,21 @@ public class GameCardEffectTest {
             roomSlot.getRoomTrueDamage(),is(previousDamage));
     }
 
-    @Ignore
     @Test
     void shouldTriggerMinotaursMazeRoomCardEffect() {
+        RoomCard minotaur = setUpDummyRoomCard(RoomPassiveTrigger.HERO_ENTERS_ROOM,EffectEnum.PUSH_HERO_TO_PREVIOUS_ROOM_ONCE);
+        HeroCardStateInDungeon card = setUpDummyHero(TreasureType.BAG,5,false);
 
+        DungeonRoomSlot firstSlot = testPlayer.getDungeon().getRoomSlots()[0];
+        DungeonRoomSlot secondSlot = testPlayer.getDungeon().getRoomSlots()[1];
+        firstSlot.setRoom(minotaur);
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER,1,1);
+        secondSlot.addHero(card);
+        testPlayer.getDungeon().heroAdvanceRoomDungeon();
+
+        assertThat("Hero was not removed",firstSlot.getHeroesInRoom(),not(contains(card)));
+        assertThat("Hero was not placed in the previous room",secondSlot.getHeroesInRoom(),contains(card));
+        assertThat("Minotaurs Maze flag was not toggled", card.getMinotaursMazeEffectTriggered(),is(true));
     }
 
     @Test
