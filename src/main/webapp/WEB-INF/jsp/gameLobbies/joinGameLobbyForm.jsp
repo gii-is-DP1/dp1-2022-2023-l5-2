@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 <bossmonster:layout pageName="joinGameRoom">
-
+<body>
     <spring:url value="/" htmlEscape="true" var="homeScreen"/>
 
 <h1>Join Game</h1>
@@ -26,5 +26,13 @@
 </div>
 
 </form>
+</body>
+<style>
+    body{
+            background-image: url("/resources/images/backgrounds/joinGameBackGround.png");
+            background-size: cover;
+            background-position: center top;
+        }
+</style>
 
 </bossmonster:layout>

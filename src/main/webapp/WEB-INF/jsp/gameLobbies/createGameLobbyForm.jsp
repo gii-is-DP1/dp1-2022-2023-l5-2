@@ -31,4 +31,12 @@
         </form:form>
     </body>
 
+    <style>
+        body{
+                background-image: url("/resources/images/backgrounds/createGameBackground.png");
+                background-size: cover;
+                background-position: center top;
+            }
+    </style>
+
 </bossmonster:layout>
