@@ -131,7 +131,7 @@ public class GameTest {
         return roomCard;
     }
 
-    Dungeon setUpDummyDungeon(String[] treasure) {
+    Dungeon setUpDummyDungeon(String[] treasure, Player player) {
         Dungeon dungeon = new Dungeon();
         DungeonRoomSlot[] slots = new DungeonRoomSlot[5];
         for (int i = 0; i < 5; i ++) {
@@ -143,6 +143,8 @@ public class GameTest {
         FinalBossCard boss = new FinalBossCard();
         boss.setTreasure(TreasureType.SWORD);
         dungeon.setBossCard(boss);
+        dungeon.setPlayer(player);
+        dungeon.setJackpotStashEffectActivated(false);
         return dungeon;
     }
 
@@ -163,10 +165,10 @@ public class GameTest {
         // Cross: No one has a cross
         // Bag: Player 3 has the most
         // Fool: Player 3 has the least souls
-        players.get(0).setDungeon(setUpDummyDungeon(dungeon1));
-        players.get(1).setDungeon(setUpDummyDungeon(dungeon2));
-        players.get(2).setDungeon(setUpDummyDungeon(dungeon3));
-        players.get(3).setDungeon(setUpDummyDungeon(dungeon4));
+        players.get(0).setDungeon(setUpDummyDungeon(dungeon1, players.get(0)));
+        players.get(1).setDungeon(setUpDummyDungeon(dungeon2, players.get(1)));
+        players.get(2).setDungeon(setUpDummyDungeon(dungeon3, players.get(2)));
+        players.get(3).setDungeon(setUpDummyDungeon(dungeon4, players.get(3)));
         players.get(0).setSouls(4);
         players.get(1).setSouls(3);
         players.get(2).setSouls(2);
