@@ -426,7 +426,6 @@ public class GameCardEffectTest {
 
     }
 
-    @Ignore
     @Test
     void shouldTriggerGiantSizeSpellCardEffect() {
         SpellCard giantSize = setUpDummySpellCard(EffectEnum.ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM);
@@ -481,7 +480,6 @@ public class GameCardEffectTest {
         assertThat("Did not add hero to dungeon",slot.getHeroesInRoom().size(),is(previousHeroesInDungeon+1));
     }
 
-    @Ignore
     @Test
     void shouldTriggerMotivationSpellCardEffect() {
         SpellCard motivation = setUpDummySpellCard(EffectEnum.BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS);
@@ -489,7 +487,6 @@ public class GameCardEffectTest {
         //TODO
     }
 
-    @Ignore
     @Test
     void shouldTriggerExhaustionSpellCardEffect() {
         Dungeon dungeon = testPlayer.getDungeon();

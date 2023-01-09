@@ -44,7 +44,7 @@ public class Game extends BaseEntity {
 
     @OneToMany
     private List<Card> discardPile;
-
+ 
     @OneToMany
     private List<HeroCard> heroPile;
 
