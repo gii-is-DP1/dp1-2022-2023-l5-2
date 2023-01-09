@@ -72,9 +72,16 @@
                 </c:choose>
             </td>
             <td>
-                <a href="users?page=${param.page + 1}"> 
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                </a>
+                <c:choose>
+                    <c:when test="${param.page==pageLimit}">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="color:gray"></span>
+                    </c:when>    
+                    <c:otherwise>
+                        <a href="users?page=${param.page + 1}"> 
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                    </c:otherwise>
+                </c:choose>
             </td>
         </tr>
     </table>
