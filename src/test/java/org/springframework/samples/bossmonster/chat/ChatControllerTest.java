@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ class ChatControllerTest {
     @Test
     @DisplayName("Get the chat")
     @WithMockUser(username = "pepe")
-    void ShouldGetChat() throws Exception {
+    void shouldGetChat() throws Exception {
 
         Chat chat = new Chat();
         chat.setId(1);
@@ -94,11 +95,11 @@ class ChatControllerTest {
         verify(gameService).findGame(1);
         verify(chatService).getMessages(1);
     }
-/* 
+ 
     @Test
-    @DisplayName("Send the censored message")
+    @DisplayName("Send the message with censorship")
     @WithMockUser(username = "admin1")
-    void testSendMessage_censoredWords() throws Exception {
+    void shouldSendMessage_censoredWords() throws Exception {
         // Set up mock data
         User user = new User();
         user.setUsername("admin1");
@@ -114,7 +115,7 @@ class ChatControllerTest {
         
 
         // Perform the request and check the response
-        mockMvc.perform(post("/games/1/chat")
+        mockMvc.perform(post("/games/1/chat").with(csrf())
                 .param("words", "some censored words"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/games/1/chat"));
@@ -129,8 +130,9 @@ class ChatControllerTest {
 
     @Test
     @WithMockUser(username = "admin1")
-    void testSendMessage_emptyMessage() throws Exception {
-        // Set up mock data
+    @DisplayName("Send an empty message")
+    void shouldSendMessage_emptyMessage() throws Exception {
+
         User user = new User();
         Chat chat = new Chat();
         Game game = new Game();
@@ -139,20 +141,19 @@ class ChatControllerTest {
         when(userService.getLoggedInUser()).thenReturn(Optional.of(user));
         when(gameService.findGame(game.getId())).thenReturn(Optional.of(game));
 
-        // Perform the request and check the response
-        mockMvc.perform(post("/games/1/chat")
+        mockMvc.perform(post("/games/1/chat").with(csrf())
                 .param("words", ""))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/games/1/chat"));
 
-        // Verify that the service method was not called
         verify(chatService, never()).addMessage(any());
     }
 
     @Test
     @WithMockUser(username = "admin1")
-    void testSendMessage_normalMessage() throws Exception {
-            // Set up mock data
+    @DisplayName("Send a normal message")
+    void shouldSendMessage_normalMessage() throws Exception {
+
         User user = new User();
         Chat chat = new Chat();
         Game game = new Game();
@@ -162,18 +163,19 @@ class ChatControllerTest {
         when(gameService.findGame(game.getId())).thenReturn(Optional.of(game));
         when(chatService.estaCensurada(anyString())).thenReturn(false);
 
-        // Perform the request and check the response
-        mockMvc.perform(post("/games/1/chat")
+        mockMvc.perform(post("/games/1/chat").with(csrf())
                 .param("words", "some normal words"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/games/1/chat"));
 
-        // Verify that the service method was called with the correct arguments
         verify(chatService).addMessage(argThat(message -> message.getWords().equals("some normal words")
                 && message.getChat().equals(chat)
                 && message.getSender().equals(user)));
-        
     }
-    */
+    
+
+
+
+
 
 }
