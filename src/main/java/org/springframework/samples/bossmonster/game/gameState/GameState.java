@@ -296,7 +296,11 @@ public class GameState extends BaseEntity {
                 advanceCurrentPlayer();
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
                 else {
-                    if (game.checkGameEnded()) changePhase(GamePhase.END_GAME);
+                    if (game.checkGameEnded()) {
+                        log.info(String.format("Game nº %s has ended",game.getId()));
+                        game.generateGameResult();
+                        changePhase(GamePhase.END_GAME);
+                    }
                     else {
                         currentRound ++;
                         for (Player p: game.getPlayers()) p.getDungeon().setJackpotStashEffectActivated(false);
