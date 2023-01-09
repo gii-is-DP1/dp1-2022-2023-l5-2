@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.model.BaseEntity;

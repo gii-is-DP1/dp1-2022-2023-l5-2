@@ -12,15 +12,15 @@
 */
 
 INSERT INTO users(username, password, enabled,nickname, email, description, avatar) VALUES 
-    ('admin1',     '$2a$10$13lTS09EGbjGdINpgAP5kOmzOgJROhL/NoQeFH7nrK0VnHCOoA.Jm',          TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://localhost:8080/resources/images/avatars/avatar_00.png'),
-    ('user1',      '$2a$10$9U8JtIwMD53xR7ehAYcx.OBKxmwJQXPVXEQYBNeK6YHaHtEpIMhPa',          TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://localhost:8080/resources/images/avatars/avatar_01.png'),
-    ('eletomvel',  '$2a$10$3Bpea0yG4CR/uA/NBTHFmeZ.92BiyVh7I9zNYXbo3wmwc8FNumj2e',     TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://localhost:8080/resources/images/avatars/avatar_02.png'),
+    ('admin1',     '$2a$10$13lTS09EGbjGdINpgAP5kOmzOgJROhL/NoQeFH7nrK0VnHCOoA.Jm', TRUE, 'Sir Admin', 'pwalburn0@tinypic.com',        'Test test test? test! 123456789',  'http://localhost:8080/resources/images/avatars/avatar_00.png'),
+    ('user1',      '$2a$10$9U8JtIwMD53xR7ehAYcx.OBKxmwJQXPVXEQYBNeK6YHaHtEpIMhPa', TRUE, 'Sir User',  'gnorthway1@wikimedia.org',     'What',                             'http://localhost:8080/resources/images/avatars/avatar_01.png'),
+    ('eletomvel',  '$2a$10$3Bpea0yG4CR/uA/NBTHFmeZ.92BiyVh7I9zNYXbo3wmwc8FNumj2e', TRUE, 'Lykhant',   'helloiamemail@gmail.com',      'Twitter should not exist',         'http://localhost:8080/resources/images/avatars/avatar_02.png'),
     ('tadcabgom',  '$2a$10$b2gaBr6egp2ohlrvzFXGsu73g/d8jZ03pg4qPVN2dAvQEUAj2ah1e', TRUE, 'Tadeo',     'iliketrains@gmail.com',        'What I am suppose to write here?', 'http://localhost:8080/resources/images/avatars/avatar_03.png'),
-    ('igngongon2', '$2a$10$wxicoASFzl0uWd/cVWlMi.rlL6CEQfVq4RaepISwUzG8Z5Y8dYZ0.',           TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://localhost:8080/resources/images/avatars/avatar_04.png'),
-    ('ignarrman',  '$2a$10$BNhD0LI5MUMV6tyae5cAKOShRT4EUD3qJzTrMjJ0F9RcuolpKTVAa',         TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://localhost:8080/resources/images/avatars/avatar_05.png'),
-    ('jessolort',  '$2a$10$2L.x15N9ZQRw2pckKJRcOOkYyEV9/pjwsLzCBo4oxnO21rvGGLITu',        TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://localhost:8080/resources/images/avatars/avatar_06.png'),
-    ('frarosram',  '$2a$10$juzQUREZaBuYU6Uqx/Zvievu4B29zbCwh82Eg06yzHefeW86t1UFy',       TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://localhost:8080/resources/images/avatars/avatar_00.png'),
-    ('fralarmar',  '$2a$10$jjemtc1bmCYD0XfAXzwUUufbeHzRRhfL0EDJgOjE5hjBwhqnw7Ux2',       TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://localhost:8080/resources/images/avatars/avatar_01.png');
+    ('igngongon2', '$2a$10$wxicoASFzl0uWd/cVWlMi.rlL6CEQfVq4RaepISwUzG8Z5Y8dYZ0.', TRUE, 'Ignacio',   'abcdefghijk@gmail.com',        'Random description',               'http://localhost:8080/resources/images/avatars/avatar_04.png'),
+    ('ignarrman',  '$2a$10$BNhD0LI5MUMV6tyae5cAKOShRT4EUD3qJzTrMjJ0F9RcuolpKTVAa', TRUE, 'Nacho',     'manoalzadacocoreto@gmail.com', 'Hot Dog',                          'http://localhost:8080/resources/images/avatars/avatar_05.png'),
+    ('jessolort',  '$2a$10$2L.x15N9ZQRw2pckKJRcOOkYyEV9/pjwsLzCBo4oxnO21rvGGLITu', TRUE, 'Jesus',     'randomtext@gmail.com',         'abcde fghi jklmno pqrstu vwxyz',   'http://localhost:8080/resources/images/avatars/avatar_06.png'),
+    ('frarosram',  '$2a$10$juzQUREZaBuYU6Uqx/Zvievu4B29zbCwh82Eg06yzHefeW86t1UFy', TRUE, 'Paco',      'testemail@gmail.com',          'Kuak',                             'http://localhost:8080/resources/images/avatars/avatar_00.png'),
+    ('fralarmar',  '$2a$10$jjemtc1bmCYD0XfAXzwUUufbeHzRRhfL0EDJgOjE5hjBwhqnw7Ux2', TRUE, 'Javi',      'zxcvbnmgl@gmail.com',          'My hat is my friend',              'http://localhost:8080/resources/images/avatars/avatar_01.png');
 
 INSERT INTO authorities(id,username,authority) VALUES 
     (1,'admin1',     'admin'),

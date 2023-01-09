@@ -2,7 +2,6 @@ package org.springframework.samples.bossmonster.gameResult;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
