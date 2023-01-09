@@ -30,13 +30,13 @@
                     <td width="10%;">
                         <c:out value="${user.nickname}"/>
                     </td>
-                    <td width="25%;">
+                    <td width="30%;">
                         <c:out value="${user.email}"/>
                     </td>
                     <td width="35%;">
                         <c:out value="${user.description}"/>
                     </td>
-                    <td width="15%;">
+                    <td width="10%;">
                         <img src="${user.avatar}" height ="80" width="100"/>
                     </td>
                     <td>
