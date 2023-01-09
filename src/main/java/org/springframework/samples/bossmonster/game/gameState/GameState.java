@@ -188,6 +188,7 @@ public class GameState extends BaseEntity {
                 }
                 break;
             }
+            default: break;
         }
         log.debug("Updated start subphase to "+getSubPhase());
     }
@@ -212,6 +213,7 @@ public class GameState extends BaseEntity {
                 changePhase(GamePhase.BUILD);
                 break;
             }
+            default: break;
         }
     }
 
@@ -251,6 +253,7 @@ public class GameState extends BaseEntity {
                 }
                 break;
             }
+            default: break;
         }
     }
 
@@ -267,6 +270,7 @@ public class GameState extends BaseEntity {
                 changePhase(GamePhase.ADVENTURE);
                 break;
             }
+            default: break;
         }
     }
 
@@ -301,14 +305,9 @@ public class GameState extends BaseEntity {
                 }
                 break;
             }
+            default: break;
         }
     }
-
-    ////////////////////////////   END GAME   ////////////////////////////
-
-    // TODO
-
-    ////////////////////////////   EFFECT GAME   ////////////////////////////
 
     private void rollbackPreEffectState() {
         log.debug("Card Effect State Ended. Returning to previous state...");
