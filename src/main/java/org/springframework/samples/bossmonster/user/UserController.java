@@ -48,6 +48,9 @@ public class UserController {
 	private final UserService userService;
 
 	@Autowired
+	private AuthoritiesService authoritiesService;
+
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
@@ -86,6 +89,7 @@ public class UserController {
 			String pass = passwordEncoder.encode(user.getPassword());
 			user.setPassword(pass);
 			userService.saveUser(user);
+			authoritiesService.saveAuthorities(user.getUsername(), "user");
 			result.addObject("message", "User succesfully created!");
 		}
 		return result;
