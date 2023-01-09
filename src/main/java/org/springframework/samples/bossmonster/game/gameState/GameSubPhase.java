@@ -589,6 +589,7 @@ public enum GameSubPhase implements SubPhaseChoices{
             DungeonRoomSlot slotToSendHeroTo = dungeon.getRoomSlots()[dungeon.getBuiltRooms()-1];
             HeroCardStateInDungeon hero = slot.getHeroesInRoom().remove(choice);
             slotToSendHeroTo.getHeroesInRoom().add(hero);
+            game.getPreviousChoices().removeAllElements();
         }
 
         @Override
@@ -636,6 +637,7 @@ public enum GameSubPhase implements SubPhaseChoices{
             DungeonRoomSlot slot = dungeon.getRoomSlots()[chosenSlot];
             HeroCardStateInDungeon hero = slot.getHeroesInRoom().get(choice);
             hero.dealDamage(dungeon.getBuiltRooms());
+            game.getPreviousChoices().removeAllElements();
         }
 
         @Override
