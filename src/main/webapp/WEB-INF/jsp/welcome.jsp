@@ -30,7 +30,7 @@
         </div>
 
         <div class="centered-view">
-            <a class="btn btn-title" href="${editUser}">User Management</a>
+            <a class="btn btn-title" href="${editUser}">User Management (My Profile)</a>
         </div>
 
         <div class="centered-view">
