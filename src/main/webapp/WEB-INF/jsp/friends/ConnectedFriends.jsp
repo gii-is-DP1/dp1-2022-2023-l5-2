@@ -5,12 +5,11 @@
 
 <bossmonster:layout pageName="friendsModule">
 
-<spring:url value="/users/friends/new" htmlEscape="true" var="newFriend"/>
 <spring:url value="/users/friends/notAccepted" htmlEscape="true" var="notAcceptedRequest"/>
-<spring:url value="/users/friends/connected" htmlEscape="true" var="connected"/>
+<spring:url value="/users/friends/" htmlEscape="true" var="friendList"/>
 <spring:url value="/" htmlEscape="true" var="welcome"/>
 
-    <h1>Friends</h1>
+    <h1>Connected Friends</h1>
     <table class="table">
         <thead class="thead-light">
             <tr>
@@ -22,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${connectedFriends}" var="user">
                 <tr>
                     <td>
                         <img src="${user.avatar}" height ="80" width="100"/>
@@ -36,19 +35,13 @@
                     <td>
                         <c:out value="${user.description}"/>
                     </td>
-                    <td> 
-                        <a href="${user.username}/delete"> 
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>      
-                    </td>
                 </tr>   
         </c:forEach>
         </tbody>
     </table>
     <div class="centered-view">
-        <a class="btn btn-title" href="${newFriend}">Add new Friend</a>
+        <a class="btn btn-title" href="${friendList}">Friend List</a>
         <a class="btn btn-title" href="${notAcceptedRequest}">Pending Requests</a>
-        <a class="btn btn-title" href="${connected}"> Connected Friends</a>
     </div>
     <div class="centered-view">
         <a class="btn btn-title" href="${welcome}">Back</a>

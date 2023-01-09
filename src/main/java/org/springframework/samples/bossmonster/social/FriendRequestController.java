@@ -27,6 +27,7 @@ public class FriendRequestController {
     private static final String FRIEND_POP_UP_VIEW="/friends/friendsModulePopUp";
     private static final String CREATE_REQUEST="/friends/createFriendRequest";
     private static final String NOT_ACCEPTED_REQUESTS="/friends/notAcceptedFriendRequests";
+    private static final String CONNECTED_FRIENDS="/friends/ConnectedFriends";
 
     @Autowired
     public FriendRequestController(FriendRequestService sFR, UserService sU){
@@ -112,5 +113,13 @@ public class FriendRequestController {
         return result;
     }
 
-    
+    @GetMapping("/connected")
+    public ModelAndView connectedFriends(){
+        ModelAndView result= new ModelAndView(CONNECTED_FRIENDS);
+        User user= serviceU.getLoggedInUser().get();
+        List<User> connectedFriends= serviceFR.loggedInFriends(user.getUsername());
+
+        result.addObject(connectedFriends);
+        return result;
+    }
 }
