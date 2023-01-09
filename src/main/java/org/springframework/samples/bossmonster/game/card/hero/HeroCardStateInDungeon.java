@@ -1,12 +1,9 @@
 package org.springframework.samples.bossmonster.game.card.hero;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.NoArgsConstructor;
-import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 
 import lombok.Getter;

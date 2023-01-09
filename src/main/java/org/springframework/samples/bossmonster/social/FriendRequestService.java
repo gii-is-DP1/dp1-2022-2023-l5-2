@@ -16,8 +16,8 @@ public class FriendRequestService {
 
     FriendRequestRepository repo;
     UserService uService;
-    @Autowired
-    private SessionRegistry sessionRegistry;
+    //@Autowired
+    //private SessionRegistry sessionRegistry;
 
     @Autowired
     public FriendRequestService(FriendRequestRepository r,UserService uService){
@@ -89,7 +89,7 @@ public class FriendRequestService {
         User me=uService.getLoggedInUser().get();
         repo.unFriend(username, me.getUsername());
     }
-    List<User> loggedInFriends(String username){
+    /*List<User> loggedInFriends(String username){
         List<Object> loggedIn=sessionRegistry.getAllPrincipals().stream()
         .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
         .map(Object::toString)
@@ -107,5 +107,5 @@ public class FriendRequestService {
             }
         }
         return loggedFriends;
-    }
+    }*/
 }
