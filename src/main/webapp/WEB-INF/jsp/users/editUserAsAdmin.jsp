@@ -11,13 +11,13 @@
 <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
     <div class="form-group has-feedback">
         <form:hidden path = "username" value = "${user.username}" />
-        <bossmonster:inputField label="Password" name="password"/>
+        <form:hidden path = "password" value = "${user.password}"/>
         <bossmonster:inputField label="Nickname" name="nickname"/>
         <bossmonster:inputField label="Email" name="email"/>
         <bossmonster:inputField label="Description" name="description"/>
         <form:label class="col-sm-2" path="avatar">Available avatars: </form:label>
         <table>
-            <tr>
+            <tr width="300px;">
                 <td><img src="http://localhost:8080/resources/images/avatars/avatar_00.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_00.png"/></td>
                 <td><img src="http://localhost:8080/resources/images/avatars/avatar_01.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_01.png"/></td>
                 <td><img src="http://localhost:8080/resources/images/avatars/avatar_02.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_02.png"/></td>
@@ -35,6 +35,18 @@
     <div class="form-group">
         <button class="btn btn-default" type="reset">Reset Changes</button>
     </div>
+    <div class="form-group">
+        <a class="btn btn-default" href="/admin/users?page=0">Cancel</a>
+    </div>
 </form:form>
+
+<style>
+    .btn{
+        width:150px;
+    }
+    td{
+        width:300px;
+    }
+</style>
 
 </bossmonster:layout>

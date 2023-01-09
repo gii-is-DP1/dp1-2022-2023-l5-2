@@ -44,7 +44,7 @@ public class Game extends BaseEntity {
 
     @OneToMany
     private List<Card> discardPile;
-
+ 
     @OneToMany
     private List<HeroCard> heroPile;
 
@@ -273,20 +273,18 @@ public class Game extends BaseEntity {
     }
 
     public Boolean checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger, Integer slot) {
-        return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot);
+        return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot) && getState().getPhase() != GamePhase.EFFECT;
     }
 
     public void triggerRoomCardEffect(Player player, Integer position) {
         RoomCard room = player.getDungeon().getRoomSlots()[position].getRoom();
-        getState().setEffectIsBeingTriggered(true);
         room.getEffect().apply(player, position, this);
+        if(getState().getPhase().equals(GamePhase.EFFECT)) getState().setEffectIsBeingTriggered(true);
     }
 
     public void triggerSpellCardEffect(SpellCard spell) {
         Dungeon currentPlayerDungeon = getCurrentPlayer().getDungeon();
         if(spell.getEffect() == null) return;
-        Integer cardPosition = getCurrentPlayer().getHand().indexOf(spell);
-        if (cardPosition >= 0 && cardPosition < getCurrentPlayer().getHand().size()) discardCard(getCurrentPlayer(), cardPosition);
         for(int pos = 0; pos < currentPlayerDungeon.getBuiltRooms(); pos++) {
             tryTriggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
         }
@@ -397,6 +395,6 @@ public class Game extends BaseEntity {
 
     public Boolean getPlayerHasToChoose(Player player) {
         List<Card> choice = getChoice();
-        return player == getCurrentPlayer() && choice != null && !choice.isEmpty();
+        return player == getCurrentPlayer() && choice != null;
     }
 }

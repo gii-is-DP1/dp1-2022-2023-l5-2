@@ -11,7 +11,7 @@
 <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
     <div class="form-group has-feedback">
         <form:hidden path = "username" value = "${user.username}" />
-        <bossmonster:inputField label="Password" name="password"/>
+        <form:hidden path = "password" value = "${user.password}"/>
         <bossmonster:inputField label="Nickname" name="nickname"/>
         <bossmonster:inputField label="Email" name="email"/>
         <bossmonster:inputField label="Description" name="description"/>
@@ -35,6 +35,18 @@
     <div class="form-group">
         <button class="btn btn-default" type="reset">Reset Changes</button>
     </div>
+    <div class="form-group">
+        <a class="btn btn-default" href="/">Cancel</a>
+    </div>
 </form:form>
+
+<style>
+    .btn{
+        width:150px;
+    }
+    td{
+        width:300px;
+    }
+</style>
 
 </bossmonster:layout>

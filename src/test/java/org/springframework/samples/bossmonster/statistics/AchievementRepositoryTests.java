@@ -1,15 +1,12 @@
 package org.springframework.samples.bossmonster.statistics;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserRepository;
 import org.springframework.stereotype.Repository;
-
-import javax.validation.ValidationException;
 
 import java.util.ArrayList;
 import java.util.HashSet;

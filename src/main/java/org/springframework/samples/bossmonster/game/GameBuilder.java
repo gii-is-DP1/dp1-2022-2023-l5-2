@@ -106,6 +106,7 @@ public class GameBuilder {
 
         for (User i: users) {
             Player newPlayer = playerBuilder.buildNewPlayer(i);
+            newPlayer.getDungeon().setGame(newGame);
             players.add(newPlayer);
         }
 

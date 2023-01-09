@@ -14,8 +14,6 @@ import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class PlayerTest {
     
     protected Player player;

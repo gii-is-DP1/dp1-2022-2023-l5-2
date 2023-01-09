@@ -32,10 +32,18 @@
     <div class="form-group">
         <button class="btn btn-default" type="submit">Create User</button>
     </div>
+    <div class="form-group">
+        <a class="btn btn-default" href="/">Cancel</a>
+    </div>
 </form:form>
 
-<div class="centered-view">
-    <a class="btn btn-title" href="${cancel}">Cancel</a>
-</div>
+<style>
+    .btn{
+        width:150px;
+    }
+    td{
+        width:300px;
+    }
+</style>
 
 </bossmonster:layout>

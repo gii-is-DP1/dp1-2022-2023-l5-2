@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +16,14 @@ public class FriendRequestService {
 
     FriendRequestRepository repo;
     UserService uService;
+    //@Autowired
+    //private SessionRegistry sessionRegistry;
 
     @Autowired
-    public FriendRequestService(FriendRequestRepository r,UserService uService){
+    public FriendRequestService(FriendRequestRepository r,UserService uService/*, SessionRegistry sessionRegistry*/){
         this.repo=r;
         this.uService=uService;
+        //this.sessionRegistry=sessionRegistry;
     }
 
     public FriendRequest findFriendRequestById(int id){
@@ -86,4 +90,24 @@ public class FriendRequestService {
         User me=uService.getLoggedInUser().get();
         repo.unFriend(username, me.getUsername());
     }
+    /*List<User> loggedInFriends(String username){
+        List<Object> loggedIn=sessionRegistry.getAllPrincipals().stream()
+        .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
+        .map(Object::toString)
+        .collect(Collectors.toList());
+        System.out.println("/////////"+loggedIn+"//////////");
+        
+        List<User> friends= calculateFriends(username);
+        List<User> loggedFriends= new ArrayList<User>();
+        for(Integer i=0; i<loggedIn.size();i++){
+            Object principal= loggedIn.get(i);
+            if(principal instanceof User){
+                User user=(User)principal;
+                if(friends.contains(user)){
+                    loggedFriends.add(user);
+                }
+            }
+        }
+        return loggedFriends;
+    }*/
 }

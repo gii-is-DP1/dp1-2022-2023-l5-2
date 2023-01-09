@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -425,7 +426,6 @@ public class GameCardEffectTest {
 
     }
 
-    @Ignore
     @Test
     void shouldTriggerGiantSizeSpellCardEffect() {
         SpellCard giantSize = setUpDummySpellCard(EffectEnum.ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM);
@@ -480,7 +480,6 @@ public class GameCardEffectTest {
         assertThat("Did not add hero to dungeon",slot.getHeroesInRoom().size(),is(previousHeroesInDungeon+1));
     }
 
-    @Ignore
     @Test
     void shouldTriggerMotivationSpellCardEffect() {
         SpellCard motivation = setUpDummySpellCard(EffectEnum.BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS);
@@ -488,7 +487,6 @@ public class GameCardEffectTest {
         //TODO
     }
 
-    @Ignore
     @Test
     void shouldTriggerExhaustionSpellCardEffect() {
         Dungeon dungeon = testPlayer.getDungeon();

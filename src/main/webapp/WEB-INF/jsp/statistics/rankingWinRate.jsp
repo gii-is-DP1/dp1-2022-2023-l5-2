@@ -15,7 +15,7 @@
             <c:forEach items="${ranking}" var="rank" >
                 <tr>
                     <td>
-                        <c:out value="${rank}"/>
+                        <c:out value="${rank}%"/>
                     </td>
                 </tr>
             </c:forEach>

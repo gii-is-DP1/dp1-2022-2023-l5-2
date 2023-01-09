@@ -12,14 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
-import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCardRepository;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardRepository;
-import org.springframework.samples.bossmonster.game.card.room.RoomCard;
-import org.springframework.samples.bossmonster.game.card.room.RoomCardRepository;
-import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
-import org.springframework.samples.bossmonster.game.card.spell.SpellCardRepository;
 import org.springframework.stereotype.Repository;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,12 +22,6 @@ public class CardRepositoriesTest {
 
     @Autowired
     HeroCardRepository heroCardRepo;
-    @Autowired
-    RoomCardRepository roomCardRepo;
-    @Autowired
-    SpellCardRepository spellCardRepo;
-    @Autowired
-    FinalBossCardRepository finalBossCardRepo;
 
     @Test
     @DisplayName("get heroes from DB")
@@ -43,6 +31,6 @@ public class CardRepositoriesTest {
         assertTrue(cards.get(0) instanceof HeroCard);
     }
 
-//The other card types have the save implementation only changing the CardClass.
+//The other card types have the same implementation only changing the CardClass.
 
 }
