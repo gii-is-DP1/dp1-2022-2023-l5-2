@@ -31,6 +31,6 @@ public class CardRepositoriesTest {
         assertTrue(cards.get(0) instanceof HeroCard);
     }
 
-//The other card types have the save implementation only changing the CardClass.
+//The other card types have the same implementation only changing the CardClass.
 
 }
