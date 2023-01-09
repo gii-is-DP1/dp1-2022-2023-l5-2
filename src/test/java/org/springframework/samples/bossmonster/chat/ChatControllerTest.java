@@ -100,7 +100,7 @@ class ChatControllerTest {
     @DisplayName("Send the message with censorship")
     @WithMockUser(username = "admin1")
     void shouldSendMessage_censoredWords() throws Exception {
-        // Set up mock data
+
         User user = new User();
         user.setUsername("admin1");
         Chat chat = new Chat();
@@ -112,15 +112,11 @@ class ChatControllerTest {
         when(chatService.estaCensurada(anyString())).thenReturn(true);
         when(chatService.cambiarPalabrasCensuradas(anyString())).thenReturn("***");
         
-        
-
-        // Perform the request and check the response
         mockMvc.perform(post("/games/1/chat").with(csrf())
                 .param("words", "some censored words"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/games/1/chat"));
 
-        // Verify that the service methods were called with the correct arguments
         verify(chatService).estaCensurada("some censored words");
         verify(chatService).cambiarPalabrasCensuradas("some censored words");
         verify(chatService).addMessage(argThat(message -> message.getWords().equals("***")
