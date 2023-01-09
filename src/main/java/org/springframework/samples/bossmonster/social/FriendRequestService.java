@@ -20,9 +20,10 @@ public class FriendRequestService {
     //private SessionRegistry sessionRegistry;
 
     @Autowired
-    public FriendRequestService(FriendRequestRepository r,UserService uService){
+    public FriendRequestService(FriendRequestRepository r,UserService uService/*, SessionRegistry sessionRegistry*/){
         this.repo=r;
         this.uService=uService;
+        //this.sessionRegistry=sessionRegistry;
     }
 
     public FriendRequest findFriendRequestById(int id){
@@ -95,6 +96,7 @@ public class FriendRequestService {
         .map(Object::toString)
         .collect(Collectors.toList());
         System.out.println("/////////"+loggedIn+"//////////");
+        
         List<User> friends= calculateFriends(username);
         List<User> loggedFriends= new ArrayList<User>();
         for(Integer i=0; i<loggedIn.size();i++){

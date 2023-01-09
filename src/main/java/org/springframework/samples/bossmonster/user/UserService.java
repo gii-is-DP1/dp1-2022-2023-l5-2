@@ -21,12 +21,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.bossmonster.game.chat.MessageRepository;
 import org.springframework.samples.bossmonster.gameLobby.GameLobbyRepository;
 import org.springframework.samples.bossmonster.gameResult.GameResultRepository;
 import org.springframework.samples.bossmonster.social.FriendRequestRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import antlr.debug.MessageAdapter;
 
 
 @Service
@@ -36,13 +41,15 @@ public class UserService {
 	private GameResultRepository resultRepository;
 	private GameLobbyRepository lobbyRepository;
 	private FriendRequestRepository requestRepository;
+	private MessageRepository messageRepository;
 
 	@Autowired
-	public UserService(UserRepository userRepository, GameResultRepository resultRepository, GameLobbyRepository lobbyRepository, FriendRequestRepository requestRepository) {
+	public UserService(UserRepository userRepository, GameResultRepository resultRepository, GameLobbyRepository lobbyRepository, FriendRequestRepository requestRepository, MessageRepository messageRepository) {
 		this.userRepository = userRepository;
 		this.resultRepository=resultRepository;
 		this.lobbyRepository=lobbyRepository;
 		this.requestRepository=requestRepository;
+		this.messageRepository=messageRepository;
 	}
 
 	@Transactional
@@ -64,6 +71,10 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	public Page<User> getPageUsers(Pageable pageable){
+		return userRepository.findAll(pageable);
+	}
+
 	public void deleteUser(String username){
 		resultRepository.setWinnerNull(username);
 		resultRepository.deleteParticipated(username);
@@ -71,6 +82,7 @@ public class UserService {
 		lobbyRepository.deleteJoinedUserIfUserGetsDeleted(username);
 		lobbyRepository.deleteLobbyIfLeaderDeleted(username);
 		requestRepository.deleteFriendRequestWhenUserDeleted(username);
+		messageRepository.deleteAllMesagesFromUser(username);
 
         userRepository.deleteById(username);
     }
