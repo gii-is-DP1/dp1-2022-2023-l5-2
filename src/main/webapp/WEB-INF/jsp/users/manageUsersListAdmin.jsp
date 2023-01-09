@@ -24,19 +24,19 @@
         <tbody>
             <c:forEach items="${user}" var="user">
                 <tr>
-                    <td>
+                    <td width="10%;">
                         <c:out value="${user.username}"/>
                     </td>
-                    <td>
+                    <td width="10%;">
                         <c:out value="${user.nickname}"/>
                     </td>
-                    <td>
+                    <td width="25%;">
                         <c:out value="${user.email}"/>
                     </td>
-                    <td>
+                    <td width="30%;">
                         <c:out value="${user.description}"/>
                     </td>
-                    <td>
+                    <td width="20%;">
                         <img src="${user.avatar}" height ="80" width="100"/>
                     </td>
                     <td>
