@@ -128,8 +128,9 @@ public class UserController {
 		users = pageUsers.getContent();
 		ModelAndView result= new ModelAndView(USER_LISTING_VIEW);
 		result.addObject("user", users);
-		int numPages = userService.findAllUsers().size()/size;
-		result.addObject("pageLimit", numPages%size==0?numPages-1:numPages);
+		int numUsers = userService.findAllUsers().size();
+		int numPages = numUsers>size?numUsers/size:1;
+		result.addObject("pageLimit", (numUsers<size||numUsers%size==0)?numPages-1:numPages);
 		return result;
 	}
 
