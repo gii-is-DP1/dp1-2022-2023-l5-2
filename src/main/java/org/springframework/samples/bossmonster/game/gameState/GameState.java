@@ -48,7 +48,7 @@ public class GameState extends BaseEntity {
     private GamePhase phaseBeforeEffect;
     @Enumerated(EnumType.STRING)
     private GameSubPhase subPhaseBeforeEffect;
-    private Integer counterBeforeEffect;
+    private Integer counterBeforeEffect = 0;
     private Integer actionLimitBeforeEffect;
     private LocalDateTime clockBeforeEffect;
     private Boolean checkClockBeforeEffect;
