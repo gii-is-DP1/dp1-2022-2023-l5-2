@@ -143,7 +143,7 @@ public class UserControllerTests {
     @WithMockUser(value = "admin1")
     @Test
     public void testuserListingForAdmin() throws Exception{
-        mockMvc.perform(get("/admin/users"))
+        mockMvc.perform(get("/admin/users?page=0"))
         .andExpect(status().isOk());
     }
 
@@ -151,7 +151,7 @@ public class UserControllerTests {
     @Test
     public void shouldDeleteUser() throws Exception{
         mockMvc.perform(get("/admin/users/user1/delete"))
-        .andExpect(view().name("redirect:/admin/users"))
+        .andExpect(view().name("redirect:/admin/users?page=0"))
         .andExpect(status().is3xxRedirection());
     }
 
@@ -177,7 +177,7 @@ public class UserControllerTests {
         .param("email", "idontliketests@alum.us")
         .param("description", "This time it will succeed, i promise"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(view().name("redirect:/admin/users"));
+        .andExpect(view().name("redirect:/admin/users?page=0"));
     }
 
     @WithMockUser(value = "admin1")

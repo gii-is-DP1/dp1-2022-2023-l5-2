@@ -135,7 +135,7 @@ public class UserController {
 	@GetMapping("admin/users/{username}/delete")
     public ModelAndView delete(@PathVariable String username){
         userService.deleteUser(username);
-        ModelAndView result= new ModelAndView("redirect:/admin/users");
+        ModelAndView result= new ModelAndView("redirect:/admin/users?page=0");
         return result;
     }
 
