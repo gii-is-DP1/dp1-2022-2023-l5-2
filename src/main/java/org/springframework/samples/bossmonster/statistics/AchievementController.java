@@ -40,7 +40,7 @@ public class AchievementController {
 
     @Transactional(readOnly = true)
     @GetMapping("")
-    public ModelAndView showAchievements(){
+    public ModelAndView showAchievements() {
         ModelAndView result=new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
         result.addObject("achievements", achievementService.getAchievements());
         return result;
@@ -133,6 +133,7 @@ public class AchievementController {
 
     @GetMapping("/me")
     public ModelAndView showCurrentUserAchievements(@AuthenticationPrincipal Object loged){
+        //achievementService.triggerAchievement(userService.getLoggedInUser().get());
         ModelAndView result=null;
         User user=null;
         if(loged!=null && (loged instanceof UserDetails))
