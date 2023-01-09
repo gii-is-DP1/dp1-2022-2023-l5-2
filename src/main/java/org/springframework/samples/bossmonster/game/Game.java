@@ -44,7 +44,7 @@ public class Game extends BaseEntity {
 
     @OneToMany
     private List<Card> discardPile;
- 
+
     @OneToMany
     private List<HeroCard> heroPile;
 
@@ -71,8 +71,9 @@ public class Game extends BaseEntity {
     @Convert(converter = StringIntStackConverter.class)
     private Stack<Integer> previousChoices;
 
-    //@OneToOne
-    //private GameResult result;
+    @OneToOne(cascade = CascadeType.ALL)
+    private GameResult result;
+
     @Version
     private Integer version;
     public static final Integer NORMAL_HERO_SOUL_VALUE = 1;
@@ -238,11 +239,13 @@ public class Game extends BaseEntity {
         Boolean placed;
         if (checkPlaceableRoomInDungeonPosition(player, position, room) || force) {
             tryTriggerRoomCardEffect(RoomPassiveTrigger.DESTROY_THIS_ROOM,player,position);
+
             if (player.getDungeon().getRoomSlots()[position].getRoom() != null) destroyDungeonRoom(player, position);
             player.getDungeon().replaceDungeonRoom(room, position);
             player.getHand().remove(room);
 
             tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
+            checkForPlayerBossLeveledUp(player);
             for(int pos = 0; pos < player.getDungeon().getBuiltRooms(); pos++) {
                 if (pos != position) tryTriggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
                 if (room.isMonsterType()) tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);
@@ -317,6 +320,7 @@ public class Game extends BaseEntity {
         result.setRounds(getState().getCurrentRound());
         result.setWinner(getWinningPlayer().getUser());
         result.setParticipants(getPlayers().stream().map(x -> x.getUser()).collect(Collectors.toList()));
+        setResult(result);
         return result;
     }
 
