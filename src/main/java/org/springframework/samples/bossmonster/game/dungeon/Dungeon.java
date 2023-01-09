@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
@@ -47,6 +48,9 @@ public class Dungeon extends BaseEntity {
     private Boolean bossCardLeveledUp;
 
     private Boolean jackpotStashEffectActivated;
+
+    @ManyToOne
+    Game game;
 
     public Integer getTreasureAmount(TreasureType treasure) {
 
@@ -141,9 +145,12 @@ public class Dungeon extends BaseEntity {
             Iterator<HeroCardStateInDungeon> iterator = roomSlot.getHeroesInRoom().iterator();
             while(iterator.hasNext()) {
                 HeroCardStateInDungeon hero = iterator.next();
-                iterator.remove();
                 hero.dealDamage(dealtDamage);
-                if (hero.isDead()) player.addSoulsFromKilledHero(hero);
+                iterator.remove();
+                if (hero.isDead()) {
+                    player.addSoulsFromKilledHero(hero);
+                    game.tryTriggerRoomCardEffect(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM,getPlayer(),i);
+                }
                 else {
                     if (!isDungeonLastRoom(i)) roomSlots[i-1].addHero(hero);
                     else player.removeHealthFromUndefeatedHero(hero);

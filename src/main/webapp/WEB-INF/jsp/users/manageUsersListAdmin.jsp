@@ -17,7 +17,6 @@
                 <th>Email</th>
                 <th>Description</th>
                 <th>Avatar</th>
-                <th>Password</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -39,9 +38,6 @@
                     </td>
                     <td>
                         <img src="${user.avatar}" height ="80" width="100"/>
-                    </td>
-                    <td>
-                        <c:out value="${user.password}"/>
                     </td>
                     <td>
                         <a href="users/${user.username}/edit"> 

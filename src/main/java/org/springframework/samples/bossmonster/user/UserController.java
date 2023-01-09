@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -52,6 +52,12 @@ public class UserController {
 	private static final String VIEWS_USER_EDIT_FORM_ADMIN= "users/editUserAsAdmin";
 
 	private final UserService userService;
+
+	@Autowired
+	private AuthoritiesService authoritiesService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public UserController(UserService userService) {
@@ -86,7 +92,10 @@ public class UserController {
 		}
 		else {
 			result = new ModelAndView("welcome");
+			String pass = passwordEncoder.encode(user.getPassword());
+			user.setPassword(pass);
 			userService.saveUser(user);
+			authoritiesService.saveAuthorities(user.getUsername(), "user");
 			result.addObject("message", "User succesfully created!");
 		}
 		return result;
