@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -45,6 +46,12 @@ public class UserController {
 	private static final String VIEWS_USER_EDIT_FORM_ADMIN= "users/editUserAsAdmin";
 
 	private final UserService userService;
+
+	@Autowired
+	private AuthoritiesService authoritiesService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public UserController(UserService clinicService) {
@@ -79,7 +86,10 @@ public class UserController {
 		}
 		else {
 			result = new ModelAndView("welcome");
+			String pass = passwordEncoder.encode(user.getPassword());
+			user.setPassword(pass);
 			userService.saveUser(user);
+			authoritiesService.saveAuthorities(user.getUsername(), "user");
 			result.addObject("message", "User succesfully created!");
 		}
 		return result;

@@ -25,6 +25,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.configuration.SecurityConfiguration;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,6 +36,9 @@ import org.springframework.test.web.servlet.MockMvc;
     )
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTests {
+
+    @MockBean
+    private PasswordEncoder passwordEncoder;
 
     @MockBean
     private UserService userService;
