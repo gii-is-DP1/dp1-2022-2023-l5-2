@@ -83,9 +83,9 @@
             font-size: medium;
         }
         body{
-            background-image: url("/resources/images/background.png");
+            background-image: url("/resources/images/backgrounds/background.png");
             background-size: cover;
-            background-position: center;
+            background-position: center top;
         }
     </style>
 </bossmonster:layout>

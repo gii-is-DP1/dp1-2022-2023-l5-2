@@ -65,12 +65,12 @@ INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_tri
     (93, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_SPELL_CARD');
 
 INSERT INTO spell_card(id, name, card_image, phase,effect) VALUES
-    (22,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM'),
+    (22,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','constructionPhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM'),
     (23,'Soul Harvest'     ,'/resources/images/spells/spell_01.jpg','adventureAndConstructionPhase','TRADE_A_SOUL_FOR_2_SPELL_CARDS'),
     (24,'Princess in Peril','/resources/images/spells/spell_02.jpg','constructionPhase'            ,'LURE_A_CHOSEN_HERO_FROM_CITY_TO_DUNGEON'),
     (25,'Motivation'       ,'/resources/images/spells/spell_03.jpg','constructionPhase'            ,'BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS') ,
     (26,'Exhaustion'       ,'/resources/images/spells/spell_04.jpg','adventurePhase'               ,'DEAL_ROOM_AMOUNT_DAMAGE_TO_HERO') ,
-    (27,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM'),
+    (27,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','constructionPhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM'),
     (28,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT'),
     (29,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'SKIP_BUILD_PHASE'),
     (30,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'SEND_HERO_TO_FIRST_ROOM'),

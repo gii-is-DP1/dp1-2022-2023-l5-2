@@ -7,7 +7,7 @@
 <bossmonster:layout pageName="Admin options">
 
     <spring:url value="/statistics/achievements" htmlEscape="true" var="achievements"/>
-    <spring:url value="/admin/users" htmlEscape="true" var="userManagement"/>
+    <spring:url value="/admin/users?page=0" htmlEscape="true" var="userManagement"/>
     <spring:url value="/lobby/listCurrentGames" htmlEscape="true" var="currentGames"/>
     <spring:url value="/statistics/listPlayedGames" htmlEscape="true" var="playedGames"/>
     <spring:url value="/" htmlEscape="true" var="welcome"/>

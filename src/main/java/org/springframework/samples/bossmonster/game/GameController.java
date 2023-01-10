@@ -21,6 +21,7 @@ public class GameController {
 
     public static final String GAME_SCREEN = "games/gameScreen";
     public static final String GAMES_DATA = "games/currentGames";
+    public static final String RESULTS_SCREEN = "statistics/resultsScreen";
     GameService gameService;
     UserService userService;
 
@@ -39,9 +40,7 @@ public class GameController {
         Player currentPlayer = game.getPlayerFromUser(currentUser);
 
         if(game.getPlayerHasToChoose(currentPlayer)) game.makeChoice(choice);
-        else {
-            game.getState().checkStateStatus();
-        };
+        else game.getState().checkStateStatus();
         response.addHeader("Refresh","2");
         gameService.saveGame(game);
 
@@ -56,6 +55,11 @@ public class GameController {
         Game game = gameService.findGame(gameId).get();
         User currentUser = userService.getLoggedInUser().get();
         Player currentPlayer = game.getPlayerFromUser(currentUser);
+
+        if(game.getResult() != null) {
+            result.setViewName("redirect:/games/" + gameId + "/results");
+            return result;
+        }
 
         if(!(game.getPlayerHasToChoose(currentPlayer) && game.getChoice() != null)) {
             game.getState().checkStateStatus();
@@ -83,6 +87,16 @@ public class GameController {
         result.addObject("game", game);
         result.addObject("currentPlayer", currentPlayer);
         result.addObject("players", otherPlayers);
+    }
+
+    @GetMapping("/{gameId}/results")
+    public ModelAndView showResults(@PathVariable Integer gameId) {
+        ModelAndView result = new ModelAndView(RESULTS_SCREEN);
+        Game game = gameService.findGame(gameId).get();
+
+        result.addObject("result",game.getResult());
+
+        return result;
     }
 
     @GetMapping("/listActiveGames")

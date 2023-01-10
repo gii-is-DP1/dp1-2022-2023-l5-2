@@ -10,10 +10,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameLobby.GameLobbyService;
+import org.springframework.samples.bossmonster.social.FriendRequestService;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class), excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes =FriendRequestService.class))
 @ExtendWith(MockitoExtension.class)
 @Import(GameBuilder.class)
 class GameServiceTest {
@@ -64,7 +66,7 @@ class GameServiceTest {
         lobby.setJoinedUsers(users);
         lobby.setMaxPlayers(2);
         lobby.setLeaderUser(users.get(0));
-        lobby =lobbyService.saveLobby(lobby);
+        lobbyService.saveLobby(lobby);
 
         Game game = gameService.createNewGameFromLobby(lobby);
 

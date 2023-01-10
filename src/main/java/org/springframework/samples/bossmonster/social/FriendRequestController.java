@@ -113,13 +113,12 @@ public class FriendRequestController {
         return result;
     }
 
-    /*@GetMapping("/connected")
+    @GetMapping("/connected")
     public ModelAndView connectedFriends(){
         ModelAndView result= new ModelAndView(CONNECTED_FRIENDS);
         User user= serviceU.getLoggedInUser().get();
         List<User> connectedFriends= serviceFR.loggedInFriends(user.getUsername());
-
-        result.addObject(connectedFriends);
+        result.addObject("connectedFriends",connectedFriends);
         return result;
-    }*/
+    }
 }
