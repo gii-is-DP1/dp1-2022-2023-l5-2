@@ -64,7 +64,7 @@ class GameServiceTest {
         lobby.setJoinedUsers(users);
         lobby.setMaxPlayers(2);
         lobby.setLeaderUser(users.get(0));
-        lobby =lobbyService.saveLobby(lobby);
+        lobbyService.saveLobby(lobby);
 
         Game game = gameService.createNewGameFromLobby(lobby);
 
