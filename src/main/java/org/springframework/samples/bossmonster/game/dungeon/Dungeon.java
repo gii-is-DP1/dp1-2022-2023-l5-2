@@ -149,13 +149,17 @@ public class Dungeon extends BaseEntity {
                 iterator.remove();
                 if (hero.isDead()) {
                     player.addSoulsFromKilledHero(hero);
-                    game.tryTriggerRoomCardEffect(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM,getPlayer(),i);
                 }
                 else {
-                    if (!isDungeonLastRoom(i)) roomSlots[i-1].addHero(hero);
+                    if (!isDungeonLastRoom(i)) {
+                        roomSlots[i - 1].addHero(hero);
+                    }
                     else player.removeHealthFromUndefeatedHero(hero);
                 }
             }
+            if(i > 0)
+                game.tryTriggerRoomCardEffect(RoomPassiveTrigger.HERO_ENTERS_ROOM,getPlayer(),i-1);
+
         }
         log.debug("slots after: " + slots);
     }

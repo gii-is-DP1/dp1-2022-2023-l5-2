@@ -31,14 +31,12 @@
                     <c:if test="${achievements.image != ''}">
                         <img src="${achievements.image}" width="100px"  /> 
                     </c:if>
-            </li>                                
                 </td>        
             </tr>
         </c:forEach>
-    </ul>
         </tbody>
     </table>
-
+  
     <h2>Available achievements</h2>
     <table id="achievementsTable" class="table table-striped">
         <thead>
@@ -69,7 +67,6 @@
                 <td>       
                     <c:out value="${availableAchievements.threshold} "/>
                 </td>
-            
                 <td>       
                     <c:out value="${availableAchievements.metric} "/>
                 </td>         

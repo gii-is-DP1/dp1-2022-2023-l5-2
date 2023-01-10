@@ -15,20 +15,15 @@ import org.springframework.stereotype.Service;
 public class AchievementService {
 
     AchievementRepository repo;
-
     StatisticsService statisticsService;
-
     UserService userService;
 
-
-    
 @Autowired
 public AchievementService(AchievementRepository repo, StatisticsService statisticsService, UserService userService){
     this.repo=repo;
     this.statisticsService=statisticsService;
     this.userService=userService;
 }
-
 
     List<Achievement> getAchievements(){
         return repo.findAll();
@@ -83,6 +78,7 @@ public AchievementService(AchievementRepository repo, StatisticsService statisti
             }
         }
         return result;
+
     }
 
     private Double totalHoursPlayed(String username) {
