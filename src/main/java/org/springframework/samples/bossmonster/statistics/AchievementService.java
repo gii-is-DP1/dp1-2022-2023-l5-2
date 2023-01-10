@@ -16,14 +16,12 @@ import org.springframework.stereotype.Service;
 public class AchievementService {
 
     AchievementRepository repo;
-
     StatisticsService statisticsService;
-
     UserService userService;
 
 
     @Autowired
-    public AchievementService(AchievementRepository repo, StatisticsService statisticsService, UserService userService){
+    public AchievementService(AchievementRepository repo,StatisticsService statisticsService,UserService userService){
         this.repo=repo;
         this.statisticsService=statisticsService;
         this.userService=userService;
@@ -55,34 +53,39 @@ public class AchievementService {
     }
 
     public List<Achievement> triggerAchievement(User user){
-        String username = user.getUsername();
+        List<Achievement> result=new ArrayList<>();
         List<Achievement> achievements = getAchievements();
-        List<Achievement> result = new ArrayList<>();
+        String username=user.getUsername();
         for(int i = 0; i < achievements.size(); i++){
             Achievement achievement = achievements.get(i);
-            switch (achievement.getMetric()) {
-                case GAMES_PLAYED:
-                    Integer games_played = statisticsService.findAll(username).size();
-                    if(achievement.getThreshold() <= games_played && !(statisticsService.findAll(username) == null)){
-                        result.add(achievement);
-                    }
-                    break;
-                case VICTORIES:
-                    Integer victories = statisticsService.findAllWinned(username).size();
-                    if(achievement.getThreshold() <= victories && !(statisticsService.findAllWinned(username) == null)){
-                        result.add(achievement);
-                    }
-                    break;
-                case TOTAL_PLAY_TIME:
-                    Double playTime = totalHoursPlayed(username);
-                    if(achievement.getThreshold() * 1.0 <= playTime && !(statisticsService.findAll(username) == null)){
-                        result.add(achievement);
-                    }
-                default:
-                    break;
+            Metric metric= achievement.getMetric();
+            if(metric==Metric.GAMES_PLAYED){
+                Integer games_played= statisticsService.findAll(username).size();
+                if(achievement.getThreshold()<=games_played){
+                    result.add(achievement);
+                }
+            }else if(metric==Metric.VICTORIES){
+                Integer victories = statisticsService.findAllWinned(user.getUsername()).size();
+                if(achievement.getThreshold() <= victories){
+                   result.add(achievement);
+                }
+            }else if(metric==Metric.TOTAL_PLAY_TIME){
+                Double playTime = totalHoursPlayed(user.getUsername());
+                if(achievement.getThreshold() <= playTime){
+                    result.add(achievement);
+                }
             }
         }
-        return result;
+            return result;
+    }
+
+    private void unlockAchievement(User user, Achievement achievement) {
+        Set<Achievement> achievementsAlreadyUnlocked = user.getAchievements();
+        if(!achievementsAlreadyUnlocked.contains(achievement)){
+            achievementsAlreadyUnlocked.add(achievement);
+            user.setAchievements(achievementsAlreadyUnlocked);
+            userService.saveUser(user);
+        }
     }
 
     private Double totalHoursPlayed(String username) {

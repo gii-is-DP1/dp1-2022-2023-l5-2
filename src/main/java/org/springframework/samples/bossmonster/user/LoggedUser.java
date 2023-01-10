@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSessionBindingListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoggedUser implements HttpSessionBindingListener, Serializable{
+public class LoggedUser implements HttpSessionBindingListener, Serializable {
 
     private static final long serialVersionUID = 1L;
     private String username; 
@@ -21,13 +21,6 @@ public class LoggedUser implements HttpSessionBindingListener, Serializable{
     }
     
     public LoggedUser() {}
-
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     @Override
     public void valueBound(HttpSessionBindingEvent event) {
@@ -46,6 +39,16 @@ public class LoggedUser implements HttpSessionBindingListener, Serializable{
             users.remove(user.getUsername());
         }
     }
-
-
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public ActiveUserStore getActiveUserStore() {
+        return activeUserStore;
+    }
+    public void setActiveUserStore(ActiveUserStore activeUserStore) {
+        this.activeUserStore = activeUserStore;
+    }
 }

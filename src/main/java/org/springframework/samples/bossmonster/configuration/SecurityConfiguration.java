@@ -63,6 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 http.csrf().ignoringAntMatchers("/h2-console/**");
                 http.headers().frameOptions().sameOrigin();
 				http.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
+				
 
 	}
 
@@ -86,6 +87,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 	    return encoder;
 	}
+
 	@Bean
 	public SessionRegistry sessionRegistry(){
 		return new SessionRegistryImpl();

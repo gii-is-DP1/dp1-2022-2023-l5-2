@@ -16,14 +16,13 @@ public class FriendRequestService {
 
     FriendRequestRepository repo;
     UserService uService;
-    //@Autowired
-    //private SessionRegistry sessionRegistry;
+    SessionRegistry sessionRegistry;
 
     @Autowired
-    public FriendRequestService(FriendRequestRepository r,UserService uService/*, SessionRegistry sessionRegistry*/){
+    public FriendRequestService(FriendRequestRepository r,UserService uService, SessionRegistry sessionRegistry){
         this.repo=r;
         this.uService=uService;
-        //this.sessionRegistry=sessionRegistry;
+        this.sessionRegistry=sessionRegistry;
     }
 
     public FriendRequest findFriendRequestById(int id){
@@ -90,24 +89,27 @@ public class FriendRequestService {
         User me=uService.getLoggedInUser().get();
         repo.unFriend(username, me.getUsername());
     }
-    /*List<User> loggedInFriends(String username){
+    List<User> loggedInFriends(String username){
         List<Object> loggedIn=sessionRegistry.getAllPrincipals().stream()
         .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
         .map(Object::toString)
         .collect(Collectors.toList());
-        System.out.println("/////////"+loggedIn+"//////////");
-        
         List<User> friends= calculateFriends(username);
         List<User> loggedFriends= new ArrayList<User>();
         for(Integer i=0; i<loggedIn.size();i++){
             Object principal= loggedIn.get(i);
-            if(principal instanceof User){
-                User user=(User)principal;
-                if(friends.contains(user)){
-                    loggedFriends.add(user);
-                }
+            User user= fromPrincipal(principal.toString());
+
+            if(friends.contains(user)){
+                loggedFriends.add(user);
             }
         }
         return loggedFriends;
-    }*/
+    }
+    public User fromPrincipal(String principal){
+        String[] data= principal.split(":");
+        String username= data[2].replace("; Password", "").trim();
+        User result= uService.findUser(username).get();
+        return result;
+    }
 }

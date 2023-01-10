@@ -1,4 +1,4 @@
-package org.springframework.samples.bossmonster.MySimpleUrlAuthenticationSuccessHandler;
+package org.springframework.samples.bossmonster;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 @Component("myAuthenticationSuccessHandler")
-public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class MyAuthticationSucessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
     ActiveUserStore activeUserStore;
