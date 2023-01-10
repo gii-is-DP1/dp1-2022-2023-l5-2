@@ -36,8 +36,7 @@
         </c:forEach>
         </tbody>
     </table>
-
-
+  
     <h2>Available achievements</h2>
     <table id="achievementsTable" class="table table-striped">
         <thead>

@@ -7,29 +7,42 @@
     <spring:url value="/" htmlEscape="true" var="homeScreen"/>
     <spring:url value="/lobby/${lobby.id}/newGame" htmlEscape="true" var="newGame"/>
 
-    <h1>Waiting in lobby...</h1>
-    Current players:
-    <c:forEach items="${lobby.joinedUsers}" var="user">
-        <li>
-            <c:out value="${user.nickname}" /> <c:if test="${lobby.leaderUser == user}"> (Leader)</c:if>
-        </li>
-    </c:forEach>
-    <c:if test="${lobby.leaderUser == currentUser}">
-        <a href="${newGame}" class="btn btn-default">Start game</a>
-    </c:if>
-    <form method="post">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<body class="inicio" background="/resources/images/backgrounds/emptyBackground.png">
 
-        <button class="btn btn-default" type="submit">
-            <c:choose>
-                <c:when test="${lobby.leaderUser == currentUser}">
-                    Cancel game
-                </c:when>
-                <c:otherwise>
-                    Leave game
-                </c:otherwise>
-            </c:choose>
-        </button>
-    </form>
+<div class="white-panel">
+    <h1>Waiting in lobby...</h1>
+    <span class="badge player-name">Room code: ${lobby.id}</span>
+    <h3>Current players:</h3>
+    <ul style="list-style:none">
+        <c:forEach items="${lobby.joinedUsers}" var="user">
+            <li>
+                <div class="row vert-align" style="margin: 0 auto">
+                    <img class="img-circle col-md-2" src="${user.avatar}"/>
+                    <c:if test="${user eq lobby.leaderUser}">
+                        <span class="badge player-name">Leader</span>
+                    </c:if>
+                    <b><c:out value="${user.nickname}"/></b>
+                </div>
+            </li>
+        </c:forEach>
+    </ul>
+    <form method="post">
+        <c:if test="${lobby.leaderUser == currentUser}">
+            <a href="${newGame}" class="btn btn-default">Start game</a>
+        </c:if>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button class="btn btn-default" type="submit">
+                <c:choose>
+                    <c:when test="${lobby.leaderUser == currentUser}">
+                        Cancel game
+                    </c:when>
+                    <c:otherwise>
+                        Leave game
+                    </c:otherwise>
+                </c:choose>
+            </button>
+        </form>
+        </div>
+</body>
 
 </bossmonster:layout>

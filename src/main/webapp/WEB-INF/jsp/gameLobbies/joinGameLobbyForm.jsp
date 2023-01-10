@@ -2,35 +2,40 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
-<bossmonster:layout pageName="joinGameRoom">
 <body>
+<bossmonster:layout pageName="joinGameRoom">
+
     <spring:url value="/" htmlEscape="true" var="homeScreen"/>
     <spring:url value="/invites" htmlEscape="true" var="invitations"/>
 
-<h1>Join Game</h1>
+<div class="white-panel">
+<h1 class="panel-heading">Join Game</h1>
 
-<form class="form-horizontal" method="post">
+<form class="form-horizontal panel-body" method="post">
 
-<div class="form-group">
-   <div class="col-sm-offset-2 col-sm-10">
    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-   <label>Room Code</label>
-    <input name="roomCode"/>
-   <br/>
-       <label>Spectate?</label>
-    <input type="checkbox" name="spectate"/>
-        <br/>
-       <input class="btn btn-default" type="submit" value="Join"/>
-    <a class="btn btn-default" href="${homeScreen}">Cancel</a>
+    <div class="form-group">
+        <label class="control-label col-md-2">Room Code:</label>
+        <div class="col-md-10">
+            <input class="form-control" name="roomCode"/>
+        </div>
+    </div>
+   <div class="form-group">
+       <div class="checkbox col-sm-offset-1">
+           <label class="control-label">
+               <input type="checkbox" name="spectate"/>Spectate?
+           </label>
+       </div>
    </div>
-</div>
-
+   <div class="form-group">
+       <input class="btn btn-default" type="submit" value="Join"/>
+       <a class="btn btn-default" href="${homeScreen}">Cancel</a>
+   </div>
 </form>
 <div class="centered-view">
     <a class="btn btn-title" href="${invitations}">My Invitations</a>
 </div>
-</body>
+</div>
 <style>
     body{
             background-image: url("/resources/images/backgrounds/joinGameBackGround.png");
@@ -40,3 +45,4 @@
 </style>
 
 </bossmonster:layout>
+</body>
