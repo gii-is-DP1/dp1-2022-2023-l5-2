@@ -65,12 +65,12 @@ INSERT INTO rooms(id, name, card_image, room_type, treasure, damage, passive_tri
     (93, 'Brainsucker Hive',   '/resources/images/rooms/room_18.png', 'MONSTER', '1000', 2, 'HERO_DIES_IN_THIS_ROOM','DRAW_A_SPELL_CARD');
 
 INSERT INTO spell_card(id, name, card_image, phase,effect) VALUES
-    (22,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM'),
+    (22,'Giant Size'       ,'/resources/images/spells/spell_00.jpg','constructionPhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_MONSTER_ROOM'),
     (23,'Soul Harvest'     ,'/resources/images/spells/spell_01.jpg','adventureAndConstructionPhase','TRADE_A_SOUL_FOR_2_SPELL_CARDS'),
     (24,'Princess in Peril','/resources/images/spells/spell_02.jpg','constructionPhase'            ,'LURE_A_CHOSEN_HERO_FROM_CITY_TO_DUNGEON'),
     (25,'Motivation'       ,'/resources/images/spells/spell_03.jpg','constructionPhase'            ,'BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS') ,
     (26,'Exhaustion'       ,'/resources/images/spells/spell_04.jpg','adventurePhase'               ,'DEAL_ROOM_AMOUNT_DAMAGE_TO_HERO') ,
-    (27,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','adventurePhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM'),
+    (27,'Annihilator'      ,'/resources/images/spells/spell_05.jpg','constructionPhase'               ,'ADD_3_DAMAGE_TO_A_CHOSEN_TRAP_ROOM'),
     (28,'Cave-in'          ,'/resources/images/spells/spell_06.jpg','adventurePhase'               ,'DESTROY_A_DUNGEON_KILLING_EVERY_HERO_IN_IT'),
     (29,'Kobold Strike'    ,'/resources/images/spells/spell_07.jpg','constructionPhase'            ,'SKIP_BUILD_PHASE'),
     (30,'Teleportation'    ,'/resources/images/spells/spell_08.jpg','adventurePhase'               ,'SEND_HERO_TO_FIRST_ROOM'),
@@ -187,10 +187,13 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (6,'ignarrman');
 
 INSERT INTO achievement(id, name, description, image, threshold, metric) VALUES
-    (1, 'Tutorial Monster', 'Win 1 game.', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
-    (2, 'Room Monster', 'Win 5 game.', '/resources/images/bosses/boss_01.jpg', 5, 'VICTORIES'),
-    (3, 'Midboss Monster', 'Win 10 games.', '/resources/images/bosses/boss_02.jpg', 10, 'VICTORIES'),
-    (4, 'Boss Monster', 'Win 25 games.', '/resources/images/bosses/boss_03.jpg', 25, 'VICTORIES');
+    (1, 'Tutorial Monster', 'You won your first game!', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
+    (2, 'Room Monster', 'You won 5 games!', '/resources/images/bosses/boss_01.jpg', 5, 'VICTORIES'),
+    (3, 'Midboss Monster', 'You won 10 games!', '/resources/images/bosses/boss_02.jpg', 10, 'VICTORIES'),
+    (4, 'Boss Monster', 'You won 25 games!', '/resources/images/bosses/boss_03.jpg', 25, 'VICTORIES'),
+    (5, 'New Monster', 'You played your first game!', '/resources/images/bosses/boss_04.jpg', 1, 'GAMES_PLAYED'),
+    (6, 'Old Monster', 'You actually played 100 games... wow...', '/resources/images/bosses/boss_05.jpg', 100, 'GAMES_PLAYED'),
+    (7, 'Locked Monster', 'You played games for three hours! Go touch some grass!', '/resources/images/bosses/boss_06.jpg', 180, 'TOTAL_PLAY_TIME');
 
 INSERT INTO achievement_users(username, achievement_id) VALUES
     ('igngongon2', 1),

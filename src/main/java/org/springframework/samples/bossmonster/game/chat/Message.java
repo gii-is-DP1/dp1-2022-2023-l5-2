@@ -1,5 +1,6 @@
 package org.springframework.samples.bossmonster.game.chat;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,7 +29,7 @@ public class Message extends BaseEntity {
     @JoinColumn(name = "chat")
     private Chat chat;
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name="sender")
     private User sender;
     

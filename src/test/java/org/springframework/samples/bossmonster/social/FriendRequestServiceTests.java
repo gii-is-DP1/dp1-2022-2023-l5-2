@@ -4,9 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.bossmonster.game.GameService;
 import org.springframework.samples.bossmonster.user.UserService;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.FilterType;
@@ -15,12 +17,17 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class),
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = GameService.class))
     public class FriendRequestServiceTests {
+    
 
     @Autowired
     FriendRequestService friendRequestService;
+
+    @MockBean
+    SessionRegistry sessionRegistry;
 
     @Autowired
     UserService userService;

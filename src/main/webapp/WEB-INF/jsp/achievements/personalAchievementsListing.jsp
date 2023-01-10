@@ -9,18 +9,34 @@
     <spring:url value="/" htmlEscape="true" var="welcome"/>
 
     <h2>My Achievements</h2>
-    <ul>
-        <c:forEach items="${achievements}" var="achievement">
-            <li>               
-                    <c:out value="${achievement.name}"/>
-                    <c:if test="${achievement.image == ''}">none</c:if>
-                    <c:if test="${achievement.image != ''}">
-                        <img src="${achievement.image}" width="100px"  /> 
+    <table id="achievements" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${achievements}" var="achievements">
+            <tr>
+                <td>
+                    <c:out value="${achievements.name}"/>
+                </td>
+                <td>                    
+                      <c:out value="${achievements.description} "/>                                        
+                </td>
+                <td>                    
+                    <c:if test="${achievements.image == ''}">none</c:if>
+                    <c:if test="${achievements.image != ''}">
+                        <img src="${achievements.image}" width="100px"  /> 
                     </c:if>
-            </li>                                
+                </td>        
+            </tr>
         </c:forEach>
-    </ul>
-
+        </tbody>
+    </table>
+  
     <h2>Available achievements</h2>
     <table id="achievementsTable" class="table table-striped">
         <thead>
@@ -51,7 +67,6 @@
                 <td>       
                     <c:out value="${availableAchievements.threshold} "/>
                 </td>
-            
                 <td>       
                     <c:out value="${availableAchievements.metric} "/>
                 </td>         

@@ -3,6 +3,7 @@ package org.springframework.samples.bossmonster.user;
 import java.util.List;
 import java.util.Set;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -90,4 +91,6 @@ public class User{
 	public void setAchievements(Set<Achievement> achievements) {
 		this.achievements = achievements;
 	}
+
+
 }

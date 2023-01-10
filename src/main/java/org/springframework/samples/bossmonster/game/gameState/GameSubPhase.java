@@ -547,7 +547,7 @@ public enum GameSubPhase implements SubPhaseChoices{
             RoomCard chosenRoom = game.getCurrentPlayer().getDungeon().getRoom(choice);
             return chosenRoom != null && chosenRoom.isMonsterType();
         }
-    }, LURE_HERO_FROM_CITY(g->String.format("%s is choosing a hero to lure to their dungeon..."),
+    }, LURE_HERO_FROM_CITY(g->String.format("%s is choosing a hero to lure to their dungeon...",g.getCurrentPlayer()),
         "Choose a hero to lure to your dungeon") {
         @Override
         public List<Card> getChoice(Game game) {
@@ -564,7 +564,7 @@ public enum GameSubPhase implements SubPhaseChoices{
         public Boolean isValidChoice(int choice, Game game) {
             return true;
         }
-    }, SEND_HERO_TO_FIRST_ROOM(g->String.format("%s is choosing a hero to send to the first room..."),
+    }, SEND_HERO_TO_FIRST_ROOM(g->String.format("%s is choosing a hero to send to the first room...",g.getCurrentPlayer()),
         "Choose a room and a hero to send back to the first room") {
         @Override
         public List<Card> getChoice(Game game) {
@@ -589,6 +589,7 @@ public enum GameSubPhase implements SubPhaseChoices{
             DungeonRoomSlot slotToSendHeroTo = dungeon.getRoomSlots()[dungeon.getBuiltRooms()-1];
             HeroCardStateInDungeon hero = slot.getHeroesInRoom().remove(choice);
             slotToSendHeroTo.getHeroesInRoom().add(hero);
+            game.getPreviousChoices().removeAllElements();
         }
 
         @Override
@@ -636,6 +637,7 @@ public enum GameSubPhase implements SubPhaseChoices{
             DungeonRoomSlot slot = dungeon.getRoomSlots()[chosenSlot];
             HeroCardStateInDungeon hero = slot.getHeroesInRoom().get(choice);
             hero.dealDamage(dungeon.getBuiltRooms());
+            game.getPreviousChoices().removeAllElements();
         }
 
         @Override
