@@ -75,11 +75,11 @@ Para ver las partidas en la que un usuario ha participado, solo hay que pulsar e
 
 ### Visualizar Listado de Partidas en Curso [Exclusivo de Admin]
 
-TODO
+Para que un administrador pueda visualizar un listado de las partidas en curso, debe pulsar el botón "Admin Options" y "Current Games".
 
 ### Visualizar Listado de Partidas Jugadas [Exclusivo de Admin]
 
-TODO
+Para que un administrador pueda visualizar un listado de las partidas en curso, debe pulsar el botón "Admin Options" y "All Played Games".
 
 ## Módulo de Gestión de Usuarios
 
