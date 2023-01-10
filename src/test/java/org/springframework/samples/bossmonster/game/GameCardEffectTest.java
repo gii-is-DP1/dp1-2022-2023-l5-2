@@ -226,7 +226,7 @@ public class GameCardEffectTest {
     }
 
     @Test
-    void shouldTriggerDarkAltarRoomCardEffect() {
+        void shouldTriggerDarkAltarRoomCardEffect() {
         for (Player p: game.getPlayers()) game.discardCard(p, 0);
         RoomCard darkAltar = setUpDummyRoomCard(RoomPassiveTrigger.DESTROY_THIS_ROOM, EffectEnum.CHOOSE_CARD_FROM_DISCARD_PILE);
         game.getState().setPhase(GamePhase.START_GAME);

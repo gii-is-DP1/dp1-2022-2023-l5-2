@@ -5,8 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCard;
@@ -26,9 +32,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+@ExtendWith(MockitoExtension.class)
 public class DungeonTest {
 
     protected Dungeon dungeon;
+
+    @Mock
+    private Game game;
 
     @BeforeEach
     void setUp() {
@@ -47,6 +57,8 @@ public class DungeonTest {
         player.setHealth(5);
         dungeon.setPlayer(player);
         dungeon.setJackpotStashEffectActivated(false);
+        given(this.game.checkPlayerRoomsEffectTrigger(any(), any(), any())).willReturn(false);
+        dungeon.setGame(game);
     }
 
     DungeonRoomSlot setUpFilledRoomSlot(String treasure, Integer damage, RoomType type, RoomPassiveTrigger trigger, Integer id) {
