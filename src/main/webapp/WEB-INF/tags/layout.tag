@@ -4,12 +4,16 @@
 
 <%@ attribute name="pageName" required="true" %>
 <%@ attribute name="customScript" required="false" fragment="true"%>
+<%@ attribute name="backgroundImage" required="false"%>
 
 <!doctype html>
 <html>
 <bossmonster:htmlHeader/>
 
 <body>
+
+<c:set var="backgroundImage" value="${(empty backgroundImage) ? '/resources/images/backgrounds/emptyBackground.png' : backgroundImage}" />
+
 <bossmonster:bodyHeader menuName="${pageName}"/>
 
 <div class="container-fluid">
@@ -30,5 +34,13 @@
 <jsp:invoke fragment="customScript" />
 
 </body>
+
+<style>
+    body{
+            background-image: url("${backgroundImage}");
+            background-size: cover;
+            background-position: center top;
+        }
+</style>
 
 </html>

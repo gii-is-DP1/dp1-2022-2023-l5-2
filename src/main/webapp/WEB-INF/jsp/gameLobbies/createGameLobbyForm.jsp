@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
-<bossmonster:layout pageName="createGameLobby">
+<bossmonster:layout pageName="createGameLobby" backgroundImage="/resources/images/backgrounds/createGameBackground.png">
 
     <body class="inicio">
 
@@ -38,13 +38,5 @@
         </form:form>
     </div>
     </body>
-
-    <style>
-        body{
-                background-image: url("/resources/images/backgrounds/createGameBackground.png");
-                background-size: cover;
-                background-position: center top;
-            }
-    </style>
 
 </bossmonster:layout>
