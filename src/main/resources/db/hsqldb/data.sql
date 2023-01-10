@@ -212,7 +212,8 @@ INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
     (2,TRUE, 'ignarrman', 'jessolort'),
     (3,TRUE, 'ignarrman', 'frarosram'),
     (4,TRUE, 'ignarrman', 'igngongon2'),
-    (5,FALSE, 'user1', 'ignarrman');
+    (5,FALSE, 'user1', 'ignarrman'),
+    (6,FALSE, 'admin1', 'ignarrman');
 
 INSERT INTO chats(id) VALUES
     (0);

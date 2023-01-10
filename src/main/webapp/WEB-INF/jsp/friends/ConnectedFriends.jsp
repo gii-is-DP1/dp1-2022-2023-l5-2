@@ -8,6 +8,7 @@
 <spring:url value="/users/friends/notAccepted" htmlEscape="true" var="notAcceptedRequest"/>
 <spring:url value="/users/friends/" htmlEscape="true" var="friendList"/>
 <spring:url value="/" htmlEscape="true" var="welcome"/>
+<spring:url value="/invites" htmlEscape="true" var="invitations"/>
 
     <h1>Connected Friends</h1>
     <table class="table">
@@ -42,6 +43,9 @@
     <div class="centered-view">
         <a class="btn btn-title" href="${friendList}">Friend List</a>
         <a class="btn btn-title" href="${notAcceptedRequest}">Pending Requests</a>
+    </div>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${invitations}">Invitations List</a>
     </div>
     <div class="centered-view">
         <a class="btn btn-title" href="${welcome}">Back</a>

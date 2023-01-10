@@ -5,7 +5,7 @@
 
 <bossmonster:layout pageName="showInvitations">
 
-<spring:url value="/invites/toLobby" htmlEscape="true" var="toLobby"/>
+<spring:url value="/invites/{" htmlEscape="true" var="toLobby"/>
 
     <h1>Invitations</h1>
     <table class="table table-striped">
@@ -30,7 +30,7 @@
                         </c:forEach>
                     </td>
                     <td>
-                        <a href="${toLobby}"> 
+                        <a href="/invites/${i.lobby.id}/${i.id}/accept"> 
                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </a>
                     </td>

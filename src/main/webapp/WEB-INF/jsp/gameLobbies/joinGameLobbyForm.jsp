@@ -6,7 +6,6 @@
 <bossmonster:layout pageName="joinGameRoom">
 
     <spring:url value="/" htmlEscape="true" var="homeScreen"/>
-    <spring:url value="/invites" htmlEscape="true" var="invitations"/>
 
 <div class="white-panel">
 <h1 class="panel-heading">Join Game</h1>
@@ -32,9 +31,6 @@
        <a class="btn btn-default" href="${homeScreen}">Cancel</a>
    </div>
 </form>
-<div class="centered-view">
-    <a class="btn btn-title" href="${invitations}">My Invitations</a>
-</div>
 </div>
 <style>
     body{
