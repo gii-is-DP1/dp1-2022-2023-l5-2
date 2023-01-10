@@ -35,13 +35,14 @@ import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
+import org.springframework.samples.bossmonster.social.FriendRequestService;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Service;
 
 import static org.hamcrest.Matchers.*;
 
 @DataJpaTest(includeFilters = {@ComponentScan.Filter(Service.class)},
-    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = GameService.class))
+    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {GameService.class, FriendRequestService.class}))
 public class GameCardEffectTest {
 
     protected Game game;
