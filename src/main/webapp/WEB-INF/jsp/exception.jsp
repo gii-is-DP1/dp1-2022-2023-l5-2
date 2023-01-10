@@ -4,8 +4,8 @@
 
 <bossmonster:layout pageName="error">
 
-    <spring:url value="/resources/images/pets.png" var="petsImage"/>
-    <img src="${petsImage}"/>
+    <spring:url value="/resources/images/error.png" var="error"/>
+    <img src="${error}"/>
 
     <h2>Something happened...</h2>
 
