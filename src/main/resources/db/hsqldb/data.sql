@@ -221,3 +221,6 @@ INSERT INTO messages(id,words,chat,sender) VALUES
     (1,'2',0,'ignarrman'),
     (2,'3',0,'jessolort'),
     (3,'4',0,'ignarrman');
+
+INSERT INTO invitations(id,user,lobby) VALUES
+    (0,'ignarrman',3);

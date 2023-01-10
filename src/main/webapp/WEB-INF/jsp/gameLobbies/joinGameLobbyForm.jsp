@@ -5,6 +5,7 @@
 <bossmonster:layout pageName="joinGameRoom">
 <body>
     <spring:url value="/" htmlEscape="true" var="homeScreen"/>
+    <spring:url value="/invites" htmlEscape="true" var="invitations"/>
 
 <h1>Join Game</h1>
 
@@ -26,6 +27,9 @@
 </div>
 
 </form>
+<div class="centered-view">
+    <a class="btn btn-title" href="${invitations}">My Invitations</a>
+</div>
 </body>
 <style>
     body{

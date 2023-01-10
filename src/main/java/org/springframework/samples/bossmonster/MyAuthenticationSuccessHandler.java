@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 @Component("myAuthenticationSuccessHandler")
-public class MyAuthticationSucessHandler implements AuthenticationSuccessHandler {
+public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
     ActiveUserStore activeUserStore;
