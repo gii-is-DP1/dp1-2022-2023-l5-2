@@ -187,10 +187,13 @@ INSERT INTO results_users(game_result_id,user_id) VALUES
     (6,'ignarrman');
 
 INSERT INTO achievement(id, name, description, image, threshold, metric) VALUES
-    (1, 'Tutorial Monster', 'Win 1 game.', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
-    (2, 'Room Monster', 'Win 5 game.', '/resources/images/bosses/boss_01.jpg', 5, 'VICTORIES'),
-    (3, 'Midboss Monster', 'Win 10 games.', '/resources/images/bosses/boss_02.jpg', 10, 'VICTORIES'),
-    (4, 'Boss Monster', 'Win 25 games.', '/resources/images/bosses/boss_03.jpg', 25, 'VICTORIES');
+    (1, 'Tutorial Monster', 'You won your first game!', '/resources/images/bosses/boss_00.jpg', 1, 'VICTORIES'),
+    (2, 'Room Monster', 'You won 5 games!', '/resources/images/bosses/boss_01.jpg', 5, 'VICTORIES'),
+    (3, 'Midboss Monster', 'You won 10 games!', '/resources/images/bosses/boss_02.jpg', 10, 'VICTORIES'),
+    (4, 'Boss Monster', 'You won 25 games!', '/resources/images/bosses/boss_03.jpg', 25, 'VICTORIES'),
+    (5, 'New Monster', 'You played your first game!', '/resources/images/bosses/boss_04.jpg', 1, 'GAMES_PLAYED'),
+    (6, 'Old Monster', 'You actually played 100 games... wow...', '/resources/images/bosses/boss_05.jpg', 100, 'GAMES_PLAYED'),
+    (7, 'Locked Monster', 'You played games for three hours! Go touch some grass!', '/resources/images/bosses/boss_06.jpg', 180, 'TOTAL_PLAY_TIME');
 
 INSERT INTO achievement_users(username, achievement_id) VALUES
     ('igngongon2', 1),

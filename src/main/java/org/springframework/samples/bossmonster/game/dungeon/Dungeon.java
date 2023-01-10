@@ -149,7 +149,6 @@ public class Dungeon extends BaseEntity {
                 iterator.remove();
                 if (hero.isDead()) {
                     player.addSoulsFromKilledHero(hero);
-                    game.tryTriggerRoomCardEffect(RoomPassiveTrigger.HERO_DIES_IN_THIS_ROOM,getPlayer(),i);
                 }
                 else {
                     if (!isDungeonLastRoom(i)) {

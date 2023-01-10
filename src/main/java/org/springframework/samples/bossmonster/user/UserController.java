@@ -15,11 +15,16 @@
  */
 package org.springframework.samples.bossmonster.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -54,8 +60,8 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserController(UserService clinicService) {
-		this.userService = clinicService;
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 
 	@InitBinder
@@ -118,19 +124,30 @@ public class UserController {
 		}
 		return result;
 	}
-	
+
 	@GetMapping("/admin/users")
-    public ModelAndView show(){
-        ModelAndView result= new ModelAndView(USER_LISTING_VIEW);
-        result.addObject("user", userService.findAllUsers());
-        return result;
-    }
+	public ModelAndView getAllUsers(
+		@RequestParam(defaultValue = "0") int page,
+		@RequestParam(defaultValue = "3") int size
+	){
+		List<User> users = new ArrayList<User>();
+		Pageable paging = PageRequest.of(page, size);
+		Page<User> pageUsers;
+		pageUsers = userService.getPageUsers(paging);
+		users = pageUsers.getContent();
+		ModelAndView result= new ModelAndView(USER_LISTING_VIEW);
+		result.addObject("user", users);
+		int numUsers = userService.findAllUsers().size();
+		int numPages = numUsers>size?numUsers/size:1;
+		result.addObject("pageLimit", (numUsers<size||numUsers%size==0)?numPages-1:numPages);
+		return result;
+	}
 
 	@Transactional
 	@GetMapping("admin/users/{username}/delete")
     public ModelAndView delete(@PathVariable String username){
         userService.deleteUser(username);
-        ModelAndView result= new ModelAndView("redirect:/admin/users");
+        ModelAndView result= new ModelAndView("redirect:/admin/users?page=0");
         return result;
     }
 
@@ -149,7 +166,7 @@ public class UserController {
 			result.addObject("message", "Can't update user. Invalid values are present");
 		}
 		else {
-			result = new ModelAndView("redirect:/admin/users");
+			result = new ModelAndView("redirect:/admin/users?page=0");
 			userService.saveUser(user);
 			result.addObject("message", "User succesfully updated!");
 		}
