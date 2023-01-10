@@ -104,7 +104,7 @@ public class GameLobbyController {
         result.setViewName(LOBBY_SCREEN);
         result.addObject("currentUser", user);
         result.addObject("lobby", lobby);
-        response.addHeader("Refresh","2");
+//        response.addHeader("Refresh","2");
         return result;
     }
 
@@ -170,7 +170,7 @@ public class GameLobbyController {
         GameLobby lobby = lobbyService.getLobbyById(lobbyId).get();
         User user = userService.getLoggedInUser().get();
 
-        if(lobby.getLeaderUser() == user) {
+        if(lobby.getLeaderUser() == user && lobby.getJoinedUsers().size() == lobby.getMaxPlayers()) {
 
             Game game = gameService.createNewGameFromLobby(lobby);
             lobby.setGame(game);
