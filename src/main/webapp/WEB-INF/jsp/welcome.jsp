@@ -20,6 +20,7 @@
 
 
 
+
     <body class="body">
         <div class="centered-view">
             <a class="btn btn-title" href="${newLobby}">Create Game</a>

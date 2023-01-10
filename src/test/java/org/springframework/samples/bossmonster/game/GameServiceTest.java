@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameLobby.GameLobbyService;
+import org.springframework.samples.bossmonster.invitations.InvitationService;
 import org.springframework.samples.bossmonster.social.FriendRequestService;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class), excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes =FriendRequestService.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class), excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes ={FriendRequestService.class,InvitationService.class}))
 @ExtendWith(MockitoExtension.class)
 @Import(GameBuilder.class)
 class GameServiceTest {

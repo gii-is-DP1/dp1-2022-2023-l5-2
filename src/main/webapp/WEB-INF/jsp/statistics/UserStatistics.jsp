@@ -35,7 +35,7 @@
             <td><c:out value="${winStreak}"/></td>
             
             <th>Average Duration:</th>
-            <td><c:out value="${averageDuration}"/> hours</td>
+            <td><c:out value="${averageDuration}"/> minutes</td>
 
         </tr>
     </table>

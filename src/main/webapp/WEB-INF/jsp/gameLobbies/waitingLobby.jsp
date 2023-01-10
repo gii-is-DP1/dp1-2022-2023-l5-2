@@ -6,6 +6,7 @@
 
     <spring:url value="/" htmlEscape="true" var="homeScreen"/>
     <spring:url value="/lobby/${lobby.id}/newGame" htmlEscape="true" var="newGame"/>
+    <spring:url value="/invites/${lobby.id}/new" htmlEscape="true" var="sendInvite"/>
 
 <body class="inicio" background="/resources/images/backgrounds/emptyBackground.png">
 
@@ -41,6 +42,9 @@
                     </c:otherwise>
                 </c:choose>
             </button>
+        <a class="btn btn-default" href="${sendInvite}">
+            Send Invitations
+        </a>
         </form>
         </div>
 </body>

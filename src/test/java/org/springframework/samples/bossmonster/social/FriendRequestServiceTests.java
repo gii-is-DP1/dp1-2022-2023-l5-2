@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.bossmonster.game.GameService;
+import org.springframework.samples.bossmonster.invitations.InvitationService;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class),
-    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = GameService.class))
+    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {GameService.class,InvitationService.class}))
     public class FriendRequestServiceTests {
     
 

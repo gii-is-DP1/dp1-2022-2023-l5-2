@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.game.GameService;
+import org.springframework.samples.bossmonster.invitations.InvitationService;
 import org.springframework.samples.bossmonster.social.FriendRequestService;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Service;
 
 @ExtendWith({MockitoExtension.class})
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class),
-excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {GameService.class, FriendRequestService.class}))
+excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {GameService.class, FriendRequestService.class,InvitationService.class}))
 class GameLobbyServiceTest {
 
     @Autowired
