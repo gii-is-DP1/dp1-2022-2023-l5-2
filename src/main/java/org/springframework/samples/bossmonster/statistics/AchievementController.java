@@ -2,6 +2,7 @@ package org.springframework.samples.bossmonster.statistics;
 
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -25,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/statistics/achievements")
 public class AchievementController {
     private final String PERSONAL_LISTING_VIEW="/achievements/personalAchievementsListing";
-    private final String ACHIEVEMENTS_LISTING_VIEW="/achievements/AchievementsListing";
+    private final String ACHIEVEMENTS_LISTING_VIEW="/achievements/achievementsListing";
     private final String ACHIEVEMENTS_FORM="/achievements/createOrUpdateAchievementForm";
     private final String USER_ACHIEVEMENTS_FORM="/achievements/createOrUpdateAchievementsOfUserForm";
 
@@ -40,7 +41,7 @@ public class AchievementController {
 
     @Transactional(readOnly = true)
     @GetMapping("")
-    public ModelAndView showAchievements(){
+    public ModelAndView showAchievements() {
         ModelAndView result=new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
         result.addObject("achievements", achievementService.getAchievements());
         return result;
@@ -132,18 +133,12 @@ public class AchievementController {
     }
 
     @GetMapping("/me")
-    public ModelAndView showCurrentUserAchievements(@AuthenticationPrincipal Object loged){
-        ModelAndView result=null;
-        User user=null;
-        if(loged!=null && (loged instanceof UserDetails))
-            user=userService.findUser(((UserDetails)loged).getUsername()).get();
-        if(user!=null){
-            result = showPersonalAchievementsListing(user.getUsername());
-        }else{
-            result=new ModelAndView("welcome");
-            result.addObject("message","You are not an User, thus you don't have achievements");
-            result.addObject("messageType","warning");            
-        }
+    public ModelAndView showCurrentUserAchievements(){
+        List<Achievement> achievements = achievementService.triggerAchievement(userService.getLoggedInUser().get());
+        List<Achievement> allAchievements = achievementService.getAchievements();
+        ModelAndView result= new ModelAndView(PERSONAL_LISTING_VIEW);
+        result.addObject("achievements",achievements);
+        result.addObject("availableAchievements",allAchievements);  
         return result;
     }
 

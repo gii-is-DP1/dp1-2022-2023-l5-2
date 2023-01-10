@@ -178,9 +178,9 @@ public enum EffectEnum implements EffectInterface {
                 while (iterator.hasNext()) {
                     HeroCardStateInDungeon hero = iterator.next();
                     if (!hero.getMinotaursMazeEffectTriggered()) {
-                        hero.setMinotaursMazeEffectTriggered(true);
                         iterator.remove();
                         previousSlot.addHero(hero);
+                        hero.setMinotaursMazeEffectTriggered(true);
                     }
                 }
             }
