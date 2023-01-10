@@ -4,7 +4,7 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
-<bossmonster:layout pageName="home">
+<bossmonster:layout pageName="home" backgroundImage="/resources/images/backgrounds/background.png">
 
     <spring:url value="/resources/images/pets.png" htmlEscape="true" var="homeScreen"/>
     <spring:url value="/lobby/new" htmlEscape="true" var="newLobby"/>
@@ -82,11 +82,6 @@
         }
         .text1{
             font-size: medium;
-        }
-        body{
-            background-image: url("/resources/images/backgrounds/background.png");
-            background-size: cover;
-            background-position: center top;
         }
     </style>
 </bossmonster:layout>
