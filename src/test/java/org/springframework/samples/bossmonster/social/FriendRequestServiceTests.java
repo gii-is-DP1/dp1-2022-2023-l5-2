@@ -2,6 +2,8 @@ package org.springframework.samples.bossmonster.social;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,12 +15,15 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@ExtendWith(MockitoExtension.class)
+@Import(SessionRegistry.class)
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class),
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {GameService.class,InvitationService.class}))
     public class FriendRequestServiceTests {
@@ -26,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
     @Autowired
     FriendRequestService friendRequestService;
-
+    
     @MockBean
     SessionRegistry sessionRegistry;
 
@@ -34,19 +39,8 @@ import static org.junit.jupiter.api.Assertions.*;
     UserService userService;
 
     @BeforeEach
-    void setUp(){
-    /*     FriendRequest friendRequest1 = new FriendRequest();
-        org.springframework.samples.bossmonster.user.User igngongon2 = new org.springframework.samples.bossmonster.user.User();
-        org.springframework.samples.bossmonster.user.User user1 = new org.springframework.samples.bossmonster.user.User();
-        friendRequest1.setAccepted(true);
-        friendRequest1.setReceiver(igngongon2);
-        friendRequest1.setRequester(user1);
+    void setUp(){   
 
-        FriendRequest friendRequest2 = new FriendRequest();
-        org.springframework.samples.bossmonster.user.User user2 = new org.springframework.samples.bossmonster.user.User();
-        friendRequest2.setAccepted(false);
-        friendRequest2.setReceiver(igngongon2);
-        friendRequest2.setRequester(user2); */
     }
 
     @Test

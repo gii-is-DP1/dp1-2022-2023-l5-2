@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
-import org.springframework.samples.bossmonster.social.FriendRequestRepository;
 import org.springframework.samples.bossmonster.social.FriendRequestService;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Service;
