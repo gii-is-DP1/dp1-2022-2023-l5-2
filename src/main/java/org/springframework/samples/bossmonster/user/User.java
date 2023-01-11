@@ -81,7 +81,7 @@ public class User{
         name = "achievement_users",
         joinColumns = @JoinColumn(name="username"),
         inverseJoinColumns = @JoinColumn(name= "achievement_id"))
-	@NotAudited
+    @NotAudited
     private Set<Achievement> achievements;
 
     public Set<Achievement> getAchievements() {
