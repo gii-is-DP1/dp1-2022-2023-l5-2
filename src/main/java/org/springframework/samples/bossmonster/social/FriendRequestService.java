@@ -25,17 +25,17 @@ public class FriendRequestService {
         this.sessionRegistry=sessionRegistry;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public FriendRequest findFriendRequestById(int id){
         return repo.findById(id).get();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<FriendRequest> findAllReceived(String username){
         return repo.findAllReceived(username);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<FriendRequest> findAllRequested(String username){
         return repo.findAllRequested(username);
     }
@@ -56,7 +56,7 @@ public class FriendRequestService {
         return friends;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Boolean checkAlreadyFriends(String senderUsername, String receiverUsername){
         List<User> friends= calculateFriends(senderUsername);
         User receiver= uService.findUser(receiverUsername).get();
@@ -66,7 +66,7 @@ public class FriendRequestService {
             return false;
         }
     }
-    @Transactional
+    @Transactional(readOnly = true)
     public Boolean checkAlreadySendOne(String senderUsername, String receiverUsername){
         List<FriendRequest> requests=findAllRequested(senderUsername);
         List<FriendRequest> notAccepted=requests.stream().filter(fr-> fr.getAccepted()==false && fr.getReceiver().getUsername()==receiverUsername).collect(Collectors.toList());
@@ -76,7 +76,7 @@ public class FriendRequestService {
             return false;
         }
     }
-    @Transactional
+    @Transactional(readOnly = true)
     public List<FriendRequest> notAcceptedRequests(String username){
         return repo.findAllNotAccepted(username);
     }
@@ -99,7 +99,7 @@ public class FriendRequestService {
         User me=uService.getLoggedInUser().get();
         repo.unFriend(username, me.getUsername());
     }
-    @Transactional
+    @Transactional(readOnly = true)
     List<User> loggedInFriends(String username){
         List<Object> loggedIn=sessionRegistry.getAllPrincipals().stream()
         .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
@@ -117,7 +117,7 @@ public class FriendRequestService {
         }
         return loggedFriends;
     }
-    @Transactional
+    @Transactional(readOnly = true)
     public User fromPrincipal(String principal){
         String[] data= principal.split(":");
         String username= data[2].replace("; Password", "").trim();
