@@ -4,9 +4,9 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="currentGames">
-    <spring:url value="/adminOptions" htmlEscape="true" var="adminOptions"/>
+<spring:url value="/adminOptions" htmlEscape="true" var="adminOptions"/>
+<div class="white-panel">
     <h2>Current Games</h2>
-
     <table id="currentGamesListTable" class="table table-striped">
         <thead>
             <tr>
@@ -37,4 +37,5 @@
     <div class="centered-view">     
         <a class="btn btn-title" href="${adminOptions}">Back</a>
     </div>
+</div>
 </bossmonster:layout>

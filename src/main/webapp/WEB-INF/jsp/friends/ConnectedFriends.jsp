@@ -9,7 +9,7 @@
 <spring:url value="/users/friends/" htmlEscape="true" var="friendList"/>
 <spring:url value="/" htmlEscape="true" var="welcome"/>
 <spring:url value="/invites" htmlEscape="true" var="invitations"/>
-
+<div class="white-panel">
     <h1>Connected Friends</h1>
     <table class="table">
         <thead class="thead-light">
@@ -40,14 +40,34 @@
         </c:forEach>
         </tbody>
     </table>
-    <div class="centered-view">
-        <a class="btn btn-title" href="${friendList}">Friend List</a>
-        <a class="btn btn-title" href="${notAcceptedRequest}">Pending Requests</a>
-    </div>
-    <div class="centered-view">
-        <a class="btn btn-title" href="${invitations}">Invitations List</a>
-    </div>
-    <div class="centered-view">
-        <a class="btn btn-title" href="${welcome}">Back</a>
-    </div>
+    <table class="button-table">
+        <tr asd>
+            <td class="form-group">
+                <a class="btn btn-title" href="${friendList}">Friend List</a>
+            </td>
+            <td class="form-group">
+                <a class="btn btn-title" href="${notAcceptedRequest}">Pending Requests</a>              
+            </td>
+            <td class="form-group">
+                <a class="btn btn-title" href="${invitations}">Invitations List</a>           
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    .btn{
+        width:150px;
+    }
+    td{
+        width:300px;
+    }
+    .button-table{
+        height: 70px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+</style>
+
 </bossmonster:layout>
