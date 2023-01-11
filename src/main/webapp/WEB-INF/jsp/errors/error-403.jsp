@@ -4,6 +4,8 @@
 
 <bossmonster:layout pageName="error">
 
+<div class="white-panel">
+
     <spring:url value="/resources/images/error.png" var="error"/>
     <img src="${error}"/>
 
@@ -13,5 +15,15 @@
 
     <a class="btn btn-default" href="${previousUrl}">Go Back</a>
 
+</div>
+
+<style>
+    .white-panel{
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        width: 70%;
+    }
+</style>
 
 </bossmonster:layout>
