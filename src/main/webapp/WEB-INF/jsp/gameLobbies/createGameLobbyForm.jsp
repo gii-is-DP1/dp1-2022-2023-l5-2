@@ -7,7 +7,7 @@
 
     <body class="inicio">
 
-        <c:out value="${message}"/>
+    <c:out value="${message}"/>
     <div class="white-panel">
         <h1>Create Game</h1>
 

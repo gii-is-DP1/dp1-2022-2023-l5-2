@@ -4,11 +4,9 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="manageUser">
-
 <spring:url value="/" htmlEscape="true" var="welcome"/>
-
+<div class="white-panel">
     <h2>User Management</h2>
-
     <table id="usersListTable" class="table table-striped">
         <thead>
             <tr>
@@ -90,4 +88,5 @@
             margin-left: auto;
         }
     </style>
+</div>
 </bossmonster:layout>

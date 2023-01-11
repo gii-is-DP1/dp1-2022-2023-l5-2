@@ -8,7 +8,7 @@
 
 <spring:url value="/users/statistics/global" htmlEscape="true" var="global"/>
 <spring:url value="/" htmlEscape="true" var="welcome"/>
-
+<div class="white-panel">
     <h1>User Statistics</h1>
     <table>
         <tr>
@@ -85,4 +85,5 @@
         <a class="btn btn-title" href="${global}">Global Statistics</a>
         <a class="btn btn-title" href="${welcome}">Back</a>
     </div>
+</div>
 </bossmonster:layout>
