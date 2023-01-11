@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface MessageRepository extends CrudRepository<Message,Integer>{
 
-    @Query(value = "SELECT * FROM messages m WHERE m.chat=?1",nativeQuery = true)
+    @Query(value = "SELECT m FROM Message m WHERE m.chat.id=?1")
     List<Message> getMessages(@Param(value = "chat_id") Integer id);
 
-    @Query(value = "DELETE FROM messages WHERE sender=?1",nativeQuery = true)
+    @Query(value = "DELETE FROM Message m WHERE m.sender.username=?1")
     @Modifying
     void deleteAllMesagesFromUser(@Param(value = "username") String id);
 }

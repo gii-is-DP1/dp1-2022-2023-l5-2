@@ -26,7 +26,7 @@ public interface GameLobbyRepository extends CrudRepository<GameLobby, Integer> 
     void deleteParticipantsIfLeaderIsDeleted(@Param(value = "username") String user);
 
     @Modifying
-    @Query(value="DELETE FROM LOBBIES WHERE LEADER=?1", nativeQuery = true)
+    @Query(value="DELETE FROM GameLobby g WHERE g.leaderUser.username=?1")
     void deleteLobbyIfLeaderDeleted(@Param(value = "username") String user);
 
     @Query("SELECT gl FROM GameLobby gl INNER JOIN gl.game g WHERE g.active=TRUE")

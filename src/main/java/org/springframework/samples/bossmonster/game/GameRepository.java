@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GameRepository extends CrudRepository<Game, Integer> {
     List<Game> findAll();
-    @Query(value = "SELECT c from chats c ON c.id=?1",nativeQuery = true)
+    @Query(value = "SELECT c from Chat c WHERE c.id=?1")
     Chat findChat(@Param(value = "id") Integer gameChat);
 
     @Query("SELECT l FROM Game l WHERE l.active=TRUE")

@@ -9,11 +9,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface InvitationRepository extends CrudRepository<Invitation,Integer>{
 
-    @Query(value = "SELECT * FROM invitations i WHERE i.user=?1",nativeQuery = true)
+    @Query(value = "SELECT i FROM Invitation i WHERE i.user.username=?1")
     List<Invitation> findAllInvitationsUser(@Param(value = "username") String username);
 
     @Modifying
-    @Query(value="DELETE FROM invitations i WHERE i.id=?1", nativeQuery = true)
+    @Query(value="DELETE FROM Invitation i WHERE i.id=?1")
     void deleteAfterJoin(@Param(value = "id") Integer id);
 
 }
