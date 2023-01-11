@@ -1,13 +1,11 @@
 package org.springframework.samples.bossmonster.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * This advice is necessary because MockMvc is not a real servlet environment, therefore it does not redirect error
@@ -17,36 +15,25 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ExceptionHandlerConfiguration
 {
-	@Autowired
-	private BasicErrorController errorController;
+	//@Autowired
+	//private BasicErrorController errorController;
     // add any exceptions/validations/binding problems
-/* 
-   @ExceptionHandler(Exception.class)
+
+   /*@ExceptionHandler(Exception.class)
    public String defaultErrorHandler(HttpServletRequest request,  Exception ex)  {
         request.setAttribute("javax.servlet.error.request_uri", request.getPathInfo());
         request.setAttribute("javax.servlet.error.status_code", 400);
         request.setAttribute("exeption", ex);
         return "exception";
     }
-*/
+*/ 
     @ExceptionHandler(Exception.class)
-    public String handleError(HttpServletRequest request) {
-// get error status
-        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        if (status != null) {
-            int statusCode = Integer.parseInt(status.toString());
-// display specific error page
-        if (statusCode == HttpStatus.NOT_FOUND.value()) {
+    public String defaultErrorHandler(HttpServletRequest request,  Exception ex)  {
+        if (ex instanceof NoHandlerFoundException) {
             return "errors/error-404";
-        } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+        } else  {
             return "errors/error-500";
-        } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-            return "errors/error-403";
         }
-        }
-// display generic error
-        return "error";
     }
-
 
 }
