@@ -1,12 +1,5 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,15 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.bossmonster.exceptions.FullLobbyException;
-import org.springframework.samples.bossmonster.exceptions.GameNotFullException;
-import org.springframework.samples.bossmonster.exceptions.UserAlreadyPlayingException;
 import org.springframework.samples.bossmonster.game.GameService;
 import org.springframework.samples.bossmonster.invitations.InvitationService;
 import org.springframework.samples.bossmonster.social.FriendRequestService;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith({MockitoExtension.class})
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class),
@@ -48,7 +43,7 @@ class GameLobbyServiceTest {
     }
 
     @Test
-    void shouldSaveLobby() throws FullLobbyException, UserAlreadyPlayingException, GameNotFullException {
+    void shouldSaveLobby() {
         var lobby = new GameLobby();
         lobby.setMaxPlayers(2);
         User leader= userService.findUser("user1").get();
@@ -74,7 +69,7 @@ class GameLobbyServiceTest {
     }
 
     @Test
-    void shouldVerifyUserPlaying() throws FullLobbyException, UserAlreadyPlayingException, GameNotFullException {
+    void shouldVerifyUserPlaying() {
         User dbUser = userService.findAllUsers().get(0);
         User testUser = new User();
         BeanUtils.copyProperties(dbUser,testUser,"username");
@@ -103,7 +98,7 @@ class GameLobbyServiceTest {
     }
 
     @Test
-    void shouldFindGamesByUser() throws FullLobbyException, UserAlreadyPlayingException, GameNotFullException {
+    void shouldFindGamesByUser() {
 
         GameLobby l = new GameLobby();
         User testUser = userService.findAllUsers().get(0);
