@@ -2,8 +2,11 @@ package org.springframework.samples.bossmonster.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -17,7 +20,7 @@ public class ExceptionHandlerConfiguration
 	@Autowired
 	private BasicErrorController errorController;
     // add any exceptions/validations/binding problems
-
+/* 
    @ExceptionHandler(Exception.class)
    public String defaultErrorHandler(HttpServletRequest request,  Exception ex)  {
         request.setAttribute("javax.servlet.error.request_uri", request.getPathInfo());
@@ -25,10 +28,8 @@ public class ExceptionHandlerConfiguration
         request.setAttribute("exeption", ex);
         return "exception";
     }
-
-    /*
-    @ExceptionHandler
-    @RequestMapping("/error")
+*/
+    @ExceptionHandler(Exception.class)
     public String handleError(HttpServletRequest request) {
 // get error status
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
@@ -46,6 +47,6 @@ public class ExceptionHandlerConfiguration
 // display generic error
         return "error";
     }
-}
-*/
+
+
 }
