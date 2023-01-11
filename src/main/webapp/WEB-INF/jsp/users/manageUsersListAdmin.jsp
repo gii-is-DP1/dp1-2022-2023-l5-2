@@ -4,11 +4,9 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="manageUser">
-
-<spring:url value="/" htmlEscape="true" var="welcome"/>
-
+<spring:url value="/adminOptions" htmlEscape="true" var="adminOptions"/>
+<div class="white-panel">
     <h2>User Management</h2>
-
     <table id="usersListTable" class="table table-striped">
         <thead>
             <tr>
@@ -82,7 +80,7 @@
         </tr>
     </table>
     <div class="centered-view">
-        <a class="btn btn-title" href="${welcome}">Back</a>
+        <a class="btn btn-title" href="${adminOptions}">Back</a>
     </div>
     <style>
         table{
@@ -90,4 +88,5 @@
             margin-left: auto;
         }
     </style>
+</div>
 </bossmonster:layout>

@@ -118,7 +118,7 @@
 										<div class="col-lg-12">
 											<p>
 												<a href="/users/edit" class="btn btn-primary btn-block">My Profile</a>
-												<a href="/users/friends" class="btn btn-success btn-block">My Friends</a>
+												<a href="/users/friends/" class="btn btn-success btn-block">My Friends</a>
                                                 <a href="/users/statistics" class="btn btn-danger btn-block">My Statistics</a>
                                             </p>
 										</div>

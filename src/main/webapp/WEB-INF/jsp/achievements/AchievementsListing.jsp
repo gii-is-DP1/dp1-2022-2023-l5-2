@@ -5,9 +5,10 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="achievements">
-    <spring:url value="/users/statistics" htmlEscape="true" var="global"/>
-    <spring:url value="/" htmlEscape="true" var="welcome"/>
-    
+<spring:url value="/users/statistics" htmlEscape="true" var="global"/>
+<spring:url value="/adminOptions" htmlEscape="true" var="adminOptions"/>
+
+<div class="white-panel">
     <h2>Achievements</h2>
     <table id="achievementsTable" class="table table-striped">
         <thead>
@@ -63,7 +64,9 @@
     <a class="btn btn-default" href="/statistics/achievements/new">Create new achievement</a>
     <div class="centered-view">
         <a class="btn btn-title" href="${global}">My Statistics</a>
-        <a class="btn btn-title" href="${welcome}">Back</a>
+        <a class="btn btn-title" href="${adminOptions}">Back</a>
     </div>
+</div>
+
 </bossmonster:layout>
 

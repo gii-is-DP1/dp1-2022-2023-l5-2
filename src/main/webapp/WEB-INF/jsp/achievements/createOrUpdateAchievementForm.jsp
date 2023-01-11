@@ -13,6 +13,7 @@
         </script>
     </jsp:attribute>
     <jsp:body>
+    <div class="white-panel">
         <h2>
             <c:if test="${achievement['new']}">New </c:if> Achievement
         </h2>
@@ -26,9 +27,10 @@
                 <bossmonster:inputField label="Threshold" name="threshold"/>
                 <bossmonster:selectField label="Metric"  name="metric" names="${metrics}" size="1"/>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <c:choose>
+            <table class="button-table">
+                <tr>
+                    <td class="form-group">
+                        <c:choose>
                         <c:when test="${achievement['new']}">
                             <button class="btn btn-default" type="submit">Add Achievement</button>
                         </c:when>
@@ -36,8 +38,29 @@
                             <button class="btn btn-default" type="submit">Update Achievement</button>
                         </c:otherwise>
                     </c:choose>
-                </div>
+                    </td>
+                    <td class="form-group">
+                        <a class="btn btn-default" href="/statistics/achievements">Cancel</a>
+                    </td>
+                </tr>
+            </table>
             </div>
-        </form:form>                
+        </form:form>
+    </div>
+    <style>
+        .btn{
+            width:150px;
+        }
+        td{
+            width:300px;
+        }
+        .button-table{
+            height: 70px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+    </style>        
     </jsp:body>
+    
 </bossmonster:layout>

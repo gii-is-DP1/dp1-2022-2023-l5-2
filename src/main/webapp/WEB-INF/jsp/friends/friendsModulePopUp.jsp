@@ -9,7 +9,7 @@
 <spring:url value="/users/friends/notAccepted" htmlEscape="true" var="notAcceptedRequest"/>
 <spring:url value="/users/friends/connected" htmlEscape="true" var="connected"/>
 <spring:url value="/" htmlEscape="true" var="welcome"/>
-
+<div class="white-panel">
     <h1>Friends</h1>
     <table class="table">
         <thead class="thead-light">
@@ -53,4 +53,5 @@
     <div class="centered-view">
         <a class="btn btn-title" href="${welcome}">Back</a>
     </div>
+</div>
 </bossmonster:layout>

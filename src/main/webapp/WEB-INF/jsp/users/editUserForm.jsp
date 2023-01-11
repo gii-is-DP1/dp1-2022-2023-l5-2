@@ -6,39 +6,44 @@
 
 <spring:url value="/users/edit/avatars" htmlEscape="true" var="avatar"/>
 
-<h1>User Management</h1>
+<div class="white-panel">
+    <h1>User Management</h1>
 
-<form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
-    <div class="form-group has-feedback">
-        <form:hidden path = "username" value = "${user.username}" />
-        <form:hidden path = "password" value = "${user.password}"/>
-        <bossmonster:inputField label="Nickname" name="nickname"/>
-        <bossmonster:inputField label="Email" name="email"/>
-        <bossmonster:inputField label="Description" name="description"/>
-        <form:label class="col-sm-2" path="avatar">Available avatars: </form:label>
-        <table>
-            <tr>
-                <td><img src="http://localhost:8080/resources/images/avatars/avatar_00.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_00.png"/></td>
-                <td><img src="http://localhost:8080/resources/images/avatars/avatar_01.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_01.png"/></td>
-                <td><img src="http://localhost:8080/resources/images/avatars/avatar_02.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_02.png"/></td>
-                <td><img src="http://localhost:8080/resources/images/avatars/avatar_03.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_03.png"/></td>
-                <td><img src="http://localhost:8080/resources/images/avatars/avatar_04.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_04.png"/></td>
-                <td><img src="http://localhost:8080/resources/images/avatars/avatar_05.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_05.png"/></td>
-                <td><img src="http://localhost:8080/resources/images/avatars/avatar_06.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_06.png"/></td>  
+    <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
+        <div class="form-group has-feedback">
+            <form:hidden path = "username" value = "${user.username}" />
+            <form:hidden path = "password" value = "${user.password}"/>
+            <bossmonster:inputField label="Nickname" name="nickname"/>
+            <bossmonster:inputField label="Email" name="email"/>
+            <bossmonster:inputField label="Description" name="description"/>
+            <form:label class="col-sm-2" path="avatar">Available avatars: </form:label>
+            <table>
+                <tr>
+                    <td><img src="http://localhost:8080/resources/images/avatars/avatar_00.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_00.png"/></td>
+                    <td><img src="http://localhost:8080/resources/images/avatars/avatar_01.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_01.png"/></td>
+                    <td><img src="http://localhost:8080/resources/images/avatars/avatar_02.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_02.png"/></td>
+                    <td><img src="http://localhost:8080/resources/images/avatars/avatar_03.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_03.png"/></td>
+                    <td><img src="http://localhost:8080/resources/images/avatars/avatar_04.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_04.png"/></td>
+                    <td><img src="http://localhost:8080/resources/images/avatars/avatar_05.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_05.png"/></td>
+                    <td><img src="http://localhost:8080/resources/images/avatars/avatar_06.png" height ="80" width="100"/> <form:radiobutton path="avatar" value="http://localhost:8080/resources/images/avatars/avatar_06.png"/></td>  
+                </tr>
+            </table>
+            <form:errors path="avatar"></form:errors>
+        <table class="button-table">
+            <tr asd>
+                <td class="form-group button-table-column">
+                    <button class="btn btn-default" type="submit">Save Changes</button>
+                </td>
+                <td class="form-group button-table-column">
+                    <button class="btn btn-default" type="reset">Reset Changes</button>              
+                </td>
+                <td class="form-group button-table-column">
+                    <a class="btn btn-default" href="/">Cancel</a>            
+                </td>
             </tr>
         </table>
-        <form:errors path="avatar"></form:errors>
-    </div>
-    <div class="form-group">
-        <button class="btn btn-default" type="submit">Save Changes</button>
-    </div>
-    <div class="form-group">
-        <button class="btn btn-default" type="reset">Reset Changes</button>
-    </div>
-    <div class="form-group">
-        <a class="btn btn-default" href="/">Cancel</a>
-    </div>
-</form:form>
+    </form:form>
+</div>
 
 <style>
     .btn{
@@ -46,6 +51,15 @@
     }
     td{
         width:300px;
+    }
+    .button-table{
+        height: 70px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    .button-table-column{
+        vertical-align: bottom;
     }
 </style>
 

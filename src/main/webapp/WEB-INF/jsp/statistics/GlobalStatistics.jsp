@@ -5,55 +5,57 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="global_statistics">
-
 <spring:url value="/" htmlEscape="true" var="welcome"/>
 <spring:url value="/users/statistics" htmlEscape="true" var="individual"/>
+<div class="white-panel">
 
     <h1>Global Statistics</h1>
     <table>
-    <h2>Statistics Relative to the Number of Games Played by Users:</h2>
-    <tr>
-        <th>Total Games Player:</th>
-        <td> <c:out value="${totalGames}"/> games</td>
-    </tr>
-    <tr>
-        <th>Least amount of games played by a user:   </th>
-        <td> <c:out value="${minPartidas}"/> games</td>
-    </tr>
-    <tr>
-        <th>Highest amount of games played by a user:   </th>
-        <td> <c:out value="${maxPartidas}"/> games</td>
-    </tr>
-    <tr>
-        <th>Average amount of games played by users:   &nbsp;</th>
-        <td> <c:out value="${promedioNumPartidas}"/> games</td>
-    </tr>
-</table>
+        <h2>Statistics Relative to the Number of Games Played by Users:</h2>
+        <tr>
+            <th>Total Games Player:</th>
+            <td> <c:out value="${totalGames}"/> games</td>
+        </tr>
+        <tr>
+            <th>Least amount of games played by a user:   </th>
+            <td> <c:out value="${minPartidas}"/> games</td>
+        </tr>
+        <tr>
+            <th>Highest amount of games played by a user:   </th>
+            <td> <c:out value="${maxPartidas}"/> games</td>
+        </tr>
+        <tr>
+            <th>Average amount of games played by users:   &nbsp;</th>
+            <td> <c:out value="${promedioNumPartidas}"/> games</td>
+        </tr>
+    </table>
 
-<table>
-    <h2>Statistics Relative to the Duration of Games:</h2>
-    <tr>
-        <th>Duration of shortest game:   </th>
-        <td> <c:out value="${minDuracion}"/> minutes</td>
-    </tr>
-    <tr>
-        <th>Duration of longest game:   </th>
-        <td> <c:out value="${maxDuracion}"/> minutes</td>
-    </tr>
-    <tr>
-        <th>Average duration of games:   &nbsp;</th>
-        <td> <c:out value="${promedioDuracion}"/> minutes</td>
-    </tr>
-</table>
-<table>
-    <h2>Statistics Relative to the Number of Players in a Game:</h2>
-    <tr>
-        <th>Average amount of players in a game:   &nbsp;</th>
-        <td> <c:out value="${promedioJugadoresPartida}"/> players</td>
-    </tr>
-</table>
-<div class="centered-view">
-    <a class="btn btn-title" href="${individual}">Individual Statistics</a>
-    <a class="btn btn-title" href="${welcome}">Back</a>
+    <table>
+        <h2>Statistics Relative to the Duration of Games:</h2>
+        <tr>
+            <th>Duration of shortest game:   </th>
+            <td> <c:out value="${minDuracion}"/> minutes</td>
+        </tr>
+        <tr>
+            <th>Duration of longest game:   </th>
+            <td> <c:out value="${maxDuracion}"/> minutes</td>
+        </tr>
+        <tr>
+            <th>Average duration of games:   &nbsp;</th>
+            <td> <c:out value="${promedioDuracion}"/> minutes</td>
+        </tr>
+    </table>
+    <table>
+        <h2>Statistics Relative to the Number of Players in a Game:</h2>
+        <tr>
+            <th>Average amount of players in a game:   &nbsp;</th>
+            <td> <c:out value="${promedioJugadoresPartida}"/> players</td>
+        </tr>
+    </table>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${individual}">Individual Statistics</a>
+        <a class="btn btn-title" href="${welcome}">Back</a>
+    </div>
+
 </div>
 </bossmonster:layout>

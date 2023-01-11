@@ -5,7 +5,10 @@
 
 <bossmonster:layout pageName="showInvitations">
 
+<spring:url value="/users/friends/" htmlEscape="true" var="friendList"/>
 <spring:url value="/invites/{" htmlEscape="true" var="toLobby"/>
+
+<div class="white-panel">
 
     <h1>Invitations</h1>
     <table class="table table-striped">
@@ -15,6 +18,7 @@
             <th>Room Code</th>
             <th>Participants</th>
         </tr>
+        </thead>
         <tbody>
             <c:forEach items="${invitations}" var="i">
                 <tr>
@@ -37,4 +41,9 @@
                 </tr>
             </c:forEach>
         </tbody>
+    </table>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${friendList}">Back</a>
+    </div>
+</div>
 </bossmonster:layout>
