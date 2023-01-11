@@ -102,4 +102,11 @@ public class FriendRequestControllerTest {
             .andExpect(model().attributeHasFieldErrors("friendRequest", "receiver"))
             .andExpect(view().name("/friends/createFriendRequest"));
     }
+
+    @Test
+    @WithMockUser
+    public void shouldShowConnectedFriends() throws Exception{
+        mockMvc.perform(get("/users/friends/connected"))
+        .andExpect(status().isOk());
+    }
 }
