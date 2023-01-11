@@ -21,9 +21,12 @@ public class InvitationService {
         this.repo=repo;
         this.sRequestService=sRequestService;
     }
+
+    @Transactional
     public Optional<Invitation> findById(Integer id){
         return repo.findById(id);
     }
+    @Transactional
     public List<Invitation> getInvitations(String username){
         return repo.findAllInvitationsUser(username);
     }
@@ -35,6 +38,7 @@ public class InvitationService {
     public void deleteInvite(Integer id){
         repo.deleteAfterJoin(id);
     }
+    @Transactional
     public boolean checkAbleToAccept(Invitation i,String username){
         List<User> friends= sRequestService.calculateFriends(username);
         GameLobby lobby= i.getLobby();
@@ -46,5 +50,5 @@ public class InvitationService {
         }
     }
 
-    
+
 }

@@ -25,14 +25,17 @@ public class FriendRequestService {
         this.sessionRegistry=sessionRegistry;
     }
 
+    @Transactional
     public FriendRequest findFriendRequestById(int id){
         return repo.findById(id).get();
     }
-    
+
+    @Transactional
     public List<FriendRequest> findAllReceived(String username){
         return repo.findAllReceived(username);
     }
 
+    @Transactional
     public List<FriendRequest> findAllRequested(String username){
         return repo.findAllRequested(username);
     }
@@ -52,7 +55,8 @@ public class FriendRequestService {
         }
         return friends;
     }
-    
+
+    @Transactional
     public Boolean checkAlreadyFriends(String senderUsername, String receiverUsername){
         List<User> friends= calculateFriends(senderUsername);
         User receiver= uService.findUser(receiverUsername).get();
@@ -62,6 +66,7 @@ public class FriendRequestService {
             return false;
         }
     }
+    @Transactional
     public Boolean checkAlreadySendOne(String senderUsername, String receiverUsername){
         List<FriendRequest> requests=findAllRequested(senderUsername);
         List<FriendRequest> notAccepted=requests.stream().filter(fr-> fr.getAccepted()==false && fr.getReceiver().getUsername()==receiverUsername).collect(Collectors.toList());
@@ -71,24 +76,30 @@ public class FriendRequestService {
             return false;
         }
     }
+    @Transactional
     public List<FriendRequest> notAcceptedRequests(String username){
         return repo.findAllNotAccepted(username);
     }
+    @Transactional
     public void acceptRequest(String username){
         User me=uService.getLoggedInUser().get();
         repo.acceptFriendRequest(username,me.getUsername());
     }
+    @Transactional
     public void declineFriendRequest(String  username){
         User me=uService.getLoggedInUser().get();
         repo.declineFriendRequest(username, me.getUsername());
     }
+    @Transactional
     public void saveFriendRequest(FriendRequest fr){
         repo.save(fr);
     }
+    @Transactional
     public void unFriendSomeone(String username){
         User me=uService.getLoggedInUser().get();
         repo.unFriend(username, me.getUsername());
     }
+    @Transactional
     List<User> loggedInFriends(String username){
         List<Object> loggedIn=sessionRegistry.getAllPrincipals().stream()
         .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
@@ -106,6 +117,7 @@ public class FriendRequestService {
         }
         return loggedFriends;
     }
+    @Transactional
     public User fromPrincipal(String principal){
         String[] data= principal.split(":");
         String username= data[2].replace("; Password", "").trim();
