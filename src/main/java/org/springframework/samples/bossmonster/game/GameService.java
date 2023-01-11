@@ -28,20 +28,24 @@ public class GameService {
         return repo.save(g);
     }
 
+    @Transactional
     public Game createNewGameFromLobby(GameLobby lobby) {
         Game newGame = gameBuilder.buildNewGame(lobby);
         repo.save(newGame);
         return newGame;
     }
 
+    @Transactional
     public Optional<Game> findGame(Integer id) {
         return repo.findById(id);
     }
 
+    @Transactional
     public List<Game> findAllGames() {
         return repo.findAll();
     }
 
+    @Transactional
     public List<Game> findActiveGames() {
         return repo.findActiveGames();
     }

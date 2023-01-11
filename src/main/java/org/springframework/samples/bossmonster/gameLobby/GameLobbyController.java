@@ -1,6 +1,9 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.bossmonster.exceptions.FullLobbyException;
+import org.springframework.samples.bossmonster.exceptions.GameNotFullException;
+import org.springframework.samples.bossmonster.exceptions.UserAlreadyPlayingException;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.GameService;
 import org.springframework.samples.bossmonster.user.User;
@@ -75,16 +78,20 @@ public class GameLobbyController {
             result.setViewName(lobbyView);
             return result;
         }
-        if(lobbyService.userIsPlaying(user)) {
+
+        presentLobby.addUser(user);
+        try {
+            lobbyService.saveLobby(presentLobby);
+        } catch (UserAlreadyPlayingException e) {
             result.addObject("message","You are already in a game!");
             return result;
-        }
-        if (!presentLobby.isAcceptingNewPlayers()) {
-            result.addObject("message", "Game is full!");
+        } catch (FullLobbyException e) {
+            result.addObject("message","You are already in a game!");
             return result;
+        } catch (GameNotFullException e) {
+            throw new RuntimeException(e);
         }
-        presentLobby.addUser(user);
-        lobbyService.saveLobby(presentLobby);
+
         result.setViewName(lobbyView);
         return result;
     }
@@ -156,7 +163,15 @@ public class GameLobbyController {
             lobby.setLeaderUser(user);
             lobby.setJoinedUsers(new ArrayList<>());
             lobby.addUser(user);
-            lobbyService.saveLobby(lobby);
+            try {
+                lobbyService.saveLobby(lobby);
+            } catch (UserAlreadyPlayingException e) {
+                throw new RuntimeException(e);
+            } catch (FullLobbyException e) {
+                throw new RuntimeException(e);
+            } catch (GameNotFullException e) {
+                throw new RuntimeException(e);
+            }
             result.setViewName("redirect:/lobby/"+lobby.getId());
         }
 
@@ -174,7 +189,15 @@ public class GameLobbyController {
 
             Game game = gameService.createNewGameFromLobby(lobby);
             lobby.setGame(game);
-            lobbyService.saveLobby(lobby);
+            try {
+                lobbyService.saveLobby(lobby);
+            } catch (UserAlreadyPlayingException e) {
+                throw new RuntimeException(e);
+            } catch (FullLobbyException e) {
+                throw new RuntimeException(e);
+            } catch (GameNotFullException e) {
+                throw new RuntimeException(e);
+            }
             gameService.saveGame(game);
             result.setViewName("redirect:/games/" + game.getId());
 

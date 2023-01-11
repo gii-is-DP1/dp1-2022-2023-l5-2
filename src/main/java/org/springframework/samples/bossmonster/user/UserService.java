@@ -58,23 +58,28 @@ public class UserService {
 		userRepository.save(user);
 	}
 
+    @Transactional
 	public Optional<User> findUser(String username) {
 		return userRepository.findById(username);
 	}
 
+    @Transactional
     public Optional<User> getLoggedInUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return findUser(username);
     }
 
+    @Transactional
 	public List<User> findAllUsers() {
 		return userRepository.findAll();
 	}
 
+    @Transactional
 	public Page<User> getPageUsers(Pageable pageable){
 		return userRepository.findAll(pageable);
 	}
 
+    @Transactional
 	public void deleteUser(String username){
 		resultRepository.setWinnerNull(username);
 		resultRepository.deleteParticipated(username);

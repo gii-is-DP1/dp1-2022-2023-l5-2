@@ -9,6 +9,7 @@ import org.springframework.samples.bossmonster.gameResult.GameResultRepository;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StatisticsService {
@@ -22,17 +23,22 @@ public class StatisticsService {
         this.repoU=repoU;
     }
 
+    @Transactional
     Optional<GameResult> findById(Integer id) {return repo.findById(id);}
+    @Transactional
     List<GameResult> findAllGames(){
         return repo.findAll();
     }
 
+    @Transactional
     List<GameResult> findAll(String Id){
         return repo.findAllGameResultsUser(Id);
     }
+    @Transactional
     List<GameResult> findAllWinned(String Id){
         return repo.findAllWinnedGamesUser(Id);
     }
+    @Transactional
     Double winRate(String Id){
         Double total=repo.findAllGameResultsUser(Id).size()*1.0;
         Double wins=repo.findAllWinnedGamesUser(Id).size()*1.0;
@@ -41,6 +47,7 @@ public class StatisticsService {
         else result=wins/total;
         return Math.floor(result*100*100)/100;
     }
+    @Transactional
     Double averageDuration(String Id){
         List<GameResult> games= repo.findAllGameResultsUser(Id);
         if(games.size()==0){
@@ -50,6 +57,7 @@ public class StatisticsService {
             return Math.floor((duration/games.size())*100)/100;
         }
     }
+    @Transactional
     Integer winStreakUser(List<GameResult> games, String username){
         Integer winStreak=0;
         Integer acumValue=0;
@@ -66,10 +74,12 @@ public class StatisticsService {
 
         return winStreak;
     }
+    @Transactional
     Integer numPartidasGlobal(){
         List<GameResult> games= repo.findAll();
         return games.size();
     }
+    @Transactional
     Integer maxMinUsuarioPartidasGlobal(Boolean quieroElMaximo){
         List<User> users= repoU.findAll();
         if(quieroElMaximo==false){
@@ -90,16 +100,19 @@ public class StatisticsService {
             return max;
         }
     }
+    @Transactional
     Double promedioNumPartidas(){
         List<GameResult> games= repo.findAll();
         List<User> users= repoU.findAll();
         return Math.floor((games.size()*1.0/users.size()*1.0)*100)/100;
     }
+    @Transactional
     Double promedioDuracionGlobal(){
         List<GameResult> games= repo.findAll();
         Double duracionTotal= games.stream().mapToDouble(GameResult::getMinutes).sum();
         return Math.floor(duracionTotal/games.size()*100)/100;
     }
+    @Transactional
     Double maxMinDuracionGlobal(Boolean quieroElMaximo){
         List<GameResult> games= repo.findAll();
         if(quieroElMaximo==false){
@@ -110,6 +123,7 @@ public class StatisticsService {
             return Math.floor(max*100)/100;
         }
     }
+    @Transactional
     Double promedioJugadoresPartida(){
         //No tiene sentido comprobar el máximo o mínimo de jugadores por partida porque ya está definido(2-4)
         //El total de jugadores por partida tampoco se calculará globalmente porque no tiene mucho sentido (Por partida si aparece)
@@ -118,6 +132,7 @@ public class StatisticsService {
         Double result= (totalAcum/games.size())*1.0;
         return Math.floor(result);
     }
+    @Transactional
     List<Map.Entry<String,Double>> rankingPorWinRate(){
         List<User> users= repoU.findAll();
         Map<String,Double> mapa= users.stream().collect(Collectors.toMap(user->user.getUsername(), user-> winRate(user.getUsername())));
@@ -129,6 +144,7 @@ public class StatisticsService {
         //Una vez que haya más de 10 usuarios se pone en el return result.sublist(0,11) para que solo salgan los 10 primeros
         return result;
     }
+    @Transactional
     List<Map.Entry<String,Integer>> rankingPorWins(){
         List<User> users= repoU.findAll();
         Map<String,Integer> mapa= users.stream().collect(Collectors.toMap(user->user.getUsername(), user-> findAllWinned(user.getUsername()).size()));

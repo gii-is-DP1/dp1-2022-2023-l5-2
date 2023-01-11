@@ -12,6 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.samples.bossmonster.exceptions.FullLobbyException;
+import org.springframework.samples.bossmonster.exceptions.GameNotFullException;
+import org.springframework.samples.bossmonster.exceptions.UserAlreadyPlayingException;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameLobby.GameLobbyService;
@@ -58,7 +61,7 @@ class GameServiceTest {
     }
 
     @Test
-    void createNewGameFromLobby() {
+    void createNewGameFromLobby() throws FullLobbyException, UserAlreadyPlayingException, GameNotFullException {
         Integer previousGames = gameService.findAllGames().size();
         Integer previousPlayers = playerService.findAllPlayers().size();
 

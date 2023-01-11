@@ -24,7 +24,6 @@ public class CardRepositoriesTest {
     HeroCardRepository heroCardRepo;
 
     @Test
-    @DisplayName("get heroes from DB")
     public void shouldReturnHeroCards() {
         List<HeroCard> cards = heroCardRepo.findAll();
         assertFalse(cards.isEmpty());

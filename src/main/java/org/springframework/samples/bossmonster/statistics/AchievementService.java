@@ -8,7 +8,7 @@ import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -24,32 +24,38 @@ public AchievementService(AchievementRepository repo, StatisticsService statisti
     this.statisticsService=statisticsService;
     this.userService=userService;
 }
-
+    @Transactional
     List<Achievement> getAchievements(){
         return repo.findAll();
     }
 
+    @Transactional
     public Achievement getById(int id){
         return repo.findById(id).get();
     }
 
+    @Transactional
     public void deleteAchievementById(int id){
         repo.deleteAchievementFromUsers(id);
         repo.deleteById(id);
     }
 
+    @Transactional
     public void save(Achievement achievement){
         repo.save(achievement);
     }
 
+    @Transactional
     public List<Achievement>  getAchievementsByUser(String username) {
         return repo.findPlayerAchievements(username);
     }
 
+    @Transactional
     public Achievement getAchievementByName(String name){
         return repo.findByName(name);
     }
 
+    @Transactional
     public List<Achievement> triggerAchievement(User user){
         String username = user.getUsername();
         List<Achievement> achievements = getAchievements();
@@ -81,6 +87,7 @@ public AchievementService(AchievementRepository repo, StatisticsService statisti
 
     }
 
+    @Transactional
     private Double totalHoursPlayed(String username) {
         List<GameResult> games= statisticsService.findAll(username);
         if(games.size()==0){

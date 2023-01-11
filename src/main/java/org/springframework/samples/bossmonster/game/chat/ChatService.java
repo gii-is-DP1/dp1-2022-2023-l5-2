@@ -14,7 +14,7 @@ public class ChatService {
     private MessageRepository repo2;
 
     private static List<String> palabrasCensuradas=List.of(
-        "no me gusta dp", 
+        "no me gusta dp",
         "no me toca nada bueno",
         "leche antes de los cereales",
         "palabrota",
@@ -26,13 +26,16 @@ public class ChatService {
         this.repo2=repo2;
 
     }
+    @Transactional
     public Optional<Chat> findById(Integer id){
         return repo.findById(id);
     }
+    @Transactional
     public List<Message> getMessages(Integer id){
         return repo2.getMessages(id);
     }
 
+    @Transactional
     public void addMessage(Message message){
         repo2.save(message);
     }
@@ -42,6 +45,7 @@ public class ChatService {
         repo.save(chat);
     }
 
+    @Transactional
     public Boolean estaCensurada(String words){
         if (words != null){
             for(Integer i=0; i<palabrasCensuradas.size();i++){
@@ -56,6 +60,7 @@ public class ChatService {
         return false;
     }
 
+    @Transactional
     public String cambiarPalabrasCensuradas(String words){
         String result=words.toLowerCase();
         for(Integer i=0; i<palabrasCensuradas.size();i++){
