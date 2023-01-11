@@ -9,9 +9,9 @@
 
     <h2>Something happened...</h2>
 
-    <p>${exception.message}</p>
+    <p><h1>404</h1> Sorry, the page you are looking for could not be found.</p>
 
-    <p>404</p>
+    <a class="btn btn-default" href="${previousUrl}">Go Back</a>
 
 
 </bossmonster:layout>

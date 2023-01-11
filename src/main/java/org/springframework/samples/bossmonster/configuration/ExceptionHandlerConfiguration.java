@@ -12,7 +12,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
  * responses to [ErrorController], which produces validation response. So we need to fake it in tests.
  * It's not ideal, but at least we can use classic MockMvc tests for testing error response + document it.
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class ExceptionHandlerConfiguration
 {
 	//@Autowired
@@ -26,7 +26,7 @@ public class ExceptionHandlerConfiguration
         request.setAttribute("exeption", ex);
         return "exception";
     }
-*/ 
+ 
     @ExceptionHandler(Exception.class)
     public String defaultErrorHandler(HttpServletRequest request,  Exception ex)  {
         if (ex instanceof NoHandlerFoundException) {
@@ -35,5 +35,5 @@ public class ExceptionHandlerConfiguration
             return "errors/error-500";
         }
     }
-
+*/
 }

@@ -9,9 +9,9 @@
 
     <h2>Something happened...</h2>
 
-    <p>${exception.message}</p>
+    <p><h1>500</h1> "Sorry, an internal server error has occurred. Please try again later."</p>
 
-    <p>500</p>
+    <a class="btn btn-default" href="${previousUrl}">Go Back</a>
 
 
 </bossmonster:layout>

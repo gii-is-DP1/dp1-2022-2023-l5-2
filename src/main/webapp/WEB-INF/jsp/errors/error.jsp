@@ -7,6 +7,8 @@
     <spring:url value="/resources/images/error.png" var="error"/>
     <img src="${error}"/>
 
-    <h2>Something happened...</h2>
+    <p><h1></h1> Something happened...</p>
+
+    <a class="btn btn-default" href="${previousUrl}">Go Back</a>
 
 </bossmonster:layout>
