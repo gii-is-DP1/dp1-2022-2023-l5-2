@@ -213,6 +213,7 @@ INSERT INTO friend_requests(id,accepted, requester, receiver) VALUES
     (3,TRUE, 'ignarrman', 'frarosram'),
     (4,TRUE, 'ignarrman', 'igngongon2'),
     (5,FALSE, 'user1', 'ignarrman');
+    --(6,FALSE, 'admin1', 'ignarrman');--Fue para comprobar ua cosa
 
 INSERT INTO chats(id) VALUES
     (0);
@@ -221,3 +222,6 @@ INSERT INTO messages(id,words,chat,sender) VALUES
     (1,'2',0,'ignarrman'),
     (2,'3',0,'jessolort'),
     (3,'4',0,'ignarrman');
+
+INSERT INTO invitations(id,user,lobby) VALUES
+    (0,'ignarrman',3);

@@ -3,21 +3,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
-<bossmonster:layout pageName="createGameLobby">
+<bossmonster:layout pageName="createGameLobby" backgroundImage="/resources/images/backgrounds/createGameBackground.png">
 
-    <body class="inicio" background="/resources/images/createGameBackground.png">
+    <body class="inicio">
 
         <c:out value="${message}"/>
-
+    <div class="white-panel">
         <h1>Create Game</h1>
 
         <form:form modelAttribute="gameLobby" class="form-horizontal">
 
         <div class="form-group">
-            <form:label class="col-sm-2" path="maxPlayers">Number of players: </form:label>
-            2 <form:radiobutton class="" path="maxPlayers" value="2"/>
-            3 <form:radiobutton class="" path="maxPlayers" value="3"/>
-            4 <form:radiobutton class="" path="maxPlayers" value="4"/>
+            <form:label class="radio-inline" path="maxPlayers"><b>Number of players:</b> </form:label>
+            <label class="radio-inline">
+                <form:radiobutton class="" path="maxPlayers" value="2"/> 2
+            </label>
+            <label class="radio-inline">
+                <form:radiobutton class="" path="maxPlayers" value="3"/> 3
+            </label>
+            <label class="radio-inline">
+                <form:radiobutton class="" path="maxPlayers" value="4"/> 4
+            </label>
+
             <form:errors path="maxPlayers"></form:errors>
         </div>
 
@@ -29,14 +36,7 @@
         </div>
 
         </form:form>
+    </div>
     </body>
-
-    <style>
-        body{
-                background-image: url("/resources/images/backgrounds/createGameBackground.png");
-                background-size: cover;
-                background-position: center top;
-            }
-    </style>
 
 </bossmonster:layout>

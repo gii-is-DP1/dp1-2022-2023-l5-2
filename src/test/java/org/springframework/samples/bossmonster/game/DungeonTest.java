@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.samples.bossmonster.game.card.TreasureType;
@@ -47,6 +48,7 @@ public class DungeonTest {
         player.setHealth(5);
         dungeon.setPlayer(player);
         dungeon.setJackpotStashEffectActivated(false);
+        dungeon.setGame(new Game());
     }
 
     DungeonRoomSlot setUpFilledRoomSlot(String treasure, Integer damage, RoomType type, RoomPassiveTrigger trigger, Integer id) {
@@ -197,6 +199,7 @@ public class DungeonTest {
         Player dummyPlayer = new Player();
         dummyPlayer.setSouls(0);
         dummyPlayer.setHealth(5);
+        dummyPlayer.setDungeon(dungeon);
         dungeon.setPlayer(dummyPlayer);
         HeroCardStateInDungeon dummyHero1 = setUpComplexDummyHero(2, false);
         HeroCardStateInDungeon dummyHero2 = setUpComplexDummyHero(5, true);
