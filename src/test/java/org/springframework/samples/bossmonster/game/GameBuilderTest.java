@@ -50,10 +50,21 @@ public class GameBuilderTest {
         given(this.cardService.createSpellCardDeck()).willReturn(setUpDummySpellDeck());
         given(this.cardService.createRoomCardDeck()).willReturn(setUpDummyRoomDeck());
         given(this.cardService.createBossCardDeck()).willReturn(setUpDummyBossDeck());
-        given(this.gameLobby.getJoinedUsers()).willReturn(List.of(new User(), new User()));
+        given(this.gameLobby.getJoinedUsers()).willReturn(setUpDummyUsers());
         newGame = new Game();
     }
 
+    private List<User> setUpDummyUsers() {
+        List<User> users = new ArrayList<>();
+        User user1 = new User();
+        User user2 = new User();
+        user1.setUsername("User1");
+        user2.setUsername("User2");
+        users.add(user1);
+        users.add(user2);
+        return users;
+    }
+    
     private List<HeroCard> setUpDummyHeroDeck() {
         List<HeroCard> deck = new ArrayList<>();
         for (int i = 0; i < 30; i ++) {
