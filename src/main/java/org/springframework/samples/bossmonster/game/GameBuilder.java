@@ -52,8 +52,6 @@ public class GameBuilder {
         buildPlayers(newGame,lobby.getJoinedUsers());
         buildStats(newGame, lobby.getJoinedUsers().size());
         buildChat(newGame);
-        newGame.setActive(true);
-        newGame.setPreviousChoices(new Stack<>());
         return newGame;
     }
 
@@ -61,7 +59,7 @@ public class GameBuilder {
         Integer players = lobby.getJoinedUsers().size();
         List<HeroCard> allHeroCards = cardService.createHeroCardDeck();
         List<HeroCard> selectedHeroCards = new ArrayList<>();
-        for(HeroCard i: allHeroCards) { if (players >= i.getNecessaryPlayers()) selectedHeroCards.add(i);}
+        for(HeroCard i: allHeroCards) {if (players >= i.getNecessaryPlayers()) selectedHeroCards.add(i);}
         newGame.setHeroPile(selectedHeroCards);
     }
 
@@ -132,6 +130,8 @@ public class GameBuilder {
         state.setCurrentRound(1);
         state.setGame(newGame);
         state.setEffectIsBeingTriggered(false);
+        newGame.setActive(true);
+        newGame.setPreviousChoices(new Stack<>());
     }
 
 }
