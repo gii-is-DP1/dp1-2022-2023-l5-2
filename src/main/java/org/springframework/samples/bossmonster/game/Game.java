@@ -12,18 +12,16 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
-import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.chat.Chat;
+import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
-import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -363,16 +361,6 @@ public class Game extends BaseEntity {
     public void decrementCounter() {
         state.setCounter(state.getCounter() - 1);
         state.checkStateStatus();
-    }
-
-    public void forceState(GamePhase phase, GameSubPhase subPhase, Integer currentPlayer, Integer counter, Integer actionLimit, Integer seconds, Boolean checkClock) {
-        getState().setPhase(phase);
-        getState().setSubPhase(subPhase);
-        getState().setCurrentPlayer(currentPlayer);
-        getState().setCounter(counter);
-        getState().setActionLimit(actionLimit);
-        getState().setClock(LocalDateTime.now().plusSeconds(seconds));
-        getState().setCheckClock(checkClock);
     }
 
     public void skipBuildPhase() {

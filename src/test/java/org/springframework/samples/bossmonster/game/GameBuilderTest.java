@@ -3,9 +3,9 @@ package org.springframework.samples.bossmonster.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,8 +38,7 @@ public class GameBuilderTest {
     @MockBean
     CardService cardService;
 
-    @MockBean
-    GameLobby gameLobby;
+    GameLobby gameLobby = new GameLobby();
 
     Game newGame;
 
@@ -50,7 +49,8 @@ public class GameBuilderTest {
         given(this.cardService.createSpellCardDeck()).willReturn(setUpDummySpellDeck());
         given(this.cardService.createRoomCardDeck()).willReturn(setUpDummyRoomDeck());
         given(this.cardService.createBossCardDeck()).willReturn(setUpDummyBossDeck());
-        given(this.gameLobby.getJoinedUsers()).willReturn(setUpDummyUsers());
+        gameLobby.setJoinedUsers(setUpDummyUsers());
+        gameLobby.setMaxPlayers(2);
         newGame = new Game();
     }
 
@@ -121,7 +121,10 @@ public class GameBuilderTest {
     void shouldBuildRoomPile() {
         gameBuilder.buildRoomPile(newGame, gameLobby);
         Integer roomCardsReturned = newGame.getRoomPile().size();
+
         assertEquals(15, roomCardsReturned);
+        assertThat(newGame.getRoomPile().subList(0,3*2)).allSatisfy(room->assertFalse(room.isAdvanced()))
+            .withFailMessage("First rooms are not guaranteed to be advanced");
     }
 
     @Test

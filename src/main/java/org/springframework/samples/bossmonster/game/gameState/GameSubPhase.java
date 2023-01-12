@@ -52,9 +52,9 @@ public enum GameSubPhase implements SubPhaseChoices{
         @Override
         public void makeChoice(Game game, int choice) {
             Card spell = game.getCurrentPlayerHand().get(choice);
-            game.triggerSpellCardEffect((SpellCard) spell);
-            game.discardCard(game.getCurrentPlayer(), choice);
             game.decrementCounter();
+            game.discardCard(game.getCurrentPlayer(), choice);
+            game.triggerSpellCardEffect((SpellCard) spell);
         }
     },
 
@@ -616,6 +616,8 @@ public enum GameSubPhase implements SubPhaseChoices{
         public boolean canDecrementCounter() {
             return true;
         }
+
+
     }, DEAL_X_DAMAGE_TO_HERO_IN_DUNGEON(g->String.format("%s is choosing a hero to damage in their dungeon...",g.getCurrentPlayer()),
         "Choose a room and a hero to damage in it") {
         @Override
