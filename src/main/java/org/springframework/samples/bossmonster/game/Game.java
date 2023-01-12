@@ -102,15 +102,19 @@ public class Game extends BaseEntity {
     }
 
     public void getNewRoomCard(Player player) {
-        RoomCard newCard = roomPile.remove(0);
-        player.addHandCard(newCard);
-        if (roomPile.size() == 0) refillRoomPile();
+        if (roomPile.isEmpty()) refillRoomPile();
+        if (!roomPile.isEmpty()) {
+            RoomCard newCard = roomPile.remove(0);
+            player.addHandCard(newCard);
+        }
     }
 
     public void getNewSpellCard(Player player) {
-        SpellCard newCard = spellPile.remove(0);
-        player.addHandCard(newCard);
-        if (spellPile.size() == 0) refillSpellPile();
+        if (spellPile.isEmpty()) refillSpellPile();
+        if (!spellPile.isEmpty()) {
+            SpellCard newCard = spellPile.remove(0);
+            player.addHandCard(newCard);
+        }
     }
 
     public void getCardFromDiscardPile(Player player, int position) {
