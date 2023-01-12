@@ -3,6 +3,10 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="resultsScreen">
+
+    <spring:url value="/" htmlEscape="true" var="welcomeScreen"/>
+
+    <div class="white-panel">
     <h1>Game Results</h1>
     <div class="row">
         <div class="col-md-6">
@@ -31,5 +35,9 @@
             </ul>
 
         </div>
+    </div>
+    <div class="centered-view">
+        <a class="btn btn-title" href="${welcomeScreen}">Exit Game</a>
+    </div>
     </div>
 </bossmonster:layout>
