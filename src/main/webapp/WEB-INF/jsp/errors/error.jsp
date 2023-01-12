@@ -4,6 +4,8 @@
 
 <bossmonster:layout pageName="error">
 
+<spring:url value="/" htmlEscape="true" var="welcomeScreen"/>
+
 <div class="white-panel">
 
     <spring:url value="/resources/images/error.png" var="error"/>
