@@ -428,7 +428,7 @@ public enum GameSubPhase implements SubPhaseChoices{
             }
             Integer chosenPile = game.getPreviousChoices().peek();
             HeroCard chosenHero = chosenPile.equals(0)?
-                game.getCity().get(choice) :
+                game.getCity().remove(choice) :
                 game.getHeroPile().remove(choice);
             game.getCurrentPlayer().getDungeon().addNewHeroToDungeon(chosenHero);
             game.getPreviousChoices().removeAllElements();
