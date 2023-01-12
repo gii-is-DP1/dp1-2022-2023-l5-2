@@ -24,12 +24,12 @@ public AchievementService(AchievementRepository repo, StatisticsService statisti
     this.statisticsService=statisticsService;
     this.userService=userService;
 }
-    @Transactional
+    @Transactional(readOnly = true)
     List<Achievement> getAchievements(){
         return repo.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Achievement getById(int id){
         return repo.findById(id).get();
     }
@@ -45,17 +45,17 @@ public AchievementService(AchievementRepository repo, StatisticsService statisti
         repo.save(achievement);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Achievement>  getAchievementsByUser(String username) {
         return repo.findPlayerAchievements(username);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Achievement getAchievementByName(String name){
         return repo.findByName(name);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Achievement> triggerAchievement(User user){
         String username = user.getUsername();
         List<Achievement> achievements = getAchievements();
@@ -87,7 +87,7 @@ public AchievementService(AchievementRepository repo, StatisticsService statisti
 
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     private Double totalHoursPlayed(String username) {
         List<GameResult> games= statisticsService.findAll(username);
         if(games.size()==0){

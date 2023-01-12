@@ -17,6 +17,7 @@
             <th>Sender</th>
             <th>Room Code</th>
             <th>Participants</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -35,7 +36,7 @@
                     </td>
                     <td>
                         <a href="/invites/${i.lobby.id}/${i.id}/accept"> 
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                         </a>
                     </td>
                 </tr>
