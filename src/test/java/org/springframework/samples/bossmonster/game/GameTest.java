@@ -459,10 +459,13 @@ public class GameTest {
 
     @Test
     void shouldDestroyDungeonRoom() {
+        List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
         RoomCard testRoom1 = new RoomCard();
+        expectedDiscardPile.add(testRoom1);
         game.placeDungeonRoom(player, 0, testRoom1, false);
         game.destroyDungeonRoom(player, 0);
         assertEquals(null, player.getDungeon().getRoomSlots()[0].getRoom());
+        assertEquals(expectedDiscardPile, game.getDiscardPile());
     }
 
     @Test

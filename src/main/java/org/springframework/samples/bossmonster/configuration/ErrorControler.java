@@ -23,7 +23,9 @@ public class ErrorControler implements ErrorController{
                 result.setViewName("errors/error-500");
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 result.setViewName("errors/error-403");
-            } else{
+            } else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
+                result.setViewName("errors/error-405");
+            } else {
                 result.setViewName("errors/error");
             }
         }

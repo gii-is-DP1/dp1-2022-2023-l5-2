@@ -4,6 +4,8 @@
 
 <bossmonster:layout pageName="error">
 
+<spring:url value="/" htmlEscape="true" var="welcomeScreen"/>
+
 <div class="white-panel">
 
     <spring:url value="/resources/images/error.png" var="error"/>
@@ -11,9 +13,10 @@
 
     <h2>Something happened...</h2>
 
-    <p><h1>403</h1> You are not authorized to view this content. Let's call the police. </p>
+    <p><h1>403 Forbidden</h1> You are not authorized to view this content. Let's call the police. </p>
 
-    <a class="btn btn-default" href="${previousUrl}">Go Back</a>
+    <a class="btn btn-default" href="${previousUrl}">Try Again</a>
+    <a class="btn btn-default" href="${welcomeScreen}">Cancel</a>
 
 </div>
 

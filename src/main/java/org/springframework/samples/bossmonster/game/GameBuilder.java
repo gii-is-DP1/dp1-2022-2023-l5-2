@@ -19,12 +19,9 @@ import org.springframework.samples.bossmonster.game.player.PlayerBuilder;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Component;
-import org.springframework.util.comparator.Comparators;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Getter
 @Setter

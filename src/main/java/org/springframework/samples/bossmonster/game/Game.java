@@ -367,6 +367,12 @@ public class Game extends BaseEntity {
         getState().changePhase(GamePhase.LURE);
     }
 
+    public void updateEliminatedPlayersRound() {
+        for (Player p: getPlayers()) {
+            if (p.isDead() && p.getEliminatedRound() == -1) p.setEliminatedRound(getState().getCurrentRound());
+        }
+    }
+
     ////////// PROCESS STATE //////////
 
     public List<Card> getChoice() {
