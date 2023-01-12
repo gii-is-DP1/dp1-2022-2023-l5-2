@@ -4,15 +4,18 @@
 
 <bossmonster:layout pageName="error">
 
+<spring:url value="/" htmlEscape="true" var="welcomeScreen"/>
+
 <div class="white-panel">
     <spring:url value="/resources/images/error.png" var="error"/>
     <img src="${error}"/>
 
     <h2>Something happened...</h2>
 
-    <p><h1>500</h1> "Sorry, an internal server error has occurred. Please try again later."</p>
+    <p><h1>500 Internal Server Error</h1> "Sorry, an internal server error has occurred. Please try again later."</p>
 
-    <a class="btn btn-default" href="${previousUrl}">Go Back</a>
+    <a class="btn btn-default" href="${previousUrl}">Try Again</a>
+    <a class="btn btn-default" href="${welcomeScreen}">Cancel</a>
 </div>
 
 <style>

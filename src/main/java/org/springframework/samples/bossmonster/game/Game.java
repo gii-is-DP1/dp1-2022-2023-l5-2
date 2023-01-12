@@ -236,7 +236,7 @@ public class Game extends BaseEntity {
         if (player.getDungeon().checkBossLeveledUp()) {
             player.getDungeon().setBossCardLeveledUp(true);
             player.getDungeon().getBossCard().getEffect().apply(player, null, this);
-            if(getState().getPhase() == GamePhase.EFFECT) getState().setEffectIsBeingTriggered(true);
+            if(getState().getPhase().equals(GamePhase.EFFECT)) getState().setEffectIsBeingTriggered(true);
         }
     }
 
@@ -249,8 +249,8 @@ public class Game extends BaseEntity {
             player.getDungeon().replaceDungeonRoom(room, position);
             player.getHand().remove(room);
 
-            tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
             checkForPlayerBossLeveledUp(player);
+            tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
             for(int pos = 0; pos < player.getDungeon().getBuiltRooms(); pos++) {
                 if (pos != position) tryTriggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
                 if (room.isMonsterType()) tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);

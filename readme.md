@@ -16,6 +16,10 @@ https://uses0-my.sharepoint.com/:w:/g/personal/ignarrman_alum_us_es/EZ8eyKLXqZ5C
 
 # Descripción del Juego
 
+![Alt text](https://github.com/gii-is-DP1/dp1-2022-2023-l5-2/blob/master/src/main/resources/static/resources/images/readme/gameScreenExample.jpg)
+
+![Alt text](https://github.com/gii-is-DP1/dp1-2022-2023-l5-2/blob/master/src/main/resources/static/resources/images/readme/titleScreenExample.jpg)
+
 Boss Monster se trata de un juego estratégico de cartas de dos hasta cuatro jugadores, con partidas de una duración aproximada a 30 minutos, en el que el objetivo es construir una mazmorra que permita atraer y derrotar a la mayor cantidad de héroes posibles sobreviviendo a sus ataques.
 
 En este juego hay cuatro tipos de cartas: 

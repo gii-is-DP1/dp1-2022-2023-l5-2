@@ -358,7 +358,7 @@ public class GameTest {
         expectedPlayer3DungeonFirstRoom.add(game.getCity().get(4));  // Fool: Player 3 has the least souls
 
         game.lureHeroToBestDungeon();
- 
+
         List<HeroCard> trueCity = game.getCity();
         List<HeroCard> truePlayer1DungeonFirstRoom = game.getPlayers().get(0).getDungeon().getRoomSlots()[game.getPlayers().get(0).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
         List<HeroCard> truePlayer2DungeonFirstRoom = game.getPlayers().get(1).getDungeon().getRoomSlots()[game.getPlayers().get(1).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
@@ -704,5 +704,6 @@ public class GameTest {
         game.getState().setSubPhase(subphase);
         assertThat(game.getState().getSubPhase().isValidChoice(choice,game),is(expected));
     }
+
 
 }

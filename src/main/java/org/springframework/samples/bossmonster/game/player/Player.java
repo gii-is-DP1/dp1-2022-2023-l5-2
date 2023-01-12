@@ -53,6 +53,7 @@ public class Player extends BaseEntity {
         if (hero.getHeroCard().getIsEpic()) value = Game.EPIC_HERO_SOUL_VALUE;
         else value = Game.NORMAL_HERO_SOUL_VALUE;
         health -= value;
+        if (health < 0) health = 0;
     }
 
     public Boolean isDead() {
