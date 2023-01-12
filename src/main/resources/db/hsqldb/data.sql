@@ -206,3 +206,12 @@ INSERT INTO messages(id,words,chat,sender) VALUES
     (1,'2',0,'ignarrman'),
     (2,'3',0,'jessolort'),
     (3,'4',0,'ignarrman');
+
+INSERT INTO lobbies(id, max_players, leader,game_id) VALUES
+    (0,3,'user1',null);
+
+INSERT INTO lobby_users(lobby_id,user_id) VALUES
+    (0,'user1');
+
+INSERT INTO invitations(id,lobby,user) VALUES
+    (0,0,'ignarrman')

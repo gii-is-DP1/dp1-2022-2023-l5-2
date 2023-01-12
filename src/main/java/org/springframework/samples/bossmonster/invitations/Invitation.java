@@ -1,5 +1,6 @@
 package org.springframework.samples.bossmonster.invitations;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,12 +22,10 @@ public class Invitation extends BaseEntity{
     
     @ManyToOne
     @JoinColumn(name = "lobby")
-    @NotNull
     private GameLobby lobby;
 
     @ManyToOne
     @JoinColumn(name = "user")
-    @NotNull
     private User user;
 
 }

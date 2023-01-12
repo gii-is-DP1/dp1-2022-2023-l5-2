@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "lobbies")
 public class GameLobby extends BaseEntity { // Que extiende?//
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "leader",referencedColumnName = "username")
     private User leaderUser;
 

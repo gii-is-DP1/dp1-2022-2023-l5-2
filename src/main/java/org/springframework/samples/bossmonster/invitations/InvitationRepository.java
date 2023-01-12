@@ -16,4 +16,12 @@ public interface InvitationRepository extends CrudRepository<Invitation,Integer>
     @Query(value="DELETE FROM Invitation i WHERE i.id=?1")
     void deleteAfterJoin(@Param(value = "id") Integer id);
 
+    @Modifying
+    @Query(value = "DELETE FROM Invitation i WHERE i.lobby.id=?1")
+    void deleteAfterLobbyDedge(@Param(value = "id") Integer id);
+
+    @Modifying
+    @Query(value = "DELETE FROM Invitation i WHERE i.user.username=?1")
+    void deleteAfterUserDedge(@Param(value = "username") String username);
+
 }

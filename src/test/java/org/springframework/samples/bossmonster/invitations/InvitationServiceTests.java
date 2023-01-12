@@ -46,7 +46,31 @@ public class InvitationServiceTests {
     GameLobbyService gameLobbyService;
 
     @BeforeEach
-    void setUp(){
+    void setUp(){        
+        /*User user= new User();
+        user.setUsername("(^-^)");
+        user.setNickname("funciona pls");
+        user.setPassword("HELPPPPP");
+        user.setEmail("email@gmail.com");
+        user.setDescription("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+        GameLobby lobby= new GameLobby();
+        lobby.setId(23);
+        lobby.setMaxPlayers(3);
+        lobby.setLeaderUser(user);
+        List<User> users= new ArrayList<>();
+        users.add(user);
+        lobby.setJoinedUsers(users);
+
+        Invitation i= new Invitation();
+        i.setLobby(lobby);
+        i.setUser(user);
+        List<Invitation> invitations= new ArrayList<>();
+        invitations.add(i);
+
+        userService.saveUser(user);
+        gameLobbyService.saveLobby(lobby);
+        invitations.add(i);*/
 
     }
 
@@ -71,7 +95,7 @@ public class InvitationServiceTests {
     void shouldSaveInvitation(){
         Invitation i= new Invitation();
         GameLobby lobby= new GameLobby();
-        lobby.setId(2);
+        lobby.setId(0);
         i.setLobby(lobby);
         User testuser= new User();
         testuser.setUsername("ignarrman");
@@ -88,7 +112,7 @@ public class InvitationServiceTests {
     void shouldDeleteInvite(){
         Invitation i= new Invitation();
         GameLobby lobby= new GameLobby();
-        lobby.setId(2);
+        lobby.setId(0);
         i.setLobby(lobby);
         User testuser= new User();
         testuser.setUsername("ignarrman");
@@ -104,10 +128,10 @@ public class InvitationServiceTests {
     void shouldCheckAbleToAccept(){
         Invitation i= new Invitation();
 
-        User testUser= userService.findUser("admin1").get();
+        User testUser= userService.findUser("user1").get();
         User testUser2=userService.findUser("eletomvel").get();
         User testUser3= userService.findUser("ignarrman").get();
-        GameLobby lobby= gameLobbyService.getLobbyById(3).get();
+        GameLobby lobby= gameLobbyService.getLobbyById(0).get();
 
         i.setLobby(lobby);
         i.setUser(testUser3);
@@ -122,6 +146,8 @@ public class InvitationServiceTests {
         assertTrue(able);
 
         friends.remove(testUser2);
+        friends= new ArrayList<>();
+        friends.add(testUser2);
         when(friendRequestService.calculateFriends(anyString())).thenReturn(friends);
         able= service.checkAbleToAccept(i, "ignarrman");
         assertFalse(able);

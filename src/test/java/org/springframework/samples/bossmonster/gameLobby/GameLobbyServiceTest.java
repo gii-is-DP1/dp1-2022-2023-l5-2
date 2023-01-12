@@ -38,7 +38,7 @@ class GameLobbyServiceTest {
 
     @Test
     void shouldGetLobbyById() {
-        var lobby = lobbyService.getLobbyById(1);
+        var lobby = lobbyService.getLobbyById(0);
         assertTrue(lobby.isPresent());
     }
 
@@ -60,7 +60,7 @@ class GameLobbyServiceTest {
     void shouldDeleteLobby() {
 
         int previousLobbies = lobbyService.findAll().size();
-        GameLobby l = lobbyService.findAll().get(0);
+        GameLobby l = lobbyService.getLobbyById(0).get();
         lobbyService.deleteLobby(l);
         int newLobbies = lobbyService.findAll().size();
 

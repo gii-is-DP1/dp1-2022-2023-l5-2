@@ -102,7 +102,7 @@ class ChatControllerTest {
     void shouldSendMessage_censoredWords() throws Exception {
 
         User user = new User();
-        user.setUsername("admin1");
+        user.setUsername("waaaaa");
         Chat chat = new Chat();
         Game game = new Game();
         game.setId(1);
