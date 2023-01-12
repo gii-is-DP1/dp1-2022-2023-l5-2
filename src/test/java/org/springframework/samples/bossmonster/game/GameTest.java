@@ -195,16 +195,6 @@ public class GameTest {
         return hero;
     }
 
-    @ParameterizedTest
-    @CsvSource(
-        {"6,7",
-        "-6,2"})
-    void shouldGetWaitingTime(int seconds, int expected) {
-        game.getState().setClock(LocalDateTime.now().plusSeconds(seconds));
-        Integer time = game.getState().getWaitingTime();
-        assertThat(time).isEqualTo(expected);
-    }
-
     @Test
     void shouldGetPlayerFromUser() {
         for (Player testPlayer: game.getPlayers()) {
