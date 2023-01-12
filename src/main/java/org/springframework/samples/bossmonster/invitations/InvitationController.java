@@ -84,7 +84,7 @@ public class InvitationController {
             result.setViewName(INVITATIONS_VIEW);
             List<Invitation> invitations= service.getInvitations(user.getUsername());
             result.addObject("invitations",invitations);
-            result.addObject("message","No eres amigo de todos los usuarios del lobby por lo que no puedes unirte.");
+            result.addObject("message","You are not friends with everyone in the lobby.");
         }
         return result;
     }
