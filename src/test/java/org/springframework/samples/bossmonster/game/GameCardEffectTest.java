@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +37,8 @@ import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Service;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @DataJpaTest(includeFilters = {@ComponentScan.Filter(Service.class)},
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {GameService.class, FriendRequestService.class,InvitationService.class}))
@@ -570,6 +570,7 @@ public class GameCardEffectTest {
         game.makeChoice(0);
         assertThat("Did not remove hero from room",dungeon.getRoomSlots()[0].getHeroesInRoom(),not(contains(hero)));
         assertThat("Hero was not moved to the first room",dungeon.getRoomSlots()[1].getHeroesInRoom(),contains(hero));
+        assertThat("Did not roll back to previous phase", game.getState().getPhase(),not(is(GamePhase.EFFECT)));
     }
 
     @Test
@@ -789,4 +790,21 @@ public class GameCardEffectTest {
             game.getCurrentPlayer().getDungeon().getRoomSlots()[0].getRoom(),is(advancedTrap));
     }
 
+    @Test
+    void shouldIgnoreNestedEffects() {
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER, 0, 0);
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER, 0, 1);
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER, 0, 2);
+        setUpDummyRoomCardInDungeon(RoomType.MONSTER, 0, 3);
+        FinalBossCard boss = new FinalBossCard();
+        boss.setEffect(EffectEnum.BUILD_AN_ADVANCED_MONSTER_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE);
+        testPlayer.getDungeon().setBossCard(boss);
+        RoomCard room = mock(RoomCard.class);
+        when(room.getEffect()).thenReturn(EffectEnum.CHOOSE_ROOM_CARD_FROM_DISCARD_PILE);
+
+        game.placeDungeonRoom(testPlayer,4, room, true);
+        game.makeChoice(-1);
+
+
+    }
 }

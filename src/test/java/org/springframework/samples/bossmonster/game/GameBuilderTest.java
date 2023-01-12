@@ -3,9 +3,9 @@ package org.springframework.samples.bossmonster.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,8 +38,7 @@ public class GameBuilderTest {
     @MockBean
     CardService cardService;
 
-    @MockBean
-    GameLobby gameLobby;
+    GameLobby gameLobby = new GameLobby();
 
     Game newGame;
 
@@ -50,7 +49,8 @@ public class GameBuilderTest {
         given(this.cardService.createSpellCardDeck()).willReturn(setUpDummySpellDeck());
         given(this.cardService.createRoomCardDeck()).willReturn(setUpDummyRoomDeck());
         given(this.cardService.createBossCardDeck()).willReturn(setUpDummyBossDeck());
-        given(this.gameLobby.getJoinedUsers()).willReturn(setUpDummyUsers());
+        gameLobby.setJoinedUsers(setUpDummyUsers());
+        gameLobby.setMaxPlayers(2);
         newGame = new Game();
     }
 
@@ -64,7 +64,7 @@ public class GameBuilderTest {
         users.add(user2);
         return users;
     }
-    
+
     private List<HeroCard> setUpDummyHeroDeck() {
         List<HeroCard> deck = new ArrayList<>();
         for (int i = 0; i < 30; i ++) {
@@ -119,9 +119,12 @@ public class GameBuilderTest {
 
     @Test
     void shouldBuildRoomPile() {
-        gameBuilder.buildRoomPile(newGame);
+        gameBuilder.buildRoomPile(newGame, gameLobby);
         Integer roomCardsReturned = newGame.getRoomPile().size();
+
         assertEquals(15, roomCardsReturned);
+        assertThat(newGame.getRoomPile().subList(0,3*2)).allSatisfy(room->assertFalse(room.isAdvanced()))
+            .withFailMessage("First rooms are not guaranteed to be advanced");
     }
 
     @Test
@@ -137,7 +140,7 @@ public class GameBuilderTest {
         gameBuilder.buildDiscardPile(newGame);
         assertEquals(new ArrayList<>(), newGame.getDiscardPile());
     }
-    
+
     @Test
     void shouldBuildCity() {
         assertNull(newGame.getCity());
@@ -149,7 +152,7 @@ public class GameBuilderTest {
     void shouldBuildNewPlayers() {
         gameBuilder.buildHeroPile(newGame, gameLobby);
         gameBuilder.buildSpellPile(newGame);
-        gameBuilder.buildRoomPile(newGame);
+        gameBuilder.buildRoomPile(newGame, gameLobby);
         gameBuilder.buildFinalBossPile(newGame);
         gameBuilder.buildDiscardPile(newGame);
         Integer expectedRoomCards = newGame.getRoomPile().size() - 6;
@@ -161,7 +164,7 @@ public class GameBuilderTest {
         assertEquals(expectedSpellCards, newGame.getSpellPile().size());
         assertEquals(expectedBossCards, newGame.getFinalBossPile().size());
         assertEquals(2, newGame.getPlayers().size());
-        
+
     }
 
     @Test

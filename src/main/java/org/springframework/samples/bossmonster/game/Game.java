@@ -12,18 +12,16 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomPassiveTrigger;
 import org.springframework.samples.bossmonster.game.card.room.RoomType;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
-import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.chat.Chat;
+import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameState;
-import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.gameResult.GameResult;
 import org.springframework.samples.bossmonster.model.BaseEntity;
 import org.springframework.samples.bossmonster.user.User;
 
 import javax.persistence.*;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -236,7 +234,7 @@ public class Game extends BaseEntity {
         if (player.getDungeon().checkBossLeveledUp()) {
             player.getDungeon().setBossCardLeveledUp(true);
             player.getDungeon().getBossCard().getEffect().apply(player, null, this);
-            if(getState().getPhase() == GamePhase.EFFECT) getState().setEffectIsBeingTriggered(true);
+            if(getState().getPhase().equals(GamePhase.EFFECT)) getState().setEffectIsBeingTriggered(true);
         }
     }
 
@@ -249,8 +247,8 @@ public class Game extends BaseEntity {
             player.getDungeon().replaceDungeonRoom(room, position);
             player.getHand().remove(room);
 
-            tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
             checkForPlayerBossLeveledUp(player);
+            tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_THIS_ROOM,player,position);
             for(int pos = 0; pos < player.getDungeon().getBuiltRooms(); pos++) {
                 if (pos != position) tryTriggerRoomCardEffect(RoomPassiveTrigger.DESTROY_ANOTHER_ROOM,player,pos);
                 if (room.isMonsterType()) tryTriggerRoomCardEffect(RoomPassiveTrigger.BUILD_MONSTER_ROOM,player,pos);
@@ -365,18 +363,14 @@ public class Game extends BaseEntity {
         state.checkStateStatus();
     }
 
-    public void forceState(GamePhase phase, GameSubPhase subPhase, Integer currentPlayer, Integer counter, Integer actionLimit, Integer seconds, Boolean checkClock) {
-        getState().setPhase(phase);
-        getState().setSubPhase(subPhase);
-        getState().setCurrentPlayer(currentPlayer);
-        getState().setCounter(counter);
-        getState().setActionLimit(actionLimit);
-        getState().setClock(LocalDateTime.now().plusSeconds(seconds));
-        getState().setCheckClock(checkClock);
-    }
-
     public void skipBuildPhase() {
         getState().changePhase(GamePhase.LURE);
+    }
+
+    public void updateEliminatedPlayersRound() {
+        for (Player p: getPlayers()) {
+            if (p.isDead() && p.getEliminatedRound() == -1) p.setEliminatedRound(getState().getCurrentRound());
+        }
     }
 
     ////////// PROCESS STATE //////////

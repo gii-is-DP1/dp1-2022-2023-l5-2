@@ -24,6 +24,7 @@ public class HeroCardStateInDungeon extends BaseEntity {
 
     public void dealDamage(Integer amount) {
         healthInDungeon -= amount;
+        if (healthInDungeon < 0) healthInDungeon = 0;
     }
 
     public Boolean isDead() {

@@ -1,22 +1,14 @@
 package org.springframework.samples.bossmonster.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.game.card.Card;
 import org.springframework.samples.bossmonster.game.card.CardService;
 import org.springframework.samples.bossmonster.game.card.finalBoss.FinalBossCard;
@@ -27,13 +19,23 @@ import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.card.room.RoomCardRepository;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCard;
 import org.springframework.samples.bossmonster.game.card.spell.SpellCardRepository;
+import org.springframework.samples.bossmonster.invitations.InvitationService;
+import org.springframework.samples.bossmonster.social.FriendRequestService;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(properties="spring.main.lazy-initialization=true")
+@DataJpaTest(includeFilters = {@ComponentScan.Filter(Service.class)},
+    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {GameService.class, FriendRequestService.class, InvitationService.class}))
 public class CardServiceTest {
-    
+
     @Mock
     RoomCardRepository roomMock;
     @Mock
@@ -50,7 +52,7 @@ public class CardServiceTest {
     @DisplayName("create Hero card Deck")
     public void shouldCreateHeroDeck() {
 
-        HeroCard hero1 = new HeroCard(); 
+        HeroCard hero1 = new HeroCard();
         HeroCard hero2 = new HeroCard();
         HeroCard hero3 = new HeroCard();
         HeroCard hero4 = new HeroCard();
@@ -66,7 +68,7 @@ public class CardServiceTest {
     @DisplayName("create Spell card Deck")
     public void shouldCreateSpellDeck() {
 
-        SpellCard card1 = new SpellCard(); 
+        SpellCard card1 = new SpellCard();
         SpellCard card2 = new SpellCard();
         SpellCard card3 = new SpellCard();
         SpellCard card4 = new SpellCard();
@@ -82,7 +84,7 @@ public class CardServiceTest {
     @DisplayName("create Room card Deck")
     public void shouldCreateRoomDeck() {
 
-        RoomCard card1 = new RoomCard(); 
+        RoomCard card1 = new RoomCard();
         RoomCard card2 = new RoomCard();
         RoomCard card3 = new RoomCard();
         RoomCard card4 = new RoomCard();
@@ -98,7 +100,7 @@ public class CardServiceTest {
     @DisplayName("create Boss card Deck")
     public void shouldCreateBossDeck() {
 
-        FinalBossCard card1 = new FinalBossCard(); 
+        FinalBossCard card1 = new FinalBossCard();
         FinalBossCard card2 = new FinalBossCard();
         FinalBossCard card3 = new FinalBossCard();
         FinalBossCard card4 = new FinalBossCard();
@@ -114,7 +116,7 @@ public class CardServiceTest {
     @DisplayName("give a card")
     public void shouldGetFirstCardFromDeck() {
 
-        FinalBossCard card1 = new FinalBossCard(); 
+        FinalBossCard card1 = new FinalBossCard();
         FinalBossCard card2 = new FinalBossCard();
         FinalBossCard card3 = new FinalBossCard();
         FinalBossCard card4 = new FinalBossCard();

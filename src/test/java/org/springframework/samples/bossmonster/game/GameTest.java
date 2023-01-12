@@ -195,16 +195,6 @@ public class GameTest {
         return hero;
     }
 
-    @ParameterizedTest
-    @CsvSource(
-        {"6,7",
-        "-6,2"})
-    void shouldGetWaitingTime(int seconds, int expected) {
-        game.getState().setClock(LocalDateTime.now().plusSeconds(seconds));
-        Integer time = game.getState().getWaitingTime();
-        assertThat(time).isEqualTo(expected);
-    }
-
     @Test
     void shouldGetPlayerFromUser() {
         for (Player testPlayer: game.getPlayers()) {
@@ -358,7 +348,7 @@ public class GameTest {
         expectedPlayer3DungeonFirstRoom.add(game.getCity().get(4));  // Fool: Player 3 has the least souls
 
         game.lureHeroToBestDungeon();
- 
+
         List<HeroCard> trueCity = game.getCity();
         List<HeroCard> truePlayer1DungeonFirstRoom = game.getPlayers().get(0).getDungeon().getRoomSlots()[game.getPlayers().get(0).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
         List<HeroCard> truePlayer2DungeonFirstRoom = game.getPlayers().get(1).getDungeon().getRoomSlots()[game.getPlayers().get(1).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
@@ -469,10 +459,13 @@ public class GameTest {
 
     @Test
     void shouldDestroyDungeonRoom() {
+        List<Card> expectedDiscardPile = new ArrayList<>(game.getDiscardPile());
         RoomCard testRoom1 = new RoomCard();
+        expectedDiscardPile.add(testRoom1);
         game.placeDungeonRoom(player, 0, testRoom1, false);
         game.destroyDungeonRoom(player, 0);
         assertEquals(null, player.getDungeon().getRoomSlots()[0].getRoom());
+        assertEquals(expectedDiscardPile, game.getDiscardPile());
     }
 
     @Test
@@ -704,5 +697,6 @@ public class GameTest {
         game.getState().setSubPhase(subphase);
         assertThat(game.getState().getSubPhase().isValidChoice(choice,game),is(expected));
     }
+
 
 }

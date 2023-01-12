@@ -104,7 +104,7 @@ INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_pl
     (44,    'Frankov,_the_Envoy' ,                  '/resources/images/heroes/Frankov,_the_Envoy.jpg',                 'SWORD', 11, true, 2),
     (45,    'Hya,_Legendary_Shinobi' ,              '/resources/images/heroes/Hya,_Legendary_Shinobi.jpg',             'BAG', 11, true, 2),
     (46,    'Jarek,_Squire_to_the_Lion_Knights' ,   '/resources/images/heroes/Jarek,_Squire_to_the_Lion_Knights.jpg',  'SWORD', 4, false, 4),
-    (47,    'Jejune_Everlea,_Holy_Sisters' ,    '/resources/images/heroes/Jejune_%26_Everlea,_Holy_Sisters.jpg',   'CROSS', 13, true, 4),
+    (47,    'Jejune_Everlea,_Holy_Sisters' ,    '/resources/images/heroes/Jejune_Everlea,_Holy_Sisters.jpg',   'CROSS', 13, true, 4),
     (48,    'Jerome,_Kung_Fu_Monkey' ,              '/resources/images/heroes/Jerome,_Kung_Fu_Monkey.jpg',             'BAG', 8, false, 4),
     (49,    'Jesta_the_Rogue' ,                     '/resources/images/heroes/Jesta_the_Rogue.jpg',                    'BAG', 8, false, 4),
     (50,    'Johnny_of_the_Evening_Watch' ,         '/resources/images/heroes/Johnny_of_the_Evening_Watch.jpg',        'SWORD', 8, false, 2),
@@ -138,22 +138,6 @@ INSERT INTO bosses(id, name, card_image, xp, treasure, effect) VALUES
     (76, 'King Croak',        '/resources/images/bosses/boss_04.jpg', 800, 'SWORD','BUILD_AN_ADVANCED_MONSTER_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE'),
     (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK','LURE_A_CHOSEN_HERO_FROM_CITY_OR_HERO_PILE_TO_DUNGEON'),
     (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG','BUILD_AN_ADVANCED_TRAP_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE');
-
-INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
-    (1, 2, 'ignarrman',null),
-    (2, 4, 'eletomvel',null),
-    (3, 2, 'admin1',null);
-
-INSERT INTO lobby_users(lobby_id,user_id) VALUES
-    (1, 'ignarrman'),
-    (1, 'tadcabgom'),
-    (2, 'frarosram'),
-    (2, 'jessolort'),
-    (2, 'eletomvel'),
-    (2, 'tadcabgom'),
-    -- Para comprobar el juego, unirse al lobby 3 como admin1 y "espectador"
-    (3, 'eletomvel'),
-    (3, 'admin1');
 
 INSERT INTO game_result(id,winner,minutes,date,souls,healths,rounds) VALUES
     (1,'ignarrman', 26, '2018-08-12','2/3/4/10','0/2/2/1',14),
@@ -222,6 +206,3 @@ INSERT INTO messages(id,words,chat,sender) VALUES
     (1,'2',0,'ignarrman'),
     (2,'3',0,'jessolort'),
     (3,'4',0,'ignarrman');
-
-INSERT INTO invitations(id,user,lobby) VALUES
-    (0,'ignarrman',3);
