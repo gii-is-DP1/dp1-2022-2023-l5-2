@@ -376,10 +376,11 @@ public enum GameSubPhase implements SubPhaseChoices{
                 case 0: return true;
                 case 1: {
                     Integer chosenPile = game.getPreviousChoices().peek();
-                    RoomCard chosenCard = chosenPile.equals(0)?
-                        (RoomCard) game.getDiscardPile().get(choice) :
+                    Card chosenCard = chosenPile.equals(0)?
+                        game.getDiscardPile().get(choice ) :
                         game.getRoomPile().get(choice);
-                    return chosenCard.getRoomType().equals(RoomType.ADVANCED_MONSTER);
+                    return chosenCard instanceof RoomCard &&
+                        ((RoomCard) chosenCard).getRoomType().equals(RoomType.ADVANCED_MONSTER);
                 }
                 case 2: {
                     Integer chosenPile = game.getPreviousChoices().firstElement();
@@ -497,10 +498,11 @@ public enum GameSubPhase implements SubPhaseChoices{
                 case 0: return true;
                 case 1: {
                     Integer chosenPile = game.getPreviousChoices().peek();
-                    RoomCard chosenCard = chosenPile.equals(0)?
-                        (RoomCard) game.getDiscardPile().get(choice) :
+                    Card chosenCard = chosenPile.equals(0)?
+                        game.getDiscardPile().get(choice) :
                         game.getRoomPile().get(choice);
-                    return chosenCard.getRoomType().equals(RoomType.ADVANCED_TRAP);
+                    return chosenCard instanceof RoomCard &&
+                        ((RoomCard) chosenCard).getRoomType().equals(RoomType.ADVANCED_TRAP);
                 }
                 case 2: {
                     Integer chosenPile = game.getPreviousChoices().firstElement();
@@ -594,8 +596,9 @@ public enum GameSubPhase implements SubPhaseChoices{
 
         @Override
         public Boolean isValidChoice(int choice, Game game) {
+            DungeonRoomSlot chosenSlot = game.getCurrentPlayer().getDungeon().getRoomSlots()[choice];
             return game.getPreviousChoices().empty()?
-                game.getCurrentPlayer().getDungeon().getRoom(choice) != null:
+                chosenSlot.getRoom() != null && !chosenSlot.getHeroesInRoom().isEmpty():
                 true;
         }
 
@@ -642,8 +645,9 @@ public enum GameSubPhase implements SubPhaseChoices{
 
         @Override
         public Boolean isValidChoice(int choice, Game game) {
+            DungeonRoomSlot chosenSlot = game.getCurrentPlayer().getDungeon().getRoomSlots()[choice];
             return game.getPreviousChoices().empty()?
-                game.getCurrentPlayer().getDungeon().getRoom(choice) != null:
+                chosenSlot.getRoom() != null && !chosenSlot.getHeroesInRoom().isEmpty():
                 true;
         }
 

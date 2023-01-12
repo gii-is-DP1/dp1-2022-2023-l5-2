@@ -115,6 +115,7 @@ public class GameState extends BaseEntity {
         clockBeforeEffect = clock;
         checkClockBeforeEffect = checkClock;
         phase = GamePhase.EFFECT;
+        counter = 0;
         subPhase = triggeredSubPhase;
         updateChangeConditionCounter(triggeredSubPhase.getActionLimit());
     }

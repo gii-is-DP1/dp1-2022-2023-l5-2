@@ -232,6 +232,7 @@ public class Game extends BaseEntity {
         if (player.getDungeon().checkBossLeveledUp()) {
             player.getDungeon().setBossCardLeveledUp(true);
             player.getDungeon().getBossCard().getEffect().apply(player, null, this);
+            if(getState().getPhase() == GamePhase.EFFECT) getState().setEffectIsBeingTriggered(true);
         }
     }
 
@@ -272,11 +273,12 @@ public class Game extends BaseEntity {
     }
 
     public void tryTriggerRoomCardEffect(RoomPassiveTrigger trigger, Player player,  Integer slot) {
-        if (checkPlayerRoomsEffectTrigger(player, trigger, slot)) triggerRoomCardEffect(player, slot);
+        if (!getState().getEffectIsBeingTriggered() &&
+            checkPlayerRoomsEffectTrigger(player, trigger, slot)) triggerRoomCardEffect(player, slot);
     }
 
     public Boolean checkPlayerRoomsEffectTrigger(Player player, RoomPassiveTrigger trigger, Integer slot) {
-        return player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot) && getState().getPhase() != GamePhase.EFFECT;
+        return  player.getDungeon().checkRoomCardEffectIsTriggered(trigger, slot) && getState().getPhase() != GamePhase.EFFECT;
     }
 
     public void triggerRoomCardEffect(Player player, Integer position) {
@@ -292,6 +294,7 @@ public class Game extends BaseEntity {
             tryTriggerRoomCardEffect(RoomPassiveTrigger.USE_SPELL_CARD,getCurrentPlayer(),pos);
         }
         spell.getEffect().apply(getCurrentPlayer(),null,this);
+        if(getState().getPhase().equals(GamePhase.EFFECT)) getState().setEffectIsBeingTriggered(true);
     }
 
     ////////// END GAME //////////
