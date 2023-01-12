@@ -56,23 +56,23 @@ public class UserService {
 		userRepository.save(user);
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public Optional<User> findUser(String username) {
 		return userRepository.findById(username);
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<User> getLoggedInUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return findUser(username);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public List<User> findAllUsers() {
 		return userRepository.findAll();
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public Page<User> getPageUsers(Pageable pageable){
 		return userRepository.findAll(pageable);
 	}

@@ -35,17 +35,17 @@ public class GameService {
         return newGame;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Game> findGame(Integer id) {
         return repo.findById(id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Game> findAllGames() {
         return repo.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Game> findActiveGames() {
         return repo.findActiveGames();
     }
