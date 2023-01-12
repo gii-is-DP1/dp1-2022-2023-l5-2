@@ -19,11 +19,12 @@ import org.springframework.samples.bossmonster.game.player.PlayerBuilder;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Component;
+import org.springframework.util.comparator.Comparators;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Getter
 @Setter
@@ -45,7 +46,7 @@ public class GameBuilder {
         Game newGame = new Game();
         buildHeroPile(newGame, lobby);
         buildSpellPile(newGame);
-        buildRoomPile(newGame);
+        buildRoomPile(newGame, lobby);
         buildFinalBossPile(newGame);
         buildDiscardPile(newGame);
         buildCity(newGame);
@@ -68,8 +69,10 @@ public class GameBuilder {
         newGame.setSpellPile(spellPile);
     }
 
-    public void buildRoomPile(Game newGame) {
+    public void buildRoomPile(Game newGame, GameLobby lobby) {
         List<RoomCard> roomPile = cardService.createRoomCardDeck();
+        Collections.sort(roomPile, Comparator.comparing(room->!room.isAdvanced()));
+        Collections.shuffle(roomPile.subList(lobby.getMaxPlayers()*3-1, roomPile.size()));
         newGame.setRoomPile(roomPile);
     }
 

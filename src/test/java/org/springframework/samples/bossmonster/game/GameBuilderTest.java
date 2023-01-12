@@ -64,7 +64,7 @@ public class GameBuilderTest {
         users.add(user2);
         return users;
     }
-    
+
     private List<HeroCard> setUpDummyHeroDeck() {
         List<HeroCard> deck = new ArrayList<>();
         for (int i = 0; i < 30; i ++) {
@@ -119,7 +119,7 @@ public class GameBuilderTest {
 
     @Test
     void shouldBuildRoomPile() {
-        gameBuilder.buildRoomPile(newGame);
+        gameBuilder.buildRoomPile(newGame, gameLobby);
         Integer roomCardsReturned = newGame.getRoomPile().size();
         assertEquals(15, roomCardsReturned);
     }
@@ -137,7 +137,7 @@ public class GameBuilderTest {
         gameBuilder.buildDiscardPile(newGame);
         assertEquals(new ArrayList<>(), newGame.getDiscardPile());
     }
-    
+
     @Test
     void shouldBuildCity() {
         assertNull(newGame.getCity());
@@ -149,7 +149,7 @@ public class GameBuilderTest {
     void shouldBuildNewPlayers() {
         gameBuilder.buildHeroPile(newGame, gameLobby);
         gameBuilder.buildSpellPile(newGame);
-        gameBuilder.buildRoomPile(newGame);
+        gameBuilder.buildRoomPile(newGame, gameLobby);
         gameBuilder.buildFinalBossPile(newGame);
         gameBuilder.buildDiscardPile(newGame);
         Integer expectedRoomCards = newGame.getRoomPile().size() - 6;
@@ -161,7 +161,7 @@ public class GameBuilderTest {
         assertEquals(expectedSpellCards, newGame.getSpellPile().size());
         assertEquals(expectedBossCards, newGame.getFinalBossPile().size());
         assertEquals(2, newGame.getPlayers().size());
-        
+
     }
 
     @Test
