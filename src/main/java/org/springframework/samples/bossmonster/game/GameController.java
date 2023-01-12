@@ -1,7 +1,6 @@
 package org.springframework.samples.bossmonster.game;
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.bossmonster.game.player.Player;
 import org.springframework.samples.bossmonster.user.User;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +65,8 @@ public class GameController {
             game.getState().checkStateStatus();
             try {
                 gameService.saveGame(game);
-            } catch (StaleObjectStateException e) {
-                log.debug("Game has a newer version, update prevented");
+            } catch (OptimisticLockException e) {
+                log.info("Game has a newer version, update prevented");
                 result.setViewName("redirect:/"+gameId);
             }
             response.addHeader("Refresh",game.getState().getWaitingTime().toString());
