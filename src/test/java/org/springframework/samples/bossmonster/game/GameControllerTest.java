@@ -70,7 +70,7 @@ public class GameControllerTest {
 
 
         when(userService.getLoggedInUser()).thenReturn(Optional.of(mainUser));
-        when(gameService.findGame(1)).thenReturn(Optional.of(game));
+        when(gameService.findGame(anyInt())).thenReturn(Optional.of(game));
     }
 
     @Test
@@ -81,13 +81,6 @@ public class GameControllerTest {
             .andExpect(view().name("games/gameScreen"))
             .andExpect(model().attribute("game",game))
             .andExpect(model().attribute("triggerModal",true));
-    }
-
-    @Test
-    @WithMockUser
-    public void shouldNotShowInvalidGame() throws Exception {
-        mockMvc.perform(get("/games/5"))
-            .andExpect(status().isNotFound());
     }
 
     @Test

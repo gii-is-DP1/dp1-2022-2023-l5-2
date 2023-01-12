@@ -21,6 +21,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.Optional;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 
@@ -49,6 +53,10 @@ public class FriendRequestControllerTest {
         testFriendRequest.setAccepted(true);
         testFriendRequest.setReceiver(igngongon2);
         testFriendRequest.setRequester(ignarrman);
+        User user= new User();
+        user.setUsername("pepito");
+
+        when(userService.getLoggedInUser()).thenReturn(Optional.of(user));
     }
 
     @Test
