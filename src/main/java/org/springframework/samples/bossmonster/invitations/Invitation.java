@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.model.BaseEntity;
@@ -20,10 +21,12 @@ public class Invitation extends BaseEntity{
     
     @ManyToOne
     @JoinColumn(name = "lobby")
+    @NotNull
     private GameLobby lobby;
 
     @ManyToOne
     @JoinColumn(name = "user")
+    @NotNull
     private User user;
 
 }

@@ -43,6 +43,7 @@ public class InvitationService {
         List<User> friends= sRequestService.calculateFriends(username);
         GameLobby lobby= i.getLobby();
         List<User> joinedUsers=lobby.getJoinedUsers();
+        System.out.println(friends);
         if(friends.containsAll(joinedUsers)){
             return true;
         }else{
