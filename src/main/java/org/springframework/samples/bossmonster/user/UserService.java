@@ -87,6 +87,8 @@ public class UserService {
 
 		invitationRepository.deleteAfterUserDedge(username);
 
+		lobbyRepository.setLeaderToNullBeforeDelete(username);
+		lobbyRepository.deleteJoinedUserIfUserGetsDeleted(username);
 		lobbyRepository.deleteParticipantsIfLeaderIsDeleted(username);
 		lobbyRepository.deleteJoinedUserIfUserGetsDeleted(username);
 
