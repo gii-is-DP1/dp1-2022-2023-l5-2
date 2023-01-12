@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.bossmonster.configuration.SecurityConfiguration;
+import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -23,6 +24,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.Optional;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @WebMvcTest(
@@ -52,7 +56,12 @@ public class AchievementControllerTests {
         testAchievement.setImage("image.png");
         testAchievement.setMetric(Metric.VICTORIES);
         testAchievement.setThreshold(5);
+        
+        User user= new User();
+        user.setUsername("ignarrman");
+
         when(achievementService.getById(anyInt())).thenReturn(testAchievement);
+        when(userService.getLoggedInUser()).thenReturn(Optional.of(user));
     }
 
     @Test
@@ -185,7 +194,7 @@ public class AchievementControllerTests {
     */
 
     @Test
-    @WithMockUser
+    @WithMockUser(value = "ignarrman",username = "ignarrman")
     public void testShowCurrentUserAchievements() throws Exception{
         mockMvc.perform(get("/statistics/achievements/me"))
         .andExpect(status().isOk());
