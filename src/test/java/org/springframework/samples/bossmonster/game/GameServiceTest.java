@@ -1,7 +1,5 @@
 package org.springframework.samples.bossmonster.game;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,9 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-import org.springframework.samples.bossmonster.exceptions.FullLobbyException;
-import org.springframework.samples.bossmonster.exceptions.GameNotFullException;
-import org.springframework.samples.bossmonster.exceptions.UserAlreadyPlayingException;
 import org.springframework.samples.bossmonster.game.player.PlayerService;
 import org.springframework.samples.bossmonster.gameLobby.GameLobby;
 import org.springframework.samples.bossmonster.gameLobby.GameLobbyService;
@@ -24,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Stack;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class), excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes ={FriendRequestService.class,InvitationService.class}))
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +56,7 @@ class GameServiceTest {
     }
 
     @Test
-    void createNewGameFromLobby() throws FullLobbyException, UserAlreadyPlayingException, GameNotFullException {
+    void createNewGameFromLobby() {
         Integer previousGames = gameService.findAllGames().size();
         Integer previousPlayers = playerService.findAllPlayers().size();
 

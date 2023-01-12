@@ -11,7 +11,7 @@
 
     <h2>Something happened...</h2>
 
-    <p><h1>403</h1> You are not authorized to view this content. Let's call the police.</p>
+    <p><h1>403</h1> You are not authorized to view this content. Let's call the police. </p>
 
     <a class="btn btn-default" href="${previousUrl}">Go Back</a>
 

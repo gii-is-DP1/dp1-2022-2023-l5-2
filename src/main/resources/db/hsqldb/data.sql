@@ -141,7 +141,7 @@ INSERT INTO bosses(id, name, card_image, xp, treasure, effect) VALUES
 
 INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
     (1, 2, 'ignarrman',null),
-    (2, 3, 'eletomvel',null),
+    (2, 4, 'eletomvel',null),
     (3, 2, 'admin1',null);
 
 INSERT INTO lobby_users(lobby_id,user_id) VALUES

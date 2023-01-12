@@ -30,7 +30,7 @@
         </form>
     </bossmonster:modal>
 
-<div class="gameContainer">
+<div class="gameContainer" style="padding:10px;">
     <spring:url value="/games/{gameId}/chat" var="chatUrl">
         <spring:param name="gameId" value="${game.id}"/>
     </spring:url>
