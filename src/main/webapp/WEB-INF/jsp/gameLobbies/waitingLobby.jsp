@@ -2,6 +2,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <bossmonster:layout pageName="createGameLobby">
 
     <spring:url value="/" htmlEscape="true" var="homeScreen"/>
@@ -13,7 +15,7 @@
 <div class="white-panel">
     <h1>Waiting in lobby...</h1>
     <span class="badge player-name">Room code: ${lobby.id}</span>
-    <h3>Current players:</h3>
+    <h3>Current players: <c:out value="${fn:length(lobby.joinedUsers)}/${lobby.maxPlayers}"/></h3>
     <ul style="list-style:none">
         <c:forEach items="${lobby.joinedUsers}" var="user">
             <li>
