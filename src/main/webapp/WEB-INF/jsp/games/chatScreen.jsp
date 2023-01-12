@@ -8,6 +8,7 @@
 
 <spring:url value="/games/${gameId}" htmlEscape="true" var="game"/>
 
+<div class="white-panel">
   <h1>Chat</h1>
   <table class="table table-striped">
     <tbody>
@@ -33,6 +34,7 @@
   </table>
   <div>
   <a class="btn btn-title" href="${game}">Back</a>
+</div>
 </div>
 </bossmonster:layout>
 
