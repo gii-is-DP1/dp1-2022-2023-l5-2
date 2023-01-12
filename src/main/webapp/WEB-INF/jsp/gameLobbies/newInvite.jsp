@@ -5,7 +5,7 @@
 <%@ taglib prefix="bossmonster" tagdir="/WEB-INF/tags" %>
 
 <bossmonster:layout pageName="newInvite">
-
+<div class="white-panel">
   <h1>New Invitation</h1>
 <form class="form-horizontal" method="post" accept-charset="UTF-8">
     <div class="form-group">
@@ -21,4 +21,5 @@
             </div>
         </div>
     </form>
+</div>
 </bossmonster:layout>
