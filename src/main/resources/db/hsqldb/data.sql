@@ -139,22 +139,6 @@ INSERT INTO bosses(id, name, card_image, xp, treasure, effect) VALUES
     (77, 'Seducia',           '/resources/images/bosses/boss_05.jpg', 600, 'BOOK','LURE_A_CHOSEN_HERO_FROM_CITY_OR_HERO_PILE_TO_DUNGEON'),
     (78, 'Cleopatra',         '/resources/images/bosses/boss_06.jpg', 850, 'BAG','BUILD_AN_ADVANCED_TRAP_ROOM_CHOSEN_FROM_THE_ROOM_PILE_OR_DISCARD_PILE');
 
-INSERT INTO lobbies(id, max_players, leader, game_id) VALUES
-    (1, 2, 'ignarrman',null),
-    (2, 4, 'eletomvel',null),
-    (3, 2, 'admin1',null);
-
-INSERT INTO lobby_users(lobby_id,user_id) VALUES
-    (1, 'ignarrman'),
-    (1, 'tadcabgom'),
-    (2, 'frarosram'),
-    (2, 'jessolort'),
-    (2, 'eletomvel'),
-    (2, 'tadcabgom'),
-    -- Para comprobar el juego, unirse al lobby 3 como admin1 y "espectador"
-    (3, 'eletomvel'),
-    (3, 'admin1');
-
 INSERT INTO game_result(id,winner,minutes,date,souls,healths,rounds) VALUES
     (1,'ignarrman', 26, '2018-08-12','2/3/4/10','0/2/2/1',14),
     (2,'ignarrman', 40, '2018-08-14','7/5/8','0/0/2',12),
@@ -222,6 +206,3 @@ INSERT INTO messages(id,words,chat,sender) VALUES
     (1,'2',0,'ignarrman'),
     (2,'3',0,'jessolort'),
     (3,'4',0,'ignarrman');
-
-INSERT INTO invitations(id,user,lobby) VALUES
-    (0,'ignarrman',3);

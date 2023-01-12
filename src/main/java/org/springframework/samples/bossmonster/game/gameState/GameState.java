@@ -297,6 +297,8 @@ public class GameState extends BaseEntity {
                 advanceCurrentPlayer();
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
                 else {
+                    for (Player p: game.getPlayers()) p.setHealth(0);
+                    game.updateEliminatedPlayersRound();
                     if (game.checkGameEnded()) {
                         log.info(String.format("Game nº %s has ended",game.getId()));
                         game.generateGameResult();
