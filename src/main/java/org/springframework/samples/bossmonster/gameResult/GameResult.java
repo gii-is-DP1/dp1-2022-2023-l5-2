@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.bossmonster.model.BaseEntity;
@@ -19,12 +20,12 @@ import lombok.Setter;
 @Table(name = "game_result")
 public class GameResult extends BaseEntity{
 
-     @NotEmpty
+     @NotNull
      private Double minutes;
-     @NotEmpty
+     @NotNull
      @DateTimeFormat(pattern = "yyyy/MM/dd")
      private LocalDate date;
-     @NotEmpty
+     @NotNull
      private Integer rounds;
 
      private String souls;

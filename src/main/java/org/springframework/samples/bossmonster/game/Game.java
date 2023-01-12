@@ -327,6 +327,20 @@ public class Game extends BaseEntity {
         result.setRounds(getState().getCurrentRound());
         result.setWinner(getWinningPlayer().getUser());
         result.setParticipants(getPlayers().stream().map(x -> x.getUser()).collect(Collectors.toList()));
+        String health = "";
+        String souls = "";
+        for (int i = 0; i < getPlayers().size(); i ++) {
+            if (i == 0) {
+                health = String.valueOf(getPlayers().get(i).getHealth());
+                souls = String.valueOf(getPlayers().get(i).getSouls());
+            }
+            else {
+                health = String.format("%s/%s", health, getPlayers().get(i).getHealth());
+                souls = String.format("%s/%s", souls, getPlayers().get(i).getSouls());
+            }
+        result.setSouls(souls);
+        result.setHealths(health);
+        }
         setResult(result);
         return result;
     }

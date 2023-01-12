@@ -65,7 +65,7 @@ public class PlayerBuilder {
     }
 
     public void buildPlayerStats(Player newPlayer) {
-        newPlayer.setSouls(0);
+        newPlayer.setSouls(10);
         newPlayer.setHealth(STARTING_HEALTH);
         newPlayer.setEliminatedRound(-1);
     }
