@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.bossmonster.game.chat.MessageRepository;
 import org.springframework.samples.bossmonster.gameLobby.GameLobbyRepository;
 import org.springframework.samples.bossmonster.gameResult.GameResultRepository;
+import org.springframework.samples.bossmonster.invitations.InvitationRepository;
 import org.springframework.samples.bossmonster.social.FriendRequestRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -40,14 +41,16 @@ public class UserService {
 	private GameLobbyRepository lobbyRepository;
 	private FriendRequestRepository requestRepository;
 	private MessageRepository messageRepository;
+	private InvitationRepository invitationRepository;
 
 	@Autowired
-	public UserService(UserRepository userRepository, GameResultRepository resultRepository, GameLobbyRepository lobbyRepository, FriendRequestRepository requestRepository, MessageRepository messageRepository) {
+	public UserService(UserRepository userRepository, GameResultRepository resultRepository, GameLobbyRepository lobbyRepository, FriendRequestRepository requestRepository, MessageRepository messageRepository,InvitationRepository invitationRepository) {
 		this.userRepository = userRepository;
 		this.resultRepository=resultRepository;
 		this.lobbyRepository=lobbyRepository;
 		this.requestRepository=requestRepository;
 		this.messageRepository=messageRepository;
+		this.invitationRepository=invitationRepository;
 	}
 
 	@Transactional
@@ -81,11 +84,15 @@ public class UserService {
 	public void deleteUser(String username){
 		resultRepository.setWinnerNull(username);
 		resultRepository.deleteParticipated(username);
+
+		invitationRepository.deleteAfterUserDedge(username);
+
 		lobbyRepository.deleteParticipantsIfLeaderIsDeleted(username);
 		lobbyRepository.deleteJoinedUserIfUserGetsDeleted(username);
-		lobbyRepository.deleteLobbyIfLeaderDeleted(username);
+
 		requestRepository.deleteFriendRequestWhenUserDeleted(username);
 		messageRepository.deleteAllMesagesFromUser(username);
+
 
         userRepository.deleteById(username);
     }

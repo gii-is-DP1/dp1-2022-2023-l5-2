@@ -1,6 +1,7 @@
 package org.springframework.samples.bossmonster.gameLobby;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.bossmonster.invitations.InvitationRepository;
 import org.springframework.samples.bossmonster.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,8 @@ public class GameLobbyService {
 
 	@Autowired
 	private GameLobbyRepository lobbyRepo;
+    @Autowired
+    private InvitationRepository invitationRepository;
 
     @Transactional
     public Optional<GameLobby> getLobbyById(int id) {
@@ -24,7 +27,10 @@ public class GameLobbyService {
     }
 
     @Transactional
-    public void deleteLobby(GameLobby lobby) {lobbyRepo.delete(lobby);}
+    public void deleteLobby(GameLobby lobby) {
+        invitationRepository.deleteAfterLobbyDedge(lobby.getId());
+        lobbyRepo.delete(lobby);
+    }
 
     @Transactional
     public List<GameLobby> findByUser(User user) {return lobbyRepo.findByUser(user);}
