@@ -104,7 +104,7 @@ INSERT INTO heroes(id, name, card_image, treasure, health, is_epic, necessary_pl
     (44,    'Frankov,_the_Envoy' ,                  '/resources/images/heroes/Frankov,_the_Envoy.jpg',                 'SWORD', 11, true, 2),
     (45,    'Hya,_Legendary_Shinobi' ,              '/resources/images/heroes/Hya,_Legendary_Shinobi.jpg',             'BAG', 11, true, 2),
     (46,    'Jarek,_Squire_to_the_Lion_Knights' ,   '/resources/images/heroes/Jarek,_Squire_to_the_Lion_Knights.jpg',  'SWORD', 4, false, 4),
-    (47,    'Jejune_Everlea,_Holy_Sisters' ,    '/resources/images/heroes/Jejune_%26_Everlea,_Holy_Sisters.jpg',   'CROSS', 13, true, 4),
+    (47,    'Jejune_Everlea,_Holy_Sisters' ,    '/resources/images/heroes/Jejune_Everlea,_Holy_Sisters.jpg',   'CROSS', 13, true, 4),
     (48,    'Jerome,_Kung_Fu_Monkey' ,              '/resources/images/heroes/Jerome,_Kung_Fu_Monkey.jpg',             'BAG', 8, false, 4),
     (49,    'Jesta_the_Rogue' ,                     '/resources/images/heroes/Jesta_the_Rogue.jpg',                    'BAG', 8, false, 4),
     (50,    'Johnny_of_the_Evening_Watch' ,         '/resources/images/heroes/Johnny_of_the_Evening_Watch.jpg',        'SWORD', 8, false, 2),
