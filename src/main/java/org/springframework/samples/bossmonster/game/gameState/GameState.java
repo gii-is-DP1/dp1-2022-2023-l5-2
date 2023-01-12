@@ -156,7 +156,10 @@ public class GameState extends BaseEntity {
         phase = newPhase;
         subPhase = GameSubPhase.ANNOUNCE_NEW_PHASE;
         updateChangeConditionClock(PHASE_COOLDOWN_SECONDS);
-        getFirstNonEliminatedPlayer();
+        // If a game with no players alive tries to find first player it will crash. 
+        // Fortunately, players can only die in adventure phase, and if all players are dead in the end of an adventure phase the game will end
+        if (newPhase != GamePhase.END_GAME) { getFirstNonEliminatedPlayer(); }
+        else { currentPlayer = 0; }
     }
 
     private void announcePlayerTurn() {
@@ -297,7 +300,6 @@ public class GameState extends BaseEntity {
                 advanceCurrentPlayer();
                 if (currentPlayer < totalPlayers) { announcePlayerTurn(); }
                 else {
-                    for (Player p: game.getPlayers()) p.setHealth(0);
                     game.updateEliminatedPlayersRound();
                     if (game.checkGameEnded()) {
                         log.info(String.format("Game nº %s has ended",game.getId()));
