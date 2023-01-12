@@ -104,7 +104,7 @@ public class GameLobbyController {
         result.setViewName(LOBBY_SCREEN);
         result.addObject("currentUser", user);
         result.addObject("lobby", lobby);
-//        response.addHeader("Refresh","2");
+        response.addHeader("Refresh","2");
         return result;
     }
 
