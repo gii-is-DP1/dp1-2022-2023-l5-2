@@ -18,7 +18,8 @@ public class ChatService {
         "no me toca nada bueno",
         "leche antes de los cereales",
         "palabrota",
-        "twitter");
+        "twitter",
+        "https://youtu.be/dQw4w9WgXcQ");
 
     @Autowired
     public ChatService(ChatRepository chatRepository, MessageRepository repo2){

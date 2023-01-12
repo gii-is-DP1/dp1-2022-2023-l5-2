@@ -219,10 +219,8 @@ public class GameCardEffectTest {
         Player testPlayer = game.getPlayers().get(0);
         testPlayer.getDungeon().getRoomSlots()[0].setRoom(constructionZone);
         game.triggerRoomCardEffect(testPlayer, 0);
-        assertThat("The effect of this card shouldn't trigger when building the first room", game.getState().getActionLimit(), is(0));
-        game.getState().changePhase(GamePhase.BUILD);
-        game.triggerRoomCardEffect(testPlayer, 0);
-        assertThat("The card effect didn't trigger", game.getState().getActionLimit(), is(2));
+        assertThat("Phase did not change", game.getState().getPhase(), is(GamePhase.EFFECT));
+        assertThat("Did not change subphase to Build a New Room",game.getState().getSubPhase(),is(GameSubPhase.BUILD_NEW_ROOM));
     }
 
     @Test

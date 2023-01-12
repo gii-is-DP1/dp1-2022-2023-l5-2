@@ -64,7 +64,7 @@ public enum EffectEnum implements EffectInterface {
     BUILD_ANOTHER_ROOM {
         @Override
         public void apply(Player player, Integer dungeonPosition, Game game) {
-            if (game.getState().getPhase() != GamePhase.START_GAME) game.getState().setActionLimit(game.getState().getActionLimit() + 2);
+            game.getState().triggerSpecialCardEffectState(GameSubPhase.BUILD_NEW_ROOM);
         }
     },
 
