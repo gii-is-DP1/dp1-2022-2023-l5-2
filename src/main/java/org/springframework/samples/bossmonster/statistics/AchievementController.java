@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.bossmonster.user.User;
 import org.springframework.samples.bossmonster.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

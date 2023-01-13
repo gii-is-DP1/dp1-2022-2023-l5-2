@@ -12,6 +12,9 @@ public interface AchievementRepository extends CrudRepository <Achievement, Inte
 
     public Achievement findByName(String name);
 
+    @Query("SELECT u.achievements FROM User u WHERE u.username=:username")
+    public List<Achievement> findPlayerAchievements(@Param("username") String username);
+
     @Modifying
     @Query(value="DELETE FROM achievement_users WHERE achievement_id=?1", nativeQuery = true)
     void deleteAchievementFromUsers(@Param(value = "id") int id);
