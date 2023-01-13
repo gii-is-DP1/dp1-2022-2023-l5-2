@@ -39,7 +39,7 @@ public class GameLobbyController {
     GameService gameService;
 
     @GetMapping("/listCurrentGames")
-    public ModelAndView show(){
+    public ModelAndView showCurrentGames(){
         ModelAndView result= new ModelAndView(CURRENT_GAMES);
         result.addObject("games", lobbyService.findCurrentGames());
         return result;
