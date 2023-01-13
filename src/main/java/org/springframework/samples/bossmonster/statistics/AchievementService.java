@@ -51,6 +51,11 @@ public AchievementService(AchievementRepository repo, StatisticsService statisti
     }
 
     @Transactional(readOnly = true)
+    public List<Achievement>  getAchievementsByUser(String username) {
+        return repo.findPlayerAchievements(username);
+    }
+
+    @Transactional(readOnly = true)
     public List<Achievement> triggerAchievement(User user){
         String username = user.getUsername();
         List<Achievement> achievements = getAchievements();

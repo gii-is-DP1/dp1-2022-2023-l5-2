@@ -160,40 +160,6 @@ public class AchievementControllerTests {
     }
 
     @Test
-    @WithMockUser
-    public void testShowPersonalAchievementsListing() throws Exception{
-        mockMvc.perform(get("/statistics/achievements/byUser/igngongon2"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("/achievements/personalAchievementsListing"));
-    }
-
-    /*
-
-    @Test
-    @WithMockUser(value = "user1")
-    public void testShowUserAchievementsEditForm() throws Exception{
-        mockMvc.perform(get("/statistics/achievements/byUser/igngongon2/edit"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("/achievements/createOrUpdateAchievementsOfUserForm"));
-    }
-
-    @Ignore
-    @Test
-    @WithMockUser(value = "testAchievement")
-    public void testUpdateUserAchievements() throws Exception{
-        mockMvc.perform(post("/statistics/achievements/byUser/igngongon2/edit").with(csrf()));
-    }
- 
-    @Ignore
-    @Test
-    @WithMockUser
-    public void testUpdateUserAchievementsHasErrors() throws Exception{
-
-    }
-
-    */
-
-    @Test
     @WithMockUser(value = "ignarrman",username = "ignarrman")
     public void testShowCurrentUserAchievements() throws Exception{
         mockMvc.perform(get("/statistics/achievements/me"))
