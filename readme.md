@@ -7,7 +7,7 @@
 
 - URL al video de explicación de normas del juego: https://youtu.be/c3Xa6o98hKk
 
-- URL al video de demostración de la aplicación: //TODO
+- URL al video de demostración de la aplicación: https://youtu.be/2xYK9qH5lNk
 
 # Participantes del Proyecto
 

@@ -350,16 +350,20 @@ public class GameTest {
         game.lureHeroToBestDungeon();
 
         List<HeroCard> trueCity = game.getCity();
-        List<HeroCard> truePlayer1DungeonFirstRoom = game.getPlayers().get(0).getDungeon().getRoomSlots()[game.getPlayers().get(0).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
-        List<HeroCard> truePlayer2DungeonFirstRoom = game.getPlayers().get(1).getDungeon().getRoomSlots()[game.getPlayers().get(1).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
-        List<HeroCard> truePlayer3DungeonFirstRoom = game.getPlayers().get(2).getDungeon().getRoomSlots()[game.getPlayers().get(2).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
-        List<HeroCard> truePlayer4DungeonFirstRoom = game.getPlayers().get(3).getDungeon().getRoomSlots()[game.getPlayers().get(3).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
+        List<HeroCard> truePlayer1DungeonFirstRoom = obtainHeroesInDungeon(0);
+        List<HeroCard> truePlayer2DungeonFirstRoom = obtainHeroesInDungeon(1);
+        List<HeroCard> truePlayer3DungeonFirstRoom = obtainHeroesInDungeon(2);
+        List<HeroCard> truePlayer4DungeonFirstRoom = obtainHeroesInDungeon(3);
 
         assertEquals(expectedCity, trueCity);
         assertEquals(expectedPlayer1DungeonFirstRoom, truePlayer1DungeonFirstRoom);
         assertEquals(expectedPlayer2DungeonFirstRoom, truePlayer2DungeonFirstRoom);
         assertEquals(expectedPlayer3DungeonFirstRoom, truePlayer3DungeonFirstRoom);
         assertEquals(expectedPlayer4DungeonFirstRoom, truePlayer4DungeonFirstRoom);
+    }
+
+    List<HeroCard> obtainHeroesInDungeon(Integer playerPosition) {
+        return game.getPlayers().get(playerPosition).getDungeon().getRoomSlots()[game.getPlayers().get(0).getDungeon().getFirstRoomSlot()].getHeroesInRoom().stream().map(x -> x.getHeroCard()).collect(Collectors.toList());
     }
 
     @Test
