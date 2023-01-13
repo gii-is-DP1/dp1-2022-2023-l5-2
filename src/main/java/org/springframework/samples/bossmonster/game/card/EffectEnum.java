@@ -2,16 +2,17 @@ package org.springframework.samples.bossmonster.game.card;
 
 import java.util.Iterator;
 
+import org.jpatterns.gof.StrategyPattern;
 import org.springframework.samples.bossmonster.game.Game;
 import org.springframework.samples.bossmonster.game.card.hero.HeroCardStateInDungeon;
 import org.springframework.samples.bossmonster.game.card.room.RoomCard;
 import org.springframework.samples.bossmonster.game.dungeon.Dungeon;
 import org.springframework.samples.bossmonster.game.dungeon.DungeonRoomSlot;
-import org.springframework.samples.bossmonster.game.gameState.GamePhase;
 import org.springframework.samples.bossmonster.game.gameState.GameSubPhase;
 import org.springframework.samples.bossmonster.game.player.Player;
 
 //Enumerado actua como dummy para la base de datos.
+@StrategyPattern.ConcreteStrategy
 public enum EffectEnum implements EffectInterface {
 
     ENUMERADO {
