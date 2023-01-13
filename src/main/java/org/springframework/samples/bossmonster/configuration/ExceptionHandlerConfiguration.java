@@ -1,12 +1,5 @@
 package org.springframework.samples.bossmonster.configuration;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.NoHandlerFoundException;
-
 /**
  * This advice is necessary because MockMvc is not a real servlet environment, therefore it does not redirect error
  * responses to [ErrorController], which produces validation response. So we need to fake it in tests.

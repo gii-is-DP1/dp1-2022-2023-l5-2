@@ -29,8 +29,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.samples.bossmonster.configuration.SecurityConfiguration;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -71,7 +69,7 @@ public class UserControllerTests {
 
         List<User> users= new ArrayList<>();
         users.add(testUser);
-        Page<User> page= new PageImpl(users);
+        Page<User> page= new PageImpl<User>(users);
 
         given(this.userService.findUser(any(String.class))).willReturn(Optional.ofNullable(testUser));
         given(this.userService.getLoggedInUser()).willReturn(Optional.ofNullable(testUser));
