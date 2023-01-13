@@ -490,13 +490,6 @@ public class GameCardEffectTest {
     }
 
     @Test
-    void shouldTriggerMotivationSpellCardEffect() {
-        SpellCard motivation = setUpDummySpellCard(EffectEnum.BUILD_ANOTHER_ROOM_IF_ANOTHER_PLAYER_HAS_MORE_ROOMS);
-        game.triggerSpellCardEffect(motivation);
-        //TODO
-    }
-
-    @Test
     void shouldTriggerExhaustionSpellCardEffect() {
         Dungeon dungeon = testPlayer.getDungeon();
         setUpDummyRoomCardInDungeon(RoomType.MONSTER,0,0);
@@ -532,10 +525,6 @@ public class GameCardEffectTest {
             testPlayer.getDungeon().getRoomSlots()[0].getRoomTrueDamage(),is(3));
 
 
-    }
-
-    void shouldTrigggerCaveInSpellCardEffect() {
-        //TODO
     }
 
     @Test
