@@ -100,7 +100,7 @@ public class GameController {
     }
 
     @GetMapping("/listActiveGames")
-    public ModelAndView show(){
+    public ModelAndView showActiveGames(){
         ModelAndView result= new ModelAndView(GAMES_DATA);
         result.addObject("game", gameService.findActiveGames());
         return result;
