@@ -26,7 +26,6 @@ public class AchievementController {
     private final String PERSONAL_LISTING_VIEW="/achievements/personalAchievementsListing";
     private final String ACHIEVEMENTS_LISTING_VIEW="/achievements/AchievementsListing";
     private final String ACHIEVEMENTS_FORM="/achievements/createOrUpdateAchievementForm";
-    private final String USER_ACHIEVEMENTS_FORM="/achievements/createOrUpdateAchievementsOfUserForm";
 
     private AchievementService achievementService;
     private UserService userService;
@@ -102,32 +101,6 @@ public class AchievementController {
         result=showAchievements();
         result.addObject("message", "The achievement was created successfully");
         return result;
-    }
-
-    @GetMapping("/byUser/{username}")
-    public ModelAndView showPersonalAchievementsListing(@PathVariable String username){
-        ModelAndView result=new ModelAndView(PERSONAL_LISTING_VIEW);
-        result.addObject("achievements",achievementService.getAchievementsByUser(username));
-        result.addObject("availableAchievements",achievementService.getAchievements());
-        return result;
-    }
-
-    @GetMapping("/byUser/{username}/edit")
-    public ModelAndView showUserAchievementsEditForm(@PathVariable("username")String username){
-        ModelAndView result=new ModelAndView(USER_ACHIEVEMENTS_FORM);
-        User user=userService.findUser(username).get();
-        result.addObject("user", user);
-        result.addObject("availableAchievements",achievementService.getAchievements());
-        return result;
-    }
-
-    @PostMapping("/byUser/{username}/edit")
-    public ModelAndView updateUserAchievements(User user,BindingResult brresult,@PathVariable("username")String username){        
-        User userToBeUpdated=userService.findUser(username).get();
-        userToBeUpdated.getAchievements().clear();
-        userToBeUpdated.getAchievements().addAll(user.getAchievements());
-        userService.saveUser(userToBeUpdated);
-        return showPersonalAchievementsListing(username);
     }
 
     @GetMapping("/me")
