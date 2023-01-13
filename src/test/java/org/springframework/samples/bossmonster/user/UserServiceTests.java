@@ -54,7 +54,7 @@ public class UserServiceTests {
         assertThat(testUser.get().getPassword()).isEqualTo("$2a$10$b2gaBr6egp2ohlrvzFXGsu73g/d8jZ03pg4qPVN2dAvQEUAj2ah1e");
         assertThat(testUser.get().getNickname()).isEqualTo("Tadeo");
         assertThat(testUser.get().getEmail()).isEqualTo("iliketrains@gmail.com");
-        assertThat(testUser.get().getDescription()).isEqualTo("What I am suppose to write here?");
+        assertThat(testUser.get().getDescription()).isEqualTo("What am I supposed to write here?");
 
     }
 
